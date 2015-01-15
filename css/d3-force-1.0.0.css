@@ -1,0 +1,123 @@
+.net_gobrechts_d3_force,
+.net_gobrechts_d3_force_customize,
+.net_gobrechts_d3_force_customize td,
+.net_gobrechts_d3_force_tooltip {
+  font-family: Arial, Helvetica, Sans Serif;
+}
+
+.net_gobrechts_d3_force.border {
+  border: 1px solid silver;
+  border-radius: 5px;
+}
+.net_gobrechts_d3_force circle.highlight {
+  stroke: #555;
+  stroke-width: 2px;
+  stroke-opacity: 1.0;
+}
+.net_gobrechts_d3_force text.label,
+.net_gobrechts_d3_force text.labelCircular {
+  font-size: 10px;
+  letter-spacing: 0;
+  pointer-events: none;
+}
+.net_gobrechts_d3_force text.label{
+  text-anchor: middle;
+}
+
+.net_gobrechts_d3_force text.link {
+  font-size: 12px;
+  fill: blue;
+  cursor: pointer;
+}
+.net_gobrechts_d3_force line.link,
+.net_gobrechts_d3_force path.link {
+  fill: none;
+  stroke: #bbb;
+  stroke-width: 1.5px;
+  stroke-opacity: 0.8;
+}
+.net_gobrechts_d3_force line.dashed,
+.net_gobrechts_d3_force path.dashed {
+  stroke-dasharray: 3 2;
+}
+.net_gobrechts_d3_force line.highlight,
+.net_gobrechts_d3_force path.highlight {
+  stroke: #555;
+  stroke-opacity: 1.0;
+}
+.net_gobrechts_d3_force line.marker,
+.net_gobrechts_d3_force path.marker {
+  marker-end: url(#greyTriangle);
+}
+.net_gobrechts_d3_force line.marker.highlight,
+.net_gobrechts_d3_force path.marker.highlight {
+  marker-end: url(#blackTriangle);
+}
+.net_gobrechts_d3_force_tooltip {
+  position: absolute;
+  border-radius: 5px;
+  padding: 5px;
+  background-color: silver;
+  opacity: 0.9;
+  width: 150px;
+  overflow: auto;
+  font-size: 12px;
+  z-index: 100000;
+  pointer-events: none;
+  display: none;
+}
+
+.net_gobrechts_d3_force_customize {
+  font-size: 12px;
+  position: absolute;
+  border: 1px solid silver;
+  border-radius: 5px;
+  padding: 5px;
+  background-color:white;
+  box-shadow: 3px 3px 12px 3px rgba(0,0,0,0.2);
+  z-index: 200000;
+}
+.net_gobrechts_d3_force_customize .drag {
+  display: block;
+  cursor: move;
+  font-weight: bold;
+  padding-bottom: 10px;
+}
+.net_gobrechts_d3_force_customize td {
+  padding: 2px;
+  font-size: 12px;
+  vertical-align: middle;
+  background-color: transparent;
+}
+.net_gobrechts_d3_force_customize td.label {
+  text-align: right;
+}
+.net_gobrechts_d3_force_customize td.warning {
+  background-color: orange;
+}
+.net_gobrechts_d3_force_customize input{
+  width: 140px;
+}
+.net_gobrechts_d3_force_customize input,
+.net_gobrechts_d3_force_customize select{
+  margin: 0;
+  padding: 0;
+  background-color: transparent !important;
+}
+.net_gobrechts_d3_force_customize textarea {
+  font-size: 10px;
+  width: 160px;
+  height: 200px;
+}
+.net_gobrechts_d3_force_customize a,
+.net_gobrechts_d3_force_customize .link
+{
+  color: blue;
+  text-decoration: none;
+  cursor: pointer;
+}
+.net_gobrechts_d3_force_customize .close {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+}
