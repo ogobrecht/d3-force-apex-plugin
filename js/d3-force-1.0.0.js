@@ -140,7 +140,8 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId ) {
   // create DOM container element, if not existing (if we have an APEX context, it is already created from the APEX engine )
   if ( document.querySelector('#' + v.conf.domContainerId) === null ){
     v.conf.domContainer = d3.select('body').append('div')
-      .attr('id', v.conf.domContainerId);
+      .attr('id', v.conf.domContainerId)
+      .style('width', '100%');
   }
   else {
     v.conf.domContainer = d3.select('#' + v.conf.domContainerId);
@@ -170,7 +171,8 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId ) {
   // create marker definitions
   v.conf.domSvgDefs
     .append('svg:marker')
-    .attr('id', 'blackTriangle')
+    .attr('id', v.conf.domContainerId + '_highlightedTriangle')
+    .attr('class', 'highlighted')
     .attr('viewBox', '0 0 10 10')
     .attr('refX', 10)
     .attr('refY', 5)
@@ -178,13 +180,13 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId ) {
     .attr('markerHeight', 5)
     .attr('orient', 'auto')
     .attr('markerUnits', 'strokeWidth')
-    .attr('fill', '#555')
     .append('svg:path')
     .attr('d', 'M0,0 L10,5 L0,10');
 
   v.conf.domSvgDefs
     .append('svg:marker')
-    .attr('id', 'greyTriangle')
+    .attr('id', v.conf.domContainerId + '_normalTriangle')
+    .attr('class', 'normal')
     .attr('viewBox', '0 0 10 10')
     .attr('refX', 10)
     .attr('refY', 5)
@@ -192,7 +194,6 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId ) {
     .attr('markerHeight', 5)
     .attr('orient', 'auto')
     .attr('markerUnits', 'strokeWidth')
-    .attr('fill', '#bbb')
     .append('svg:path')
     .attr('d', 'M0,0 L10,5 L0,10');
 
@@ -291,10 +292,32 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId ) {
   // on node mouse enter function
   v.tools.onNodeMouseenter = function(node){
     var position;
-    v.nodes.classed('highlight', function(n){ return v.tools.neighboring(n, node); });
-    v.links.classed('highlight', function(l){ return l.source.ID == node.ID || l.target.ID == node.ID;});
-    v.selfLinks.classed('highlight', function(l){ return l.FROMID == node.ID; });
-    d3.select(this).classed('highlight', true);
+    v.nodes.classed('highlighted', function(n){ return v.tools.neighboring(n, node); });
+    v.links
+      .classed('highlighted', function(l){return l.source.ID == node.ID || l.target.ID == node.ID;})
+      .style('marker-end', function(l){
+        if (v.conf.showLinkDirection) {
+          return 'url(#'+v.conf.domContainerId+'_' + 
+              (l.source.ID == node.ID || l.target.ID == node.ID ? 'highlighted' : 'normal') + 
+              'Triangle)';
+        }
+        else {
+          return null;
+        }
+      });
+    v.selfLinks
+      .classed('highlighted', function(l){ return l.FROMID == node.ID; })
+      .style('marker-end', function(l){
+        if (v.conf.showLinkDirection) {
+          return 'url(#'+v.conf.domContainerId+'_' + 
+              (l.source.ID == node.ID || l.target.ID == node.ID ? 'highlighted' : 'normal') + 
+              'Triangle)';
+        }
+        else {
+          return null;
+        }
+      });
+    d3.select(this).classed('highlighted', true);
     v.tools.log('Event mouseenter triggered');
     v.tools.triggerApexEvent(this, 'net_gobrechts_d3_force_mouseenter', node);
     if (typeof(v.conf.onNodeMouseenterFunction) == 'function') v.conf.onNodeMouseenterFunction.call(this, d3.event, node);
@@ -327,10 +350,14 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId ) {
 
   // on node mouse leave function
   v.tools.onNodeMouseleave = function(node){
-    v.nodes.classed('highlight', false);
-    v.links.classed('highlight', false);
-    v.selfLinks.classed('highlight', false);
-    v.labels.classed('highlight', false);
+    v.nodes.classed('highlighted', false);
+    v.links
+      .classed('highlighted', false)
+      .style('marker-end', (v.conf.showLinkDirection?'url(#'+v.conf.domContainerId+'_normalTriangle)':null) );
+    v.selfLinks
+      .classed('highlighted', false)
+      .style('marker-end', (v.conf.showLinkDirection?'url(#'+v.conf.domContainerId+'_normalTriangle)':null) );
+    v.labels.classed('highlighted', false);
     v.tools.log('Event mouseleave triggered');
     v.tools.triggerApexEvent(this, 'net_gobrechts_d3_force_mouseleave', node);
     if (typeof(v.conf.onNodeMouseleaveFunction) == 'function') v.conf.onNodeMouseleaveFunction.call(this, d3.event, node);
@@ -462,6 +489,7 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId ) {
               .attr('min', v.confDefaults[key].min)
               .attr('max', v.confDefaults[key].max)
               .attr('step', v.confDefaults[key].step)
+              .style('width', '100px')
               .on('change', function(){
                 v.conf[this.name] = parseFloat(this.value);
                 v.tools.createCustomizingConfObject();
@@ -478,6 +506,7 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId ) {
               .attr('min', v.confDefaults[key].min)
               .attr('max', v.confDefaults[key].max)
               .attr('step', v.confDefaults[key].step)
+              .style('width', '80px')
               .on('change', function(){
                 v.conf[this.name] = ( isNaN(parseFloat(this.value)) ? null : this.value );
                 v.tools.createCustomizingConfObject();
@@ -506,6 +535,7 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId ) {
               .attr('type', 'text')
               .attr('name', key)
               .attr('value', v.conf[key])
+              .style('width', '80px')
               .on('change', function(){
                 v.conf[this.name] = this.value;
                 v.tools.createCustomizingConfObject();
@@ -735,12 +765,12 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId ) {
     v.links = v.conf.domSvg.selectAll('line.link')
       .data( v.data.links.filter( function(l) { return l.FROMID != l.TOID; } ),
              function(l){return v.conf.domContainerId + '_link_' + l.FROMID + '_' + l.TOID;})
-      .classed('marker', v.conf.showLinkDirection)
+      .style('marker-end', (v.conf.showLinkDirection?'url(#'+v.conf.domContainerId+'_normalTriangle)':null) )
       .classed('dashed', function(l){return(l.STYLE === 'dashed');});
     v.links.enter().append('svg:line')
       .attr('id', function(l) { return v.conf.domContainerId + '_link_' + l.FROMID + '_' + l.TOID; })
       .attr('class', 'link')
-      .classed('marker', v.conf.showLinkDirection)
+      .style('marker-end', (v.conf.showLinkDirection?'url(#'+v.conf.domContainerId+'_normalTriangle)':null) )
       .classed('dashed', function(l){return(l.STYLE === 'dashed');});
     v.links.exit().remove();
 
@@ -749,13 +779,13 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId ) {
       .data( v.data.links.filter( function(l) { return l.FROMID == l.TOID && v.conf.showSelfLinks; } ),
              function(l){return v.conf.domContainerId + '_link_' + l.FROMID + '_' + l.TOID;})
       .attr('d', function(l) { return v.tools.getSelfLinkPath(l); })
-      .classed('marker', v.conf.showLinkDirection)
+      .style('marker-end', (v.conf.showLinkDirection?'url(#'+v.conf.domContainerId+'_normalTriangle)':null) )
       .classed('dashed', function(l){return(l.STYLE == 'dashed');});
     v.selfLinks.enter().append('svg:path')
       .attr('id', function(l) { return v.conf.domContainerId + '_link_' + l.FROMID + '_' + l.TOID; })
       .attr('class', 'link')
       .attr('d', function(l) { return v.tools.getSelfLinkPath(l); })
-      .classed('marker', v.conf.showLinkDirection)
+      .style('marker-end', (v.conf.showLinkDirection?'url(#'+v.conf.domContainerId+'_normalTriangle)':null) )
       .classed('dashed', function(l){return(l.STYLE == 'dashed');});
     v.selfLinks.exit().remove();
 

@@ -9,7 +9,7 @@
   border: 1px solid silver;
   border-radius: 5px;
 }
-.net_gobrechts_d3_force circle.highlight {
+.net_gobrechts_d3_force circle.highlighted {
   stroke: #555;
   stroke-width: 2px;
   stroke-opacity: 1.0;
@@ -40,18 +40,18 @@
 .net_gobrechts_d3_force path.dashed {
   stroke-dasharray: 3 2;
 }
-.net_gobrechts_d3_force line.highlight,
-.net_gobrechts_d3_force path.highlight {
+.net_gobrechts_d3_force line.highlighted,
+.net_gobrechts_d3_force path.highlighted {
   stroke: #555;
   stroke-opacity: 1.0;
 }
-.net_gobrechts_d3_force line.marker,
-.net_gobrechts_d3_force path.marker {
-  marker-end: url(#greyTriangle);
+.net_gobrechts_d3_force marker.normal {
+  stroke: none;
+  fill: #bbb;
 }
-.net_gobrechts_d3_force line.marker.highlight,
-.net_gobrechts_d3_force path.marker.highlight {
-  marker-end: url(#blackTriangle);
+.net_gobrechts_d3_force marker.highlighted {
+  stroke: none;
+  fill: #555;
 }
 .net_gobrechts_d3_force_tooltip {
   position: absolute;
@@ -84,10 +84,11 @@
   padding-bottom: 10px;
 }
 .net_gobrechts_d3_force_customize td {
-  padding: 2px;
+  padding: 1px;
   font-size: 12px;
   vertical-align: middle;
   background-color: transparent;
+  border-collapse: collapse;
 }
 .net_gobrechts_d3_force_customize td.label {
   text-align: right;
@@ -95,16 +96,14 @@
 .net_gobrechts_d3_force_customize td.warning {
   background-color: orange;
 }
-.net_gobrechts_d3_force_customize input{
-  width: 140px;
-}
 .net_gobrechts_d3_force_customize input,
 .net_gobrechts_d3_force_customize select{
+  border: 1px solid silver;
   margin: 0;
-  padding: 0;
-  background-color: transparent !important;
+  padding: 1px;
 }
 .net_gobrechts_d3_force_customize textarea {
+  border: 1px solid silver;
   font-size: 10px;
   width: 160px;
   height: 200px;
