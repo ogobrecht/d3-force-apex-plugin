@@ -26,6 +26,10 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId ) {
     v.conf.debug = false;
   }
 
+  // monitoring variables
+  v.tickCounter
+  v.startTime
+
   // default configuration
   v.confDefaults = {
     "showBorder":{"type":"bool", "val":true, "link":"https://github.com/ogobrecht/d3-force-apex-plugin#showBorder"},
@@ -42,21 +46,21 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId ) {
     "nodeEventToOpenLink":{"type":"select", "val":"dblclick", "options":["none","click","dblclick","contextmenu"], "link":"https://github.com/ogobrecht/d3-force-apex-plugin#nodeEventToOpenLink"},
     "nodeLinkTarget":{"type":"text", "val":"_blank", "link":"https://github.com/ogobrecht/d3-force-apex-plugin#nodeLinkTarget"},
     "autoRefresh":{"type":"bool", "val":false, "link":"https://github.com/ogobrecht/d3-force-apex-plugin#autoRefresh"},
-    "refreshInterval":{"type":"number", "val":5000, "min":3000, "max":60000, "step":1000, "link":"https://github.com/ogobrecht/d3-force-apex-plugin#refreshInterval"},
+    "refreshInterval":{"type":"number", "val":5000, "link":"https://github.com/ogobrecht/d3-force-apex-plugin#refreshInterval"},
     "useDomParentWidth":{"type":"bool", "val":false, "link":"https://github.com/ogobrecht/d3-force-apex-plugin#useDomParentWidth"},
-    "width":{"type":"range", "val":500, "min":300, "max":1200, "step":50, "link":"https://github.com/ogobrecht/d3-force-apex-plugin#width"},
-    "height":{"type":"range", "val":500, "min":300, "max":1200, "step":50, "link":"https://github.com/ogobrecht/d3-force-apex-plugin#height"},
-    "minNodeRadius":{"type":"range", "val":6, "min":3, "max":12, "step":1, "link":"https://github.com/ogobrecht/d3-force-apex-plugin#minNodeRadius"},
-    "maxNodeRadius":{"type":"range", "val":18, "min":12, "max":36, "step":2, "link":"https://github.com/ogobrecht/d3-force-apex-plugin#maxNodeRadius"},
-    "labelDistance":{"type":"range", "val":12, "min":2, "max":20, "step":2, "link":"https://github.com/ogobrecht/d3-force-apex-plugin#labelDistance"},
-    "selfLinkDistance":{"type":"range", "val":20, "min":10, "max":30, "step":2, "link":"https://github.com/ogobrecht/d3-force-apex-plugin#selfLinkDistance"},
-    "linkDistance":{"type":"range", "val":80, "min":20, "max":120, "step":10, "link":"https://github.com/ogobrecht/d3-force-apex-plugin#linkDistance"},
-    //"chargeDistance":{"type":"number", "val":null, "min":300, "max":3000, "step":100, "internal":true, "link":"https://github.com/ogobrecht/d3-force-apex-plugin#chargeDistance"},
-    "charge":{"type":"range", "val":-350, "min":-1000, "max":0, "step":50, "internal":true, "link":"https://github.com/ogobrecht/d3-force-apex-plugin#charge"},
-    "gravity":{"type":"range", "val":0.1, "min":0, "max":1, "step":0.05, "internal":true, "link":"https://github.com/ogobrecht/d3-force-apex-plugin#gravity"},
-    "linkStrength":{"type":"range", "val":1, "min":0, "max":1, "step":0.05, "internal":true, "link":"https://github.com/ogobrecht/d3-force-apex-plugin#linkStrength"},
-    "friction":{"type":"range", "val":0.9, "min":0, "max":1, "step":0.05, "internal":true, "link":"https://github.com/ogobrecht/d3-force-apex-plugin#friction"},
-    "theta":{"type":"range", "val":0.8, "min":0, "max":1, "step":0.05, "internal":true, "link":"https://github.com/ogobrecht/d3-force-apex-plugin#theta"}
+    "width":{"type":"number", "val":500, "link":"https://github.com/ogobrecht/d3-force-apex-plugin#width"},
+    "height":{"type":"number", "val":500, "link":"https://github.com/ogobrecht/d3-force-apex-plugin#height"},
+    "minNodeRadius":{"type":"number", "val":6, "link":"https://github.com/ogobrecht/d3-force-apex-plugin#minNodeRadius"},
+    "maxNodeRadius":{"type":"number", "val":18, "link":"https://github.com/ogobrecht/d3-force-apex-plugin#maxNodeRadius"},
+    "labelDistance":{"type":"number", "val":12, "link":"https://github.com/ogobrecht/d3-force-apex-plugin#labelDistance"},
+    "selfLinkDistance":{"type":"number", "val":20, "link":"https://github.com/ogobrecht/d3-force-apex-plugin#selfLinkDistance"},
+    "linkDistance":{"type":"number", "val":80, "link":"https://github.com/ogobrecht/d3-force-apex-plugin#linkDistance"},
+    //"chargeDistance":{"type":"number", "val":null, "internal":true, "link":"https://github.com/ogobrecht/d3-force-apex-plugin#chargeDistance"},
+    "charge":{"type":"number", "val":-350, "internal":true, "link":"https://github.com/ogobrecht/d3-force-apex-plugin#charge"},
+    "gravity":{"type":"select", "val":0.1, "options":["1.00","0.95","0.90","0.85","0.80","0.75","0.70","0.65","0.60","0.55","0.50","0.45","0.40","0.35","0.30","0.25","0.20","0.15","0.10","0.05","0.00"], "internal":true, "link":"https://github.com/ogobrecht/d3-force-apex-plugin#gravity"},
+    "linkStrength":{"type":"select", "val":1, "options":["1.00","0.95","0.90","0.85","0.80","0.75","0.70","0.65","0.60","0.55","0.50","0.45","0.40","0.35","0.30","0.25","0.20","0.15","0.10","0.05","0.00"], "internal":true, "link":"https://github.com/ogobrecht/d3-force-apex-plugin#linkStrength"},
+    "friction":{"type":"select", "val":0.9, "options":["1.00","0.95","0.90","0.85","0.80","0.75","0.70","0.65","0.60","0.55","0.50","0.45","0.40","0.35","0.30","0.25","0.20","0.15","0.10","0.05","0.00"], "internal":true, "link":"https://github.com/ogobrecht/d3-force-apex-plugin#friction"},
+    "theta":{"type":"select", "val":0.8, "options":["1.00","0.95","0.90","0.85","0.80","0.75","0.70","0.65","0.60","0.55","0.50","0.45","0.40","0.35","0.30","0.25","0.20","0.15","0.10","0.05","0.00"], "internal":true, "link":"https://github.com/ogobrecht/d3-force-apex-plugin#theta"}
   };
 
   // create intial configuration
@@ -97,8 +101,9 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId ) {
   v.conf.theta                           = v.confUser.theta                           || v.confDefaults.theta.val;
   v.conf.gravity                         = v.confUser.gravity                         || v.confDefaults.gravity.val;
 
-  v.conf.sampleData       = false;
-  v.data.sampleData       = '<data>' +
+  v.conf.currentTabPosition = null;
+  v.conf.sampleData         = false;
+  v.data.sampleData         = '<data>' +
     '<nodes ID="7839" LABEL="KING is THE KING, you know?" COLORVALUE="10" SIZEVALUE="5000" LABELCIRCULAR="true" LINK="http://apex.oracle.com/"' +
     ' INFOSTRING="This visualization is based on the well known emp table." />' +
     '<nodes ID="7698" LABEL="BLAKE" COLORVALUE="30" SIZEVALUE="2850"/>' +
@@ -141,7 +146,6 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId ) {
   if ( document.querySelector('#' + v.conf.domContainerId) === null ){
     v.conf.domContainer = d3.select('body').append('div')
       .attr('id', v.conf.domContainerId)
-      .style('width', '100%');
   }
   else {
     v.conf.domContainer = d3.select('#' + v.conf.domContainerId);
@@ -212,18 +216,16 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId ) {
   // log function for debug mode
   v.tools.log = function(message, omitDebugPrefix) {
     if (v.conf.debug){
-      if (omitDebugPrefix) {
-        console.log(message);
-      }
-      else {
-        console.log( v.conf.debugPrefix + message);
-      }
+      if (omitDebugPrefix) console.log(message);
+      else console.log( v.conf.debugPrefix + message);
     }
+    if (v.conf.customize) v.conf.domCustomizeLog.text ( message + '\n' + v.conf.domCustomizeLog.text() );
   };
 
   // log error function
   v.tools.logError = function(message, omitDebugPrefix) {
     console.log( v.conf.debugPrefix + 'ERROR: ' + message);
+    if (v.conf.customize) v.conf.domCustomizeLog.text ( 'ERROR: ' + message + '\n' + v.conf.domCustomizeLog.text() );
   };
 
   // trigger APEX events, if we have an APEX context
@@ -318,7 +320,7 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId ) {
         }
       });
     d3.select(this).classed('highlighted', true);
-    v.tools.log('Event mouseenter triggered');
+    v.tools.log('Event mouseenter triggered.');
     v.tools.triggerApexEvent(this, 'net_gobrechts_d3_force_mouseenter', node);
     if (typeof(v.conf.onNodeMouseenterFunction) == 'function') v.conf.onNodeMouseenterFunction.call(this, d3.event, node);
     if (v.conf.showTooltips && node.INFOSTRING) {
@@ -326,16 +328,24 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId ) {
       if (v.conf.tooltipPosition === 'svgTopLeft') {
         position = v.tools.getOffsetRect(document.querySelector('#' + v.conf.domContainerId + ' svg'));
         v.conf.domTooltip
-          .style('top', position.top + 'px')
-          .style('left', position.left + 'px');
+          .style('top', position.top + 
+            (v.conf.domSvg.style('border-width') ? parseInt(v.conf.domSvg.style('border-width')) : 1) +
+            'px')
+          .style('left', position.left + 
+            (v.conf.domSvg.style('border-width') ? parseInt(v.conf.domSvg.style('border-width')) : 1) +
+            'px');
       }
       else if (v.conf.tooltipPosition === 'svgTopRight') {
         position = v.tools.getOffsetRect(document.querySelector('#' + v.conf.domContainerId + ' svg'));
         v.conf.domTooltip
-          .style('top', position.top + 'px')
-          .style('left', position.right -
+          .style('top', position.top + 
+            parseInt( (v.conf.domSvg.style('border-width') ? parseInt(v.conf.domSvg.style('border-width')) : 1) ) + 
+            'px')
+          .style('left', position.left +
+            parseInt(v.conf.domSvg.style('width')) +
+            parseInt( (v.conf.domSvg.style('border-width') ? parseInt(v.conf.domSvg.style('border-width')) : 1) ) -
             parseInt(v.conf.domTooltip.style('width')) -
-            2 * parseInt(v.conf.domTooltip.style('border-width')) -
+            2 * parseInt( (v.conf.domTooltip.style('border-width') ? parseInt(v.conf.domTooltip.style('border-width')) : 0) ) -
             parseInt(v.conf.domTooltip.style('padding-left')) -
             parseInt(v.conf.domTooltip.style('padding-right')) +
             'px');
@@ -358,7 +368,7 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId ) {
       .classed('highlighted', false)
       .style('marker-end', (v.conf.showLinkDirection?'url(#'+v.conf.domContainerId+'_normalTriangle)':null) );
     v.labels.classed('highlighted', false);
-    v.tools.log('Event mouseleave triggered');
+    v.tools.log('Event mouseleave triggered.');
     v.tools.triggerApexEvent(this, 'net_gobrechts_d3_force_mouseleave', node);
     if (typeof(v.conf.onNodeMouseleaveFunction) == 'function') v.conf.onNodeMouseleaveFunction.call(this, d3.event, node);
     if (v.conf.showTooltips) v.conf.domTooltip.style('display', 'none');
@@ -368,7 +378,7 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId ) {
   v.tools.onNodeClick = function(node){
     if (node.LINK && v.conf.nodeEventToOpenLink == 'click') v.tools.openLink(node);
     if (v.conf.pinMode && v.conf.nodeEventToStopPinMode == 'click') d3.select(this).classed('fixed', node.fixed = false);
-    v.tools.log('Event click triggered');
+    v.tools.log('Event click triggered.');
     v.tools.triggerApexEvent(this, 'net_gobrechts_d3_force_click', node);
     if (typeof(v.conf.onNodeClickFunction) == 'function') v.conf.onNodeClickFunction.call(this, d3.event, node);
   };
@@ -377,7 +387,7 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId ) {
   v.tools.onNodeDblclick = function(node){
     if (node.LINK && v.conf.nodeEventToOpenLink == 'dblclick') v.tools.openLink(node);
     if (v.conf.pinMode && v.conf.nodeEventToStopPinMode == 'dblclick') d3.select(this).classed('fixed', node.fixed = false);
-    v.tools.log('Event dblclick triggered');
+    v.tools.log('Event dblclick triggered.');
     v.tools.triggerApexEvent(this, 'net_gobrechts_d3_force_dblclick', node);
     if (typeof(v.conf.onNodeDblclickFunction) == 'function') v.conf.onNodeDblclickFunction.call(this, d3.event, node);
   };
@@ -387,7 +397,7 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId ) {
     if (v.conf.onNodeContextmenuPreventDefault) d3.event.preventDefault();
     if (node.LINK && v.conf.nodeEventToOpenLink == 'contextmenu') v.tools.openLink(node);
     if (v.conf.pinMode && v.conf.nodeEventToStopPinMode == 'contextmenu') d3.select(this).classed('fixed', node.fixed = false);
-    v.tools.log('Event contextmenu triggered');
+    v.tools.log('Event contextmenu triggered.');
     v.tools.triggerApexEvent(this, 'net_gobrechts_d3_force_contextmenu', node);
     if (typeof(v.conf.onNodeContextmenuFunction) == 'function') v.conf.onNodeContextmenuFunction.call(this, d3.event, node);
   };
@@ -397,12 +407,11 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId ) {
 
   // get inner width for the SVG parents element
   v.tools.getSvgParentInnerWidth = function(){
-    var svg = d3.select('#' + v.conf.domContainerId + '_svg');
-    var parent = d3.select( svg.node().parentNode );
+    var parent = d3.select( v.conf.domSvg.node().parentNode );
     return parseInt(parent.style('width')) -
       parseInt(parent.style('padding-left')) -
       parseInt(parent.style('padding-right')) -
-      parseInt(svg.style('border-width')) * 2 ;
+      (v.conf.domSvg.style('border-width') ? parseInt(v.conf.domSvg.style('border-width')) : 1) * 2 ;
   };
 
   // get offset for an element relative to the document: http://javascript.info/tutorial/coordinates
@@ -416,9 +425,7 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId ) {
     var clientLeft = docElem.clientLeft || body.clientLeft || 0;
     var top  = box.top + scrollTop - clientTop;
     var left = box.left + scrollLeft - clientLeft;
-    var bottom  = box.bottom + scrollTop - clientTop;
-    var right = box.right + scrollLeft - clientLeft;
-    return { top: Math.round(top), left: Math.round(left), bottom: Math.round(bottom), right: Math.round(right) };
+    return { top: Math.round(top), left: Math.round(left) };
   };
 
   // dragability for customizing container
@@ -438,7 +445,8 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId ) {
                                 mouseToBody[1] - v.conf.domCustomizePosition.mouseTop) + 'px');
     })
     .on('dragend', function(){
-      v.conf.domCustomizePosition = v.tools.getOffsetRect(document.querySelector('#' + v.conf.domContainerId + '_customizing'));
+      //v.conf.domCustomizePosition = v.tools.getOffsetRect(document.querySelector('#' + v.conf.domContainerId + '_customizing'));
+      v.conf.domCustomizePosition = v.tools.getOffsetRect(v.conf.domCustomize.node());
     });
 
 
@@ -447,9 +455,9 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId ) {
     var tab, row, td, form, value, i=0, tdConfObject;
     // set initial position
     if (!v.conf.domCustomizePosition) {
-      v.conf.domCustomizePosition = v.tools.getOffsetRect(document.querySelector('#' + v.conf.domContainerId + ' svg'));
-      v.conf.domCustomizePosition.left = v.conf.domCustomizePosition.left + v.conf.width -100 ;
-      v.conf.domCustomizePosition.top = v.conf.domCustomizePosition.top + 8 ;
+      v.conf.domCustomizePosition = v.tools.getOffsetRect(v.conf.domSvg.node());
+      v.conf.domCustomizePosition.left = v.conf.domCustomizePosition.left + v.conf.width + 8 ;
+      v.conf.domCustomizePosition.top = v.conf.domCustomizePosition.top ;
     }
     if (document.querySelector('#' + v.conf.domContainerId + '_customizing') !== null ) {
       v.conf.domCustomize.remove();
@@ -461,65 +469,42 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId ) {
         .style('top', v.conf.domCustomizePosition.top + 'px');
       v.conf.domCustomize.append('span')
         .attr('class','drag')
-        .text('Customize "' + v.conf.domContainerId + '"' )
-        .call(v.tools.customizeDrag);
-      v.conf.domCustomize.append('span')
-        .attr('class', 'close link')
+        .call(v.tools.customizeDrag)
+        .append('span')
+        .attr('class', 'title')
+        .text('Customize "' + v.conf.domContainerId + '"' );
+      v.conf.domCustomize.append('a')
+        .attr('class', 'close')
+        .attr('tabindex', 1)
         .text('Close')
-        .on('click', function(){
-          v.conf.customize = false;
-          render();
+        .on('click', function(){ v.conf.customize = false; render(); })
+        .on('keydown', function(){ 
+          if (d3.event.keyCode == 13) {
+            v.conf.customize = false; 
+            render();
+          }
         });
       tab = v.conf.domCustomize.append('table');
       for (var key in v.confDefaults) {
         if (v.confDefaults.hasOwnProperty(key)) {
+          i += 1;
           row = tab.append('tr');
           row.append('td')
             .attr('class','label')
+            .attr('tabindex', i + 100)
             .html('<a href="https://github.com/ogobrecht/d3-force-apex-plugin#' + 
                   key + '" target="github_d3_force">' + 
                   key + '</a>');
-          if (v.confDefaults[key].type == 'range') {
+          if (v.confDefaults[key].type == 'bool') {
             td = row.append('td')
               .classed('warning', v.confDefaults[key].internal );
             form = td.append('input')
-              .attr('type', 'range')
-              .attr('name', key)
-              .attr('value', v.conf[key])
-              .attr('min', v.confDefaults[key].min)
-              .attr('max', v.confDefaults[key].max)
-              .attr('step', v.confDefaults[key].step)
-              .style('width', '100px')
-              .on('change', function(){
-                v.conf[this.name] = parseFloat(this.value);
-                v.tools.createCustomizingConfObject();
-                render();
-              });
-          }
-          else if (v.confDefaults[key].type == 'number') {
-            td = row.append('td')
-              .classed('warning', v.confDefaults[key].internal );
-            form = td.append('input')
-              .attr('type', 'number')
-              .attr('name', key)
-              .attr('value', v.conf[key])
-              .attr('min', v.confDefaults[key].min)
-              .attr('max', v.confDefaults[key].max)
-              .attr('step', v.confDefaults[key].step)
-              .style('width', '80px')
-              .on('change', function(){
-                v.conf[this.name] = ( isNaN(parseFloat(this.value)) ? null : this.value );
-                v.tools.createCustomizingConfObject();
-                render();
-              });
-          }
-          else if (v.confDefaults[key].type == 'bool') {
-            td = row.append('td')
-              .classed('warning', v.confDefaults[key].internal );
-            form = td.append('input')
+              .attr('id', v.conf.domContainerId + '_' + key)
               .attr('type', 'checkbox')
               .attr('name', key)
+              .attr('tabindex', i + 1)
               .on('change', function(){
+                v.conf.currentTabPosition = this.id;
                 v.conf[this.name] = ( this.checked ? true : false );
                 v.tools.createCustomizingConfObject();
                 render();
@@ -528,16 +513,24 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId ) {
               form.attr('checked', 'checked');
             }
           }
-          else if (v.confDefaults[key].type == 'text') {
+          else if (v.confDefaults[key].type == 'text' || v.confDefaults[key].type == 'number') {
             td = row.append('td')
               .classed('warning', v.confDefaults[key].internal );
             form = td.append('input')
+              .attr('id', v.conf.domContainerId + '_' + key)
               .attr('type', 'text')
               .attr('name', key)
               .attr('value', v.conf[key])
               .style('width', '80px')
+              .attr('tabindex', i + 1)
               .on('change', function(){
-                v.conf[this.name] = this.value;
+                v.conf.currentTabPosition = this.id;
+                if (v.confDefaults[this.name].type == 'text') {
+                  v.conf[this.name] = this.value;
+                }
+                else if (v.confDefaults[this.name].type == 'number') {
+                  v.conf[this.name] = ( isNaN(parseFloat(this.value)) ? v.conf[this.name] : parseFloat(this.value) );
+                }
                 v.tools.createCustomizingConfObject();
                 render();
               });
@@ -546,9 +539,12 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId ) {
             td = row.append('td')
               .classed('warning', v.confDefaults[key].internal );
             form = td.append('select')
+              .attr('id', v.conf.domContainerId + '_' + key)
               .attr('name', key)
               .attr('value', v.conf[key])
+              .attr('tabindex', i + 1)
               .on('change', function(){
+                v.conf.currentTabPosition = this.id;
                 v.conf[this.name] = this.options[this.selectedIndex].value;
                 v.tools.createCustomizingConfObject();
                 render();
@@ -564,7 +560,6 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId ) {
             });
           }
           // third column td only in the first row
-          i += 1;
           if (i == 1) {
             tdConfObject = row.append('td')
               .style('vertical-align','top')
@@ -575,21 +570,25 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId ) {
       // third column spans over all rows
       tdConfObject
           .attr('rowspan', i)
-          .html('Your Configuration Object<br><textarea id="' + v.conf.domContainerId + '_conf_object"></textarea><br><br>' +
-                '<span class="link" id="' + v.conf.domContainerId + '_get_current_positions">Get Current Positions</span><br>' +
-                '<textarea id="' + v.conf.domContainerId + '_positions"></textarea><br><br>' +
+          .html('Your Configuration Object<br><textarea id="' + v.conf.domContainerId + '_conf_object" tabindex="' + (i + 2) + '" readonly></textarea><br><br>' +
+                'Current Positions<br>' +
+                '<textarea id="' + v.conf.domContainerId + '_positions" tabindex="' + (i + 3) + '" readonly>Force started - wait for end event to show positions...</textarea><br><br>' +
+                'Log<br>' +
+                '<textarea id="' + v.conf.domContainerId + '_log" tabindex="' + (i + 4) + '" readonly></textarea><br><br>' +
                 'Copyrights<br><br>' +
-                '<a href="https://github.com/ogobrecht/d3-force-apex-plugin" target="github_d3_force">D3 Force APEX Plugin</a> (' + v.version + ')<br>' +
+                '<a href="https://github.com/ogobrecht/d3-force-apex-plugin" target="github_d3_force" tabindex="' + (i + 5) + '">D3 Force APEX Plugin</a> (' + v.version + ')<br>' +
                 'Ottmar Gobrecht<br><br>' +
-                '<a href="http://d3js.org" target="d3js_org">D3.js</a> (' + d3.version + ')<br>' +
+                '<a href="http://d3js.org" target="d3js_org" tabindex="' + (i + 6) + '">D3.js</a> (' + d3.version + ')<br>' +
                 'Mike Bostock<br><br>' +
-                '<a href="https://code.google.com/p/x2js/" target="code_google_com">X2JS</a> (' + v.tools.x2js.getVersion() + ' modified)<br>' +
+                '<a href="https://code.google.com/p/x2js/" target="code_google_com" tabindex="' + (i + 7) + '">X2JS</a> (' + v.tools.x2js.getVersion() + ' modified)<br>' +
                 'Abdulla Abdurakhmanov<br><br>'
                );
+    v.conf.domCustomizeConfObject = d3.select('#' + v.conf.domContainerId + '_conf_object');
+    v.conf.domCustomizePositions = d3.select('#' + v.conf.domContainerId + '_positions');
+    v.conf.domCustomizeLog = d3.select('#' + v.conf.domContainerId + '_log');
     v.tools.createCustomizingConfObject();
-    d3.select('#' + v.conf.domContainerId + '_get_current_positions').on('click', function(){
-      d3.select('#' + v.conf.domContainerId + '_positions').text( render.positions() );
-    });
+    if (v.conf.currentTabPosition) document.getElementById(v.conf.currentTabPosition).focus();
+    else document.querySelector('#' + v.conf.domContainerId + '_customizing input').focus();
   };
 
   v.tools.createCustomizingConfObject = function() {
@@ -607,35 +606,45 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId ) {
         }
       }
     conf = conf.substr(0, conf.length - 2) + '\n}';
-    d3.select('#' + v.conf.domContainerId + '_conf_object').text(conf);
-  };
-
-  v.tools.createCurrentPositionsObject = function(){
-    v.conf.domCustomizingPositions.text( render.positions() );
-  };
-
-  // TICK function: core helper for force layout
-  v.tick = function() {
-    v.selfLinks
-      .attr('transform', function(l) { return 'translate(' + l.source.x + ',' + l.source.y + ')'; });
-    v.links
-      .attr('x1', function(l) { return v.tools.adjustSourceX(l); })
-      .attr('y1', function(l) { return v.tools.adjustSourceY(l); })
-      .attr('x2', function(l) { return v.tools.adjustTargetX(l); })
-      .attr('y2', function(l) { return v.tools.adjustTargetY(l); });
-    v.labels
-      .attr('x', function(n) { return n.x; })
-      .attr('y', function(n) { return n.y - n.radius - v.conf.labelDistance; });
-    v.labelPaths
-      .attr('transform', function(n) { return 'translate(' + n.x + ',' + n.y + ')'; });
-    v.nodes
-      .attr('cx', function(n) { return n.x; })
-      .attr('cy', function(n) { return n.y; });
+    v.conf.domCustomizeConfObject.text(conf);
   };
 
   // create force reference
   v.force = d3.layout.force()
-    .on('tick', v.tick);
+    .on('start', function(){
+      v.tools.log('Force started.');
+      if (v.conf.customize) v.conf.domCustomizePositions.text( 'Force started - wait for end event to show positions...' );
+      v.tickCounter = 0
+      v.startTime = new Date().getTime();
+    })
+    .on('tick', function() {
+      v.selfLinks
+        .attr('transform', function(l) { return 'translate(' + l.source.x + ',' + l.source.y + ')'; });
+      v.links
+        .attr('x1', function(l) { return v.tools.adjustSourceX(l); })
+        .attr('y1', function(l) { return v.tools.adjustSourceY(l); })
+        .attr('x2', function(l) { return v.tools.adjustTargetX(l); })
+        .attr('y2', function(l) { return v.tools.adjustTargetY(l); });
+      v.labels
+        .attr('x', function(n) { return n.x; })
+        .attr('y', function(n) { return n.y - n.radius - v.conf.labelDistance; });
+      v.labelPaths
+        .attr('transform', function(n) { return 'translate(' + n.x + ',' + n.y + ')'; });
+      v.nodes
+        .attr('cx', function(n) { return n.x; })
+        .attr('cy', function(n) { return n.y; });
+      v.tickCounter += 1;
+    })
+    .on('end', function(){
+      var milliseconds = new Date().getTime() - v.startTime;
+      var seconds = (milliseconds / 1000).toFixed(1);
+      var ticksPerSecond = Math.round(v.tickCounter / (milliseconds / 1000));
+      var millisecondsPerTick = Math.round( milliseconds / v.tickCounter );
+      if (v.conf.customize) v.conf.domCustomizePositions.text( render.positions() );
+      v.tools.log('Force ended.');
+      v.tools.log(seconds + ' seconds, ' + v.tickCounter + ' ticks to cool down. (' + 
+        ticksPerSecond + ' ticks/s, ' + millisecondsPerTick + ' ms/tick)');
+    });
 
   // create drag reference
   v.drag = v.force.drag();
@@ -650,11 +659,12 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId ) {
     // trigger apex event
     v.tools.triggerApexEvent(document.querySelector('#' + v.conf.domContainerId), 'apexbeforerefresh');
 
-    // write debug infos
-    v.tools.log('Start rendering...');
+    // create customizing form
+    if (v.conf.customize) v.tools.customizeChart();
+    else d3.select('#' + v.conf.domContainerId + '_customizing').remove();
 
     if (!rawDataString && !v.data.rawDataString){
-      v.tools.logError('Houston, we have a problem - we have to provide sample data...');
+      v.tools.logError('Houston, we have a problem - we have to provide sample data.');
       v.conf.sampleData = true;
       rawDataString = v.data.sampleData;
     }
@@ -668,14 +678,14 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId ) {
       // convert incoming data depending on type
       if ( rawDataString.trim().substr(0,1) == '<' ) {
         try { v.data.rawDataString = v.tools.x2js.xml_str2json(rawDataString); }
-        catch(e){ v.tools.logError('Unable to convert XML string to JSON: ' + e.message); }
+        catch(e){ v.tools.logError('Unable to convert XML string to JSON: ' + e.message) + '.'; }
       }
       else if ( rawDataString.trim().substr(0,1) == '{' ) {
         try { v.data.rawDataString = JSON.parse(rawDataString); }
-        catch(e){ v.tools.logError('Unable to parse JSON data string: ' + e.message); }
+        catch(e){ v.tools.logError('Unable to parse JSON data string: ' + e.message) + '.'; }
       }
       else {
-        v.tools.logError('Your data is not starting with "<" or "{" - rendering of graph not possible - keeping the old data ...');
+        v.tools.logError('Your data is not starting with "<" or "{" - rendering of graph not possible - keeping the old data.');
       }
 
       // write debug infos
@@ -849,9 +859,9 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId ) {
 
     // CUSTOMIZING LINK
     if ( !v.conf.customize && (v.conf.debug || document.querySelector('#apex-dev-toolbar') !== null) ) {
-      if (document.querySelector('#' + v.conf.domContainerId + ' svg .customize_me') === null) {
+      if (document.querySelector('#' + v.conf.domContainerId + ' svg text.link') === null) {
         v.conf.domSvg.append('svg:text')
-          .attr('class', 'link customize_me')
+          .attr('class', 'link')
           .attr('x', 5)
           .attr('y', 15)
           .attr('text-anchor', 'start')
@@ -917,17 +927,13 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId ) {
     // start auto refresh, if configured
     if (v.conf.autoRefresh && v.conf.refreshInterval && !v.conf.interval) {
       v.conf.interval = window.setInterval( function(){render.start();}, v.conf.refreshInterval );
-      v.tools.log('Auto refresh started with an interval of ' + v.conf.refreshInterval + ' milliseconds');
+      v.tools.log('Auto refresh started with an interval of ' + v.conf.refreshInterval + ' milliseconds.');
     }
     else if (v.conf.autoRefresh === false && v.conf.interval){
       clearInterval(v.conf.interval);
       v.conf.interval = null;
-      v.tools.log('Auto refresh stopped');
+      v.tools.log('Auto refresh stopped.');
     }
-
-    // create customizing form
-    if (v.conf.customize) v.tools.customizeChart();
-    else d3.select('#' + v.conf.domContainerId + '_customizing').remove();
 
     // trigger apex event
     v.tools.triggerApexEvent(document.querySelector('#' + v.conf.domContainerId), 'apexafterrefresh');
@@ -955,7 +961,7 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId ) {
             if ( rawDataString.trim() != 'no_data_found' ) { render(rawDataString); }
             else { render(); }
           },
-          error: function(){ v.tools.logError('Unable to load new data - AJAX call terminated with errors'); },
+          error: function(){ v.tools.logError('Unable to load new data - AJAX call terminated with errors.'); },
           dataType: 'text'
         }
       );
@@ -1182,6 +1188,12 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId ) {
   render.onNodeContextmenuFunction = function(value) {
     if (!arguments.length) return v.conf.onNodeContextmenuFunction;
     v.conf.onNodeContextmenuFunction = value;
+    return render;
+  };
+
+  render.currentTabPosition = function(value) {
+    if (!arguments.length) return v.conf.currentTabPosition;
+    v.conf.currentTabPosition = value;
     return render;
   };
 

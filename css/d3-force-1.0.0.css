@@ -4,7 +4,6 @@
 .net_gobrechts_d3_force_tooltip {
   font-family: Arial, Helvetica, Sans Serif;
 }
-
 .net_gobrechts_d3_force.border {
   border: 1px solid silver;
   border-radius: 5px;
@@ -23,7 +22,6 @@
 .net_gobrechts_d3_force text.label{
   text-anchor: middle;
 }
-
 .net_gobrechts_d3_force text.link {
   font-size: 12px;
   fill: blue;
@@ -66,29 +64,39 @@
   pointer-events: none;
   display: none;
 }
-
 .net_gobrechts_d3_force_customize {
-  font-size: 12px;
-  position: absolute;
   border: 1px solid silver;
   border-radius: 5px;
+  font-size: 12px;
+  position: absolute;
   padding: 5px;
   background-color:white;
   box-shadow: 3px 3px 12px 3px rgba(0,0,0,0.2);
   z-index: 200000;
 }
 .net_gobrechts_d3_force_customize .drag {
+  border: 1px dashed silver;
+  border-radius: 3px;
   display: block;
   cursor: move;
   font-weight: bold;
-  padding-bottom: 10px;
+  height: 24px;
+  margin-bottom: 5px;
+}
+.net_gobrechts_d3_force_customize .title {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+}
+.net_gobrechts_d3_force_customize .close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
 }
 .net_gobrechts_d3_force_customize td {
-  padding: 1px;
+  padding: 2px;
   font-size: 12px;
   vertical-align: middle;
-  background-color: transparent;
-  border-collapse: collapse;
 }
 .net_gobrechts_d3_force_customize td.label {
   text-align: right;
@@ -97,26 +105,23 @@
   background-color: orange;
 }
 .net_gobrechts_d3_force_customize input,
-.net_gobrechts_d3_force_customize select{
-  border: 1px solid silver;
+.net_gobrechts_d3_force_customize select {
   margin: 0;
   padding: 1px;
 }
+.net_gobrechts_d3_force_customize input:focus,
+.net_gobrechts_d3_force_customize select:focus,
+.net_gobrechts_d3_force_customize textarea:focus,
+.net_gobrechts_d3_force_customize a:focus {
+  outline: blue dotted 2px;
+}
 .net_gobrechts_d3_force_customize textarea {
-  border: 1px solid silver;
   font-size: 10px;
   width: 160px;
-  height: 200px;
+  height: 130px;
 }
-.net_gobrechts_d3_force_customize a,
-.net_gobrechts_d3_force_customize .link
-{
+.net_gobrechts_d3_force_customize a {
   color: blue;
   text-decoration: none;
   cursor: pointer;
-}
-.net_gobrechts_d3_force_customize .close {
-  position: absolute;
-  top: 5px;
-  right: 5px;
 }
