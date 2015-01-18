@@ -873,7 +873,7 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId ) {
       }
     }
     else {
-      v.conf.domSvg.select('#' + v.conf.domContainerId + ' svg .customize_me').remove();
+      v.conf.domSvg.select('#' + v.conf.domContainerId + ' svg text.link').remove();
     }
 
     // drag mode
