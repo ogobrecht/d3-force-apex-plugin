@@ -107,7 +107,7 @@
 .net_gobrechts_d3_force_customize input,
 .net_gobrechts_d3_force_customize select {
   margin: 0;
-  padding: 1px;
+  padding: 1px !important;
 }
 .net_gobrechts_d3_force_customize input:focus,
 .net_gobrechts_d3_force_customize select:focus,
@@ -116,7 +116,7 @@
   outline: blue dotted 2px;
 }
 .net_gobrechts_d3_force_customize textarea {
-  font-size: 10px;
+  font-size: 10px !important;
   width: 160px;
   height: 130px;
 }

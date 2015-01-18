@@ -643,7 +643,7 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId ) {
       if (v.conf.customize) v.conf.domCustomizePositions.text( render.positions() );
       v.tools.log('Force ended.');
       v.tools.log(seconds + ' seconds, ' + v.tickCounter + ' ticks to cool down. (' + 
-        ticksPerSecond + ' ticks/s, ' + millisecondsPerTick + ' ms/tick)');
+        ticksPerSecond + ' ticks/s, ' + millisecondsPerTick + ' ms/tick).');
     });
 
   // create drag reference
