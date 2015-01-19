@@ -13,7 +13,7 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId ) {
   v.tools = {};
 
   // save parameter for later use
-  v.conf.domContainerId = pDomContainerId || 'd3Force' + Math.floor(Math.random()*1000000);
+  v.conf.domContainerId = pDomContainerId || 'D3Force' + Math.floor(Math.random()*1000000);
   v.confUser            = pOptions || {};
   v.conf.apexPluginId   = pApexPluginId;
 
@@ -32,35 +32,35 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId ) {
 
   // default configuration
   v.confDefaults = {
-    "showBorder":{"type":"bool", "val":true, "link":"https://github.com/ogobrecht/d3-force-apex-plugin#showBorder"},
-    "showSelfLinks":{"type":"bool", "val":true, "link":"https://github.com/ogobrecht/d3-force-apex-plugin#showSelfLinks"},
-    "showLinkDirection":{"type":"bool", "val":true, "link":"https://github.com/ogobrecht/d3-force-apex-plugin#showLinkDirection"},
-    "showTooltips":{"type":"bool", "val":true, "link":"https://github.com/ogobrecht/d3-force-apex-plugin#showTooltips"},
+    "showBorder":{"type":"bool", "val":true, "options":[true,false], "link":"https://github.com/ogobrecht/d3-force-apex-plugin#showBorder"},
+    "showSelfLinks":{"type":"bool", "val":true, "options":["true","false"], "link":"https://github.com/ogobrecht/d3-force-apex-plugin#showSelfLinks"},
+    "showLinkDirection":{"type":"bool", "val":true, "options":["true","false"], "link":"https://github.com/ogobrecht/d3-force-apex-plugin#showLinkDirection"},
+    "showTooltips":{"type":"bool", "val":true, "options":["true","false"], "link":"https://github.com/ogobrecht/d3-force-apex-plugin#showTooltips"},
     "tooltipPosition":{"type":"select", "val":"node", "options":["node","svgTopLeft","svgTopRight"], "link":"https://github.com/ogobrecht/d3-force-apex-plugin#tooltipPosition"},
     "colorScheme":{"type":"select", "val":"color20", "options":["color20","color20b","color20c","color10","direct"], "link":"https://github.com/ogobrecht/d3-force-apex-plugin#colorScheme"},
-    "labelsCircular":{"type":"bool", "val":false, "link":"https://github.com/ogobrecht/d3-force-apex-plugin#labelsCircular"},
-    "dragMode":{"type":"bool", "val":true, "link":"https://github.com/ogobrecht/d3-force-apex-plugin#dragMode"},
-    "pinMode":{"type":"bool", "val":false, "link":"https://github.com/ogobrecht/d3-force-apex-plugin#pinMode"},
+    "labelsCircular":{"type":"bool", "val":false, "options":["true","false"], "link":"https://github.com/ogobrecht/d3-force-apex-plugin#labelsCircular"},
+    "dragMode":{"type":"bool", "val":true, "options":["true","false"], "link":"https://github.com/ogobrecht/d3-force-apex-plugin#dragMode"},
+    "pinMode":{"type":"bool", "val":false, "options":["true","false"], "link":"https://github.com/ogobrecht/d3-force-apex-plugin#pinMode"},
     "nodeEventToStopPinMode":{"type":"select", "val":"contextmenu", "options":["none","dblclick","contextmenu"], "link":"https://github.com/ogobrecht/d3-force-apex-plugin#nodeEventToStopPinMode"},
-    "onNodeContextmenuPreventDefault":{"type":"bool", "val":false, "link":"https://github.com/ogobrecht/d3-force-apex-plugin#onNodeContextmenuPreventDefault"},
+    "onNodeContextmenuPreventDefault":{"type":"bool", "val":false, "options":["true","false"], "link":"https://github.com/ogobrecht/d3-force-apex-plugin#onNodeContextmenuPreventDefault"},
     "nodeEventToOpenLink":{"type":"select", "val":"dblclick", "options":["none","click","dblclick","contextmenu"], "link":"https://github.com/ogobrecht/d3-force-apex-plugin#nodeEventToOpenLink"},
-    "nodeLinkTarget":{"type":"text", "val":"_blank", "link":"https://github.com/ogobrecht/d3-force-apex-plugin#nodeLinkTarget"},
-    "autoRefresh":{"type":"bool", "val":false, "link":"https://github.com/ogobrecht/d3-force-apex-plugin#autoRefresh"},
-    "refreshInterval":{"type":"number", "val":5000, "link":"https://github.com/ogobrecht/d3-force-apex-plugin#refreshInterval"},
-    "useDomParentWidth":{"type":"bool", "val":false, "link":"https://github.com/ogobrecht/d3-force-apex-plugin#useDomParentWidth"},
-    "width":{"type":"number", "val":500, "link":"https://github.com/ogobrecht/d3-force-apex-plugin#width"},
-    "height":{"type":"number", "val":500, "link":"https://github.com/ogobrecht/d3-force-apex-plugin#height"},
-    "minNodeRadius":{"type":"number", "val":6, "link":"https://github.com/ogobrecht/d3-force-apex-plugin#minNodeRadius"},
-    "maxNodeRadius":{"type":"number", "val":18, "link":"https://github.com/ogobrecht/d3-force-apex-plugin#maxNodeRadius"},
-    "labelDistance":{"type":"number", "val":12, "link":"https://github.com/ogobrecht/d3-force-apex-plugin#labelDistance"},
-    "selfLinkDistance":{"type":"number", "val":20, "link":"https://github.com/ogobrecht/d3-force-apex-plugin#selfLinkDistance"},
-    "linkDistance":{"type":"number", "val":80, "link":"https://github.com/ogobrecht/d3-force-apex-plugin#linkDistance"},
+    "nodeLinkTarget":{"type":"select", "val":"_blank", "options":["none","_blank","nodeID"], "link":"https://github.com/ogobrecht/d3-force-apex-plugin#nodeLinkTarget"},
+    "autoRefresh":{"type":"bool", "val":false, "options":["true","false"], "link":"https://github.com/ogobrecht/d3-force-apex-plugin#autoRefresh"},
+    "refreshInterval":{"type":"number", "val":5000, "options":[60000,30000,15000,10000,5000,2500], "link":"https://github.com/ogobrecht/d3-force-apex-plugin#refreshInterval"},
+    "useDomParentWidth":{"type":"bool", "val":false, "options":["true","false"], "link":"https://github.com/ogobrecht/d3-force-apex-plugin#useDomParentWidth"},
+    "width":{"type":"number", "val":500, "options":[1200,1150,1100,1050,1000,950,900,850,800,750,700,650,600,550,500,450,400,350,300], "link":"https://github.com/ogobrecht/d3-force-apex-plugin#width"},
+    "height":{"type":"number", "val":500, "options":[1200,1150,1100,1050,1000,950,900,850,800,750,700,650,600,550,500,450,400,350,300], "link":"https://github.com/ogobrecht/d3-force-apex-plugin#height"},
+    "minNodeRadius":{"type":"number", "val":6, "options":[12,11,10,9,8,7,6,5,4,3,2,1], "link":"https://github.com/ogobrecht/d3-force-apex-plugin#minNodeRadius"},
+    "maxNodeRadius":{"type":"number", "val":18,"options":[36,34,32,30,28,26,24,22,20,18,16,14,12],  "link":"https://github.com/ogobrecht/d3-force-apex-plugin#maxNodeRadius"},
+    "labelDistance":{"type":"number", "val":12, "options":[30,28,26,24,22,20,18,16,14,12,10,8,6,4,2], "link":"https://github.com/ogobrecht/d3-force-apex-plugin#labelDistance"},
+    "selfLinkDistance":{"type":"number", "val":20, "options":[30,28,26,24,22,20,18,16,14,12,10,8], "link":"https://github.com/ogobrecht/d3-force-apex-plugin#selfLinkDistance"},
+    "linkDistance":{"type":"number", "val":80, "options":[120,110,100,90,80,70,60,50,40,30,20], "link":"https://github.com/ogobrecht/d3-force-apex-plugin#linkDistance"},
     //"chargeDistance":{"type":"number", "val":null, "internal":true, "link":"https://github.com/ogobrecht/d3-force-apex-plugin#chargeDistance"},
-    "charge":{"type":"number", "val":-350, "internal":true, "link":"https://github.com/ogobrecht/d3-force-apex-plugin#charge"},
-    "gravity":{"type":"select", "val":0.1, "options":["1.00","0.95","0.90","0.85","0.80","0.75","0.70","0.65","0.60","0.55","0.50","0.45","0.40","0.35","0.30","0.25","0.20","0.15","0.10","0.05","0.00"], "internal":true, "link":"https://github.com/ogobrecht/d3-force-apex-plugin#gravity"},
-    "linkStrength":{"type":"select", "val":1, "options":["1.00","0.95","0.90","0.85","0.80","0.75","0.70","0.65","0.60","0.55","0.50","0.45","0.40","0.35","0.30","0.25","0.20","0.15","0.10","0.05","0.00"], "internal":true, "link":"https://github.com/ogobrecht/d3-force-apex-plugin#linkStrength"},
-    "friction":{"type":"select", "val":0.9, "options":["1.00","0.95","0.90","0.85","0.80","0.75","0.70","0.65","0.60","0.55","0.50","0.45","0.40","0.35","0.30","0.25","0.20","0.15","0.10","0.05","0.00"], "internal":true, "link":"https://github.com/ogobrecht/d3-force-apex-plugin#friction"},
-    "theta":{"type":"select", "val":0.8, "options":["1.00","0.95","0.90","0.85","0.80","0.75","0.70","0.65","0.60","0.55","0.50","0.45","0.40","0.35","0.30","0.25","0.20","0.15","0.10","0.05","0.00"], "internal":true, "link":"https://github.com/ogobrecht/d3-force-apex-plugin#theta"}
+    "charge":{"type":"number", "val":-350, "options":[-1000,-950,-900,-850,-800,-750,-700,-650,-600,-550,-500,-450,-400,-350,-300,-250,-200,-150,-100,-50,0], "internal":true, "link":"https://github.com/ogobrecht/d3-force-apex-plugin#charge"},
+    "gravity":{"type":"number", "val":0.1, "options":[1.00,0.95,0.90,0.85,0.80,0.75,0.70,0.65,0.60,0.55,0.50,0.45,0.40,0.35,0.30,0.25,0.20,0.15,0.1,0.05,0.00], "internal":true, "link":"https://github.com/ogobrecht/d3-force-apex-plugin#gravity"},
+    "linkStrength":{"type":"number", "val":1, "options":[1.00,0.95,0.90,0.85,0.80,0.75,0.70,0.65,0.60,0.55,0.50,0.45,0.40,0.35,0.30,0.25,0.20,0.15,0.10,0.05,0.00], "internal":true, "link":"https://github.com/ogobrecht/d3-force-apex-plugin#linkStrength"},
+    "friction":{"type":"number", "val":0.9, "options":[1.00,0.95,0.90,0.85,0.80,0.75,0.70,0.65,0.60,0.55,0.50,0.45,0.40,0.35,0.30,0.25,0.20,0.15,0.10,0.05,0.00], "internal":true, "link":"https://github.com/ogobrecht/d3-force-apex-plugin#friction"},
+    "theta":{"type":"number", "val":0.8, "options":[1,0.95,0.9,0.85,0.8,0.75,0.7,0.65,0.6,0.55,0.5,0.45,0.4,0.35,0.3,0.25,0.2,0.15,0.1,0.05,0], "internal":true, "link":"https://github.com/ogobrecht/d3-force-apex-plugin#theta"}
   };
 
   // create intial configuration
@@ -287,8 +287,18 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId ) {
 
   // open link function
   v.tools.openLink = function(node) {
-    var win = window.open(node.LINK, v.conf.nodeLinkTarget);
-    win.focus();
+    var win;
+    if (v.conf.nodeLinkTarget == "none") {
+      window.location.assign(node.LINK);
+    }
+    else if (v.conf.nodeLinkTarget == "nodeID") {
+      win = window.open(node.LINK, node.ID);
+      win.focus();
+    }
+    else {
+      win = window.open(node.LINK, v.conf.nodeLinkTarget);
+      win.focus();
+    }
   };
 
   // on node mouse enter function
@@ -474,7 +484,7 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId ) {
         .attr('class', 'title')
         .text('Customize "' + v.conf.domContainerId + '"' );
       v.conf.domCustomize.append('a')
-        .attr('class', 'close')
+        .attr('class', 'close focus')
         .attr('tabindex', 1)
         .text('Close')
         .on('click', function(){ v.conf.customize = false; render(); })
@@ -491,74 +501,48 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId ) {
           row = tab.append('tr');
           row.append('td')
             .attr('class','label')
-            .attr('tabindex', i + 100)
             .html('<a href="https://github.com/ogobrecht/d3-force-apex-plugin#' + 
-                  key + '" target="github_d3_force">' + 
+                  key + '" target="github_d3_force" class="focus" tabindex="' + i + 100 + '">' + 
                   key + '</a>');
-          if (v.confDefaults[key].type == 'bool') {
-            td = row.append('td')
-              .classed('warning', v.confDefaults[key].internal );
-            form = td.append('input')
-              .attr('id', v.conf.domContainerId + '_' + key)
-              .attr('type', 'checkbox')
-              .attr('name', key)
-              .attr('tabindex', i + 1)
-              .on('change', function(){
-                v.conf.currentTabPosition = this.id;
-                v.conf[this.name] = ( this.checked ? true : false );
-                v.tools.createCustomizingConfObject();
-                render();
-              });
-            if (v.conf[key] === true ){
-              form.attr('checked', 'checked');
-            }
-          }
-          else if (v.confDefaults[key].type == 'text' || v.confDefaults[key].type == 'number') {
-            td = row.append('td')
-              .classed('warning', v.confDefaults[key].internal );
-            form = td.append('input')
-              .attr('id', v.conf.domContainerId + '_' + key)
-              .attr('type', 'text')
-              .attr('name', key)
-              .attr('value', v.conf[key])
-              .style('width', '80px')
-              .attr('tabindex', i + 1)
-              .on('change', function(){
-                v.conf.currentTabPosition = this.id;
-                if (v.confDefaults[this.name].type == 'text') {
-                  v.conf[this.name] = this.value;
-                }
-                else if (v.confDefaults[this.name].type == 'number') {
-                  v.conf[this.name] = ( isNaN(parseFloat(this.value)) ? v.conf[this.name] : parseFloat(this.value) );
-                }
-                v.tools.createCustomizingConfObject();
-                render();
-              });
-          }
-          else if (v.confDefaults[key].type == 'select') {
-            td = row.append('td')
-              .classed('warning', v.confDefaults[key].internal );
-            form = td.append('select')
-              .attr('id', v.conf.domContainerId + '_' + key)
-              .attr('name', key)
-              .attr('value', v.conf[key])
-              .attr('tabindex', i + 1)
-              .on('change', function(){
-                v.conf.currentTabPosition = this.id;
+          td = row.append('td');
+          form = td.append('select')
+            .attr('id', v.conf.domContainerId + '_' + key)
+            .attr('class', 'focus')
+            .attr('name', key)
+            .attr('value', v.conf[key])
+            .attr('tabindex', i + 1)
+            .classed('warning', v.confDefaults[key].internal)
+            .on('change', function(){
+              v.conf.currentTabPosition = this.id;
+              if (v.confDefaults[this.name].type == 'select') {
                 v.conf[this.name] = this.options[this.selectedIndex].value;
-                v.tools.createCustomizingConfObject();
-                render();
-              });
-            v.confDefaults[key].options.forEach(function(d){
-              value = d;
-              form.append('option')
-                .attr('value',d)
-                .attr('selected', function(){
-                  return (value == v.conf[key] ? 'selected': null );
-                })
-                .text(d);
+              }
+              else if (v.confDefaults[this.name].type == 'number') {
+                v.conf[this.name] = ( parseFloat(this.options[this.selectedIndex].value) );
+              }
+              else if (v.confDefaults[this.name].type == 'bool') {
+                v.conf[this.name] = ( this.options[this.selectedIndex].value == 'true' ? true : false );
+              }
+              v.tools.createCustomizingConfObject();
+              render();
             });
-          }
+          v.confDefaults[key].options.forEach(function(d){
+            value = d;
+            form.append('option')
+              .attr('value',d)
+              .attr('selected', function(){
+                if (v.confDefaults[key].type == 'select') {
+                  return (value == v.conf[key] ? 'selected': null );
+                }
+                else if (v.confDefaults[key].type == 'number') {
+                  return (parseFloat(value) == v.conf[key] ? 'selected': null );
+                }
+                else if (v.confDefaults[key].type == 'bool') {
+                  return ('"'+value+'"' == '"'+v.conf[key]+'"' ? 'selected': null );
+                }
+              })
+              .text(d);
+          });
           // third column td only in the first row
           if (i == 1) {
             tdConfObject = row.append('td')
@@ -570,11 +554,11 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId ) {
       // third column spans over all rows
       tdConfObject
           .attr('rowspan', i)
-          .html('Your Configuration Object<br><textarea id="' + v.conf.domContainerId + '_conf_object" tabindex="' + (i + 2) + '" readonly></textarea><br><br>' +
+          .html('Your Configuration Object<br><textarea id="' + v.conf.domContainerId + '_conf_object" tabindex="' + (i + 2) + '" class="focus" readonly></textarea><br><br>' +
                 'Current Positions<br>' +
-                '<textarea id="' + v.conf.domContainerId + '_positions" tabindex="' + (i + 3) + '" readonly>Force started - wait for end event to show positions...</textarea><br><br>' +
-                'Log<br>' +
-                '<textarea id="' + v.conf.domContainerId + '_log" tabindex="' + (i + 4) + '" readonly></textarea><br><br>' +
+                '<textarea id="' + v.conf.domContainerId + '_positions" tabindex="' + (i + 3) + '" class="focus" readonly>Force started - wait for end event to show positions...</textarea><br><br>' +
+                'Log (latest on top)<br>' +
+                '<textarea id="' + v.conf.domContainerId + '_log" tabindex="' + (i + 4) + '" class="focus" readonly></textarea><br><br>' +
                 'Copyrights<br><br>' +
                 '<a href="https://github.com/ogobrecht/d3-force-apex-plugin" target="github_d3_force" tabindex="' + (i + 5) + '">D3 Force APEX Plugin</a> (' + v.version + ')<br>' +
                 'Ottmar Gobrecht<br><br>' +
@@ -588,7 +572,7 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId ) {
     v.conf.domCustomizeLog = d3.select('#' + v.conf.domContainerId + '_log');
     v.tools.createCustomizingConfObject();
     if (v.conf.currentTabPosition) document.getElementById(v.conf.currentTabPosition).focus();
-    else document.querySelector('#' + v.conf.domContainerId + '_customizing input').focus();
+    else document.querySelector('#' + v.conf.domContainerId + '_customizing select').focus();
   };
 
   v.tools.createCustomizingConfObject = function() {
@@ -642,7 +626,7 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId ) {
       var millisecondsPerTick = Math.round( milliseconds / v.tickCounter );
       if (v.conf.customize) v.conf.domCustomizePositions.text( render.positions() );
       v.tools.log('Force ended.');
-      v.tools.log(seconds + ' seconds, ' + v.tickCounter + ' ticks to cool down. (' + 
+      v.tools.log(seconds + ' seconds, ' + v.tickCounter + ' ticks to cool down (' + 
         ticksPerSecond + ' ticks/s, ' + millisecondsPerTick + ' ms/tick).');
     });
 
