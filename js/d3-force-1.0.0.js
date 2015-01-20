@@ -33,21 +33,21 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId ) {
   // default configuration
   v.confDefaults = {
     "showBorder":{"type":"bool", "val":true, "options":[true,false], "link":"https://github.com/ogobrecht/d3-force-apex-plugin#showBorder"},
-    "showSelfLinks":{"type":"bool", "val":true, "options":["true","false"], "link":"https://github.com/ogobrecht/d3-force-apex-plugin#showSelfLinks"},
-    "showLinkDirection":{"type":"bool", "val":true, "options":["true","false"], "link":"https://github.com/ogobrecht/d3-force-apex-plugin#showLinkDirection"},
-    "showTooltips":{"type":"bool", "val":true, "options":["true","false"], "link":"https://github.com/ogobrecht/d3-force-apex-plugin#showTooltips"},
-    "tooltipPosition":{"type":"select", "val":"node", "options":["node","svgTopLeft","svgTopRight"], "link":"https://github.com/ogobrecht/d3-force-apex-plugin#tooltipPosition"},
-    "colorScheme":{"type":"select", "val":"color20", "options":["color20","color20b","color20c","color10","direct"], "link":"https://github.com/ogobrecht/d3-force-apex-plugin#colorScheme"},
-    "labelsCircular":{"type":"bool", "val":false, "options":["true","false"], "link":"https://github.com/ogobrecht/d3-force-apex-plugin#labelsCircular"},
-    "dragMode":{"type":"bool", "val":true, "options":["true","false"], "link":"https://github.com/ogobrecht/d3-force-apex-plugin#dragMode"},
-    "pinMode":{"type":"bool", "val":false, "options":["true","false"], "link":"https://github.com/ogobrecht/d3-force-apex-plugin#pinMode"},
-    "nodeEventToStopPinMode":{"type":"select", "val":"contextmenu", "options":["none","dblclick","contextmenu"], "link":"https://github.com/ogobrecht/d3-force-apex-plugin#nodeEventToStopPinMode"},
-    "onNodeContextmenuPreventDefault":{"type":"bool", "val":false, "options":["true","false"], "link":"https://github.com/ogobrecht/d3-force-apex-plugin#onNodeContextmenuPreventDefault"},
-    "nodeEventToOpenLink":{"type":"select", "val":"dblclick", "options":["none","click","dblclick","contextmenu"], "link":"https://github.com/ogobrecht/d3-force-apex-plugin#nodeEventToOpenLink"},
-    "nodeLinkTarget":{"type":"select", "val":"_blank", "options":["none","_blank","nodeID"], "link":"https://github.com/ogobrecht/d3-force-apex-plugin#nodeLinkTarget"},
-    "autoRefresh":{"type":"bool", "val":false, "options":["true","false"], "link":"https://github.com/ogobrecht/d3-force-apex-plugin#autoRefresh"},
+    "showSelfLinks":{"type":"bool", "val":true, "options":[true,false], "link":"https://github.com/ogobrecht/d3-force-apex-plugin#showSelfLinks"},
+    "showLinkDirection":{"type":"bool", "val":true, "options":[true,false], "link":"https://github.com/ogobrecht/d3-force-apex-plugin#showLinkDirection"},
+    "showTooltips":{"type":"bool", "val":true, "options":[true,false], "link":"https://github.com/ogobrecht/d3-force-apex-plugin#showTooltips"},
+    "tooltipPosition":{"type":"text", "val":"node", "options":["node","svgTopLeft","svgTopRight"], "link":"https://github.com/ogobrecht/d3-force-apex-plugin#tooltipPosition"},
+    "colorScheme":{"type":"text", "val":"color20", "options":["color20","color20b","color20c","color10","direct"], "link":"https://github.com/ogobrecht/d3-force-apex-plugin#colorScheme"},
+    "labelsCircular":{"type":"bool", "val":false, "options":[true,false], "link":"https://github.com/ogobrecht/d3-force-apex-plugin#labelsCircular"},
+    "dragMode":{"type":"bool", "val":true, "options":[true,false], "link":"https://github.com/ogobrecht/d3-force-apex-plugin#dragMode"},
+    "pinMode":{"type":"bool", "val":false, "options":[true,false], "link":"https://github.com/ogobrecht/d3-force-apex-plugin#pinMode"},
+    "nodeEventToStopPinMode":{"type":"text", "val":"contextmenu", "options":["none","dblclick","contextmenu"], "link":"https://github.com/ogobrecht/d3-force-apex-plugin#nodeEventToStopPinMode"},
+    "onNodeContextmenuPreventDefault":{"type":"bool", "val":false, "options":[true,false], "link":"https://github.com/ogobrecht/d3-force-apex-plugin#onNodeContextmenuPreventDefault"},
+    "nodeEventToOpenLink":{"type":"text", "val":"dblclick", "options":["none","click","dblclick","contextmenu"], "link":"https://github.com/ogobrecht/d3-force-apex-plugin#nodeEventToOpenLink"},
+    "nodeLinkTarget":{"type":"text", "val":"_blank", "options":["none","_blank","nodeID"], "link":"https://github.com/ogobrecht/d3-force-apex-plugin#nodeLinkTarget"},
+    "autoRefresh":{"type":"bool", "val":false, "options":[true,false], "link":"https://github.com/ogobrecht/d3-force-apex-plugin#autoRefresh"},
     "refreshInterval":{"type":"number", "val":5000, "options":[60000,30000,15000,10000,5000,2500], "link":"https://github.com/ogobrecht/d3-force-apex-plugin#refreshInterval"},
-    "useDomParentWidth":{"type":"bool", "val":false, "options":["true","false"], "link":"https://github.com/ogobrecht/d3-force-apex-plugin#useDomParentWidth"},
+    "useDomParentWidth":{"type":"bool", "val":false, "options":[true,false], "link":"https://github.com/ogobrecht/d3-force-apex-plugin#useDomParentWidth"},
     "width":{"type":"number", "val":500, "options":[1200,1150,1100,1050,1000,950,900,850,800,750,700,650,600,550,500,450,400,350,300], "link":"https://github.com/ogobrecht/d3-force-apex-plugin#width"},
     "height":{"type":"number", "val":500, "options":[1200,1150,1100,1050,1000,950,900,850,800,750,700,650,600,550,500,450,400,350,300], "link":"https://github.com/ogobrecht/d3-force-apex-plugin#height"},
     "minNodeRadius":{"type":"number", "val":6, "options":[12,11,10,9,8,7,6,5,4,3,2,1], "link":"https://github.com/ogobrecht/d3-force-apex-plugin#minNodeRadius"},
@@ -462,7 +462,7 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId ) {
 
   // customizing function
   v.tools.customizeChart = function(){
-    var tab, row, td, form, value, i=0, tdConfObject;
+    var tab, row, td, form, i=0, tdConfObject, currentOption, valueInOptions;
     // set initial position
     if (!v.conf.domCustomizePosition) {
       v.conf.domCustomizePosition = v.tools.getOffsetRect(v.conf.domSvg.node());
@@ -501,20 +501,19 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId ) {
           row = tab.append('tr');
           row.append('td')
             .attr('class','label')
-            .html('<a href="https://github.com/ogobrecht/d3-force-apex-plugin#' + 
-                  key + '" target="github_d3_force" class="focus" tabindex="' + i + 100 + '">' + 
+            .html('<a href="https://github.com/ogobrecht/d3-force-apex-plugin/wiki/API-Reference#' + 
+                  key + '" target="github_d3_force" tabindex="' + i + 100 + '">' + 
                   key + '</a>');
           td = row.append('td');
           form = td.append('select')
             .attr('id', v.conf.domContainerId + '_' + key)
-            .attr('class', 'focus')
             .attr('name', key)
             .attr('value', v.conf[key])
             .attr('tabindex', i + 1)
             .classed('warning', v.confDefaults[key].internal)
             .on('change', function(){
               v.conf.currentTabPosition = this.id;
-              if (v.confDefaults[this.name].type == 'select') {
+              if (v.confDefaults[this.name].type == 'text') {
                 v.conf[this.name] = this.options[this.selectedIndex].value;
               }
               else if (v.confDefaults[this.name].type == 'number') {
@@ -526,23 +525,41 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId ) {
               v.tools.createCustomizingConfObject();
               render();
             });
-          v.confDefaults[key].options.forEach(function(d){
-            value = d;
+          valueInOptions = false;
+          v.confDefaults[key].options.forEach(function(option){
+            currentOption = option;
             form.append('option')
-              .attr('value',d)
+              .attr('value', option)
               .attr('selected', function(){
-                if (v.confDefaults[key].type == 'select') {
-                  return (value == v.conf[key] ? 'selected': null );
+                if (v.confDefaults[key].type == 'text' || v.confDefaults[key].type == 'bool') {
+                  if (currentOption == v.conf[key]) {
+                    valueInOptions = true;
+                    return 'selected';
+                  }
+                  else {
+                    return null;
+                  }
                 }
                 else if (v.confDefaults[key].type == 'number') {
-                  return (parseFloat(value) == v.conf[key] ? 'selected': null );
-                }
-                else if (v.confDefaults[key].type == 'bool') {
-                  return ('"'+value+'"' == '"'+v.conf[key]+'"' ? 'selected': null );
+                  if (parseFloat(currentOption) == v.conf[key]) {
+                    valueInOptions = true;
+                    return 'selected';
+                  }
+                  else {
+                    return null;
+                  }
                 }
               })
-              .text(d);
+              .text(option);
           });
+          // append current value if not existing in default options
+          if (!valueInOptions) {
+            form.append('option')
+              .attr('value', v.conf[key])
+              .attr('selected', 'selected')
+              .text(v.conf[key]);
+            v.confDefaults[key].options.push(v.conf[key]);
+          }
           // third column td only in the first row
           if (i == 1) {
             tdConfObject = row.append('td')
@@ -554,11 +571,11 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId ) {
       // third column spans over all rows
       tdConfObject
           .attr('rowspan', i)
-          .html('Your Configuration Object<br><textarea id="' + v.conf.domContainerId + '_conf_object" tabindex="' + (i + 2) + '" class="focus" readonly></textarea><br><br>' +
+          .html('Your Configuration Object<br><textarea id="' + v.conf.domContainerId + '_conf_object" tabindex="' + (i + 2) + '" readonly></textarea><br><br>' +
                 'Current Positions<br>' +
-                '<textarea id="' + v.conf.domContainerId + '_positions" tabindex="' + (i + 3) + '" class="focus" readonly>Force started - wait for end event to show positions...</textarea><br><br>' +
-                'Log (latest on top)<br>' +
-                '<textarea id="' + v.conf.domContainerId + '_log" tabindex="' + (i + 4) + '" class="focus" readonly></textarea><br><br>' +
+                '<textarea id="' + v.conf.domContainerId + '_positions" tabindex="' + (i + 3) + '" readonly>Force started - wait for end event to show positions...</textarea><br><br>' +
+                'Log (latest entry on top)<br>' +
+                '<textarea id="' + v.conf.domContainerId + '_log" tabindex="' + (i + 4) + '" readonly></textarea><br><br>' +
                 'Copyrights<br><br>' +
                 '<a href="https://github.com/ogobrecht/d3-force-apex-plugin" target="github_d3_force" tabindex="' + (i + 5) + '">D3 Force APEX Plugin</a> (' + v.version + ')<br>' +
                 'Ottmar Gobrecht<br><br>' +
