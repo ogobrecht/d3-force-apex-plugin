@@ -1,6 +1,6 @@
 # d3-force-apex-plugin
 
-This is mainly a Oracle APEX plugin (but can also used standalone), which uses the [D3 visualization library][1] to render a network layout. It has the following features:
+This is mainly a Oracle APEX plugin (but can also used standalone), which uses the [D3 visualization library] (http://d3js.org/) to render a network layout. It has the following features:
 
   * Interactive customizing wizard
   * Source data can be a XML or JSON string - when running as APEX plugin you have only to provide two simple queries - one for the nodes and one for the links
