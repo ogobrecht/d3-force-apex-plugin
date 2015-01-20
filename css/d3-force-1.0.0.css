@@ -123,9 +123,10 @@
 .net_gobrechts_d3_force_customize select:focus,
 .net_gobrechts_d3_force_customize textarea:focus,
 .net_gobrechts_d3_force_customize a:focus {
-  outline: none;
-  border: 1px solid blue;
-  background-color: yellow;
+  outline: none !important;
+  border: 1px solid blue !important;
+  background-color: yellow !important;
+  box-shadow: none !important;
 }
 .net_gobrechts_d3_force_customize textarea {
   font-size: 10px !important;
