@@ -41,7 +41,8 @@ Everything you can do with the customize wizard you can also do during the runti
 
     example.width(800).height(600).linkDistance(50).labelsCircular(true).start();
 
-Please refer to the [[API Reference|API-Reference]] for more informations.
+Please refer to the [API Reference] (https://github.com/ogobrecht/d3-force-apex-plugin/wiki/API-Reference)
+for more informations.
 
 ### 1.0.3 (2015-01-30)
 
