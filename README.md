@@ -21,4 +21,13 @@ This is mainly a Oracle APEX plugin (but can also used standalone), which uses t
 
 ## Credits
 
-I would like to say THANK YOU to all the people who share their knowledge. Without this sharing I would not have been able to create this D3 implementation. Special thanks to Mike Bostock for his great library and to Carsten Czarski for mentoring me on Oracle APEX plugin development.
+I would like to say THANK YOU to all the people who share their knowledge. Without this sharing I would not have been able
+to create this D3 implementation. Special thanks to Mike Bostock for his great library and to Carsten Czarski for mentoring
+me on Oracle APEX plugin development.
+
+## Changelog
+
+### 1.0.3 (2015-01-30)
+
+* Fixed: Configuration - Boolean values are not correct initialized
+* Fixed: APEX - Page items to submit not working on AJAX refresh

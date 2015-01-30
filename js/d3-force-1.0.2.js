@@ -1,4 +1,4 @@
-function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId ) {
+function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId, pApexPageItemsToSubmit ) {
 
   "use strict";
 
@@ -7,15 +7,16 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId ) {
    */
 
   // create global object
-  var v = {"version":"1.0.0"};
+  var v = {"version":"1.0.2"};
   v.conf = {};
   v.data = {};
   v.tools = {};
 
   // save parameter for later use
-  v.conf.domContainerId = pDomContainerId || 'D3Force' + Math.floor(Math.random()*1000000);
-  v.confUser            = pOptions || {};
-  v.conf.apexPluginId   = pApexPluginId;
+  v.conf.domContainerId        = pDomContainerId || 'D3Force' + Math.floor(Math.random()*1000000);
+  v.confUser                   = pOptions || {};
+  v.conf.apexPluginId          = pApexPluginId;
+  v.conf.apexPageItemsToSubmit = pApexPageItemsToSubmit;
 
   // configure debug mode for APEX, can be overwritten by configuration object
   v.conf.debugPrefix    = 'D3 Force in DOM container #' + v.conf.domContainerId + ': ';
@@ -32,75 +33,74 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId ) {
 
   // default configuration
   v.confDefaults = {
-    "showBorder":{"type":"bool", "val":true, "options":[true,false], "link":"https://github.com/ogobrecht/d3-force-apex-plugin#showBorder"},
-    "showSelfLinks":{"type":"bool", "val":true, "options":[true,false], "link":"https://github.com/ogobrecht/d3-force-apex-plugin#showSelfLinks"},
-    "showLinkDirection":{"type":"bool", "val":true, "options":[true,false], "link":"https://github.com/ogobrecht/d3-force-apex-plugin#showLinkDirection"},
-    "showTooltips":{"type":"bool", "val":true, "options":[true,false], "link":"https://github.com/ogobrecht/d3-force-apex-plugin#showTooltips"},
-    "tooltipPosition":{"type":"text", "val":"node", "options":["node","svgTopLeft","svgTopRight"], "link":"https://github.com/ogobrecht/d3-force-apex-plugin#tooltipPosition"},
-    "colorScheme":{"type":"text", "val":"color20", "options":["color20","color20b","color20c","color10","direct"], "link":"https://github.com/ogobrecht/d3-force-apex-plugin#colorScheme"},
-    "labelsCircular":{"type":"bool", "val":false, "options":[true,false], "link":"https://github.com/ogobrecht/d3-force-apex-plugin#labelsCircular"},
-    "dragMode":{"type":"bool", "val":true, "options":[true,false], "link":"https://github.com/ogobrecht/d3-force-apex-plugin#dragMode"},
-    "pinMode":{"type":"bool", "val":false, "options":[true,false], "link":"https://github.com/ogobrecht/d3-force-apex-plugin#pinMode"},
-    "nodeEventToStopPinMode":{"type":"text", "val":"contextmenu", "options":["none","dblclick","contextmenu"], "link":"https://github.com/ogobrecht/d3-force-apex-plugin#nodeEventToStopPinMode"},
-    "onNodeContextmenuPreventDefault":{"type":"bool", "val":false, "options":[true,false], "link":"https://github.com/ogobrecht/d3-force-apex-plugin#onNodeContextmenuPreventDefault"},
-    "nodeEventToOpenLink":{"type":"text", "val":"dblclick", "options":["none","click","dblclick","contextmenu"], "link":"https://github.com/ogobrecht/d3-force-apex-plugin#nodeEventToOpenLink"},
-    "nodeLinkTarget":{"type":"text", "val":"_blank", "options":["none","_blank","nodeID"], "link":"https://github.com/ogobrecht/d3-force-apex-plugin#nodeLinkTarget"},
-    "autoRefresh":{"type":"bool", "val":false, "options":[true,false], "link":"https://github.com/ogobrecht/d3-force-apex-plugin#autoRefresh"},
-    "refreshInterval":{"type":"number", "val":5000, "options":[60000,30000,15000,10000,5000,2500], "link":"https://github.com/ogobrecht/d3-force-apex-plugin#refreshInterval"},
-    "useDomParentWidth":{"type":"bool", "val":false, "options":[true,false], "link":"https://github.com/ogobrecht/d3-force-apex-plugin#useDomParentWidth"},
+    "showBorder":{"type":"bool", "val":true, "options":[true,false], "link":"https://github.com/ogobrecht/d3-force-apex-plugin#showborder"},
+    "showSelfLinks":{"type":"bool", "val":true, "options":[true,false], "link":"https://github.com/ogobrecht/d3-force-apex-plugin#showselflinks"},
+    "showLinkDirection":{"type":"bool", "val":true, "options":[true,false], "link":"https://github.com/ogobrecht/d3-force-apex-plugin#showlinkdirection"},
+    "showTooltips":{"type":"bool", "val":true, "options":[true,false], "link":"https://github.com/ogobrecht/d3-force-apex-plugin#showtooltips"},
+    "tooltipPosition":{"type":"text", "val":"node", "options":["node","svgTopLeft","svgTopRight"], "link":"https://github.com/ogobrecht/d3-force-apex-plugin#tooltipposition"},
+    "colorScheme":{"type":"text", "val":"color20", "options":["color20","color20b","color20c","color10","direct"], "link":"https://github.com/ogobrecht/d3-force-apex-plugin#colorscheme"},
+    "labelsCircular":{"type":"bool", "val":false, "options":[true,false], "link":"https://github.com/ogobrecht/d3-force-apex-plugin#labelscircular"},
+    "dragMode":{"type":"bool", "val":true, "options":[true,false], "link":"https://github.com/ogobrecht/d3-force-apex-plugin#dragmode"},
+    "pinMode":{"type":"bool", "val":false, "options":[true,false], "link":"https://github.com/ogobrecht/d3-force-apex-plugin#pinmode"},
+    "nodeEventToStopPinMode":{"type":"text", "val":"contextmenu", "options":["none","dblclick","contextmenu"], "link":"https://github.com/ogobrecht/d3-force-apex-plugin#nodeeventtostoppinmode"},
+    "onNodeContextmenuPreventDefault":{"type":"bool", "val":false, "options":[true,false], "link":"https://github.com/ogobrecht/d3-force-apex-plugin#onnodecontextmenupreventdefault"},
+    "nodeEventToOpenLink":{"type":"text", "val":"dblclick", "options":["none","click","dblclick","contextmenu"], "link":"https://github.com/ogobrecht/d3-force-apex-plugin#nodeeventtoopenlink"},
+    "nodeLinkTarget":{"type":"text", "val":"_blank", "options":["none","_blank","nodeID"], "link":"https://github.com/ogobrecht/d3-force-apex-plugin#nodelinktarget"},
+    "autoRefresh":{"type":"bool", "val":false, "options":[true,false], "link":"https://github.com/ogobrecht/d3-force-apex-plugin#autorefresh"},
+    "refreshInterval":{"type":"number", "val":5000, "options":[60000,30000,15000,10000,5000,2500], "link":"https://github.com/ogobrecht/d3-force-apex-plugin#refreshinterval"},
+    "useDomParentWidth":{"type":"bool", "val":false, "options":[true,false], "link":"https://github.com/ogobrecht/d3-force-apex-plugin#usedomparentwidth"},
     "width":{"type":"number", "val":500, "options":[1200,1150,1100,1050,1000,950,900,850,800,750,700,650,600,550,500,450,400,350,300], "link":"https://github.com/ogobrecht/d3-force-apex-plugin#width"},
     "height":{"type":"number", "val":500, "options":[1200,1150,1100,1050,1000,950,900,850,800,750,700,650,600,550,500,450,400,350,300], "link":"https://github.com/ogobrecht/d3-force-apex-plugin#height"},
-    "minNodeRadius":{"type":"number", "val":6, "options":[12,11,10,9,8,7,6,5,4,3,2,1], "link":"https://github.com/ogobrecht/d3-force-apex-plugin#minNodeRadius"},
-    "maxNodeRadius":{"type":"number", "val":18,"options":[36,34,32,30,28,26,24,22,20,18,16,14,12],  "link":"https://github.com/ogobrecht/d3-force-apex-plugin#maxNodeRadius"},
-    "labelDistance":{"type":"number", "val":12, "options":[30,28,26,24,22,20,18,16,14,12,10,8,6,4,2], "link":"https://github.com/ogobrecht/d3-force-apex-plugin#labelDistance"},
-    "selfLinkDistance":{"type":"number", "val":20, "options":[30,28,26,24,22,20,18,16,14,12,10,8], "link":"https://github.com/ogobrecht/d3-force-apex-plugin#selfLinkDistance"},
-    "linkDistance":{"type":"number", "val":80, "options":[120,110,100,90,80,70,60,50,40,30,20], "link":"https://github.com/ogobrecht/d3-force-apex-plugin#linkDistance"},
-    //"chargeDistance":{"type":"number", "val":null, "internal":true, "link":"https://github.com/ogobrecht/d3-force-apex-plugin#chargeDistance"},
+    "minNodeRadius":{"type":"number", "val":6, "options":[12,11,10,9,8,7,6,5,4,3,2,1], "link":"https://github.com/ogobrecht/d3-force-apex-plugin#minnoderadius"},
+    "maxNodeRadius":{"type":"number", "val":18,"options":[36,34,32,30,28,26,24,22,20,18,16,14,12],  "link":"https://github.com/ogobrecht/d3-force-apex-plugin#maxnoderadius"},
+    "labelDistance":{"type":"number", "val":12, "options":[30,28,26,24,22,20,18,16,14,12,10,8,6,4,2], "link":"https://github.com/ogobrecht/d3-force-apex-plugin#labeldistance"},
+    "selfLinkDistance":{"type":"number", "val":20, "options":[30,28,26,24,22,20,18,16,14,12,10,8], "link":"https://github.com/ogobrecht/d3-force-apex-plugin#selflinkdistance"},
+    "linkDistance":{"type":"number", "val":80, "options":[120,110,100,90,80,70,60,50,40,30,20], "link":"https://github.com/ogobrecht/d3-force-apex-plugin#linkdistance"},
+    //"chargeDistance":{"type":"number", "val":null, "internal":true, "link":"https://github.com/ogobrecht/d3-force-apex-plugin#chargedistance"},
     "charge":{"type":"number", "val":-350, "options":[-1000,-950,-900,-850,-800,-750,-700,-650,-600,-550,-500,-450,-400,-350,-300,-250,-200,-150,-100,-50,0], "internal":true, "link":"https://github.com/ogobrecht/d3-force-apex-plugin#charge"},
     "gravity":{"type":"number", "val":0.1, "options":[1.00,0.95,0.90,0.85,0.80,0.75,0.70,0.65,0.60,0.55,0.50,0.45,0.40,0.35,0.30,0.25,0.20,0.15,0.1,0.05,0.00], "internal":true, "link":"https://github.com/ogobrecht/d3-force-apex-plugin#gravity"},
-    "linkStrength":{"type":"number", "val":1, "options":[1.00,0.95,0.90,0.85,0.80,0.75,0.70,0.65,0.60,0.55,0.50,0.45,0.40,0.35,0.30,0.25,0.20,0.15,0.10,0.05,0.00], "internal":true, "link":"https://github.com/ogobrecht/d3-force-apex-plugin#linkStrength"},
+    "linkStrength":{"type":"number", "val":1, "options":[1.00,0.95,0.90,0.85,0.80,0.75,0.70,0.65,0.60,0.55,0.50,0.45,0.40,0.35,0.30,0.25,0.20,0.15,0.10,0.05,0.00], "internal":true, "link":"https://github.com/ogobrecht/d3-force-apex-plugin#linkstrength"},
     "friction":{"type":"number", "val":0.9, "options":[1.00,0.95,0.90,0.85,0.80,0.75,0.70,0.65,0.60,0.55,0.50,0.45,0.40,0.35,0.30,0.25,0.20,0.15,0.10,0.05,0.00], "internal":true, "link":"https://github.com/ogobrecht/d3-force-apex-plugin#friction"},
     "theta":{"type":"number", "val":0.8, "options":[1,0.95,0.9,0.85,0.8,0.75,0.7,0.65,0.6,0.55,0.5,0.45,0.4,0.35,0.3,0.25,0.2,0.15,0.1,0.05,0], "internal":true, "link":"https://github.com/ogobrecht/d3-force-apex-plugin#theta"}
   };
 
   // create intial configuration
   v.conf.customize                       = false;
-  v.conf.debug                           = v.confUser.debug                           || false;
-  v.conf.width                           = v.confUser.width                           || v.confDefaults.width.val;
-  v.conf.height                          = v.confUser.height                          || v.confDefaults.height.val;
-  v.conf.minNodeRadius                   = v.confUser.minNodeRadius                   || v.confDefaults.minNodeRadius.val;
-  v.conf.maxNodeRadius                   = v.confUser.maxNodeRadius                   || v.confDefaults.maxNodeRadius.val;
-  v.conf.linkDistance                    = v.confUser.linkDistance                    || v.confDefaults.linkDistance.val;
-  v.conf.selfLinkDistance                = v.confUser.selfLinkDistance                || v.confDefaults.selfLinkDistance.val;
-  v.conf.labelDistance                   = v.confUser.labelDistance                   || v.confDefaults.labelDistance.val;
-  v.conf.colorScheme                     = v.confUser.colorScheme                     || v.confDefaults.colorScheme.val;
-  v.conf.useDomParentWidth               = v.confUser.useDomParentWidth               || v.confDefaults.useDomParentWidth.val;
-  v.conf.showBorder                      = v.confUser.showBorder                      || v.confDefaults.showBorder.val;
-  v.conf.showSelfLinks                   = v.confUser.showSelfLinks                   || v.confDefaults.showSelfLinks.val;
-  v.conf.showLinkDirection               = v.confUser.showLinkDirection               || v.confDefaults.showLinkDirection.val;
-  v.conf.showTooltips                    = v.confUser.showTooltips                    || v.confDefaults.showTooltips.val;
-  v.conf.tooltipPosition                 = v.confUser.tooltipPosition                 || v.confDefaults.tooltipPosition.val;
-  v.conf.labelsCircular                  = v.confUser.labelsCircular                  || v.confDefaults.labelsCircular.val;
-  v.conf.dragMode                        = v.confUser.dragMode                        || v.confDefaults.dragMode.val;
-  v.conf.pinMode                         = v.confUser.pinMode                         || v.confDefaults.pinMode.val;
-  v.conf.nodeEventToStopPinMode          = v.confUser.nodeEventToStopPinMode          || v.confDefaults.nodeEventToStopPinMode.val;
-  v.conf.nodeEventToOpenLink             = v.confUser.nodeEventToOpenLink             || v.confDefaults.nodeEventToOpenLink.val;
-  v.conf.onNodeMouseenterFunction        = v.confUser.onNodeMouseenterFunction        || null;
-  v.conf.onNodeMouseleaveFunction        = v.confUser.onNodeMouseleaveFunction        || null;
-  v.conf.onNodeClickFunction             = v.confUser.onNodeClickFunction             || null;
-  v.conf.onNodeDblclickFunction          = v.confUser.onNodeDblclickFunction          || null;
-  v.conf.onNodeContextmenuFunction       = v.confUser.onNodeContextmenuFunction       || null;
-  v.conf.onNodeContextmenuPreventDefault = v.confUser.onNodeContextmenuPreventDefault || v.confDefaults.onNodeContextmenuPreventDefault.val;
-  v.conf.autoRefresh                     = v.confUser.autoRefresh                     || v.confDefaults.autoRefresh.val;
-  v.conf.refreshInterval                 = v.confUser.refreshInterval                 || v.confDefaults.refreshInterval.val;
-  v.conf.nodeLinkTarget                  = v.confUser.nodeLinkTarget                  || v.confDefaults.nodeLinkTarget.val;
-  v.conf.charge                          = v.confUser.charge                          || v.confDefaults.charge.val;
-  v.conf.chargeDistance                  = v.confUser.chargeDistance                  || null;
-  v.conf.linkStrength                    = v.confUser.linkStrength                    || v.confDefaults.linkStrength.val;
-  v.conf.friction                        = v.confUser.friction                        || v.confDefaults.friction.val;
-  v.conf.theta                           = v.confUser.theta                           || v.confDefaults.theta.val;
-  v.conf.gravity                         = v.confUser.gravity                         || v.confDefaults.gravity.val;
-
+  v.conf.debug                           = v.confUser.debug                            || false;
+  v.conf.showBorder                      = (typeof v.confUser.showBorder               !== 'undefined' ? v.confUser.showBorder : v.confDefaults.showBorder.val);
+  v.conf.showSelfLinks                   = (typeof v.confUser.showSelfLinks            !== 'undefined' ? v.confUser.showSelfLinks : v.confDefaults.showSelfLinks.val);
+  v.conf.showLinkDirection               = (typeof v.confUser.showLinkDirection        !== 'undefined' ? v.confUser.showLinkDirection : v.confDefaults.showLinkDirection.val);
+  v.conf.showTooltips                    = (typeof v.confUser.showTooltips             !== 'undefined' ? v.confUser.showTooltips : v.confDefaults.showTooltips.val);
+  v.conf.tooltipPosition                 = v.confUser.tooltipPosition                  || v.confDefaults.tooltipPosition.val;
+  v.conf.colorScheme                     = v.confUser.colorScheme                      || v.confDefaults.colorScheme.val;
+  v.conf.labelsCircular                  = (typeof v.confUser.labelsCircular           !== 'undefined' ? v.confUser.labelsCircular : v.confDefaults.labelsCircular.val);
+  v.conf.dragMode                        = (typeof v.confUser.dragMode                 !== 'undefined' ? v.confUser.dragMode : v.confDefaults.dragMode.val);
+  v.conf.pinMode                         = (typeof v.confUser.pinMode                  !== 'undefined' ? v.confUser.pinMode : v.confDefaults.pinMode.val);
+  v.conf.nodeEventToStopPinMode          = v.confUser.nodeEventToStopPinMode           || v.confDefaults.nodeEventToStopPinMode.val;
+  v.conf.onNodeContextmenuPreventDefault = (typeof v.confUser.onNodeContextmenuPreventDefault !== 'undefined' ? v.confUser.onNodeContextmenuPreventDefault : v.confDefaults.onNodeContextmenuPreventDefault.val);
+  v.conf.nodeEventToOpenLink             = v.confUser.nodeEventToOpenLink              || v.confDefaults.nodeEventToOpenLink.val;
+  v.conf.nodeLinkTarget                  = v.confUser.nodeLinkTarget                   || v.confDefaults.nodeLinkTarget.val;
+  v.conf.autoRefresh                     = (typeof v.confUser.autoRefresh              !== 'undefined' ? v.confUser.autoRefresh : v.confDefaults.autoRefresh.val);
+  v.conf.refreshInterval                 = v.confUser.refreshInterval                  || v.confDefaults.refreshInterval.val;
+  v.conf.useDomParentWidth               = (typeof v.confUser.useDomParentWidth        !== 'undefined' ? v.confUser.useDomParentWidth : v.confDefaults.useDomParentWidth.val);
+  v.conf.width                           = v.confUser.width                            || v.confDefaults.width.val;
+  v.conf.height                          = v.confUser.height                           || v.confDefaults.height.val;
+  v.conf.minNodeRadius                   = v.confUser.minNodeRadius                    || v.confDefaults.minNodeRadius.val;
+  v.conf.maxNodeRadius                   = v.confUser.maxNodeRadius                    || v.confDefaults.maxNodeRadius.val;
+  v.conf.labelDistance                   = v.confUser.labelDistance                    || v.confDefaults.labelDistance.val;
+  v.conf.selfLinkDistance                = v.confUser.selfLinkDistance                 || v.confDefaults.selfLinkDistance.val;
+  v.conf.linkDistance                    = v.confUser.linkDistance                     || v.confDefaults.linkDistance.val;
+  v.conf.chargeDistance                  = v.confUser.chargeDistance                   || null;
+  v.conf.charge                          = v.confUser.charge                           || v.confDefaults.charge.val;
+  v.conf.gravity                         = v.confUser.gravity                          || v.confDefaults.gravity.val;
+  v.conf.linkStrength                    = v.confUser.linkStrength                     || v.confDefaults.linkStrength.val;
+  v.conf.friction                        = v.confUser.friction                         || v.confDefaults.friction.val;
+  v.conf.theta                           = v.confUser.theta                            || v.confDefaults.theta.val;
+  v.conf.onNodeMouseenterFunction        = v.confUser.onNodeMouseenterFunction         || null;
+  v.conf.onNodeMouseleaveFunction        = v.confUser.onNodeMouseleaveFunction         || null;
+  v.conf.onNodeClickFunction             = v.confUser.onNodeClickFunction              || null;
+  v.conf.onNodeDblclickFunction          = v.confUser.onNodeDblclickFunction           || null;
+  v.conf.onNodeContextmenuFunction       = v.confUser.onNodeContextmenuFunction        || null;
   v.conf.currentTabPosition = null;
   v.conf.sampleData         = false;
   v.data.sampleData         = '<data>' +
@@ -800,6 +800,24 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId ) {
       .classed('dashed', function(l){return(l.STYLE == 'dashed');});
     v.selfLinks.exit().remove();
 
+    // NODES
+    v.nodes = v.conf.domSvg.selectAll('circle.node')
+      .data(v.data.nodes, function(n){return v.conf.domContainerId + '_node_' + n.ID;})
+      .attr('r', function(n){return n.radius;})
+      .style('fill', null) // to delete the color first, otherwise new invalid colors are not reseted to black
+      .style('fill', function(n){return v.tools.color(n.COLORVALUE);});
+    v.nodes.enter().append('svg:circle')
+      .attr('id', function(n){return v.conf.domContainerId + '_node_' + n.ID;})
+      .attr('class', 'node')
+      .attr('r', function(n){return n.radius;})
+      .style('fill', function(n){return v.tools.color(n.COLORVALUE);})
+      .on('mouseenter', v.tools.onNodeMouseenter)
+      .on('mouseleave', v.tools.onNodeMouseleave)
+      .on('click', v.tools.onNodeClick)
+      .on('dblclick', v.tools.onNodeDblclick)
+      .on('contextmenu', v.tools.onNodeContextmenu);
+    v.nodes.exit().remove();
+
     // LABELS
 
     // normal text lables
@@ -839,24 +857,6 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId ) {
       .attr('xlink:href', function(n){return '#' + v.conf.domContainerId + '_textPath_' + n.ID;})
       .text(function(n){return n.LABEL;});
     v.labelsCircular.exit().remove();
-
-    // NODES
-    v.nodes = v.conf.domSvg.selectAll('circle.node')
-      .data(v.data.nodes, function(n){return v.conf.domContainerId + '_node_' + n.ID;})
-      .attr('r', function(n){return n.radius;})
-      .style('fill', null) // to delete the color first, otherwise new invalid colors are not reseted to black
-      .style('fill', function(n){return v.tools.color(n.COLORVALUE);});
-    v.nodes.enter().append('svg:circle')
-      .attr('id', function(n){return v.conf.domContainerId + '_node_' + n.ID;})
-      .attr('class', 'node')
-      .attr('r', function(n){return n.radius;})
-      .style('fill', function(n){return v.tools.color(n.COLORVALUE);})
-      .on('mouseenter', v.tools.onNodeMouseenter)
-      .on('mouseleave', v.tools.onNodeMouseleave)
-      .on('click', v.tools.onNodeClick)
-      .on('dblclick', v.tools.onNodeDblclick)
-      .on('contextmenu', v.tools.onNodeContextmenu);
-    v.nodes.exit().remove();
 
     // CUSTOMIZING LINK
     if ( !v.conf.customize && (v.conf.debug || document.querySelector('#apex-dev-toolbar') !== null) ) {
@@ -948,6 +948,7 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId ) {
 
   // public start function: get data and start visualization
   render.start = function(pRawDataString){
+    var firstChar;
     // try to use the input data - this means also, we can overwrite the data from APEX with raw data (textarea or whatever you like...)
     if (pRawDataString) {
       render(pRawDataString);
@@ -956,18 +957,30 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId ) {
     else if ( v.conf.apexPluginId ) {
       apex.server.plugin(
         v.conf.apexPluginId,
-        {},
+        { p_debug: $v('pdebug'),
+          pageItems: v.conf.apexPageItemsToSubmit.split(",")
+        },
         { success: function(rawDataString){
-            // we have 'nothing', when there are no queries defined in APEX or when the queries returns empty data
-            if ( rawDataString.trim() != 'no_data_found' ) { render(rawDataString); }
-            else { render(); }
+            // rawDataString starts NOT with "<" or "{", when there are no queries defined in APEX or
+            // when the queries returns empty data or when a error occurs on the APEX backend side
+            firstChar = rawDataString.trim().substr(0,1);
+            if ( firstChar == '<' || firstChar == '{' ) {
+              render(rawDataString);
+            }
+            else {
+              render(); // this will keep the old data or using the sample data, if no old data existing
+              v.tools.logError('Unable to load new data: ' + rawDataString);
+            }
           },
-          error: function(){ v.tools.logError('Unable to load new data - AJAX call terminated with errors.'); },
+          error: function(){
+            v.tools.logError('Unable to load new data - AJAX call terminated with errors.');
+          },
           dataType: 'text'
         }
       );
     }
-    // if we have no raw data and no APEX context, then we start to render without data (the render function will then provide sample data)
+    // if we have no raw data and no APEX context, then we start to render without data (the render function
+    // will then provide sample data)
     else {
       render();
     }
