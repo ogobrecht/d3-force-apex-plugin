@@ -17,6 +17,7 @@ This is mainly a Oracle APEX plugin (but can also used standalone), which uses t
   * Download of the [latest version] (https://github.com/ogobrecht/d3-force-apex-plugin/releases/latest)
   * Plugin demo on [apex.oracle.com] (https://apex.oracle.com/pls/apex/f?p=18290)
   * Standalone demo on [github.io] (http://ogobrecht.github.io/d3-force-apex-plugin/)
+  * API Reference on [github project page] (https://github.com/ogobrecht/d3-force-apex-plugin/wiki/API-Reference)
   * Documentation in the [wiki] (https://github.com/ogobrecht/d3-force-apex-plugin/wiki)
 
 ## Credits
@@ -27,7 +28,29 @@ me on Oracle APEX plugin development.
 
 ## Changelog
 
+This D3 force implementation uses [semantic versioning] (http://semver.org).
+You can find the current version by using the customize wizard or by calling a API method:
+
+    // initialize and run a graph
+    var example = net_gobrechts_d3_force().start();
+
+    // check version
+    example.version();
+
+Everything you can do with the customize wizard you can also do during the runtime with the JavaScript API.
+
+    example.width(800).height(600).linkDistance(50).labelsCircular(true).start();
+
+Please refer to the [[API Reference|API-Reference]] for more informations.
+
 ### 1.0.3 (2015-01-30)
 
-* Fixed: Configuration - Boolean values are not correct initialized
-* Fixed: APEX - Page items to submit not working on AJAX refresh
+* Fixed Bug: APEX - AJAX refresh not working without setting items to submit in region source
+* Correct links from customize wizard to online API documentation
+* Activate also debug mode, when customize wizard is started
+* Some small cosmetic changes
+
+### 1.0.2 (2015-01-30)
+
+* Fixed Bug: Configuration - Boolean values are not correct initialized
+* Fixed Bug: APEX - Page items to submit not working on AJAX refresh

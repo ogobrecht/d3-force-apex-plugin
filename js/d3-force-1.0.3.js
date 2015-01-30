@@ -7,7 +7,7 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId, pApe
    */
 
   // create global object
-  var v = {"version":"1.0.2"};
+  var v = {"version":"1.0.3"};
   v.conf = {};
   v.data = {};
   v.tools = {};
@@ -33,77 +33,77 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId, pApe
 
   // default configuration
   v.confDefaults = {
-    "showBorder":{"type":"bool", "val":true, "options":[true,false], "link":"https://github.com/ogobrecht/d3-force-apex-plugin#showborder"},
-    "showSelfLinks":{"type":"bool", "val":true, "options":[true,false], "link":"https://github.com/ogobrecht/d3-force-apex-plugin#showselflinks"},
-    "showLinkDirection":{"type":"bool", "val":true, "options":[true,false], "link":"https://github.com/ogobrecht/d3-force-apex-plugin#showlinkdirection"},
-    "showTooltips":{"type":"bool", "val":true, "options":[true,false], "link":"https://github.com/ogobrecht/d3-force-apex-plugin#showtooltips"},
-    "tooltipPosition":{"type":"text", "val":"node", "options":["node","svgTopLeft","svgTopRight"], "link":"https://github.com/ogobrecht/d3-force-apex-plugin#tooltipposition"},
-    "colorScheme":{"type":"text", "val":"color20", "options":["color20","color20b","color20c","color10","direct"], "link":"https://github.com/ogobrecht/d3-force-apex-plugin#colorscheme"},
-    "labelsCircular":{"type":"bool", "val":false, "options":[true,false], "link":"https://github.com/ogobrecht/d3-force-apex-plugin#labelscircular"},
-    "dragMode":{"type":"bool", "val":true, "options":[true,false], "link":"https://github.com/ogobrecht/d3-force-apex-plugin#dragmode"},
-    "pinMode":{"type":"bool", "val":false, "options":[true,false], "link":"https://github.com/ogobrecht/d3-force-apex-plugin#pinmode"},
-    "nodeEventToStopPinMode":{"type":"text", "val":"contextmenu", "options":["none","dblclick","contextmenu"], "link":"https://github.com/ogobrecht/d3-force-apex-plugin#nodeeventtostoppinmode"},
-    "onNodeContextmenuPreventDefault":{"type":"bool", "val":false, "options":[true,false], "link":"https://github.com/ogobrecht/d3-force-apex-plugin#onnodecontextmenupreventdefault"},
-    "nodeEventToOpenLink":{"type":"text", "val":"dblclick", "options":["none","click","dblclick","contextmenu"], "link":"https://github.com/ogobrecht/d3-force-apex-plugin#nodeeventtoopenlink"},
-    "nodeLinkTarget":{"type":"text", "val":"_blank", "options":["none","_blank","nodeID"], "link":"https://github.com/ogobrecht/d3-force-apex-plugin#nodelinktarget"},
-    "autoRefresh":{"type":"bool", "val":false, "options":[true,false], "link":"https://github.com/ogobrecht/d3-force-apex-plugin#autorefresh"},
-    "refreshInterval":{"type":"number", "val":5000, "options":[60000,30000,15000,10000,5000,2500], "link":"https://github.com/ogobrecht/d3-force-apex-plugin#refreshinterval"},
-    "useDomParentWidth":{"type":"bool", "val":false, "options":[true,false], "link":"https://github.com/ogobrecht/d3-force-apex-plugin#usedomparentwidth"},
-    "width":{"type":"number", "val":500, "options":[1200,1150,1100,1050,1000,950,900,850,800,750,700,650,600,550,500,450,400,350,300], "link":"https://github.com/ogobrecht/d3-force-apex-plugin#width"},
-    "height":{"type":"number", "val":500, "options":[1200,1150,1100,1050,1000,950,900,850,800,750,700,650,600,550,500,450,400,350,300], "link":"https://github.com/ogobrecht/d3-force-apex-plugin#height"},
-    "minNodeRadius":{"type":"number", "val":6, "options":[12,11,10,9,8,7,6,5,4,3,2,1], "link":"https://github.com/ogobrecht/d3-force-apex-plugin#minnoderadius"},
-    "maxNodeRadius":{"type":"number", "val":18,"options":[36,34,32,30,28,26,24,22,20,18,16,14,12],  "link":"https://github.com/ogobrecht/d3-force-apex-plugin#maxnoderadius"},
-    "labelDistance":{"type":"number", "val":12, "options":[30,28,26,24,22,20,18,16,14,12,10,8,6,4,2], "link":"https://github.com/ogobrecht/d3-force-apex-plugin#labeldistance"},
-    "selfLinkDistance":{"type":"number", "val":20, "options":[30,28,26,24,22,20,18,16,14,12,10,8], "link":"https://github.com/ogobrecht/d3-force-apex-plugin#selflinkdistance"},
-    "linkDistance":{"type":"number", "val":80, "options":[120,110,100,90,80,70,60,50,40,30,20], "link":"https://github.com/ogobrecht/d3-force-apex-plugin#linkdistance"},
-    //"chargeDistance":{"type":"number", "val":null, "internal":true, "link":"https://github.com/ogobrecht/d3-force-apex-plugin#chargedistance"},
-    "charge":{"type":"number", "val":-350, "options":[-1000,-950,-900,-850,-800,-750,-700,-650,-600,-550,-500,-450,-400,-350,-300,-250,-200,-150,-100,-50,0], "internal":true, "link":"https://github.com/ogobrecht/d3-force-apex-plugin#charge"},
-    "gravity":{"type":"number", "val":0.1, "options":[1.00,0.95,0.90,0.85,0.80,0.75,0.70,0.65,0.60,0.55,0.50,0.45,0.40,0.35,0.30,0.25,0.20,0.15,0.1,0.05,0.00], "internal":true, "link":"https://github.com/ogobrecht/d3-force-apex-plugin#gravity"},
-    "linkStrength":{"type":"number", "val":1, "options":[1.00,0.95,0.90,0.85,0.80,0.75,0.70,0.65,0.60,0.55,0.50,0.45,0.40,0.35,0.30,0.25,0.20,0.15,0.10,0.05,0.00], "internal":true, "link":"https://github.com/ogobrecht/d3-force-apex-plugin#linkstrength"},
-    "friction":{"type":"number", "val":0.9, "options":[1.00,0.95,0.90,0.85,0.80,0.75,0.70,0.65,0.60,0.55,0.50,0.45,0.40,0.35,0.30,0.25,0.20,0.15,0.10,0.05,0.00], "internal":true, "link":"https://github.com/ogobrecht/d3-force-apex-plugin#friction"},
-    "theta":{"type":"number", "val":0.8, "options":[1,0.95,0.9,0.85,0.8,0.75,0.7,0.65,0.6,0.55,0.5,0.45,0.4,0.35,0.3,0.25,0.2,0.15,0.1,0.05,0], "internal":true, "link":"https://github.com/ogobrecht/d3-force-apex-plugin#theta"}
+    "showBorder":{"type":"bool", "val":true, "options":[true,false]},
+    "showSelfLinks":{"type":"bool", "val":true, "options":[true,false]},
+    "showLinkDirection":{"type":"bool", "val":true, "options":[true,false]},
+    "showTooltips":{"type":"bool", "val":true, "options":[true,false]},
+    "tooltipPosition":{"type":"text", "val":"node", "options":["node","svgTopLeft","svgTopRight"]},
+    "colorScheme":{"type":"text", "val":"color20", "options":["color20","color20b","color20c","color10","direct"]},
+    "labelsCircular":{"type":"bool", "val":false, "options":[true,false]},
+    "dragMode":{"type":"bool", "val":true, "options":[true,false]},
+    "pinMode":{"type":"bool", "val":false, "options":[true,false]},
+    "nodeEventToStopPinMode":{"type":"text", "val":"contextmenu", "options":["none","dblclick","contextmenu"]},
+    "onNodeContextmenuPreventDefault":{"type":"bool", "val":false, "options":[true,false]},
+    "nodeEventToOpenLink":{"type":"text", "val":"dblclick", "options":["none","click","dblclick","contextmenu"]},
+    "nodeLinkTarget":{"type":"text", "val":"_blank", "options":["none","_blank","nodeID"]},
+    "autoRefresh":{"type":"bool", "val":false, "options":[true,false]},
+    "refreshInterval":{"type":"number", "val":5000, "options":[60000,30000,15000,10000,5000,2500]},
+    "useDomParentWidth":{"type":"bool", "val":false, "options":[true,false]},
+    "width":{"type":"number", "val":500, "options":[1200,1150,1100,1050,1000,950,900,850,800,750,700,650,600,550,500,450,400,350,300]},
+    "height":{"type":"number", "val":500, "options":[1200,1150,1100,1050,1000,950,900,850,800,750,700,650,600,550,500,450,400,350,300]},
+    "minNodeRadius":{"type":"number", "val":6, "options":[12,11,10,9,8,7,6,5,4,3,2,1]},
+    "maxNodeRadius":{"type":"number", "val":18,"options":[36,34,32,30,28,26,24,22,20,18,16,14,12]},
+    "labelDistance":{"type":"number", "val":12, "options":[30,28,26,24,22,20,18,16,14,12,10,8,6,4,2]},
+    "selfLinkDistance":{"type":"number", "val":20, "options":[30,28,26,24,22,20,18,16,14,12,10,8]},
+    "linkDistance":{"type":"number", "val":80, "options":[120,110,100,90,80,70,60,50,40,30,20]},
+    //"chargeDistance":{"type":"number", "val":null, "internal":true},
+    "charge":{"type":"number", "val":-350, "options":[-1000,-950,-900,-850,-800,-750,-700,-650,-600,-550,-500,-450,-400,-350,-300,-250,-200,-150,-100,-50,0], "internal":true},
+    "gravity":{"type":"number", "val":0.1, "options":[1.00,0.95,0.90,0.85,0.80,0.75,0.70,0.65,0.60,0.55,0.50,0.45,0.40,0.35,0.30,0.25,0.20,0.15,0.1,0.05,0.00], "internal":true},
+    "linkStrength":{"type":"number", "val":1, "options":[1.00,0.95,0.90,0.85,0.80,0.75,0.70,0.65,0.60,0.55,0.50,0.45,0.40,0.35,0.30,0.25,0.20,0.15,0.10,0.05,0.00], "internal":true},
+    "friction":{"type":"number", "val":0.9, "options":[1.00,0.95,0.90,0.85,0.80,0.75,0.70,0.65,0.60,0.55,0.50,0.45,0.40,0.35,0.30,0.25,0.20,0.15,0.10,0.05,0.00], "internal":true},
+    "theta":{"type":"number", "val":0.8, "options":[1,0.95,0.9,0.85,0.8,0.75,0.7,0.65,0.6,0.55,0.5,0.45,0.4,0.35,0.3,0.25,0.2,0.15,0.1,0.05,0], "internal":true}
   };
 
   // create intial configuration
   v.conf.customize                       = false;
-  v.conf.debug                           = v.confUser.debug                            || false;
-  v.conf.showBorder                      = (typeof v.confUser.showBorder               !== 'undefined' ? v.confUser.showBorder : v.confDefaults.showBorder.val);
-  v.conf.showSelfLinks                   = (typeof v.confUser.showSelfLinks            !== 'undefined' ? v.confUser.showSelfLinks : v.confDefaults.showSelfLinks.val);
-  v.conf.showLinkDirection               = (typeof v.confUser.showLinkDirection        !== 'undefined' ? v.confUser.showLinkDirection : v.confDefaults.showLinkDirection.val);
-  v.conf.showTooltips                    = (typeof v.confUser.showTooltips             !== 'undefined' ? v.confUser.showTooltips : v.confDefaults.showTooltips.val);
-  v.conf.tooltipPosition                 = v.confUser.tooltipPosition                  || v.confDefaults.tooltipPosition.val;
-  v.conf.colorScheme                     = v.confUser.colorScheme                      || v.confDefaults.colorScheme.val;
-  v.conf.labelsCircular                  = (typeof v.confUser.labelsCircular           !== 'undefined' ? v.confUser.labelsCircular : v.confDefaults.labelsCircular.val);
-  v.conf.dragMode                        = (typeof v.confUser.dragMode                 !== 'undefined' ? v.confUser.dragMode : v.confDefaults.dragMode.val);
-  v.conf.pinMode                         = (typeof v.confUser.pinMode                  !== 'undefined' ? v.confUser.pinMode : v.confDefaults.pinMode.val);
-  v.conf.nodeEventToStopPinMode          = v.confUser.nodeEventToStopPinMode           || v.confDefaults.nodeEventToStopPinMode.val;
+  v.conf.debug                           = v.confUser.debug                                   || false;
+  v.conf.showBorder                      = (typeof v.confUser.showBorder                      !== 'undefined' ? v.confUser.showBorder : v.confDefaults.showBorder.val);
+  v.conf.showSelfLinks                   = (typeof v.confUser.showSelfLinks                   !== 'undefined' ? v.confUser.showSelfLinks : v.confDefaults.showSelfLinks.val);
+  v.conf.showLinkDirection               = (typeof v.confUser.showLinkDirection               !== 'undefined' ? v.confUser.showLinkDirection : v.confDefaults.showLinkDirection.val);
+  v.conf.showTooltips                    = (typeof v.confUser.showTooltips                    !== 'undefined' ? v.confUser.showTooltips : v.confDefaults.showTooltips.val);
+  v.conf.tooltipPosition                 = v.confUser.tooltipPosition                         || v.confDefaults.tooltipPosition.val;
+  v.conf.colorScheme                     = v.confUser.colorScheme                             || v.confDefaults.colorScheme.val;
+  v.conf.labelsCircular                  = (typeof v.confUser.labelsCircular                  !== 'undefined' ? v.confUser.labelsCircular : v.confDefaults.labelsCircular.val);
+  v.conf.dragMode                        = (typeof v.confUser.dragMode                        !== 'undefined' ? v.confUser.dragMode : v.confDefaults.dragMode.val);
+  v.conf.pinMode                         = (typeof v.confUser.pinMode                         !== 'undefined' ? v.confUser.pinMode : v.confDefaults.pinMode.val);
+  v.conf.nodeEventToStopPinMode          = v.confUser.nodeEventToStopPinMode                  || v.confDefaults.nodeEventToStopPinMode.val;
   v.conf.onNodeContextmenuPreventDefault = (typeof v.confUser.onNodeContextmenuPreventDefault !== 'undefined' ? v.confUser.onNodeContextmenuPreventDefault : v.confDefaults.onNodeContextmenuPreventDefault.val);
-  v.conf.nodeEventToOpenLink             = v.confUser.nodeEventToOpenLink              || v.confDefaults.nodeEventToOpenLink.val;
-  v.conf.nodeLinkTarget                  = v.confUser.nodeLinkTarget                   || v.confDefaults.nodeLinkTarget.val;
-  v.conf.autoRefresh                     = (typeof v.confUser.autoRefresh              !== 'undefined' ? v.confUser.autoRefresh : v.confDefaults.autoRefresh.val);
-  v.conf.refreshInterval                 = v.confUser.refreshInterval                  || v.confDefaults.refreshInterval.val;
-  v.conf.useDomParentWidth               = (typeof v.confUser.useDomParentWidth        !== 'undefined' ? v.confUser.useDomParentWidth : v.confDefaults.useDomParentWidth.val);
-  v.conf.width                           = v.confUser.width                            || v.confDefaults.width.val;
-  v.conf.height                          = v.confUser.height                           || v.confDefaults.height.val;
-  v.conf.minNodeRadius                   = v.confUser.minNodeRadius                    || v.confDefaults.minNodeRadius.val;
-  v.conf.maxNodeRadius                   = v.confUser.maxNodeRadius                    || v.confDefaults.maxNodeRadius.val;
-  v.conf.labelDistance                   = v.confUser.labelDistance                    || v.confDefaults.labelDistance.val;
-  v.conf.selfLinkDistance                = v.confUser.selfLinkDistance                 || v.confDefaults.selfLinkDistance.val;
-  v.conf.linkDistance                    = v.confUser.linkDistance                     || v.confDefaults.linkDistance.val;
-  v.conf.chargeDistance                  = v.confUser.chargeDistance                   || null;
-  v.conf.charge                          = v.confUser.charge                           || v.confDefaults.charge.val;
-  v.conf.gravity                         = v.confUser.gravity                          || v.confDefaults.gravity.val;
-  v.conf.linkStrength                    = v.confUser.linkStrength                     || v.confDefaults.linkStrength.val;
-  v.conf.friction                        = v.confUser.friction                         || v.confDefaults.friction.val;
-  v.conf.theta                           = v.confUser.theta                            || v.confDefaults.theta.val;
-  v.conf.onNodeMouseenterFunction        = v.confUser.onNodeMouseenterFunction         || null;
-  v.conf.onNodeMouseleaveFunction        = v.confUser.onNodeMouseleaveFunction         || null;
-  v.conf.onNodeClickFunction             = v.confUser.onNodeClickFunction              || null;
-  v.conf.onNodeDblclickFunction          = v.confUser.onNodeDblclickFunction           || null;
-  v.conf.onNodeContextmenuFunction       = v.confUser.onNodeContextmenuFunction        || null;
-  v.conf.currentTabPosition = null;
-  v.conf.sampleData         = false;
-  v.data.sampleData         = '<data>' +
+  v.conf.nodeEventToOpenLink             = v.confUser.nodeEventToOpenLink                     || v.confDefaults.nodeEventToOpenLink.val;
+  v.conf.nodeLinkTarget                  = v.confUser.nodeLinkTarget                          || v.confDefaults.nodeLinkTarget.val;
+  v.conf.autoRefresh                     = (typeof v.confUser.autoRefresh                     !== 'undefined' ? v.confUser.autoRefresh : v.confDefaults.autoRefresh.val);
+  v.conf.refreshInterval                 = v.confUser.refreshInterval                         || v.confDefaults.refreshInterval.val;
+  v.conf.useDomParentWidth               = (typeof v.confUser.useDomParentWidth               !== 'undefined' ? v.confUser.useDomParentWidth : v.confDefaults.useDomParentWidth.val);
+  v.conf.width                           = v.confUser.width                                   || v.confDefaults.width.val;
+  v.conf.height                          = v.confUser.height                                  || v.confDefaults.height.val;
+  v.conf.minNodeRadius                   = v.confUser.minNodeRadius                           || v.confDefaults.minNodeRadius.val;
+  v.conf.maxNodeRadius                   = v.confUser.maxNodeRadius                           || v.confDefaults.maxNodeRadius.val;
+  v.conf.labelDistance                   = v.confUser.labelDistance                           || v.confDefaults.labelDistance.val;
+  v.conf.selfLinkDistance                = v.confUser.selfLinkDistance                        || v.confDefaults.selfLinkDistance.val;
+  v.conf.linkDistance                    = v.confUser.linkDistance                            || v.confDefaults.linkDistance.val;
+  v.conf.chargeDistance                  = v.confUser.chargeDistance                          || null;
+  v.conf.charge                          = v.confUser.charge                                  || v.confDefaults.charge.val;
+  v.conf.gravity                         = v.confUser.gravity                                 || v.confDefaults.gravity.val;
+  v.conf.linkStrength                    = v.confUser.linkStrength                            || v.confDefaults.linkStrength.val;
+  v.conf.friction                        = v.confUser.friction                                || v.confDefaults.friction.val;
+  v.conf.theta                           = v.confUser.theta                                   || v.confDefaults.theta.val;
+  v.conf.onNodeMouseenterFunction        = v.confUser.onNodeMouseenterFunction                || null;
+  v.conf.onNodeMouseleaveFunction        = v.confUser.onNodeMouseleaveFunction                || null;
+  v.conf.onNodeClickFunction             = v.confUser.onNodeClickFunction                     || null;
+  v.conf.onNodeDblclickFunction          = v.confUser.onNodeDblclickFunction                  || null;
+  v.conf.onNodeContextmenuFunction       = v.confUser.onNodeContextmenuFunction               || null;
+  v.conf.currentTabPosition              = null;
+  v.conf.sampleData                      = false;
+  v.data.sampleData                      = '<data>' +
     '<nodes ID="7839" LABEL="KING is THE KING, you know?" COLORVALUE="10" SIZEVALUE="5000" LABELCIRCULAR="true" LINK="http://apex.oracle.com/"' +
     ' INFOSTRING="This visualization is based on the well known emp table." />' +
     '<nodes ID="7698" LABEL="BLAKE" COLORVALUE="30" SIZEVALUE="2850"/>' +
@@ -502,7 +502,7 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId, pApe
           row.append('td')
             .attr('class','label')
             .html('<a href="https://github.com/ogobrecht/d3-force-apex-plugin/wiki/API-Reference#' + 
-                  key + '" target="github_d3_force" tabindex="' + i + 100 + '">' + 
+                  key.toLowerCase() + '" target="github_d3_force" tabindex="' + i + 100 + '">' +
                   key + '</a>');
           td = row.append('td');
           form = td.append('select')
@@ -574,7 +574,7 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId, pApe
           .html('Your Configuration Object<br><textarea id="' + v.conf.domContainerId + '_conf_object" tabindex="' + (i + 2) + '" readonly></textarea><br><br>' +
                 'Current Positions<br>' +
                 '<textarea id="' + v.conf.domContainerId + '_positions" tabindex="' + (i + 3) + '" readonly>Force started - wait for end event to show positions...</textarea><br><br>' +
-                'Log (latest entry on top)<br>' +
+                'Debug Log (descending)<br>' +
                 '<textarea id="' + v.conf.domContainerId + '_log" tabindex="' + (i + 4) + '" readonly></textarea><br><br>' +
                 'Copyrights<br><br>' +
                 '<a href="https://github.com/ogobrecht/d3-force-apex-plugin" target="github_d3_force" tabindex="' + (i + 5) + '">D3 Force APEX Plugin</a> (' + v.version + ')<br>' +
@@ -1205,12 +1205,6 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId, pApe
     return render;
   };
 
-  render.currentTabPosition = function(value) {
-    if (!arguments.length) return v.conf.currentTabPosition;
-    v.conf.currentTabPosition = value;
-    return render;
-  };
-
   render.sampleData = function(rawDataString){
     if (!arguments.length) return v.data.sampleData;
     v.data.sampleData = rawDataString;
@@ -1220,6 +1214,7 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId, pApe
   render.customize = function(value) {
     if (!arguments.length) return v.conf.customize;
     v.conf.customize = value;
+    if (v.conf.customize) v.conf.debug = true;
     return render;
   };
 
