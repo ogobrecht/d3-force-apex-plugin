@@ -18,6 +18,13 @@ This is mainly a Oracle APEX plugin (but can also used standalone), which uses t
     apexbeforerefresh and apexafterrefresh
 
 
+## Requirements
+
+* APEX 4.2, if used as a plugin
+* A modern browser, who is able to work with SVG and CSS3 - for more informations see the
+  [D3 Wiki] (https://github.com/mbostock/d3/wiki#browser--platform-support)
+
+
 ## Links
 
   * Download of the [latest version] (https://github.com/ogobrecht/d3-force-apex-plugin/releases/latest)
@@ -51,7 +58,7 @@ Everything you can do with the customize wizard you can also do during the runti
 When using the APEX plugin, your variable to access the graph is automatically set by the plugin. You can open
 the JavaScript console in your browser and look for "d3_force_YOUR_REGION_STATIC_ID". The example above would be then:
 
-    d3_force_YOUR_REGION_STATIC_ID.width(800).height(600).linkDistance(50).labelsCircular(true).start();
+    d3_force_YOUR_REGION_STATIC_ID.width(800).height(600).linkDistance(50).start();
 
 Please refer to the [API Reference] (https://github.com/ogobrecht/d3-force-apex-plugin/wiki/API-Reference)
 for more informations.
