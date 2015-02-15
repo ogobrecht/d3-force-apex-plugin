@@ -63,6 +63,12 @@ the JavaScript console in your browser and look for "d3_force_YOUR_REGION_STATIC
 Please refer to the [API Reference] (https://github.com/ogobrecht/d3-force-apex-plugin/wiki/API-Reference)
 for more informations.
 
+### 1.0.4 (2015-02-15)
+
+* Fixed Bug: APEX - unable to view datasets > 32k
+* Improved error handling: errors are shown as single nodes with error text as label
+* Empty nodes array does no longer break render function
+* Positions are rounded on export to save space for APEX parameter item
 
 ### 1.0.3 (2015-01-30)
 

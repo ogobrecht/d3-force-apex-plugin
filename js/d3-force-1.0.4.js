@@ -7,7 +7,7 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId, pApe
    */
 
   // create global object
-  var v = {"version":"1.0.3"};
+  var v = {"version":"1.0.4"};
   v.conf = {};
   v.data = {};
   v.tools = {};
@@ -227,7 +227,7 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId, pApe
     console.log( v.conf.debugPrefix + 'ERROR: ' + message);
     if (v.conf.customize) v.conf.domCustomizeLog.text ( 'ERROR: ' + message + '\n' + v.conf.domCustomizeLog.text() );
   };
-
+  
   // trigger APEX events, if we have an APEX context
   v.tools.triggerApexEvent = function(domNode, event, data) {
     if (v.conf.apexPluginId) apex.event.trigger(domNode, event, data);
@@ -656,6 +656,7 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId, pApe
    */
 
   function render (rawDataString){
+    var message;
 
     // trigger apex event
     v.tools.triggerApexEvent(document.querySelector('#' + v.conf.domContainerId), 'apexbeforerefresh');
@@ -678,15 +679,32 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId, pApe
 
       // convert incoming data depending on type
       if ( rawDataString.trim().substr(0,1) == '<' ) {
-        try { v.data.rawDataString = v.tools.x2js.xml_str2json(rawDataString); }
-        catch(e){ v.tools.logError('Unable to convert XML string to JSON: ' + e.message) + '.'; }
+        try { 
+          v.data.rawDataString = v.tools.x2js.xml_str2json(rawDataString); 
+          if (v.data.rawDataString === null) {
+            message = 'Unable to convert XML data.';
+            v.tools.logError(message);
+            v.data.rawDataString = {"data":{"nodes":[{"ID":"1","LABEL":"ERROR: " + message,"COLORVALUE":"1","SIZEVALUE":"1"}],"links":[]}};
+          }
+        }
+        catch(e){ 
+          message = 'Unable to convert XML data: ' + e.message + '.';
+          v.tools.logError(message);
+          v.data.rawDataString = {"data":{"nodes":[{"ID":"1","LABEL":"ERROR: " + message,"COLORVALUE":"1","SIZEVALUE":"1"}],"links":[]}};
+        }
       }
       else if ( rawDataString.trim().substr(0,1) == '{' ) {
         try { v.data.rawDataString = JSON.parse(rawDataString); }
-        catch(e){ v.tools.logError('Unable to parse JSON data string: ' + e.message) + '.'; }
+        catch(e){ 
+          message = 'Unable to parse JSON data: ' + e.message + '.';
+          v.tools.logError(message);
+          v.data.rawDataString = {"data":{"nodes":[{"ID":"1","LABEL":"ERROR: " + message,"COLORVALUE":"1","SIZEVALUE":"1"}],"links":[]}};
+        }
       }
       else {
-        v.tools.logError('Your data is not starting with "<" or "{" - rendering of graph not possible - keeping the old data.');
+        message = 'Your data is not starting with "<" or "{" - parsing not possible.';
+        v.tools.logError(message);
+        v.data.rawDataString = {"data":{"nodes":[{"ID":"1","LABEL":"ERROR: " + message,"COLORVALUE":"1","SIZEVALUE":"1"}],"links":[]}};
       }
 
       // write debug infos
@@ -694,10 +712,42 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId, pApe
       v.tools.log(rawDataString, true);
       v.tools.log('Converted JSON object:');
       v.tools.log(v.data.rawDataString, true);
+      
 
       // create references to our ajax data
-      v.data.links = v.data.rawDataString.data.links;
-      v.data.nodes = v.data.rawDataString.data.nodes;
+      if (v.data.hasOwnProperty("rawDataString") && v.data.rawDataString !== null) {
+        if (v.data.rawDataString.hasOwnProperty("data") && v.data.rawDataString.data !== null) {
+          if (v.data.rawDataString.data.hasOwnProperty("nodes") && v.data.rawDataString.data.nodes !== null) {
+            v.data.nodes = v.data.rawDataString.data.nodes;
+            if (v.data.nodes.length == 0) {
+              message = "Your data contains an empty nodes array.";
+              v.tools.logError(message);
+              v.data.nodes = [{"ID":"1","LABEL":"ERROR: " + message,"COLORVALUE":"1","SIZEVALUE":"1"}];
+            }
+          }
+          else {
+            message = "Your data contains no nodes.";
+            v.tools.logError(message);
+            v.data.nodes = [{"ID":"1","LABEL":"ERROR: " + message,"COLORVALUE":"1","SIZEVALUE":"1"}];
+          }
+          if (v.data.rawDataString.data.hasOwnProperty("links") && v.data.rawDataString.data.links !== null) {
+            v.data.links = v.data.rawDataString.data.links;
+          }
+          else {
+            v.data.links = [];
+          }
+        }
+        else {
+          message = "Missing root element named data.";
+          v.tools.logError(message);
+          v.data = {"nodes":[{"ID":"1","LABEL":"ERROR: " + message,"COLORVALUE":"1","SIZEVALUE":"1"}],"links":[]};
+        }
+      }
+      else {
+        message = "Unable to parse your data.";
+        v.tools.logError(message);
+        v.data = {"nodes":[{"ID":"1","LABEL":"ERROR: " + message,"COLORVALUE":"1","SIZEVALUE":"1"}],"links":[]};
+      }
 
       // switch links to point to node objects instead of id's (needed for force layout)
       v.data.id_lookup = []; // helper array to lookup node objects by id's
@@ -889,6 +939,7 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId, pApe
     // pin mode - http://bl.ocks.org/mbostock/3750558
     if (v.conf.pinMode && v.conf.dragMode) {
       v.drag.on('dragstart', function(n){d3.select(this).classed('fixed', n.fixed = true);});
+      // save positions to local storage: v.drag.on('dragend', function(n){ localStorage.setItem(v.conf.domContainerId, JSON.stringify( render.positions() )); });
     }
     else {
       v.drag.on('dragstart', null);
@@ -967,13 +1018,22 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId, pApe
             if ( firstChar == '<' || firstChar == '{' ) {
               render(rawDataString);
             }
-            else {
+            else if (rawDataString.trim().substr(0,16) == "no_query_defined") {
               render(); // this will keep the old data or using the sample data, if no old data existing
-              v.tools.logError('Unable to load new data: ' + rawDataString);
+              v.tools.logError('No query defined.');
+            }
+            else if (rawDataString.trim().substr(0,22) == "query_returned_no_data") {
+              render('{"data":{"nodes":[{"ID":"1","LABEL":"ERROR: No data.","COLORVALUE":"1","SIZEVALUE":"1"}],"links":[]}}');
+              v.tools.logError('Query returned no data.');
+            }
+            else {
+              render('{"data":{"nodes":[{"ID":"1","LABEL":"ERROR: ' + rawDataString + '.","COLORVALUE":"1","SIZEVALUE":"1"}],"links":[]}}');
+              v.tools.logError(rawDataString);
             }
           },
-          error: function(){
-            v.tools.logError('Unable to load new data - AJAX call terminated with errors.');
+          error: function(xhr, status, errorThrown){
+            render('{"data":{"nodes":[{"ID":"1","LABEL":"AJAX call terminated with errors.","COLORVALUE":"1","SIZEVALUE":"1"}],"links":[]}}');
+            v.tools.logError('AJAX call terminated with errors: ' + errorThrown + '.');
           },
           dataType: 'text'
         }
@@ -1165,7 +1225,7 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId, pApe
     if (!arguments.length){
       var positions = '[\n';
       v.data.nodes.forEach( function(n){
-        positions += ('{"ID":"' + n.ID + '","x":' + n.x + ',"y":' + n.y + ',"fixed":' + (n.fixed ? 1 : 0) + '},\n');
+        positions += ('{"ID":"' + n.ID + '","x":' + Math.round(n.x) + ',"y":' + Math.round(n.y) + ',"fixed":' + (n.fixed ? 1 : 0) + '},\n');
       });
       return positions.substr(0, positions.length - 2) + '\n]';
     }
