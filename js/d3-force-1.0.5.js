@@ -7,7 +7,7 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId, pApe
    */
 
   // create global object
-  var v = {"version":"1.0.4"};
+  var v = {"version":"1.0.5"};
   v.conf = {};
   v.data = {};
   v.tools = {};
@@ -610,6 +610,17 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId, pApe
     v.conf.domCustomizeConfObject.text(conf);
   };
 
+  // check user agent: http://stackoverflow.com/questions/16135814/check-for-ie-10
+  v.conf.userAgent = navigator.userAgent;
+  v.conf.userAgent_IE_9_to_11 = false;
+  // Hello IE 9 - 11
+  if ( navigator.appVersion.indexOf("MSIE 9") !== -1 || 
+       navigator.appVersion.indexOf("MSIE 10") !== -1 ||
+       v.conf.userAgent.indexOf("Trident") !== -1 && v.conf.userAgent.indexOf("rv:11") !== -1 ) {
+    v.conf.userAgent_IE_9_to_11 = true;
+    v.tools.logError('Houston, we have a problem - user agent is IE 9, 10 or 11 - we have to provide a fix for markers: http://stackoverflow.com/questions/15588478/internet-explorer-10-not-showing-svg-path-d3-js-graph');
+  }
+
   // create force reference
   v.force = d3.layout.force()
     .on('start', function(){
@@ -619,6 +630,11 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId, pApe
       v.startTime = new Date().getTime();
     })
     .on('tick', function() {
+      // hello IE 9 - 11: http://stackoverflow.com/questions/15588478/internet-explorer-10-not-showing-svg-path-d3-js-graph
+      if ( v.conf.userAgent_IE_9_to_11 && v.conf.showLinkDirection) {
+        v.links.each( function(){ this.parentNode.insertBefore(this,this); });
+        v.selfLinks.each( function(){ this.parentNode.insertBefore(this,this); });
+      }
       v.selfLinks
         .attr('transform', function(l) { return 'translate(' + l.source.x + ',' + l.source.y + ')'; });
       v.links
@@ -649,7 +665,7 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId, pApe
 
   // create drag reference
   v.drag = v.force.drag();
-
+  
 
   /*************************************************************************
    * RENDER FUNCTION - has to be called on each data refresh
@@ -1284,6 +1300,10 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId, pApe
     return render;
   };
 
+  render.userAgent = function(){
+    return v.conf.userAgent;
+  };
+  
   // public inspect function: to inspect the global object, which holds all data, functions and references
   render.inspect = function(){
     return v;
