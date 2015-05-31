@@ -3,6 +3,7 @@
 .net_gobrechts_d3_force_customize td,
 .net_gobrechts_d3_force_tooltip {
     font-family: Arial, Helvetica, Sans Serif;
+    font-size: 10px;
 }
 .net_gobrechts_d3_force.border {
     border: 1px solid silver;
@@ -21,6 +22,7 @@
 }
 .net_gobrechts_d3_force text.label,
 .net_gobrechts_d3_force text.labelCircular {
+    fill: black;
     font-size: 10px;
     letter-spacing: 0;
     pointer-events: none;
@@ -51,13 +53,14 @@
 }
 .net_gobrechts_d3_force marker.normal {
     stroke: none;
-    fill: #bbb;  
+    fill: #bbb;
 }
 .net_gobrechts_d3_force marker.highlighted {
     stroke: none;
     fill: #555;
 }
-.net_gobrechts_d3_force .overlay {
+.net_gobrechts_d3_force .graphOverlay,
+.net_gobrechts_d3_force .graphOverlaySizeHelper {
     fill: none;
     pointer-events: all;
 }
@@ -122,6 +125,9 @@
     border-collapse: collapse;
     border-spacing: 0;
 }
+.net_gobrechts_d3_force_customize tr.hidden {
+    display: none;
+}
 .net_gobrechts_d3_force_customize td {
     padding: 1px;
     font-size: 12px;
@@ -159,7 +165,7 @@
 }
 .net_gobrechts_d3_force_customize textarea {
     font-size: 10px !important;
-    padding: 2px;  
+    padding: 2px;
     width: 160px;
-    height: 110px;
+    height: 85px;
 }

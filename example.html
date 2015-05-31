@@ -4,11 +4,11 @@
 <head>
     <meta charset="utf-8">
     <title>D3 Force APEX Plugin</title>
-    <link  href="css/d3-force-1.1.0.css" rel="stylesheet" type="text/css">
-    <script src="./lib/x2js/xml2json-modified-1.1.5.min.js"></script>
-    <script src="./lib/d3/d3-3.5.3.min.js"></script>
-    <script src="lib/d3/d3-plugin-lasso-2015-01-07.min.js"></script>
-    <script src="js/d3-force-1.1.0.min.js"></script>
+    <link  href="css/d3-force-1.2.0.css" rel="stylesheet" type="text/css">
+    <script src="lib/x2js/xml2json-modified-1.1.5.min.js"></script>
+    <script src="lib/d3/d3-3.5.3.min.js"></script>
+    <script src="lib/d3/d3-plugin-lasso-modified-2015-05-25.min.js"></script>
+    <script src="js/d3-force-1.2.0.min.js"></script>
 </head>
 
 <body
@@ -16,6 +16,7 @@
         .debug(true)
         .lassoMode(true)
         .onLassoEndFunction( function(event, data){ console.log('Lasso end data:', data); } )
+        .zoomMode(true)
         .start();">
 </body>
 

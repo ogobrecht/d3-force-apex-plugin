@@ -1,3 +1,7 @@
+Please do not download directly this code - this is the development version and can be unstable. You can find the [latest
+stable version here] (https://github.com/ogobrecht/d3-force-apex-plugin/releases/latest). 
+
+
 # d3-force-apex-plugin
 
 This is a D3 force implementation, playground and Oracle APEX plugin, which uses the
@@ -15,6 +19,7 @@ This is a D3 force implementation, playground and Oracle APEX plugin, which uses
 * Nodes can be pinned and the current positions can be saved and loaded to predefine a layout - optionally you can
   align the nodes to a grid when they are dragged around
 * With the lasso mode you can select nodes and implement a graphical multi select
+* The graph can be zoomed between the two configured min and max scale factors and is callable with the API 
 * There is a JavaScript API to interact with the graph, also including seven events for the nodes (click, dblclick,
   contextmenu, mouseenter, mouseleave, lassostart, lassoend)
 * All seven events are available in APEX - the plugin region can be AJAX refreshed and triggers then also
@@ -65,6 +70,36 @@ the JavaScript console in your browser and look for "d3_force_YOUR_REGION_STATIC
 
 Please refer to the [API Reference] (https://github.com/ogobrecht/d3-force-apex-plugin/wiki/API-Reference)
 for more informations.
+
+
+### 1.2.0 (2015-05-23)
+
+* Refactor render function, so that the returned graph function is only one line of code and does not spoil the console
+  when debug is set to true
+* New option zoomMode (thanks to Alexej Schneider to ask for this feature and for testing the new version and his 
+  valuable feedback): I tried this before and was not happy with the solution, because the pan were disturbing the nodes 
+  drag functionality - now it is working :-)
+  ATTENTION: When zoomMode is set to true then the lassoMode is only working with the pressed alt or shift key
+  KNOWN BUG: In iOS it is after the first zoom event no more possible, to drag a node - instead the whole graph is
+  moved - this is, because iOS Safari provide a wrong event.target.tagName. Also a problem: your are not able to press 
+  the alt or shift key - if you want to use lasso and zoom together on a touch device, you have to provide a workaround. 
+  One possible way is to provide a button, which turns zoom mode on and off with the API zoomMode method - then the user 
+  has the choice between these two modes - not comfortable, but working.
+* New option minZoomFactor: The minimum possible zoom factor
+* New option maxZoomFactor: The maximum possible zoom factor
+* New method zoom: Can be used to programatically zoom to a point in the graph with the three parameters centerX, 
+  centerY and viewportWidth. More informations under 
+  https://github.com/ogobrecht/d3-force-apex-plugin/wiki/API-Reference#zoom
+* New method zoomSmooth: Does the same as the zoom method, but animated in a nice way:
+  https://github.com/ogobrecht/d3-force-apex-plugin/wiki/API-Reference#zoomsmooth
+* New method nodeDataById: Helper function to get the data of one node. Can be helpful for the two new zoom methods to 
+  programatically focus a single node
+* New option showLegend: renders a legend for all (distinct) COLORVALUE attribute values of the nodes
+* New option showLabels: Labels are not new - a label is rendered, when a node has a filled attribute LABEL - new is
+  the possibility to switch on and off the labels globally
+* Hint in the customize wizard, that the configuration object has to be saved in the region attributes to save the
+  configuration permanently (thanks to Renato Nobre to ask me a question about this topic)
+* Reorganize the options in the customize wizard thematically: node/link/graph related options
 
 
 ### 1.1.0 (2015-04-19)
