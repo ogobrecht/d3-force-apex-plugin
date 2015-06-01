@@ -707,7 +707,7 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId, pApe
       if (document.querySelector('#' + v.dom.containerId + '_customizing') !== null) {
         v.dom.customize.remove();
       }
-      v.dom.customize = v.dom.container.append('div')
+      v.dom.customize = v.dom.body.insert('div')
         .attr('id', v.dom.containerId + '_customizing')
         .attr('class', 'net_gobrechts_d3_force_customize')
         .style('left', v.dom.customizePosition.left + 'px')

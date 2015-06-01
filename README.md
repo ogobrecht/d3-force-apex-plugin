@@ -72,6 +72,11 @@ Please refer to the [API Reference] (https://github.com/ogobrecht/d3-force-apex-
 for more informations.
 
 
+### 1.2.1 (2015-06-01)
+
+* Fixed "Customize wizard jumps down when dragged on pages with hidden or fixed elements"
+ 
+
 ### 1.2.0 (2015-05-31)
 
 * Refactor render function, so that the returned graph function is only one line of code and does not spoil the console
