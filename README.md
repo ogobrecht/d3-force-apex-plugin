@@ -72,7 +72,7 @@ Please refer to the [API Reference] (https://github.com/ogobrecht/d3-force-apex-
 for more informations.
 
 
-### 1.2.1 (2015-06-01)
+### 1.2.1 (2015-06-02)
 
 * Fixed "Customize wizard jumps down when dragged on pages with hidden or fixed elements"
  

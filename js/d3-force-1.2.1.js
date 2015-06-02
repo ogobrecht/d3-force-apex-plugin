@@ -16,7 +16,7 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId, pApe
    */
 
   // create global object
-  var v = {"version":"1.2.0"};
+  var v = {"version":"1.2.1"};
   v.dom = {};
   v.conf = {};
   v.data = {};
