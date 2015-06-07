@@ -79,6 +79,15 @@
     fill: #3399FF;
     fill-opacity: 0.5;
 }
+.net_gobrechts_d3_force .loading rect {
+    fill: black;
+    fill-opacity: 0.2;
+}
+.net_gobrechts_d3_force .loading text {
+    fill: white;
+    font-size: 36px;
+    text-anchor: middle;
+}
 .net_gobrechts_d3_force_tooltip {
     position: absolute;
     border-radius: 5px;

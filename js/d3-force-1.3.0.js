@@ -12,11 +12,24 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId, pApe
   "use strict";
 
   /*********************************************************************************************************************
-   * Setup configuration
+   * Setup graph variable object
+   */
+
+  var v = {"version":"1.3.0"};
+  v.dom = {};
+  v.conf = {};
+  v.data = {};
+  v.tools = {};
+  v.status = {};
+  v.events = {};
+  
+  
+  /*********************************************************************************************************************
+   * Setup base helpers - needed for configuration and DOM setup
    */
 
   // create global object
-  var v = {"version":"1.2.1"};
+  var v = {"version":"1.3.0"};
   v.dom = {};
   v.conf = {};
   v.data = {};
@@ -32,6 +45,20 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId, pApe
       default: return false;
     }
   };
+
+  // get inner width for the SVG parents element
+  v.tools.getSvgParentInnerWidth = function(){
+    var parent = d3.select( v.dom.svg.node().parentNode );
+    return parseInt(parent.style('width')) -
+      parseInt(parent.style('padding-left')) -
+      parseInt(parent.style('padding-right')) -
+      (v.dom.svg.style('border-width') ? parseInt(v.dom.svg.style('border-width')) : 1) * 2 ;
+  };
+  
+
+  /*********************************************************************************************************************
+   * Setup configuration
+   */
 
   // save parameter for later use
   v.dom.containerId            = pDomContainerId || 'D3Force' + Math.floor(Math.random()*1000000);
@@ -85,6 +112,7 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId, pApe
     "height":{"relation":"graph", "type":"number", "val":500, "options":[1200,1150,1100,1050,1000,950,900,850,800,750,700,650,600,550,500,450,400,350,300]},
     "showBorder":{"relation":"graph", "type":"bool", "val":true, "options":[true,false]},
     "showLegend":{"relation":"graph", "type":"bool", "val":true, "options":[true,false]},
+    "showLoadingIndicatorOnAjaxCall":{"relation":"graph", "type":"bool", "val":true, "options":[true,false]},
     "lassoMode":{"relation":"graph", "type":"bool", "val":false, "options":[true,false]},
     "zoomMode":{"relation":"graph", "type":"bool", "val":false, "options":[true,false]},
     "minZoomFactor":{"relation":"graph", "type":"number", "val":0.2, "options":[1.0,0.9,0.8,0.7,0.6,0.5,0.4,0.3,0.2,0.1]},
@@ -109,6 +137,7 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId, pApe
   v.conf.showSelfLinks = (typeof v.confUser.showSelfLinks !== 'undefined' ? v.tools.parseBool(v.confUser.showSelfLinks) : v.confDefaults.showSelfLinks.val);
   v.conf.showLinkDirection = (typeof v.confUser.showLinkDirection !== 'undefined' ? v.tools.parseBool(v.confUser.showLinkDirection) : v.confDefaults.showLinkDirection.val);
   v.conf.showLegend = (typeof v.confUser.showLegend !== 'undefined' ? v.tools.parseBool(v.confUser.showLegend) : v.confDefaults.showLegend.val);
+  v.conf.showLoadingIndicatorOnAjaxCall = (typeof v.confUser.showLoadingIndicatorOnAjaxCall !== 'undefined' ? v.tools.parseBool(v.confUser.showLoadingIndicatorOnAjaxCall) : v.confDefaults.showLoadingIndicatorOnAjaxCall.val);
   v.conf.showTooltips = (typeof v.confUser.showTooltips !== 'undefined' ? v.tools.parseBool(v.confUser.showTooltips) : v.confDefaults.showTooltips.val);
   v.conf.tooltipPosition = v.confUser.tooltipPosition || v.confDefaults.tooltipPosition.val;
   v.conf.colorScheme = v.confUser.colorScheme || v.confDefaults.colorScheme.val;
@@ -200,7 +229,7 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId, pApe
     v.dom.container = d3.select('#' + v.dom.containerId);
     d3.selectAll('#' + v.dom.containerId + '_tooltip, #' + v.dom.containerId + '_customizing').remove();
   }
-
+  
   // create SVG element, if not existing (if we have an APEX context, it is already created from the APEX plugin )
   if ( document.querySelector('#' + v.dom.containerId + ' svg') === null ){
     v.dom.svg = v.dom.container.append('svg');
@@ -212,12 +241,15 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId, pApe
 
   // configure SVG element
   v.dom.svg
-    //.attr('id', v.dom.containerId + '_svg')
     .attr('class', 'net_gobrechts_d3_force')
     .classed('border', v.conf.showBorder)
     .attr('width', v.conf.width)
     .attr('height', v.conf.height);
 
+  // calculate width of SVG parent 
+  v.dom.containerWidth = v.tools.getSvgParentInnerWidth();
+  if (v.conf.useDomParentWidth) v.dom.svg.attr('width', v.dom.containerWidth);
+  
   // create definitions element inside the SVG element
   v.dom.defs = v.dom.svg.append('defs');
   
@@ -232,6 +264,20 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId, pApe
 
   // create legend group element
   v.dom.legend = v.dom.svg.append('g').attr('class', 'legend');
+  
+  // create loading indicator
+  v.dom.loading = v.dom.svg.append('svg:g')
+    .attr('class', 'loading')
+    .style('display', 'none');
+  v.dom.loadingRect = v.dom.loading
+    .append('svg:rect')
+    .attr('width', (v.conf.useDomParentWidth ? v.dom.containerWidth : v.conf.width))
+    .attr('height', v.conf.height);
+  v.dom.loadingText = v.dom.loading
+    .append('svg:text')
+    .attr('x', (v.conf.useDomParentWidth ? v.dom.containerWidth : v.conf.width) / 2)
+    .attr('y', v.conf.height / 2)
+    .text('Loading...');
 
   // create marker definitions
   v.dom.defs
@@ -269,6 +315,7 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId, pApe
     .style('top', '0px')
     .style('left', '0px');
 
+  
   /*********************************************************************************************************************
    * Setup helper functions and initialize graph
    */
@@ -603,15 +650,6 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId, pApe
 
   // converter function for XML data
   v.tools.x2js = new X2JS( {attributePrefix:'none'} );
-
-  // get inner width for the SVG parents element
-  v.tools.getSvgParentInnerWidth = function(){
-    var parent = d3.select( v.dom.svg.node().parentNode );
-    return parseInt(parent.style('width')) -
-      parseInt(parent.style('padding-left')) -
-      parseInt(parent.style('padding-right')) -
-      (v.dom.svg.style('border-width') ? parseInt(v.dom.svg.style('border-width')) : 1) * 2 ;
-  };
 
   // get offset for an element relative to the document: http://javascript.info/tutorial/coordinates
   v.tools.getOffsetRect = function(elem) {
@@ -1001,6 +1039,7 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId, pApe
   // create zoom reference
   v.zoom = d3.behavior.zoom();
 
+  
   /*********************************************************************************************************************
    * GRAPH FUNCTION
    */
@@ -1008,7 +1047,7 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId, pApe
   function graph(){}
 
   /*********************************************************************************************************************
-   * Public functions
+   * Public graph functions -> API methods
    */
 
     // public start function: get data and start visualization
@@ -1020,6 +1059,7 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId, pApe
     }
     // if we have no data, then we try to use the APEX context (if APEX plugin ID is set)
     else if ( v.conf.apexPluginId ) {
+      if (v.conf.showLoadingIndicatorOnAjaxCall) graph.showLoadingIndicator(true);
       apex.server.plugin(
         v.conf.apexPluginId,
         { p_debug: $v('pdebug'),
@@ -1028,6 +1068,7 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId, pApe
         { success: function(dataString){
           // dataString starts NOT with "<" or "{", when there are no queries defined in APEX or
           // when the queries returns empty data or when a error occurs on the APEX backend side
+          if (v.conf.showLoadingIndicatorOnAjaxCall) graph.showLoadingIndicator(false);
           firstChar = dataString.trim().substr(0,1);
           if ( firstChar == '<' || firstChar == '{' ) {
             graph.render(dataString);
@@ -1239,7 +1280,7 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId, pApe
     v.tools.setRadiusFunction();
     v.data.nodes.forEach( function(n){ n.radius = v.tools.radius(n.SIZEVALUE); });
 
-    // LINKS
+      // LINKS
     v.links = v.dom.graph.selectAll('line.link')
       .data( v.data.links.filter( function(l) { return l.FROMID != l.TOID; } ),
       function(l){return l.FROMID + '_' + l.TOID;});
@@ -1294,6 +1335,8 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId, pApe
       function(n){return n.ID;});
     v.nodes.enter().append('svg:circle')
       .attr('class', 'node')
+      .attr('cx', function(n) { return n.x = Math.floor((Math.random() * (v.conf.useDomParentWidth ? v.dom.containerWidth : v.conf.width)) + 1) } )
+      .attr('cy', function(n) { return n.y = Math.floor((Math.random() * v.conf.height) + 1) } )
       .on('mouseenter', v.tools.onNodeMouseenter)
       .on('mouseleave', v.tools.onNodeMouseleave)
       .on('click', v.tools.onNodeClick)
@@ -1683,6 +1726,22 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId, pApe
     return graph;
   };
 
+  graph.showLoadingIndicatorOnAjaxCall = function(value) {
+    if (!arguments.length) return v.conf.showLoadingIndicatorOnAjaxCall;
+    v.conf.showLoadingIndicatorOnAjaxCall = value;
+    return graph;
+  };
+  
+  graph.showLoadingIndicator = function(value) {
+    if (v.tools.parseBool(value)) {
+      v.dom.loading.style('display', 'block');
+    }
+    else {
+      v.dom.loading.style('display', 'none');
+    }
+    return graph;
+  };
+
   graph.alignFixedNodesToGrid = function(value) {
     if (!arguments.length) return v.conf.alignFixedNodesToGrid;
     v.conf.alignFixedNodesToGrid = value;
@@ -1829,6 +1888,8 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId, pApe
     if (v.status.graphStarted) {
       v.dom.svg.attr('width', (v.conf.useDomParentWidth ? v.dom.containerWidth : v.conf.width));
       v.dom.graphOverlaySizeHelper.attr('width', (v.conf.useDomParentWidth ? v.dom.containerWidth : v.conf.width));
+      v.dom.loadingRect.attr('width', (v.conf.useDomParentWidth ? v.dom.containerWidth : v.conf.width));
+      v.dom.loadingText.attr('x', (v.conf.useDomParentWidth ? v.dom.containerWidth : v.conf.width) / 2);
       v.force.size([(v.conf.useDomParentWidth ? v.dom.containerWidth : v.conf.width), v.conf.height]);
       if (v.conf.zoomMode) v.zoom.size([(v.conf.useDomParentWidth ? v.dom.containerWidth : v.conf.width), v.conf.height]);
       if (v.conf.customize && !v.status.graphRendering) v.tools.createCustomizeWizard();
@@ -1842,11 +1903,10 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId, pApe
     if (v.status.graphStarted) {
       v.dom.svg.attr('height', v.conf.height);
       v.dom.graphOverlaySizeHelper.attr('height', v.conf.height);
+      v.dom.loadingRect.attr('height', v.conf.height);
+      v.dom.loadingText.attr('y', v.conf.height / 2);
       v.force.size([(v.conf.useDomParentWidth ? v.dom.containerWidth : v.conf.width), v.conf.height]);
-      if (v.conf.showLegend) {
-        v.tools.removeLegend();
-        v.tools.createLegend();
-      }
+      if (v.conf.showLegend) { v.tools.removeLegend(); v.tools.createLegend(); }
       if (v.conf.zoomMode) v.zoom.size([(v.conf.useDomParentWidth ? v.dom.containerWidth : v.conf.width), v.conf.height]);
       if (v.conf.customize && !v.status.graphRendering) v.tools.createCustomizeWizard();
     }

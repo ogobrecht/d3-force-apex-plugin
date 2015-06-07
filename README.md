@@ -72,6 +72,16 @@ Please refer to the [API Reference] (https://github.com/ogobrecht/d3-force-apex-
 for more informations.
 
 
+### 1.3.0 (2015-06-07)
+
+* New option showLoadingIndicatorOnAjaxCall: if set to true, a loading indicator is shown when used as a APEX plugin during
+  the AJAX calls. If you want to show the loading indicator in a standalone implementation you can show and hide the 
+  loading indicator directly with the API method showLoadingIndicator:
+  Show: 'example.showLoadingIndicator(true);'
+  Hide: 'example.showLoadingIndicator(false);'
+* Update to D3 v3.5.5 
+  
+
 ### 1.2.1 (2015-06-02)
 
 * Fixed "Customize wizard jumps down when dragged on pages with hidden or fixed elements"
