@@ -7,7 +7,7 @@ stable version here] (https://github.com/ogobrecht/d3-force-apex-plugin/releases
 This is a D3 force implementation, playground and Oracle APEX plugin, which uses the
 [D3 visualization library] (http://d3js.org/) to render a network layout. It has the following features:
 
-* Interactive customizing wizard
+* Interactive customization wizard
 * Source data can be a XML string, JSON string or JavaScript Object (JSON)
 * Link directions are visible and self references are rendered in a nice way - have a look in the online demos
 * Node sizes are calculated between given min and max values depending on the SIZEVALUE attribute in your source data
@@ -20,9 +20,9 @@ This is a D3 force implementation, playground and Oracle APEX plugin, which uses
   align the nodes to a grid when they are dragged around
 * With the lasso mode you can select nodes and implement a graphical multi select
 * The graph can be zoomed between the two configured min and max scale factors and is callable with the API 
-* There is a JavaScript API to interact with the graph, also including seven events for the nodes (click, dblclick,
-  contextmenu, mouseenter, mouseleave, lassostart, lassoend)
-* All seven events are available in APEX - the plugin region can be AJAX refreshed and triggers then also
+* There is a JavaScript API to interact with the graph, also including eight events (node click, node double click, node
+  contextmenu, node mouse enter, node mouse leave, link click, lasso start, lasso end)
+* All eight events are available in APEX - the plugin region can be AJAX refreshed and triggers then also
   apexbeforerefresh and apexafterrefresh
 
 
@@ -70,6 +70,28 @@ the JavaScript console in your browser and look for "d3_force_YOUR_REGION_STATIC
 
 Please refer to the [API Reference] (https://github.com/ogobrecht/d3-force-apex-plugin/wiki/API-Reference)
 for more informations.
+
+
+### 1.4.0 (2015-08-03)
+
+* New possible node attribute COLORLABEL: Since there is an option to render a legend, it makes no sense to render the 
+  color names as legend labels, if the colorScheme "direct" is used to directly deliver CSS color codes (thanks to 
+  Philippe Duchateau for telling me about the problems). With other color schemes it is ok, since the COLORVALUE information
+  can be any string like department names or ids or city names or whatever. To not to break existing graphs, the 
+  COLORVALUE is used as the legend label, if the COLORLABEL is not given in the nodes attributes.
+* New option onLinkClickFunction: You can register a function which is called when a link is clicked (thanks to 
+  Niels de Bruijn for requesting this feature). It is not so easy to click a link, because the links are so narrow - if 
+  this option is needed I recommend to switch on the zoom mode - with zoom and pan it feels very natural to click links.
+* New option setDomParentPaddingToZero: Boolean. If true, the style "padding: 0px;" is added to the graphs DOM parent 
+  element. If false, this style is removed from the graphs DOM parent element.
+* The customization wizard shows now in the configuration object only non-default options. This reduces the size of the 
+  configuration object and is more transparent.
+* New API methods "options" and "optionsCustomizationWizard": with this API methods you can get and set the whole 
+  configuration object with one call. "options" ouput includes all options, who are accessible via the API
+  methods including the registered event functions (no APEX dynamic actions, only the functions under the report 
+  attributes). "optionsCustomizationWizard" output includes only the options, who are accessible via the customization
+  wizard. With both methods you can set all options who are accessible via the API in one call.
+* Restructuring the online API reference method overview.
 
 
 ### 1.3.0 (2015-06-07)

@@ -4,20 +4,22 @@
 <head>
     <meta charset="utf-8">
     <title>D3 Force APEX Plugin</title>
-    <link  href="css/d3-force-1.3.0.css" rel="stylesheet" type="text/css">
+    <link  href="css/d3-force-1.4.0.css" rel="stylesheet" type="text/css">
     <script src="lib/x2js/xml2json-modified-1.1.5.min.js"></script>
     <script src="lib/d3/d3-3.5.5.min.js"></script>
     <script src="lib/d3/d3-plugin-lasso-modified-2015-05-25.min.js"></script>
-    <script src="js/d3-force-1.3.0.min.js"></script>
+    <script src="js/d3-force-1.4.0.min.js"></script>
 </head>
 
 <body
     onload="example = net_gobrechts_d3_force()
         .debug(true)
         .lassoMode(true)
-        .onLassoEndFunction( function(event, data){ console.log('Lasso end data:', data); } )
+        .onLassoEndFunction( function(event, data){ console.log('Lasso end triggered - data:', data); } )
+        .onLinkClickFunction( function(event, data){ console.log('Link click triggered - data:', data); } )
+        .onNodeClickFunction( function(event, data){ console.log('Node click triggered - data:', data); } )
         .zoomMode(true)
-        .useDomParentWidth(false) // true can be useful for responsive layouts
+        .useDomParentWidth(false) //true can be useful for responsive layouts
         .start();">
 </body>
 

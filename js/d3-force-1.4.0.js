@@ -15,9 +15,10 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId, pApe
    * Setup graph variable object
    */
 
-  var v = {"version":"1.3.0"};
+  var v = {"version":"1.4.0"};
   v.dom = {};
   v.conf = {};
+  v.confDefaults = {};
   v.data = {};
   v.tools = {};
   v.status = {};
@@ -27,15 +28,6 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId, pApe
   /*********************************************************************************************************************
    * Setup base helpers - needed for configuration and DOM setup
    */
-
-  // create global object
-  var v = {"version":"1.3.0"};
-  v.dom = {};
-  v.conf = {};
-  v.data = {};
-  v.tools = {};
-  v.status = {};
-  v.events = {};
 
   // helper to check boolean values
   v.tools.parseBool = function(value){
@@ -48,10 +40,9 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId, pApe
 
   // get inner width for the SVG parents element
   v.tools.getSvgParentInnerWidth = function(){
-    var parent = d3.select( v.dom.svg.node().parentNode );
-    return parseInt(parent.style('width')) -
-      parseInt(parent.style('padding-left')) -
-      parseInt(parent.style('padding-right')) -
+    return parseInt(v.dom.svgParent.style('width')) -
+      parseInt(v.dom.svgParent.style('padding-left')) -
+      parseInt(v.dom.svgParent.style('padding-right')) -
       (v.dom.svg.style('border-width') ? parseInt(v.dom.svg.style('border-width')) : 1) * 2 ;
   };
   
@@ -61,16 +52,19 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId, pApe
    */
 
   // save parameter for later use
-  v.dom.containerId            = pDomContainerId || 'D3Force' + Math.floor(Math.random()*1000000);
-  v.confUser                   = pOptions || {};
-  v.conf.apexPluginId          = pApexPluginId;
-  v.conf.apexPageItemsToSubmit = pApexPageItemsToSubmit;
+  v.dom.containerId              = pDomContainerId || 'D3Force' + Math.floor(Math.random()*1000000);
+  v.confUser                     = pOptions || {};
+  v.status.apexPluginId          = pApexPluginId;
+  v.status.apexPageItemsToSubmit = pApexPageItemsToSubmit;
 
-  // configure debug mode for APEX, can be overwritten by configuration object
-  v.conf.debugPrefix    = 'D3 Force in DOM container #' + v.dom.containerId + ': ';
-  v.conf.debug = ( v.conf.apexPluginId && apex.jQuery('#pdebug').length == 1 );
+  // configure debug mode for APEX, can be overwritten by users configuration object or later on with the API debug method
+  v.conf.debug = ( v.status.apexPluginId && apex.jQuery('#pdebug').length == 1 );
+  v.status.debugPrefix = 'D3 Force in DOM container #' + v.dom.containerId + ': ';
 
-  // monitoring variables
+  // status variables
+  v.status.customize = false;
+  v.status.customizeCurrentMenu = 'nodes';
+  v.status.customizeCurrentTabPosition = null;
   v.status.forceTickCounter = 0;
   v.status.forceStartTime = 0;
   v.status.forceRunning = false;
@@ -80,122 +74,123 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId, pApe
   v.status.graphOldPositions = null;
   v.status.translate = [0,0];
   v.status.scale = 1;
-  v.status.currentCustomizeMenu = 'nodes';
+  v.status.sampleData = false;
 
   // default configuration
-  v.confDefaults = {
+  v.confDefaults.minNodeRadius = {"display":true,"relation":"node", "type":"number", "val":6, "options":[12,11,10,9,8,7,6,5,4,3,2,1]};
+  v.confDefaults.maxNodeRadius = {"display":true,"relation":"node", "type":"number", "val":18,"options":[36,34,32,30,28,26,24,22,20,18,16,14,12]};
+  v.confDefaults.colorScheme = {"display":true,"relation":"node", "type":"text", "val":"color20", "options":["color20","color20b","color20c","color10","direct"]};
+  v.confDefaults.dragMode = {"display":true,"relation":"node", "type":"bool", "val":true, "options":[true,false]};
+  v.confDefaults.pinMode = {"display":true,"relation":"node", "type":"bool", "val":false, "options":[true,false]};
+  v.confDefaults.nodeEventToStopPinMode = {"display":true,"relation":"node", "type":"text", "val":"contextmenu", "options":["none","dblclick","contextmenu"]};
+  v.confDefaults.onNodeContextmenuPreventDefault = {"display":true,"relation":"node", "type":"bool", "val":false, "options":[true,false]};
+  v.confDefaults.nodeEventToOpenLink = {"display":true,"relation":"node", "type":"text", "val":"dblclick", "options":["none","click","dblclick","contextmenu"]};
+  v.confDefaults.nodeLinkTarget = {"display":true,"relation":"node", "type":"text", "val":"_blank", "options":["none","_blank","nodeID","domContainerID"]};
+  v.confDefaults.showLabels = {"display":true,"relation":"node", "type":"bool", "val":true, "options":[true,false]};
+  v.confDefaults.labelsCircular = {"display":true,"relation":"node", "type":"bool", "val":false, "options":[true,false]};
+  v.confDefaults.labelDistance = {"display":true,"relation":"node", "type":"number", "val":12, "options":[30,28,26,24,22,20,18,16,14,12,10,8,6,4,2]};
+  v.confDefaults.showTooltips = {"display":true,"relation":"node", "type":"bool", "val":true, "options":[true,false]};
+  v.confDefaults.tooltipPosition = {"display":true,"relation":"node", "type":"text", "val":"svgTopRight", "options":["node","svgTopLeft","svgTopRight"]};
+  v.confDefaults.alignFixedNodesToGrid = {"display":true,"relation":"node", "type":"bool", "val":false, "options":[true,false]};
+  v.confDefaults.gridSize = {"display":true,"relation":"node", "type":"number", "val":50, "options":[150,140,130,120,110,100,90,80,70,60,50,40,30,20,10]};
 
-    "minNodeRadius":{"relation":"node", "type":"number", "val":6, "options":[12,11,10,9,8,7,6,5,4,3,2,1]},
-    "maxNodeRadius":{"relation":"node", "type":"number", "val":18,"options":[36,34,32,30,28,26,24,22,20,18,16,14,12]},
-    "colorScheme":{"relation":"node", "type":"text", "val":"color20", "options":["color20","color20b","color20c","color10","direct"]},
-    "dragMode":{"relation":"node", "type":"bool", "val":true, "options":[true,false]},
-    "pinMode":{"relation":"node", "type":"bool", "val":false, "options":[true,false]},
-    "nodeEventToStopPinMode":{"relation":"node", "type":"text", "val":"contextmenu", "options":["none","dblclick","contextmenu"]},
-    "onNodeContextmenuPreventDefault":{"relation":"node", "type":"bool", "val":false, "options":[true,false]},
-    "nodeEventToOpenLink":{"relation":"node", "type":"text", "val":"dblclick", "options":["none","click","dblclick","contextmenu"]},
-    "nodeLinkTarget":{"relation":"node", "type":"text", "val":"_blank", "options":["none","_blank","nodeID","domContainerID"]},
-    "showLabels":{"relation":"node", "type":"bool", "val":true, "options":[true,false]},
-    "labelsCircular":{"relation":"node", "type":"bool", "val":false, "options":[true,false]},
-    "labelDistance":{"relation":"node", "type":"number", "val":12, "options":[30,28,26,24,22,20,18,16,14,12,10,8,6,4,2]},
-    "showTooltips":{"relation":"node", "type":"bool", "val":true, "options":[true,false]},
-    "tooltipPosition":{"relation":"node", "type":"text", "val":"svgTopRight", "options":["node","svgTopLeft","svgTopRight"]},
-    "alignFixedNodesToGrid":{"relation":"node", "type":"bool", "val":false, "options":[true,false]},
-    "gridSize":{"relation":"node", "type":"number", "val":50, "options":[150,140,130,120,110,100,90,80,70,60,50,40,30,20,10]},
+  v.confDefaults.linkDistance = {"display":true,"relation":"link", "type":"number", "val":80, "options":[120,110,100,90,80,70,60,50,40,30,20]};
+  v.confDefaults.showLinkDirection = {"display":true,"relation":"link", "type":"bool", "val":true, "options":[true,false]};
+  v.confDefaults.showSelfLinks = {"display":true,"relation":"link", "type":"bool", "val":true, "options":[true,false]};
+  v.confDefaults.selfLinkDistance = {"display":true,"relation":"link", "type":"number", "val":20, "options":[30,28,26,24,22,20,18,16,14,12,10,8]};
 
-    "linkDistance":{"relation":"link", "type":"number", "val":80, "options":[120,110,100,90,80,70,60,50,40,30,20]},
-    "showLinkDirection":{"relation":"link", "type":"bool", "val":true, "options":[true,false]},
-    "showSelfLinks":{"relation":"link", "type":"bool", "val":true, "options":[true,false]},
-    "selfLinkDistance":{"relation":"link", "type":"number", "val":20, "options":[30,28,26,24,22,20,18,16,14,12,10,8]},
-
-    "useDomParentWidth":{"relation":"graph", "type":"bool", "val":false, "options":[true,false]},
-    "width":{"relation":"graph", "type":"number", "val":500, "options":[1200,1150,1100,1050,1000,950,900,850,800,750,700,650,600,550,500,450,400,350,300]},
-    "height":{"relation":"graph", "type":"number", "val":500, "options":[1200,1150,1100,1050,1000,950,900,850,800,750,700,650,600,550,500,450,400,350,300]},
-    "showBorder":{"relation":"graph", "type":"bool", "val":true, "options":[true,false]},
-    "showLegend":{"relation":"graph", "type":"bool", "val":true, "options":[true,false]},
-    "showLoadingIndicatorOnAjaxCall":{"relation":"graph", "type":"bool", "val":true, "options":[true,false]},
-    "lassoMode":{"relation":"graph", "type":"bool", "val":false, "options":[true,false]},
-    "zoomMode":{"relation":"graph", "type":"bool", "val":false, "options":[true,false]},
-    "minZoomFactor":{"relation":"graph", "type":"number", "val":0.2, "options":[1.0,0.9,0.8,0.7,0.6,0.5,0.4,0.3,0.2,0.1]},
-    "maxZoomFactor":{"relation":"graph", "type":"number", "val":5, "options":[10,9,8,7,6,5,4,3,2,1]},
-    "autoRefresh":{"relation":"graph", "type":"bool", "val":false, "options":[true,false]},
-    "refreshInterval":{"relation":"graph", "type":"number", "val":5000, "options":[60000,30000,15000,10000,5000,2500]},
-    "charge":{"relation":"graph", "type":"number", "val":-350, "options":[-1000,-950,-900,-850,-800,-750,-700,-650,-600,-550,-500,-450,-400,-350,-300,-250,-200,-150,-100,-50,0], "internal":true},
-    "gravity":{"relation":"graph", "type":"number", "val":0.1, "options":[1.00,0.95,0.90,0.85,0.80,0.75,0.70,0.65,0.60,0.55,0.50,0.45,0.40,0.35,0.30,0.25,0.20,0.15,0.1,0.05,0.00], "internal":true},
-    //"chargeDistance":{"type":"number", "val":Infinity, "options":[Infinity, 25600,12800,6400,3200,1600,800,400,200,100], "internal":true},
-    "linkStrength":{"relation":"graph", "type":"number", "val":1, "options":[1.00,0.95,0.90,0.85,0.80,0.75,0.70,0.65,0.60,0.55,0.50,0.45,0.40,0.35,0.30,0.25,0.20,0.15,0.10,0.05,0.00], "internal":true},
-    "friction":{"relation":"graph", "type":"number", "val":0.9, "options":[1.00,0.95,0.90,0.85,0.80,0.75,0.70,0.65,0.60,0.55,0.50,0.45,0.40,0.35,0.30,0.25,0.20,0.15,0.10,0.05,0.00], "internal":true},
-    "theta":{"relation":"graph", "type":"number", "val":0.8, "options":[1,0.95,0.9,0.85,0.8,0.75,0.7,0.65,0.6,0.55,0.5,0.45,0.4,0.35,0.3,0.25,0.2,0.15,0.1,0.05,0], "internal":true}
-  };
+  v.confDefaults.useDomParentWidth = {"display":true,"relation":"graph", "type":"bool", "val":false, "options":[true,false]};
+  v.confDefaults.width = {"display":true,"relation":"graph", "type":"number", "val":500, "options":[1200,1150,1100,1050,1000,950,900,850,800,750,700,650,600,550,500,450,400,350,300]};
+  v.confDefaults.height = {"display":true,"relation":"graph", "type":"number", "val":500, "options":[1200,1150,1100,1050,1000,950,900,850,800,750,700,650,600,550,500,450,400,350,300]};
+  v.confDefaults.setDomParentPaddingToZero = {"display":true,"relation":"graph", "type":"bool", "val":false, "options":[true,false]};
+  v.confDefaults.showBorder = {"display":true,"relation":"graph", "type":"bool", "val":true, "options":[true,false]};
+  v.confDefaults.showLegend = {"display":true,"relation":"graph", "type":"bool", "val":true, "options":[true,false]};
+  v.confDefaults.showLoadingIndicatorOnAjaxCall = {"display":true,"relation":"graph", "type":"bool", "val":true, "options":[true,false]};
+  v.confDefaults.lassoMode = {"display":true,"relation":"graph", "type":"bool", "val":false, "options":[true,false]};
+  v.confDefaults.zoomMode = {"display":true,"relation":"graph", "type":"bool", "val":false, "options":[true,false]};
+  v.confDefaults.minZoomFactor = {"display":true,"relation":"graph", "type":"number", "val":0.2, "options":[1.0,0.9,0.8,0.7,0.6,0.5,0.4,0.3,0.2,0.1]};
+  v.confDefaults.maxZoomFactor = {"display":true,"relation":"graph", "type":"number", "val":5, "options":[10,9,8,7,6,5,4,3,2,1]};
+  v.confDefaults.autoRefresh = {"display":true,"relation":"graph", "type":"bool", "val":false, "options":[true,false]};
+  v.confDefaults.refreshInterval = {"display":true,"relation":"graph", "type":"number", "val":5000, "options":[60000,30000,15000,10000,5000,2500]};
+  v.confDefaults.chargeDistance = {"display":false,"relation":"graph", "type":"number", "val":Infinity, "options":[Infinity, 25600,12800,6400,3200,1600,800,400,200,100], "internal":true};
+  v.confDefaults.charge = {"display":true,"relation":"graph", "type":"number", "val":-350, "options":[-1000,-950,-900,-850,-800,-750,-700,-650,-600,-550,-500,-450,-400,-350,-300,-250,-200,-150,-100,-50,0], "internal":true};
+  v.confDefaults.gravity = {"display":true,"relation":"graph", "type":"number", "val":0.1, "options":[1.00,0.95,0.90,0.85,0.80,0.75,0.70,0.65,0.60,0.55,0.50,0.45,0.40,0.35,0.30,0.25,0.20,0.15,0.1,0.05,0.00], "internal":true};
+  v.confDefaults.linkStrength = {"display":true,"relation":"graph", "type":"number", "val":1, "options":[1.00,0.95,0.90,0.85,0.80,0.75,0.70,0.65,0.60,0.55,0.50,0.45,0.40,0.35,0.30,0.25,0.20,0.15,0.10,0.05,0.00], "internal":true};
+  v.confDefaults.friction = {"display":true,"relation":"graph", "type":"number", "val":0.9, "options":[1.00,0.95,0.90,0.85,0.80,0.75,0.70,0.65,0.60,0.55,0.50,0.45,0.40,0.35,0.30,0.25,0.20,0.15,0.10,0.05,0.00], "internal":true};
+  v.confDefaults.theta = {"display":true,"relation":"graph", "type":"number", "val":0.8, "options":[1,0.95,0.9,0.85,0.8,0.75,0.7,0.65,0.6,0.55,0.5,0.45,0.4,0.35,0.3,0.25,0.2,0.15,0.1,0.05,0], "internal":true};
 
   // create intial configuration
-  v.conf.customize = false;
   v.conf.debug = (typeof v.confUser.debug  !== 'undefined' ?  v.tools.parseBool(v.confUser.debug) : false);
-  v.conf.showBorder = (typeof v.confUser.showBorder !== 'undefined' ? v.tools.parseBool(v.confUser.showBorder) : v.confDefaults.showBorder.val);
-  v.conf.showLabels = (typeof v.confUser.showLabels !== 'undefined' ? v.tools.parseBool(v.confUser.showLabels) : v.confDefaults.showLabels.val);
-  v.conf.labelsCircular = (typeof v.confUser.labelsCircular !== 'undefined' ? v.tools.parseBool(v.confUser.labelsCircular) : v.confDefaults.labelsCircular.val);
-  v.conf.labelDistance = v.confUser.labelDistance || v.confDefaults.labelDistance.val;
-  v.conf.showSelfLinks = (typeof v.confUser.showSelfLinks !== 'undefined' ? v.tools.parseBool(v.confUser.showSelfLinks) : v.confDefaults.showSelfLinks.val);
-  v.conf.showLinkDirection = (typeof v.confUser.showLinkDirection !== 'undefined' ? v.tools.parseBool(v.confUser.showLinkDirection) : v.confDefaults.showLinkDirection.val);
-  v.conf.showLegend = (typeof v.confUser.showLegend !== 'undefined' ? v.tools.parseBool(v.confUser.showLegend) : v.confDefaults.showLegend.val);
-  v.conf.showLoadingIndicatorOnAjaxCall = (typeof v.confUser.showLoadingIndicatorOnAjaxCall !== 'undefined' ? v.tools.parseBool(v.confUser.showLoadingIndicatorOnAjaxCall) : v.confDefaults.showLoadingIndicatorOnAjaxCall.val);
-  v.conf.showTooltips = (typeof v.confUser.showTooltips !== 'undefined' ? v.tools.parseBool(v.confUser.showTooltips) : v.confDefaults.showTooltips.val);
-  v.conf.tooltipPosition = v.confUser.tooltipPosition || v.confDefaults.tooltipPosition.val;
+
+  v.conf.minNodeRadius = v.confUser.minNodeRadius || v.confDefaults.minNodeRadius.val;
+  v.conf.maxNodeRadius = v.confUser.maxNodeRadius || v.confDefaults.maxNodeRadius.val;
   v.conf.colorScheme = v.confUser.colorScheme || v.confDefaults.colorScheme.val;
   v.conf.dragMode = (typeof v.confUser.dragMode !== 'undefined' ? v.tools.parseBool(v.confUser.dragMode) : v.confDefaults.dragMode.val);
   v.conf.pinMode = (typeof v.confUser.pinMode !== 'undefined' ? v.tools.parseBool(v.confUser.pinMode) : v.confDefaults.pinMode.val);
   v.conf.nodeEventToStopPinMode = v.confUser.nodeEventToStopPinMode || v.confDefaults.nodeEventToStopPinMode.val;
+  v.conf.onNodeContextmenuPreventDefault = (typeof v.confUser.onNodeContextmenuPreventDefault !== 'undefined' ? v.tools.parseBool(v.confUser.onNodeContextmenuPreventDefault) : v.confDefaults.onNodeContextmenuPreventDefault.val);
+  v.conf.nodeEventToOpenLink = v.confUser.nodeEventToOpenLink || v.confDefaults.nodeEventToOpenLink.val;
+  v.conf.nodeLinkTarget = v.confUser.nodeLinkTarget || v.confDefaults.nodeLinkTarget.val;
+  v.conf.showLabels = (typeof v.confUser.showLabels !== 'undefined' ? v.tools.parseBool(v.confUser.showLabels) : v.confDefaults.showLabels.val);
+  v.conf.labelsCircular = (typeof v.confUser.labelsCircular !== 'undefined' ? v.tools.parseBool(v.confUser.labelsCircular) : v.confDefaults.labelsCircular.val);
+  v.conf.labelDistance = v.confUser.labelDistance || v.confDefaults.labelDistance.val;
+  v.conf.showTooltips = (typeof v.confUser.showTooltips !== 'undefined' ? v.tools.parseBool(v.confUser.showTooltips) : v.confDefaults.showTooltips.val);
+  v.conf.tooltipPosition = v.confUser.tooltipPosition || v.confDefaults.tooltipPosition.val;
+  v.conf.alignFixedNodesToGrid = (typeof v.confUser.alignFixedNodesToGrid !== 'undefined' ? v.tools.parseBool(v.confUser.alignFixedNodesToGrid) : v.confDefaults.alignFixedNodesToGrid.val);
+  v.conf.gridSize = (v.confUser.gridSize && v.confUser.gridSize > 0 ? v.confUser.gridSize : v.confDefaults.gridSize.val);
+
+  v.conf.linkDistance = v.confUser.linkDistance || v.confDefaults.linkDistance.val;
+  v.conf.showLinkDirection = (typeof v.confUser.showLinkDirection !== 'undefined' ? v.tools.parseBool(v.confUser.showLinkDirection) : v.confDefaults.showLinkDirection.val);
+  v.conf.showSelfLinks = (typeof v.confUser.showSelfLinks !== 'undefined' ? v.tools.parseBool(v.confUser.showSelfLinks) : v.confDefaults.showSelfLinks.val);
+  v.conf.selfLinkDistance = v.confUser.selfLinkDistance || v.confDefaults.selfLinkDistance.val;
+
+  v.conf.useDomParentWidth = (typeof v.confUser.useDomParentWidth !== 'undefined' ? v.tools.parseBool(v.confUser.useDomParentWidth) : v.confDefaults.useDomParentWidth.val);
+  v.conf.width = v.confUser.width || v.confDefaults.width.val;
+  v.conf.height = v.confUser.height || v.confDefaults.height.val;
+  v.conf.setDomParentPaddingToZero = (typeof v.confUser.setDomParentPaddingToZero !== 'undefined' ? v.tools.parseBool(v.confUser.setDomParentPaddingToZero) : v.confDefaults.setDomParentPaddingToZero.val);
+  v.conf.showBorder = (typeof v.confUser.showBorder !== 'undefined' ? v.tools.parseBool(v.confUser.showBorder) : v.confDefaults.showBorder.val);
+  v.conf.showLegend = (typeof v.confUser.showLegend !== 'undefined' ? v.tools.parseBool(v.confUser.showLegend) : v.confDefaults.showLegend.val);
+  v.conf.showLoadingIndicatorOnAjaxCall = (typeof v.confUser.showLoadingIndicatorOnAjaxCall !== 'undefined' ? v.tools.parseBool(v.confUser.showLoadingIndicatorOnAjaxCall) : v.confDefaults.showLoadingIndicatorOnAjaxCall.val);
   v.conf.lassoMode = (typeof v.confUser.lassoMode !== 'undefined' ? v.tools.parseBool(v.confUser.lassoMode) : v.confDefaults.lassoMode.val);
   v.conf.zoomMode = (typeof v.confUser.zoomMode !== 'undefined' ? v.tools.parseBool(v.confUser.zoomMode) : v.confDefaults.zoomMode.val);
   v.conf.minZoomFactor = v.confUser.minZoomFactor || v.confDefaults.minZoomFactor.val;
   v.conf.maxZoomFactor = v.confUser.maxZoomFactor || v.confDefaults.maxZoomFactor.val;
-  v.conf.alignFixedNodesToGrid = (typeof v.confUser.alignFixedNodesToGrid !== 'undefined' ? v.tools.parseBool(v.confUser.alignFixedNodesToGrid) : v.confDefaults.alignFixedNodesToGrid.val);
-  v.conf.gridSize = (v.confUser.gridSize && v.confUser.gridSize > 0 ? v.confUser.gridSize : v.confDefaults.gridSize.val);
-  v.conf.onNodeContextmenuPreventDefault = (typeof v.confUser.onNodeContextmenuPreventDefault !== 'undefined' ? v.tools.parseBool(v.confUser.onNodeContextmenuPreventDefault) : v.confDefaults.onNodeContextmenuPreventDefault.val);
-  v.conf.nodeEventToOpenLink = v.confUser.nodeEventToOpenLink || v.confDefaults.nodeEventToOpenLink.val;
-  v.conf.nodeLinkTarget = v.confUser.nodeLinkTarget || v.confDefaults.nodeLinkTarget.val;
   v.conf.autoRefresh = (typeof v.confUser.autoRefresh !== 'undefined' ? v.tools.parseBool(v.confUser.autoRefresh) : v.confDefaults.autoRefresh.val);
   v.conf.refreshInterval = v.confUser.refreshInterval || v.confDefaults.refreshInterval.val;
-  v.conf.useDomParentWidth = (typeof v.confUser.useDomParentWidth !== 'undefined' ? v.tools.parseBool(v.confUser.useDomParentWidth) : v.confDefaults.useDomParentWidth.val);
-  v.conf.width = v.confUser.width || v.confDefaults.width.val;
-  v.conf.height = v.confUser.height || v.confDefaults.height.val;
-  v.conf.minNodeRadius = v.confUser.minNodeRadius || v.confDefaults.minNodeRadius.val;
-  v.conf.maxNodeRadius = v.confUser.maxNodeRadius || v.confDefaults.maxNodeRadius.val;
-  v.conf.selfLinkDistance = v.confUser.selfLinkDistance || v.confDefaults.selfLinkDistance.val;
-  v.conf.linkDistance = v.confUser.linkDistance || v.confDefaults.linkDistance.val;
   v.conf.chargeDistance = v.confUser.chargeDistance || Infinity;
   v.conf.charge = v.confUser.charge || v.confDefaults.charge.val;
   v.conf.gravity = v.confUser.gravity || v.confDefaults.gravity.val;
   v.conf.linkStrength = v.confUser.linkStrength || v.confDefaults.linkStrength.val;
   v.conf.friction = v.confUser.friction || v.confDefaults.friction.val;
   v.conf.theta = v.confUser.theta || v.confDefaults.theta.val;
+
   v.conf.onNodeMouseenterFunction = v.confUser.onNodeMouseenterFunction || null;
   v.conf.onNodeMouseleaveFunction = v.confUser.onNodeMouseleaveFunction || null;
   v.conf.onNodeClickFunction = v.confUser.onNodeClickFunction || null;
   v.conf.onNodeDblclickFunction = v.confUser.onNodeDblclickFunction || null;
   v.conf.onNodeContextmenuFunction = v.confUser.onNodeContextmenuFunction || null;
+  v.conf.onLinkClickFunction = v.confUser.onLinkClickFunction || null;
   v.conf.onLassoStartFunction = v.confUser.onLassoStartFunction || null;
   v.conf.onLassoEndFunction = v.confUser.onLassoEndFunction || null;
-  v.conf.currentTabPosition = null;
-  v.conf.sampleData = false;
 
   // initialize sample data
   v.data.sampleData = '<data>' +
-  '<nodes ID="7839" LABEL="KING is THE KING, you know?" COLORVALUE="10" SIZEVALUE="5000" LABELCIRCULAR="true" LINK="http://apex.oracle.com/" INFOSTRING="This visualization is based on the well known emp table." />' +
-  '<nodes ID="7698" LABEL="BLAKE" COLORVALUE="30" SIZEVALUE="2850" />' +
-  '<nodes ID="7782" LABEL="CLARK" COLORVALUE="10" SIZEVALUE="2450" />' +
-  '<nodes ID="7566" LABEL="JONES" COLORVALUE="20" SIZEVALUE="2975" />' +
-  '<nodes ID="7788" LABEL="SCOTT" COLORVALUE="20" SIZEVALUE="3000" />' +
-  '<nodes ID="7902" LABEL="FORD" COLORVALUE="20" SIZEVALUE="3000" />' +
-  '<nodes ID="7369" LABEL="SMITH" COLORVALUE="20" SIZEVALUE="800" />' +
-  '<nodes ID="7499" LABEL="ALLEN" COLORVALUE="30" SIZEVALUE="1600" />' +
-  '<nodes ID="7521" LABEL="WARD" COLORVALUE="30" SIZEVALUE="1250" />' +
-  '<nodes ID="7654" LABEL="MARTIN" COLORVALUE="30" SIZEVALUE="1250" />' +
-  '<nodes ID="7844" LABEL="TURNER" COLORVALUE="30" SIZEVALUE="1500" />' +
-  '<nodes ID="7876" LABEL="ADAMS" COLORVALUE="20" SIZEVALUE="1100" />' +
-  '<nodes ID="7900" LABEL="JAMES" COLORVALUE="30" SIZEVALUE="950" />' +
-  '<nodes ID="7934" LABEL="MILLER" COLORVALUE="10" SIZEVALUE="1300" />' +
-  '<nodes ID="8888" LABEL="Who am I?" COLORVALUE="green" SIZEVALUE="2000" LINK="https://github.com/ogobrecht/d3-force-apex-plugin/wiki/API-Reference#nodelinktarget" INFOSTRING="This is a good question. Think about it." />' +
-  '<nodes ID="9999" LABEL="Where I am?" COLORVALUE="#f00" SIZEVALUE="1000" LINK="https://github.com/ogobrecht/d3-force-apex-plugin/wiki/API-Reference#nodelinktarget" INFOSTRING="This is a good question. What do you think?" />' +
+  '<nodes ID="7839" LABEL="KING is THE KING, you know?" LABELCIRCULAR="true" COLORVALUE="10" COLORLABEL="Accounting" SIZEVALUE="5000" LINK="http://apex.oracle.com/" INFOSTRING="This visualization is based on the well known emp table." />' +
+  '<nodes ID="7698" LABEL="BLAKE" COLORVALUE="30" COLORLABEL="Sales" SIZEVALUE="2850" />' +
+  '<nodes ID="7782" LABEL="CLARK" COLORVALUE="10" COLORLABEL="Accounting" SIZEVALUE="2450" />' +
+  '<nodes ID="7566" LABEL="JONES" COLORVALUE="20" COLORLABEL="Research" SIZEVALUE="2975" />' +
+  '<nodes ID="7788" LABEL="SCOTT" COLORVALUE="20" COLORLABEL="Research" SIZEVALUE="3000" />' +
+  '<nodes ID="7902" LABEL="FORD" COLORVALUE="20" COLORLABEL="Research" SIZEVALUE="3000" />' +
+  '<nodes ID="7369" LABEL="SMITH" COLORVALUE="20" COLORLABEL="Research" SIZEVALUE="800" />' +
+  '<nodes ID="7499" LABEL="ALLEN" COLORVALUE="30" COLORLABEL="Sales" SIZEVALUE="1600" />' +
+  '<nodes ID="7521" LABEL="WARD" COLORVALUE="30" COLORLABEL="Sales" SIZEVALUE="1250" />' +
+  '<nodes ID="7654" LABEL="MARTIN" COLORVALUE="30" COLORLABEL="Sales" SIZEVALUE="1250" />' +
+  '<nodes ID="7844" LABEL="TURNER" COLORVALUE="30" COLORLABEL="Sales" SIZEVALUE="1500" />' +
+  '<nodes ID="7876" LABEL="ADAMS" COLORVALUE="20" COLORLABEL="Research" SIZEVALUE="1100" />' +
+  '<nodes ID="7900" LABEL="JAMES" COLORVALUE="30" COLORLABEL="Sales" SIZEVALUE="950" />' +
+  '<nodes ID="7934" LABEL="MILLER" COLORVALUE="10" COLORLABEL="Accounting" SIZEVALUE="1300" />' +
+  '<nodes ID="8888" LABEL="Who am I?" COLORVALUE="green" COLORLABEL="unspecified" SIZEVALUE="2000" LINK="https://github.com/ogobrecht/d3-force-apex-plugin/wiki/API-Reference#nodelinktarget" INFOSTRING="This is a good question. Think about it." />' +
+  '<nodes ID="9999" LABEL="Where I am?" COLORVALUE="#f00" COLORLABEL="unspecified" SIZEVALUE="1000" LINK="https://github.com/ogobrecht/d3-force-apex-plugin/wiki/API-Reference#nodelinktarget" INFOSTRING="This is a good question. What do you think?" />' +
   '<links FROMID="7839" TOID="7839" STYLE="dashed" />' +
   '<links FROMID="7698" TOID="7839" STYLE="solid" />' +
   '<links FROMID="7782" TOID="7839" STYLE="solid" />' +
@@ -238,6 +233,9 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId, pApe
     v.dom.svg = d3.select('#' + v.dom.containerId + ' svg');
     d3.selectAll('#' + v.dom.containerId + ' svg *').remove();
   }
+  
+  v.dom.svgParent = d3.select( v.dom.svg.node().parentNode );
+  if (v.conf.setDomParentPaddingToZero) v.dom.svgParent.style('padding','0');
 
   // configure SVG element
   v.dom.svg
@@ -324,20 +322,20 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId, pApe
   v.tools.log = function(message, omitDebugPrefix) {
     if (v.conf.debug){
       if (omitDebugPrefix) console.log(message);
-      else console.log( v.conf.debugPrefix + message);
+      else console.log( v.status.debugPrefix + message);
     }
-    if (v.conf.customize && v.dom.customizeLog) v.dom.customizeLog.text ( message + '\n' + v.dom.customizeLog.text() );
+    if (v.status.customize && v.dom.customizeLog) v.dom.customizeLog.text ( message + '\n' + v.dom.customizeLog.text() );
   };
 
   // log error function
   v.tools.logError = function(message) {
-    console.log( v.conf.debugPrefix + 'ERROR: ' + message);
-    if (v.conf.customize && v.dom.customizeLog) v.dom.customizeLog.text ( 'ERROR: ' + message + '\n' + v.dom.customizeLog.text() );
+    console.log( v.status.debugPrefix + 'ERROR: ' + message);
+    if (v.status.customize && v.dom.customizeLog) v.dom.customizeLog.text ( 'ERROR: ' + message + '\n' + v.dom.customizeLog.text() );
   };
   
   // trigger APEX events, if we have an APEX context
   v.tools.triggerApexEvent = function(domNode, event, data) {
-    if (v.conf.apexPluginId) apex.event.trigger(domNode, event, data);
+    if (v.status.apexPluginId) apex.event.trigger(domNode, event, data);
   };
 
   // helper function to calculate node radius from "SIZEVALUE" attribute
@@ -501,6 +499,18 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId, pApe
     }
   };
 
+  // on link click function
+  v.tools.onLinkClick = function(link){
+    if (d3.event.defaultPrevented) { // ignore drag
+      return null;
+    }
+    else {
+      v.tools.log('Event link_click triggered.');
+      v.tools.triggerApexEvent(this, 'net_gobrechts_d3_force_linkclick', link);
+      if (typeof(v.conf.onLinkClickFunction) == 'function') v.conf.onLinkClickFunction.call(this, d3.event, link);
+    }
+  };
+
   // on node mouse enter function
   v.tools.onNodeMouseenter = function(node){
     var position;
@@ -530,7 +540,7 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId, pApe
         }
       });
     d3.select(this).classed('highlighted', true);
-    v.tools.log('Event mouseenter triggered.');
+    v.tools.log('Event node_mouseenter triggered.');
     v.tools.triggerApexEvent(this, 'net_gobrechts_d3_force_mouseenter', node);
     if (typeof(v.conf.onNodeMouseenterFunction) == 'function') v.conf.onNodeMouseenterFunction.call(this, d3.event, node);
     if (v.conf.showTooltips && node.INFOSTRING) {
@@ -578,7 +588,7 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId, pApe
       .classed('highlighted', false)
       .style('marker-end', (v.conf.showLinkDirection?'url(#'+v.dom.containerId+'_normalTriangle)':null) );
     v.labels.classed('highlighted', false);
-    v.tools.log('Event mouseleave triggered.');
+    v.tools.log('Event node_mouseleave triggered.');
     v.tools.triggerApexEvent(this, 'net_gobrechts_d3_force_mouseleave', node);
     if (typeof(v.conf.onNodeMouseleaveFunction) == 'function') v.conf.onNodeMouseleaveFunction.call(this, d3.event, node);
     if (v.conf.showTooltips) v.dom.tooltip.style('display', 'none');
@@ -592,7 +602,7 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId, pApe
     else {
       if (node.LINK && v.conf.nodeEventToOpenLink == 'click') v.tools.openLink(node);
       if (v.conf.nodeEventToStopPinMode == 'click') d3.select(this).classed('fixed', node.fixed = 0);
-      v.tools.log('Event click triggered.');
+      v.tools.log('Event node_click triggered.');
       v.tools.triggerApexEvent(this, 'net_gobrechts_d3_force_click', node);
       if (typeof(v.conf.onNodeClickFunction) == 'function') v.conf.onNodeClickFunction.call(this, d3.event, node);
     }
@@ -602,7 +612,7 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId, pApe
   v.tools.onNodeDblclick = function(node){
     if (node.LINK && v.conf.nodeEventToOpenLink == 'dblclick') v.tools.openLink(node);
     if (v.conf.nodeEventToStopPinMode == 'dblclick') d3.select(this).classed('fixed', node.fixed = 0);
-    v.tools.log('Event dblclick triggered.');
+    v.tools.log('Event node_dblclick triggered.');
     v.tools.triggerApexEvent(this, 'net_gobrechts_d3_force_dblclick', node);
     if (typeof(v.conf.onNodeDblclickFunction) == 'function') v.conf.onNodeDblclickFunction.call(this, d3.event, node);
   };
@@ -612,7 +622,7 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId, pApe
     if (v.conf.onNodeContextmenuPreventDefault) d3.event.preventDefault();
     if (node.LINK && v.conf.nodeEventToOpenLink == 'contextmenu') v.tools.openLink(node);
     if (v.conf.nodeEventToStopPinMode == 'contextmenu') d3.select(this).classed('fixed', node.fixed = 0);
-    v.tools.log('Event contextmenu triggered.');
+    v.tools.log('Event node_contextmenu triggered.');
     v.tools.triggerApexEvent(this, 'net_gobrechts_d3_force_contextmenu', node);
     if (typeof(v.conf.onNodeContextmenuFunction) == 'function') v.conf.onNodeContextmenuFunction.call(this, d3.event, node);
   };
@@ -620,11 +630,11 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId, pApe
   // on lasso start function
   v.tools.onLassoStart = function(nodes){
     var data = {};
-    data.nodes = nodes;
-    data.numberOfNodes = nodes.size();
     data.numberOfSelectedNodes = 0;
     data.idsOfSelectedNodes = null;
-    v.tools.log('Event lassostart triggered.');
+    data.numberOfNodes = nodes.size();
+    data.nodes = nodes;
+    v.tools.log('Event lasso_start triggered.');
     v.tools.triggerApexEvent(document.querySelector('#' + v.dom.containerId), 'net_gobrechts_d3_force_lassostart', data);
     if (typeof(v.conf.onLassoStartFunction) == 'function') v.conf.onLassoStartFunction.call(v.dom.svg, d3.event, data);
   };
@@ -632,10 +642,10 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId, pApe
   // on lasso end function
   v.tools.onLassoEnd = function(nodes){
     var data = {};
-    data.nodes = nodes;
-    data.numberOfNodes = nodes.size();
     data.numberOfSelectedNodes = 0;
     data.idsOfSelectedNodes = '';
+    data.numberOfNodes = nodes.size();
+    data.nodes = nodes;
     nodes.each(function(n){
       if (n.selected) {
         data.idsOfSelectedNodes += (n.ID + ':');
@@ -643,7 +653,7 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId, pApe
       }
     });
     data.idsOfSelectedNodes = (data.idsOfSelectedNodes.length > 0 ? data.idsOfSelectedNodes.substr(0, data.idsOfSelectedNodes.length -1):null);
-    v.tools.log('Event lassoend triggered.');
+    v.tools.log('Event lasso_end triggered.');
     v.tools.triggerApexEvent(document.querySelector('#' + v.dom.containerId), 'net_gobrechts_d3_force_lassoend', data);
     if (typeof(v.conf.onLassoEndFunction) == 'function') v.conf.onLassoEndFunction.call(v.dom.svg, d3.event, data);
   };
@@ -668,18 +678,19 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId, pApe
   // create legend
   v.tools.createLegend = function() {
     var width = (v.conf.useDomParentWidth ? v.dom.containerWidth : v.conf.width);
-    v.data.distinctNodeColorValues.forEach(function(colorValue, i){
+    v.data.distinctNodeColorValues.forEach(function(colorString, i){
+      var color = colorString.split(';');
       v.dom.legend
-        .append("circle")
-        .attr("cx", 11)
-        .attr("cy", v.conf.height - ((i + 1) * 14 - 3))
-        .attr("r", 6)
-        .style("fill", v.tools.color(colorValue));
+        .append('circle')
+        .attr('cx', 11)
+        .attr('cy', v.conf.height - ((i + 1) * 14 - 3))
+        .attr('r', 6)
+        .attr('fill', v.tools.color(color[1]));
       v.dom.legend
-        .append("text")
-        .attr("x", 21)
-        .attr("y", v.conf.height - ((i + 1) * 14 - 6))
-        .text( colorValue );
+        .append('text')
+        .attr('x', 21)
+        .attr('y', v.conf.height - ((i + 1) * 14 - 6))
+        .text( (color[0]?color[0]:color[1]) );
 
     });
   };
@@ -691,7 +702,7 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId, pApe
 
   // create customize link
   v.tools.createCustomizeLink = function() {
-    if (!v.conf.customize && (v.conf.debug || document.querySelector('#apex-dev-toolbar') || document.querySelector('#apexDevToolbar') )) {
+    if (!v.status.customize && (v.conf.debug || document.querySelector('#apex-dev-toolbar') || document.querySelector('#apexDevToolbar') )) {
       if (document.querySelector('#' + v.dom.containerId + ' svg text.link') === null) {
         v.dom.svg.append('svg:text')
           .attr('class', 'link')
@@ -734,8 +745,8 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId, pApe
 
   // customizing function
   v.tools.createCustomizeWizard = function(){
-    if (v.conf.customize) {
-      var grid, gridRow, gridCell, row, td, form, i = 0, currentOption, valueInOptions;
+    if (v.status.customize) {
+      var grid, gridRow, gridCell, row, td, form, i = 4, currentOption, valueInOptions;
       v.tools.removeCustomizeLink();
       // set initial position
       if (!v.dom.customizePosition) {
@@ -761,13 +772,13 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId, pApe
         .attr('tabindex', 1)
         .text('Close')
         .on('click', function () {
-          v.conf.customize = false;
+          v.status.customize = false;
           v.tools.removeCustomizeWizard();
           v.tools.createCustomizeLink();
         })
         .on('keydown', function () {
           if (d3.event.keyCode == 13) {
-            v.conf.customize = false;
+            v.status.customize = false;
             v.tools.removeCustomizeWizard();
             v.tools.createCustomizeLink();
           }
@@ -778,7 +789,7 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId, pApe
       v.dom.customizeMenu = gridCell.append('span');
       v.dom.customizeOptionsTable = gridCell.append('table');
       for (var key in v.confDefaults) {
-        if (v.confDefaults.hasOwnProperty(key)) {
+        if (v.confDefaults.hasOwnProperty(key) && v.confDefaults[key].display) {
           i += 1;
           row = v.dom.customizeOptionsTable.append('tr')
             .attr('class',v.confDefaults[key].relation + '-related');
@@ -795,7 +806,7 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId, pApe
             .attr('tabindex', i + 1)
             .classed('warning', v.confDefaults[key].internal)
             .on('change', function () {
-              v.conf.currentTabPosition = this.id;
+              v.status.customizeCurrentTabPosition = this.id;
               if (v.confDefaults[this.name].type == 'text') {
                 graph[this.name](this.options[this.selectedIndex].value).render();
               }
@@ -856,21 +867,22 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId, pApe
         .style('vertical-align', 'top')
         .style('padding-left', '5px')
       gridCell.append('span')
-        .html('Your Configuration Object' +
-        (v.conf.apexPluginId ? '<br><span style="background-color:yellow;font-size:10px;">' +
-        'To save your options please copy<br>this to your plugin region attributes</span><br>' :
-          '<br><span style="background-color:yellow;font-size:10px;">Use this to initialize your graph</span><br>'));
+        .html('Your Configuration Object' + '<p style="font-size:10px;margin:0px;">' + 
+        (v.status.apexPluginId ? 
+          'To save your options please copy<br>this to your plugin region attributes.<br>Only non-default options are shown.</p>' :
+          'Use this to initialize your graph.<br>Only non-default options are shown.</p>')
+      );
       v.dom.customizeConfObject = gridCell.append('textarea')
-        .attr('tabindex', i + 2)
+        .attr('tabindex', i + 5)
         .attr('readonly','readonly');
       gridCell.append('span').html('<br><br>Current Positions<br>');
       v.dom.customizePositions = gridCell.append('textarea')
-        .attr('tabindex', i + 3)
+        .attr('tabindex', i + 6)
         .attr('readonly','readonly')
         .text( (v.status.forceRunning ? 'Force started - wait for end event to show positions...' : JSON.stringify(graph.positions()) ) );
       gridCell.append('span').html('<br><br>Debug Log (descending)<br>');
       v.dom.customizeLog = gridCell.append('textarea')
-        .attr('tabindex', i + 4)
+        .attr('tabindex', i + 7)
         .attr('readonly','readonly');
       gridRow = grid.append('tr');
       gridCell = gridRow.append('td')
@@ -880,16 +892,16 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId, pApe
       gridCell = gridRow.append('td')
         .attr('colspan', 2)
         .html('<table><tr><td style="padding-right:20px;">' +
-        '<a href="https://github.com/ogobrecht/d3-force-apex-plugin" target="github_d3_force" tabindex="' + (i + 5) +
+        '<a href="https://github.com/ogobrecht/d3-force-apex-plugin" target="github_d3_force" tabindex="' + (i + 8) +
         '">D3 Force APEX Plugin</a> (' + v.version + ')<br>' + 'Ottmar Gobrecht</td><td style="padding-right:20px;">' +
-        '<a href="http://d3js.org" target="d3js_org" tabindex="' + (i + 6) +
+        '<a href="http://d3js.org" target="d3js_org" tabindex="' + (i + 9) +
         '">D3.js</a> (' + d3.version + ')<br>' + 'Mike Bostock</td><td>' +
-        '<a href="https://code.google.com/p/x2js/" target="code_google_com" tabindex="' + (i + 7) +
+        '<a href="https://code.google.com/p/x2js/" target="code_google_com" tabindex="' + (i + 10) +
         '">X2JS</a> (' + v.tools.x2js.getVersion() + ' modified)<br>' + 'Abdulla Abdurakhmanov' +
         '</td></tr></table>');
-      v.tools.createCustomizeMenu(v.status.currentCustomizeMenu);
-      v.tools.createCustomizingConfObject();
-      if (v.conf.currentTabPosition) document.getElementById(v.conf.currentTabPosition).focus();
+      v.tools.createCustomizeMenu(v.status.customizeCurrentMenu);
+      v.dom.customizeConfObject.text(JSON.stringify(graph.optionsCustomizationWizard(),null,'  '));
+      if (v.status.customizeCurrentTabPosition) document.getElementById(v.status.customizeCurrentTabPosition).focus();
     }
     else {
       v.tools.removeCustomizeWizard();
@@ -902,74 +914,92 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId, pApe
   };
 
   v.tools.createCustomizeMenu = function(relation) {
-    v.status.currentCustomizeMenu = relation;
+    v.status.customizeCurrentMenu = relation;
     v.dom.customizeMenu.selectAll('*').remove();
     v.dom.customizeMenu.append('span').text('Show options for:');
-    if (v.status.currentCustomizeMenu == 'nodes') {
+    if (v.status.customizeCurrentMenu == 'nodes') {
       v.dom.customizeMenu.append('span').style('font-weight','bold').style('margin-left','10px').text('NODES');
       v.dom.customizeOptionsTable.selectAll('tr.node-related').classed('hidden', false);
       v.dom.customizeOptionsTable.selectAll('tr.link-related,tr.graph-related').classed('hidden', true);
     }
     else {
-      v.dom.customizeMenu.append('a').style('font-weight','bold').style('margin-left','10px').text('NODES').on('click', function () {
-        v.tools.createCustomizeMenu('nodes');
-        v.dom.customizeOptionsTable.selectAll('tr.node-related').classed('hidden', false);
-        v.dom.customizeOptionsTable.selectAll('tr.link-related,tr.graph-related').classed('hidden', true);
-      });
+      v.dom.customizeMenu.append('a')
+        .style('font-weight','bold')
+        .style('margin-left','10px')
+        .text('NODES')
+        .attr('tabindex', 2)
+        .on('click', function(){
+          v.tools.createCustomizeMenu('nodes');
+          v.dom.customizeOptionsTable.selectAll('tr.node-related').classed('hidden', false);
+          v.dom.customizeOptionsTable.selectAll('tr.link-related,tr.graph-related').classed('hidden', true);
+        })
+        .on('keydown', function(){
+          if (d3.event.keyCode == 13){
+            v.tools.createCustomizeMenu('nodes');
+            v.dom.customizeOptionsTable.selectAll('tr.node-related').classed('hidden', false);
+            v.dom.customizeOptionsTable.selectAll('tr.link-related,tr.graph-related').classed('hidden', true);
+          }
+        });
     }
-    if (v.status.currentCustomizeMenu == 'links') {
+    if (v.status.customizeCurrentMenu == 'links') {
       v.dom.customizeMenu.append('span').style('font-weight','bold').style('margin-left','10px').text('LINKS');
       v.dom.customizeOptionsTable.selectAll('tr.link-related').classed('hidden', false);
       v.dom.customizeOptionsTable.selectAll('tr.node-related,tr.graph-related').classed('hidden', true);
     }
     else {
-      v.dom.customizeMenu.append('a').style('font-weight','bold').style('margin-left','10px').text('LINKS').on('click', function () {
-        v.tools.createCustomizeMenu('links');
-        v.dom.customizeOptionsTable.selectAll('tr.link-related').classed('hidden', false);
-        v.dom.customizeOptionsTable.selectAll('tr.node-related,tr.graph-related').classed('hidden', true);
-      });
+      v.dom.customizeMenu.append('a')
+        .style('font-weight','bold')
+        .style('margin-left','10px')
+        .text('LINKS')
+        .attr('tabindex', 3)
+        .on('click', function(){
+          v.tools.createCustomizeMenu('links');
+          v.dom.customizeOptionsTable.selectAll('tr.link-related').classed('hidden', false);
+          v.dom.customizeOptionsTable.selectAll('tr.node-related,tr.graph-related').classed('hidden', true);
+        })
+        .on('keydown', function(){
+          if (d3.event.keyCode == 13) {
+            v.tools.createCustomizeMenu('links');
+            v.dom.customizeOptionsTable.selectAll('tr.link-related').classed('hidden', false);
+            v.dom.customizeOptionsTable.selectAll('tr.node-related,tr.graph-related').classed('hidden', true);
+          }
+        });
     }
-    if (v.status.currentCustomizeMenu == 'graph') {
+    if (v.status.customizeCurrentMenu == 'graph') {
       v.dom.customizeMenu.append('span').style('font-weight','bold').style('margin-left','10px').text('GRAPH');
       v.dom.customizeOptionsTable.selectAll('tr.graph-related').classed('hidden', false);
       v.dom.customizeOptionsTable.selectAll('tr.node-related,tr.link-related').classed('hidden', true);
     }
     else {
-      v.dom.customizeMenu.append('a').style('font-weight','bold').style('margin-left','10px').text('GRAPH').on('click', function () {
-        v.tools.createCustomizeMenu('graph');
-        v.dom.customizeOptionsTable.selectAll('tr.graph-related').classed('hidden', false);
-        v.dom.customizeOptionsTable.selectAll('tr.node-related,tr.link-related').classed('hidden', true);
-      });
+      v.dom.customizeMenu.append('a')
+        .style('font-weight','bold')
+        .style('margin-left','10px')
+        .text('GRAPH')
+        .attr('tabindex', 4)
+        .on('click', function(){
+          v.tools.createCustomizeMenu('graph');
+          v.dom.customizeOptionsTable.selectAll('tr.graph-related').classed('hidden', false);
+          v.dom.customizeOptionsTable.selectAll('tr.node-related,tr.link-related').classed('hidden', true);
+        })
+        .on('keydown', function(){ 
+          if (d3.event.keyCode == 13) {
+            v.tools.createCustomizeMenu('graph');
+            v.dom.customizeOptionsTable.selectAll('tr.graph-related').classed('hidden', false);
+            v.dom.customizeOptionsTable.selectAll('tr.node-related,tr.link-related').classed('hidden', true);
+          } 
+        });
     }
     v.dom.customizeMenu.append('span').html('<br><br>');
   };
-
-  v.tools.createCustomizingConfObject = function() {
-    var conf = '{\n';
-    for (var key in v.confDefaults) {
-      if (v.confDefaults.hasOwnProperty(key)) {
-        if (v.confDefaults[key].type == 'range'  ||
-          v.confDefaults[key].type == 'number' ||
-          v.confDefaults[key].type == 'bool'   ) {
-          conf += '"' + key + '":' + v.conf[key] + ',\n';
-        }
-        else {
-          conf += '"' + key + '":"' + v.conf[key] + '",\n';
-        }
-      }
-    }
-    conf = conf.substr(0, conf.length - 2) + '\n}';
-    v.dom.customizeConfObject.text(conf);
-  };
-
+  
   // check user agent: http://stackoverflow.com/questions/16135814/check-for-ie-10
-  v.conf.userAgent = navigator.userAgent;
-  v.conf.userAgent_IE_9_to_11 = false;
+  v.status.userAgent = navigator.userAgent;
+  v.status.userAgent_IE_9_to_11 = false;
   // Hello IE 9 - 11
   if ( navigator.appVersion.indexOf("MSIE 9") !== -1 ||
     navigator.appVersion.indexOf("MSIE 10") !== -1 ||
-    v.conf.userAgent.indexOf("Trident") !== -1 && v.conf.userAgent.indexOf("rv:11") !== -1 ) {
-    v.conf.userAgent_IE_9_to_11 = true;
+    v.status.userAgent.indexOf("Trident") !== -1 && v.status.userAgent.indexOf("rv:11") !== -1 ) {
+    v.status.userAgent_IE_9_to_11 = true;
     v.tools.logError('Houston, we have a problem - user agent is IE 9, 10 or 11 - we have to provide a fix for markers: http://stackoverflow.com/questions/15588478/internet-explorer-10-not-showing-svg-path-d3-js-graph');
   }
 
@@ -977,14 +1007,14 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId, pApe
   v.force = d3.layout.force()
     .on('start', function(){
       v.tools.log('Force started.');
-      if (v.conf.customize && v.dom.customizePositions) v.dom.customizePositions.text( 'Force started - wait for end event to show positions...' );
+      if (v.status.customize && v.dom.customizePositions) v.dom.customizePositions.text( 'Force started - wait for end event to show positions...' );
       v.status.forceTickCounter = 0;
       v.status.forceStartTime = new Date().getTime();
       v.status.forceRunning = true;
     })
     .on('tick', function() {
       // hello IE 9 - 11: http://stackoverflow.com/questions/15588478/internet-explorer-10-not-showing-svg-path-d3-js-graph
-      if ( v.conf.userAgent_IE_9_to_11 && v.conf.showLinkDirection) {
+      if ( v.status.userAgent_IE_9_to_11 && v.conf.showLinkDirection) {
         v.links.each( function(){ this.parentNode.insertBefore(this,this); });
         v.selfLinks.each( function(){ this.parentNode.insertBefore(this,this); });
       }
@@ -1019,7 +1049,7 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId, pApe
       var seconds = (milliseconds / 1000).toFixed(1);
       var ticksPerSecond = Math.round(v.status.forceTickCounter / (milliseconds / 1000));
       var millisecondsPerTick = Math.round( milliseconds / v.status.forceTickCounter );
-      if (v.conf.customize && v.dom.customizePositions) v.dom.customizePositions.text( JSON.stringify(graph.positions()) );
+      if (v.status.customize && v.dom.customizePositions) v.dom.customizePositions.text( JSON.stringify(graph.positions()) );
       v.tools.log('Force ended.');
       v.tools.log(seconds + ' seconds, ' + v.status.forceTickCounter + ' ticks to cool down (' +
       ticksPerSecond + ' ticks/s, ' + millisecondsPerTick + ' ms/tick).');
@@ -1047,7 +1077,7 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId, pApe
   function graph(){}
 
   /*********************************************************************************************************************
-   * Public graph functions -> API methods
+   * Public graph functions = API methods
    */
 
     // public start function: get data and start visualization
@@ -1058,12 +1088,12 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId, pApe
       graph.render(pData);
     }
     // if we have no data, then we try to use the APEX context (if APEX plugin ID is set)
-    else if ( v.conf.apexPluginId ) {
+    else if ( v.status.apexPluginId ) {
       if (v.conf.showLoadingIndicatorOnAjaxCall) graph.showLoadingIndicator(true);
       apex.server.plugin(
-        v.conf.apexPluginId,
+        v.status.apexPluginId,
         { p_debug: $v('pdebug'),
-          pageItems: v.conf.apexPageItemsToSubmit.split(",")
+          pageItems: v.status.apexPageItemsToSubmit.split(",")
         },
         { success: function(dataString){
           // dataString starts NOT with "<" or "{", when there are no queries defined in APEX or
@@ -1111,11 +1141,11 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId, pApe
     // if we start the rendering the first time and there is no input data, then provide sample data
     if (!pData && !v.status.graphReady){
       v.tools.logError('Houston, we have a problem - we have to provide sample data.');
-      v.conf.sampleData = true;
+      v.status.sampleData = true;
       pData = v.data.sampleData;
     }
     else if (pData) {
-      v.conf.sampleData = false;
+      v.status.sampleData = false;
     }
 
     // if we have incoming data, than we do our transformations here, otherwise we use the existing data
@@ -1234,7 +1264,7 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId, pApe
 
       // calculate distinct node colors for legend
       v.data.distinctNodeColorValues = v.data.nodes
-        .map(function(n){ return n.COLORVALUE; })
+        .map(function(n){ return (n.COLORLABEL?n.COLORLABEL:'') + ';' + n.COLORVALUE; })
         .filter(function (value, index, self) { // http://stackoverflow.com/questions/1960473/unique-values-in-an-array 
           return self.indexOf(value) === index;
         })
@@ -1285,7 +1315,8 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId, pApe
       .data( v.data.links.filter( function(l) { return l.FROMID != l.TOID; } ),
       function(l){return l.FROMID + '_' + l.TOID;});
     v.links.enter().append('svg:line')
-      .attr('class', 'link');
+      .attr('class', 'link')
+      .on('click', v.tools.onLinkClick);
     v.links.exit().remove();
     // update all
     v.links
@@ -1298,7 +1329,8 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId, pApe
       function(l){return l.FROMID + '_' + l.TOID;});
     v.selfLinks.enter().append('svg:path')
       .attr('id', function(l) { return v.dom.containerId + '_link_' + l.FROMID + '_' + l.TOID; })
-      .attr('class', 'link');
+      .attr('class', 'link')
+      .on('click', v.tools.onLinkClick);
     v.selfLinks.exit().remove();
     // update all
     v.selfLinks
@@ -1346,8 +1378,7 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId, pApe
     // update all
     v.nodes
       .attr('r', function(n){return n.radius;})
-      .style('fill', null) // delete the color first, otherwise new invalid colors are not reset to black
-      .style('fill', function(n){return (n.IMAGE?'url(#'+v.dom.containerId+'_pattern_'+n.ID+')':v.tools.color(n.COLORVALUE));});
+      .attr('fill', function(n){return (n.IMAGE?'url(#'+v.dom.containerId+'_pattern_'+n.ID+')':v.tools.color(n.COLORVALUE));});
 
 
     // LABELS
@@ -1418,6 +1449,7 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId, pApe
     graph
       .debug(v.conf.debug)
       .showBorder(v.conf.showBorder)
+      .setDomParentPaddingToZero(v.conf.setDomParentPaddingToZero)
       .useDomParentWidth(v.conf.useDomParentWidth)
       .width(v.conf.width)
       .height(v.conf.height)
@@ -1441,7 +1473,7 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId, pApe
       .links(v.data.links)
       .start();
 
-    if (v.conf.customize) v.tools.createCustomizeWizard();
+    if (v.status.customize) v.tools.createCustomizeWizard();
     else v.tools.createCustomizeLink();
 
     v.status.graphReady = true;
@@ -1454,7 +1486,7 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId, pApe
 
   graph.resume = function() {
     v.force.resume();
-    if (v.conf.customize && !v.status.graphRendering) v.tools.createCustomizeWizard();
+    if (v.status.customize && !v.status.graphRendering) v.tools.createCustomizeWizard();
     return graph;
   };
 
@@ -1463,7 +1495,7 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId, pApe
     v.conf.showBorder = value;
     if (v.status.graphStarted) {
       v.dom.svg.classed('border', v.conf.showBorder);
-      if (v.conf.customize && !v.status.graphRendering) v.tools.createCustomizeWizard();
+      if (v.status.customize && !v.status.graphRendering) v.tools.createCustomizeWizard();
     }
     return graph;
   };
@@ -1479,7 +1511,7 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId, pApe
       else {
         v.tools.removeLegend();
       }
-      if (v.conf.customize && !v.status.graphRendering) v.tools.createCustomizeWizard();
+      if (v.status.customize && !v.status.graphRendering) v.tools.createCustomizeWizard();
     }
     return graph;
   };
@@ -1488,7 +1520,7 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId, pApe
     if (!arguments.length) return v.conf.showSelfLinks;
     v.conf.showSelfLinks = value;
     if (v.status.graphStarted) {
-      if (v.conf.customize && !v.status.graphRendering) v.tools.createCustomizeWizard();
+      if (v.status.customize && !v.status.graphRendering) v.tools.createCustomizeWizard();
     }
     return graph;
   };
@@ -1497,7 +1529,7 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId, pApe
     if (!arguments.length) return v.conf.showLinkDirection;
     v.conf.showLinkDirection = value;
     if (v.status.graphStarted) {
-      if (v.conf.customize && !v.status.graphRendering) v.tools.createCustomizeWizard();
+      if (v.status.customize && !v.status.graphRendering) v.tools.createCustomizeWizard();
     }
     return graph;
   };
@@ -1506,7 +1538,7 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId, pApe
     if (!arguments.length) return v.conf.showTooltips;
     v.conf.showTooltips = value;
     if (v.status.graphStarted) {
-      if (v.conf.customize && !v.status.graphRendering) v.tools.createCustomizeWizard();
+      if (v.status.customize && !v.status.graphRendering) v.tools.createCustomizeWizard();
     }
     return graph;
   };
@@ -1515,7 +1547,7 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId, pApe
     if (!arguments.length) return v.conf.tooltipPosition;
     v.conf.tooltipPosition = value;
     if (v.status.graphStarted) {
-      if (v.conf.customize && !v.status.graphRendering) v.tools.createCustomizeWizard();
+      if (v.status.customize && !v.status.graphRendering) v.tools.createCustomizeWizard();
     }
     return graph;
   };
@@ -1523,16 +1555,15 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId, pApe
   graph.colorScheme = function(value) {
     if (!arguments.length) return v.conf.colorScheme;
     v.conf.colorScheme = value;
+    v.tools.setColorFunction();
     if (v.status.graphStarted) {
-      v.tools.setColorFunction();
       v.nodes
-        .style('fill', null) // to delete the color first, otherwise new invalid colors are not reseted to black
-        .style('fill', function(n){return (n.IMAGE?'url(#'+v.dom.containerId+'_pattern_'+n.ID+')':v.tools.color(n.COLORVALUE));});
+        .attr('fill', function(n){return (n.IMAGE?'url(#'+v.dom.containerId+'_pattern_'+n.ID+')':v.tools.color(n.COLORVALUE));});
       if (v.conf.showLegend) {
         v.tools.removeLegend();
         v.tools.createLegend();
       }
-      if (v.conf.customize && !v.status.graphRendering) v.tools.createCustomizeWizard();
+      if (v.status.customize && !v.status.graphRendering) v.tools.createCustomizeWizard();
     }
     return graph;
   };
@@ -1541,7 +1572,7 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId, pApe
     if (!arguments.length) return v.conf.showLabels;
     v.conf.showLabels = value;
     if (v.status.graphStarted) {
-      if (v.conf.customize && !v.status.graphRendering) v.tools.createCustomizeWizard();
+      if (v.status.customize && !v.status.graphRendering) v.tools.createCustomizeWizard();
     }
     return graph;
   };
@@ -1550,7 +1581,7 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId, pApe
     if (!arguments.length) return v.conf.labelsCircular;
     v.conf.labelsCircular = value;
     if (v.status.graphStarted) {
-      if (v.conf.customize && !v.status.graphRendering) v.tools.createCustomizeWizard();
+      if (v.status.customize && !v.status.graphRendering) v.tools.createCustomizeWizard();
     }
     return graph;
   };
@@ -1567,7 +1598,7 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId, pApe
         v.nodes.on('mousedown.drag', null);
         v.nodes.on('touchstart.drag', null);
       }
-      if (v.conf.customize && !v.status.graphRendering) v.tools.createCustomizeWizard();
+      if (v.status.customize && !v.status.graphRendering) v.tools.createCustomizeWizard();
     }
     return graph;
   };
@@ -1584,7 +1615,7 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId, pApe
       else {
         v.drag.on('dragstart', null);
       }
-      if (v.conf.customize && !v.status.graphRendering) v.tools.createCustomizeWizard();
+      if (v.status.customize && !v.status.graphRendering) v.tools.createCustomizeWizard();
     }
     return graph;
   };
@@ -1629,7 +1660,7 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId, pApe
         v.dom.graphOverlay.on('.drag', null);
         v.nodes.classed("selected", false);
       }
-      if (v.conf.customize && !v.status.graphRendering) v.tools.createCustomizeWizard();
+      if (v.status.customize && !v.status.graphRendering) v.tools.createCustomizeWizard();
     }
     return graph;
   };
@@ -1668,7 +1699,7 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId, pApe
         v.dom.graphOverlay.on('.zoom', null);
         v.dom.graph.attr('transform', 'translate(0,0)scale(1)');
       }
-      if (v.conf.customize && !v.status.graphRendering) v.tools.createCustomizeWizard();
+      if (v.status.customize && !v.status.graphRendering) v.tools.createCustomizeWizard();
     }
     return graph;
   };
@@ -1762,7 +1793,7 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId, pApe
       else {
         v.drag.on('dragend', null);
       }
-      if (v.conf.customize && !v.status.graphRendering) v.tools.createCustomizeWizard();
+      if (v.status.customize && !v.status.graphRendering) v.tools.createCustomizeWizard();
     }
     return graph;
   };
@@ -1787,7 +1818,7 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId, pApe
     if (!arguments.length) return v.conf.gridSize;
     v.conf.gridSize = value;
     if (v.status.graphStarted) {
-      if (v.conf.customize && !v.status.graphRendering) v.tools.createCustomizeWizard();
+      if (v.status.customize && !v.status.graphRendering) v.tools.createCustomizeWizard();
     }
     return graph;
   };
@@ -1796,7 +1827,7 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId, pApe
     if (!arguments.length) return v.conf.nodeEventToStopPinMode;
     v.conf.nodeEventToStopPinMode = value;
     if (v.status.graphStarted) {
-      if (v.conf.customize && !v.status.graphRendering) v.tools.createCustomizeWizard();
+      if (v.status.customize && !v.status.graphRendering) v.tools.createCustomizeWizard();
     }
     return graph;
   };
@@ -1805,7 +1836,7 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId, pApe
     if (!arguments.length) return v.conf.onNodeContextmenuPreventDefault;
     v.conf.onNodeContextmenuPreventDefault = value;
     if (v.status.graphStarted) {
-      if (v.conf.customize && !v.status.graphRendering) v.tools.createCustomizeWizard();
+      if (v.status.customize && !v.status.graphRendering) v.tools.createCustomizeWizard();
     }
     return graph;
   };
@@ -1814,7 +1845,7 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId, pApe
     if (!arguments.length) return v.conf.nodeEventToOpenLink;
     v.conf.nodeEventToOpenLink = value;
     if (v.status.graphStarted) {
-      if (v.conf.customize && !v.status.graphRendering) v.tools.createCustomizeWizard();
+      if (v.status.customize && !v.status.graphRendering) v.tools.createCustomizeWizard();
     }
     return graph;
   };
@@ -1823,7 +1854,7 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId, pApe
     if (!arguments.length) return v.conf.nodeLinkTarget;
     v.conf.nodeLinkTarget = value;
     if (v.status.graphStarted) {
-      if (v.conf.customize && !v.status.graphRendering) v.tools.createCustomizeWizard();
+      if (v.status.customize && !v.status.graphRendering) v.tools.createCustomizeWizard();
     }
     return graph;
   };
@@ -1841,7 +1872,7 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId, pApe
         v.conf.interval = null;
         v.tools.log('Auto refresh stopped.');
       }
-      if (v.conf.customize && !v.status.graphRendering) v.tools.createCustomizeWizard();
+      if (v.status.customize && !v.status.graphRendering) v.tools.createCustomizeWizard();
     }
     return graph;
   };
@@ -1850,7 +1881,7 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId, pApe
     if (!arguments.length) return v.conf.refreshInterval;
     v.conf.refreshInterval = value;
     if (v.status.graphStarted) {
-      if (v.conf.customize && !v.status.graphRendering) v.tools.createCustomizeWizard();
+      if (v.status.customize && !v.status.graphRendering) v.tools.createCustomizeWizard();
     }
     return graph;
   };
@@ -1873,11 +1904,26 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId, pApe
       else {
         d3.select(window).on('resize', null);
       }
-      if (v.conf.customize && !v.status.graphRendering) v.tools.createCustomizeWizard();
+      if (v.status.customize && !v.status.graphRendering) v.tools.createCustomizeWizard();
     }
     return graph;
   };
 
+  graph.setDomParentPaddingToZero = function(value) {
+    if (!arguments.length) return v.conf.setDomParentPaddingToZero;
+    v.conf.setDomParentPaddingToZero = value;
+    if (v.status.graphStarted) {
+      if (v.conf.setDomParentPaddingToZero) {
+        v.dom.svgParent.style('padding','0');
+      }
+      else {
+        v.dom.svgParent.style('padding',null);
+      }
+      if (v.status.customize && !v.status.graphRendering) v.tools.createCustomizeWizard();
+    }
+    return graph;
+  };
+  
   graph.domParentWidth = function() {
     return v.dom.containerWidth || v.tools.getSvgParentInnerWidth();
   };
@@ -1892,7 +1938,7 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId, pApe
       v.dom.loadingText.attr('x', (v.conf.useDomParentWidth ? v.dom.containerWidth : v.conf.width) / 2);
       v.force.size([(v.conf.useDomParentWidth ? v.dom.containerWidth : v.conf.width), v.conf.height]);
       if (v.conf.zoomMode) v.zoom.size([(v.conf.useDomParentWidth ? v.dom.containerWidth : v.conf.width), v.conf.height]);
-      if (v.conf.customize && !v.status.graphRendering) v.tools.createCustomizeWizard();
+      if (v.status.customize && !v.status.graphRendering) v.tools.createCustomizeWizard();
     }
     return graph;
   };
@@ -1908,7 +1954,7 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId, pApe
       v.force.size([(v.conf.useDomParentWidth ? v.dom.containerWidth : v.conf.width), v.conf.height]);
       if (v.conf.showLegend) { v.tools.removeLegend(); v.tools.createLegend(); }
       if (v.conf.zoomMode) v.zoom.size([(v.conf.useDomParentWidth ? v.dom.containerWidth : v.conf.width), v.conf.height]);
-      if (v.conf.customize && !v.status.graphRendering) v.tools.createCustomizeWizard();
+      if (v.status.customize && !v.status.graphRendering) v.tools.createCustomizeWizard();
     }
     return graph;
   };
@@ -1920,7 +1966,7 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId, pApe
       v.tools.setRadiusFunction();
       v.nodes.each( function(n){n.radius = v.tools.radius(n.SIZEVALUE);});
       v.nodes.attr('r', function(n){return n.radius;});
-      if (v.conf.customize && !v.status.graphRendering) v.tools.createCustomizeWizard();
+      if (v.status.customize && !v.status.graphRendering) v.tools.createCustomizeWizard();
     }
     return graph;
   };
@@ -1932,7 +1978,7 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId, pApe
       v.tools.setRadiusFunction();
       v.nodes.each( function(n){n.radius = v.tools.radius(n.SIZEVALUE);});
       v.nodes.attr('r', function(n){return n.radius;});
-      if (v.conf.customize && !v.status.graphRendering) v.tools.createCustomizeWizard();
+      if (v.status.customize && !v.status.graphRendering) v.tools.createCustomizeWizard();
     }
     return graph;
   };
@@ -1941,7 +1987,7 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId, pApe
     if (!arguments.length) return v.conf.labelDistance;
     v.conf.labelDistance = value;
     if (v.status.graphStarted) {
-      if (v.conf.customize && !v.status.graphRendering) v.tools.createCustomizeWizard();
+      if (v.status.customize && !v.status.graphRendering) v.tools.createCustomizeWizard();
     }
     return graph;
   };
@@ -1950,7 +1996,7 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId, pApe
     if (!arguments.length) return v.conf.selfLinkDistance;
     v.conf.selfLinkDistance = value;
     if (v.status.graphStarted) {
-      if (v.conf.customize && !v.status.graphRendering) v.tools.createCustomizeWizard();
+      if (v.status.customize && !v.status.graphRendering) v.tools.createCustomizeWizard();
     }
     return graph;
   };
@@ -1960,7 +2006,7 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId, pApe
     v.conf.linkDistance = value;
     if (v.status.graphStarted) {
       v.force.linkDistance(v.conf.linkDistance);
-      if (v.conf.customize && !v.status.graphRendering) v.tools.createCustomizeWizard();
+      if (v.status.customize && !v.status.graphRendering) v.tools.createCustomizeWizard();
     }
     return graph;
   };
@@ -1970,7 +2016,7 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId, pApe
     v.conf.charge = value;
     if (v.status.graphStarted) {
       v.force.charge(v.conf.charge);
-      if (v.conf.customize && !v.status.graphRendering) v.tools.createCustomizeWizard();
+      if (v.status.customize && !v.status.graphRendering) v.tools.createCustomizeWizard();
     }
     return graph;
   };
@@ -1980,7 +2026,7 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId, pApe
     v.conf.chargeDistance = value;
     if (v.status.graphStarted) {
       v.force.chargeDistance(v.conf.chargeDistance);
-      if (v.conf.customize && !v.status.graphRendering) v.tools.createCustomizeWizard();
+      if (v.status.customize && !v.status.graphRendering) v.tools.createCustomizeWizard();
     }
     return graph;
   };
@@ -1990,7 +2036,7 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId, pApe
     v.conf.gravity = value;
     if (v.status.graphStarted) {
       v.force.gravity(v.conf.gravity);
-      if (v.conf.customize && !v.status.graphRendering) v.tools.createCustomizeWizard();
+      if (v.status.customize && !v.status.graphRendering) v.tools.createCustomizeWizard();
     }
     return graph;
   };
@@ -2000,7 +2046,7 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId, pApe
     v.conf.linkStrength = value;
     if (v.status.graphStarted) {
       v.force.linkStrength(v.conf.linkStrength);
-      if (v.conf.customize && !v.status.graphRendering) v.tools.createCustomizeWizard();
+      if (v.status.customize && !v.status.graphRendering) v.tools.createCustomizeWizard();
     }
     return graph;
   };
@@ -2010,7 +2056,7 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId, pApe
     v.conf.friction = value;
     if (v.status.graphStarted) {
       v.force.friction(v.conf.friction);
-      if (v.conf.customize && !v.status.graphRendering) v.tools.createCustomizeWizard();
+      if (v.status.customize && !v.status.graphRendering) v.tools.createCustomizeWizard();
     }
     return graph;
   };
@@ -2020,7 +2066,7 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId, pApe
     v.conf.theta = value;
     if (v.status.graphStarted) {
       v.force.theta(v.conf.theta);
-      if (v.conf.customize && !v.status.graphRendering) v.tools.createCustomizeWizard();
+      if (v.status.customize && !v.status.graphRendering) v.tools.createCustomizeWizard();
     }
     return graph;
   };
@@ -2053,6 +2099,12 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId, pApe
       }
       return graph;
     }
+  };
+
+  graph.onLinkClickFunction = function(value) {
+    if (!arguments.length) return v.conf.onLinkClickFunction;
+    v.conf.onLinkClickFunction = value;
+    return graph;
   };
 
   graph.onNodeMouseenterFunction = function(value) {
@@ -2111,11 +2163,53 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId, pApe
     return v.data.id_lookup[ID];
   };
 
+  graph.options = function(value) {
+    if (!arguments.length) {
+      var conf = {};
+      for (var key in v.conf) {
+        if (   v.conf.hasOwnProperty(key) && 
+             ( v.confDefaults.hasOwnProperty(key) && v.confDefaults[key].val != v.conf[key] || 
+              !v.confDefaults.hasOwnProperty(key) && v.conf[key] != undefined && v.conf[key] != null ) )  {
+          conf[key] = v.conf[key];
+        }
+      }
+      return conf;
+    }
+    else {
+      for (var key in value) {
+        if (value.hasOwnProperty(key) && v.conf.hasOwnProperty(key) && value[key] != v.conf[key]) {
+          graph[key](value[key]);
+        }
+      }
+      return graph; 
+    }
+  };
+
+  graph.optionsCustomizationWizard = function(value) {
+    if (!arguments.length) {
+      var conf = {};
+      for (var key in v.confDefaults) {
+        if (v.confDefaults.hasOwnProperty(key) && v.confDefaults[key].display && v.confDefaults[key].val != v.conf[key]) {
+          conf[key] = v.conf[key];
+        }
+      }
+      return conf;
+    }
+    else {
+      for (var key in value) {
+        if (value.hasOwnProperty(key) && v.conf.hasOwnProperty(key) && value[key] != v.conf[key]) {
+          graph[key](value[key]);
+        }
+      }
+      return graph;
+    }
+  };
+
   graph.customize = function(value) {
-    if (!arguments.length) return v.conf.customize;
-    v.conf.customize = value;
+    if (!arguments.length) return v.status.customize;
+    v.status.customize = value;
     if (v.status.graphStarted) {
-      if (v.conf.customize) v.tools.createCustomizeWizard();
+      if (v.status.customize) v.tools.createCustomizeWizard();
       else v.tools.removeCustomizeWizard();
     }
     return graph;
@@ -2137,7 +2231,7 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId, pApe
   };
 
   graph.userAgent = function(){
-    return v.conf.userAgent;
+    return v.status.userAgent;
   };
 
   // public inspect function: to inspect the global object, which holds all data, functions and references
@@ -2155,7 +2249,7 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId, pApe
    */
 
   // bind to the apexrefresh event, so that this region can be refreshed by a dynamic action
-  if (v.conf.apexPluginId) {
+  if (v.status.apexPluginId) {
     apex.jQuery('#' + v.dom.containerId).bind('apexrefresh', function(){graph.start();} );
   }
 
