@@ -15,7 +15,7 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId, pApe
    * Setup graph variable object
    */
 
-  var v = {"version":"1.4.0"};
+  var v = {"version":"1.4.1"};
   v.dom = {};
   v.conf = {};
   v.confDefaults = {};
@@ -307,11 +307,16 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId, pApe
     .attr('d', 'M0,0 L10,5 L0,10');
 
   // create tooltip container
-  v.dom.tooltip = v.dom.container.append('div')
-    .attr('id', v.dom.containerId + '_tooltip')
-    .attr('class', 'net_gobrechts_d3_force_tooltip')
-    .style('top', '0px')
-    .style('left', '0px');
+  if ( document.querySelector('#' + v.dom.containerId + '_tooltip') === null ){
+    v.dom.tooltip = v.dom.body.append('div')
+      .attr('id', v.dom.containerId + '_tooltip')
+      .attr('class', 'net_gobrechts_d3_force_tooltip')
+      .style('top', '0px')
+      .style('left', '0px');
+  }
+  else {
+    v.dom.tooltip = d3.select('#' + v.dom.containerId + '_tooltip');
+  }
 
   
   /*********************************************************************************************************************
@@ -546,7 +551,7 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId, pApe
     if (v.conf.showTooltips && node.INFOSTRING) {
       v.dom.tooltip.html(node.INFOSTRING).style('display', 'block');
       if (v.conf.tooltipPosition === 'svgTopLeft') {
-        position = v.tools.getOffsetRect(document.querySelector('#' + v.dom.containerId + ' svg'));
+        position = v.tools.getOffsetRect(v.dom.svg.node())
         v.dom.tooltip
           .style('top', position.top +
           (v.dom.svg.style('border-width') ? parseInt(v.dom.svg.style('border-width')) : 1) +
@@ -556,7 +561,7 @@ function net_gobrechts_d3_force ( pDomContainerId, pOptions, pApexPluginId, pApe
           'px');
       }
       else if (v.conf.tooltipPosition === 'svgTopRight') {
-        position = v.tools.getOffsetRect(document.querySelector('#' + v.dom.containerId + ' svg'));
+        position = v.tools.getOffsetRect(v.dom.svg.node())
         v.dom.tooltip
           .style('top', position.top +
           parseInt( (v.dom.svg.style('border-width') ? parseInt(v.dom.svg.style('border-width')) : 1) ) +

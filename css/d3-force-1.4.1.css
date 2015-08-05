@@ -2,6 +2,7 @@
 .net_gobrechts_d3_force_customize,
 .net_gobrechts_d3_force_customize td,
 .net_gobrechts_d3_force_tooltip {
+    box-sizing: content-box;
     font-family: Arial, Helvetica, Sans Serif;
     font-size: 10px;
 }

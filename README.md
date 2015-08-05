@@ -72,6 +72,12 @@ Please refer to the [API Reference] (https://github.com/ogobrecht/d3-force-apex-
 for more informations.
 
 
+### 1.4.1 (2015-08-05)
+
+* Fixed "Tooltip on wrong positions in complex layouts". This was also the case with APEX 5 and universal theme. 
+  Thanks to Philippe Duchateau for telling me about this problem. 
+
+
 ### 1.4.0 (2015-08-03)
 
 * New possible node attribute COLORLABEL: Since there is an option to render a legend, it makes no sense to render the 
