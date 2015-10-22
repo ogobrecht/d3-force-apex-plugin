@@ -21,9 +21,9 @@
   "private" : true,
 
   "oracle" : {
-    "versions" : ["10g or higher"],
+    "versions" : ["11.2.0.1", "12.1.0.1"],
     "apex" : {
-      "versions" : ["4.2.x","5.x"],
+      "versions" : ["4.2.6","5.0.0"],
       "plugin" : {
         "internalName" : "NET.GOBRECHTS.D3.FORCE",
         "type" : "region",
