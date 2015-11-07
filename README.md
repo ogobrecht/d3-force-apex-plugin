@@ -57,7 +57,7 @@ This D3 force implementation uses [semantic versioning] (http://semver.org).
 You can find the current version by using the customization wizard or by calling a API method:
 
     // initialize and run a graph
-    var example = net_gobrechts_d3_force().start();
+    var example = netGobrechtsD3Force().start();
 
     // check version
     example.version();
