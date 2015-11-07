@@ -7,7 +7,7 @@ stable version here] (https://github.com/ogobrecht/d3-force-apex-plugin/releases
 This is a D3 force implementation, playground and Oracle APEX plugin, which uses the
 [D3 visualization library] (http://d3js.org/) to render a network layout. It has the following features:
 
-* Works with APEX versions 4.2.x and 5.x
+* Works with APEX versions 4.2.x and 5.x or standalone in every HTML page
 * Interactive customization wizard
 * Source data can be a XML string, JSON string or JavaScript Object (JSON)
 * Link directions are visible and self references are rendered in a nice way - have a look in the online demos
