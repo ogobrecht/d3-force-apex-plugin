@@ -1,0 +1,12 @@
+.DS_Store
+.idea
+node_modules
+api-reference.md
+example-query.sql
+js/temp.js
+d3-force-apex-plugin-demo-app.sql
+d3-force-apex-plugin-demo-app.zip
+description-apex-plugin.com.html
+description-sample-app.html
+temp.txt
+temp.html

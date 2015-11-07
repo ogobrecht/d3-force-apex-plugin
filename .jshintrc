@@ -1,0 +1,31 @@
+{
+    // Enforcing Options:
+    "bitwise":       true,
+    "camelcase":     true,
+    "curly":         true,
+    "eqeqeq":        true,
+    "forin":         true,
+    "freeze":        true,
+    "latedef":       true,
+    "maxcomplexity":   10,
+    "maxdepth":         5,
+    "maxlen":         120,
+    "maxparams":       10,
+    "maxstatements":   30,
+    "newcap":        true,
+    "noarg":         true,
+    "nocomma":       true,
+    "noempty":       true,
+    "nonbsp":        true,
+    "nonew":         true,
+    "quotmark":      true,
+    "strict":        true,
+    "trailing":      true,
+    "undef":         true,
+    "unused":        true,
+
+    // Relaxing Options:
+
+    // Global Variables:
+    "predef": []
+}
