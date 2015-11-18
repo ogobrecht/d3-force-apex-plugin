@@ -24,7 +24,7 @@ function netGobrechtsD3Force(pDomContainerId, pOptions, pApexPluginId, pApexPage
         "main": {},
         "status": {},
         "tools": {},
-        "version": "2.0.0"
+        "version": "2.0.1"
     };
 
 
@@ -1535,7 +1535,7 @@ function netGobrechtsD3Force(pDomContainerId, pOptions, pApexPluginId, pApexPage
                         .attr("class", v.confDefaults[key].relation + "-related");
                     row.append("td")
                         .attr("class", "label")
-                        .html("<a href=\"https://github.com/ogobrecht/d3-force-apex-plugin/wiki/API-Reference#" +
+                        .html("<a href=\"https://gobrechts.net/wiki/projects/d3-force-apex-plugin#" +
                             key.toLowerCase() + "\" target=\"github_d3_force\" tabindex=\"" + i + 100 + "\">" +
                             key + "</a>");
                     td = row.append("td");
@@ -3010,12 +3010,16 @@ function netGobrechtsD3Force(pDomContainerId, pOptions, pApexPluginId, pApexPage
         v.main.nodes.enter().append("svg:circle")
             .attr("class", "node")
             .attr("cx", function(n) {
-                n.x = Math.floor((Math.random() * v.tools.getGraphWidth()) + 1);
-                return n.x;
+                if (!n.fixed && !n.x) {
+                    n.x = Math.floor((Math.random() * v.tools.getGraphWidth()) + 1);
+                    return n.x;
+                }
             })
             .attr("cy", function(n) {
-                n.y = Math.floor((Math.random() * v.conf.height) + 1);
-                return n.y;
+                if (!n.fixed && !n.y) {
+                    n.y = Math.floor((Math.random() * v.conf.height) + 1);
+                    return n.y;
+                }
             })
             .on("mouseenter", v.tools.onNodeMouseenter)
             .on("mouseleave", v.tools.onNodeMouseleave)

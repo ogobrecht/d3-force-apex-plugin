@@ -144,6 +144,9 @@
 .net_gobrechts_d3_force_customize table {
     border-collapse: collapse;
     border-spacing: 0;
+    border: none;
+    margin:0;
+    padding:0;
 }
 .net_gobrechts_d3_force_customize tr.hidden {
     display: none;
@@ -152,6 +155,7 @@
     padding: 1px;
     font-size: 12px;
     vertical-align: middle;
+    border: none;
 }
 .net_gobrechts_d3_force_customize .label {
     text-align: right;
@@ -188,4 +192,6 @@
     padding: 2px;
     width: 160px;
     height: 85px;
+    background-color: white;
+    color: black;
 }

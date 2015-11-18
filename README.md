@@ -38,10 +38,10 @@ This is a D3 force implementation, playground and Oracle APEX plugin, which uses
 
 ## Links
 
-* Download of the [latest version] (https://github.com/ogobrecht/d3-force-apex-plugin/releases/latest)
-* Plugin demo on [apex.oracle.com] (https://apex.oracle.com/pls/apex/f?p=18290)
-* Standalone demo on [github.io] (http://ogobrecht.github.io/d3-force-apex-plugin/)
-* API Reference in the [wiki] (https://github.com/ogobrecht/d3-force-apex-plugin/wiki/API-Reference)
+* [APEX Plugin demo] (https://apex.oracle.com/pls/apex/f?p=18290)
+* [Standalone demo and documentation] (https://gobrechts.net/wiki/projects/d3-force-apex-plugin)
+* [Download] (https://github.com/ogobrecht/d3-force-apex-plugin/releases/latest)
+* [Issues] (https://github.com/ogobrecht/d3-force-apex-plugin/issues)
 
 
 ## Credits
@@ -54,26 +54,15 @@ mentoring me on Oracle APEX plugin development.
 ## Changelog
 
 This D3 force implementation uses [semantic versioning] (http://semver.org).
-You can find the current version by using the customization wizard or by calling a API method:
 
-    // initialize and run a graph
-    var example = netGobrechtsD3Force().start();
+Please refer to the [documentation] (https://gobrechts.net/wiki/projects/d3-force-apex-plugin)
+for more informations on how to get started and an overview of all graph methods.
 
-    // check version
-    example.version();
+### 2.0.1 (2015-11-18)
 
-Everything you can do with the customization wizard you can also do during the runtime with the JavaScript API.
-
-    example.width(800).height(600).linkDistance(50).start();
-
-When using the APEX plugin, your variable to access the graph is automatically set by the plugin. You can open
-the JavaScript console in your browser and look for "d3_force_YOUR_REGION_STATIC_ID". The example above would be then:
-
-    d3_force_YOUR_REGION_STATIC_ID.width(800).height(600).linkDistance(50).start();
-
-Please refer to the [API Reference] (https://github.com/ogobrecht/d3-force-apex-plugin/wiki/API-Reference)
-for more informations.
-
+* Fixed: Fixed positions not working in initial data in v2.0.0 - thanks to github.com/rlashaw to report this issue
+* Move online demo and documentation to own [wiki] (https://gobrechts.net/wiki/projects/d3-force-apex-plugin)
+  for better maintenance 
 
 ### 2.0.0 (2015-11-07)
 
@@ -82,7 +71,7 @@ for more informations.
   who are not circular) - thanks to Philippe Duchateau to ask for such a feature and all the testing
 * New option labelPlacementIterations: The number of iterations for the preventLabelOverlappingOnForceEnd function -
   default is 250 - as higher the number, as higher the quality of the result - for details refer to the description of
-  the simulated annealing function from the author Evan Wang under https://github.com/tinker10/D3-Labeler
+  the simulated annealing function of the author Evan Wang under https://github.com/tinker10/D3-Labeler
 * New behaviour: the font size and weight of a label is aligned when you hovering a node with your mouse - this helps
   you to find the right label in graphs with many nodes
 * New possible value dotted for the links STYLE attribute: Now you have solid, dashed and dotted available for

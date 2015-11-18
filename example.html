@@ -4,15 +4,16 @@
 <head>
     <meta charset="utf-8">
     <title>D3 Force APEX Plugin</title>
-    <link  href="css/d3-force-2.0.0.css" rel="stylesheet" type="text/css">
+    <link href="css/d3-force-2.0.1.css" rel="stylesheet" type="text/css">
     <script src="lib/d3/d3-3.5.6.min.js"></script>
-    <script src="js/d3-force-2.0.0.min.js"></script>
+    <script src="js/d3-force-2.0.1.js"></script>
 </head>
 
 <body onload="example = netGobrechtsD3Force()
     .debug(true)
     .lassoMode(true)
     .zoomMode(true)
+    .pinMode(true)
     .transform({translate: [0, 0], scale: 1})
     .preventLabelOverlappingOnForceEnd(true)
     .start()">
