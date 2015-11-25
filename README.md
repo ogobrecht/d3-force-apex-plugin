@@ -41,7 +41,7 @@ This is a D3 force implementation, playground and Oracle APEX plugin, which uses
 * [APEX Plugin demo] (https://apex.oracle.com/pls/apex/f?p=18290)
 * [Standalone demo and documentation] (https://gobrechts.net/wiki/projects/d3-force-apex-plugin)
 * [Download] (https://github.com/ogobrecht/d3-force-apex-plugin/releases/latest)
-* [Issues] (https://github.com/ogobrecht/d3-force-apex-plugin/issues)
+* [Issues, comments and discussions] (https://github.com/ogobrecht/d3-force-apex-plugin/issues)
 
 
 ## Credits
@@ -56,7 +56,8 @@ mentoring me on Oracle APEX plugin development.
 This D3 force implementation uses [semantic versioning] (http://semver.org).
 
 Please refer to the [documentation] (https://gobrechts.net/wiki/projects/d3-force-apex-plugin)
-for more informations on how to get started and an overview of all graph methods.
+for more informations on how to get started and an overview of all graph methods. Please use for all comments and 
+discussions the [issues functionality on GitHub] (https://github.com/ogobrecht/d3-force-apex-plugin/issues).
 
 ### 2.0.1 (2015-11-18)
 
