@@ -29,6 +29,5 @@
         "previewImage" : "https://raw.githubusercontent.com/ogobrecht/d3-force-apex-plugin/master/preview.png"
       }
     }
-  },
-  "private" : true
+  }
 }
