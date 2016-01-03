@@ -1,5 +1,5 @@
 {
-  "name" : "D3 Force Network",
+  "name" : "D3 Force Network Chart",
   "version" : "2.0.1",
   "description" : "D3 force directed network visualization with an interactive customization wizard",
   "keywords" : ["d3.js", "force layout", "network visualization"],

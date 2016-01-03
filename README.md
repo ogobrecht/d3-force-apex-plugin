@@ -2,7 +2,7 @@ Please do not download directly this code - this is the development version and 
 stable version here] (https://github.com/ogobrecht/d3-force-apex-plugin/releases/latest).
 
 
-# d3-force-apex-plugin
+# Oracle APEX Region Type Plugin: D3 Force Network Chart
 
 This is a D3 force implementation, playground and Oracle APEX plugin, which uses the
 [D3 visualization library] (http://d3js.org/) to render a network layout. It has the following features:
