@@ -24,7 +24,7 @@ function netGobrechtsD3Force(pDomContainerId, pOptions, pApexPluginId, pApexPage
         "main": {},
         "status": {},
         "tools": {},
-        "version": "2.0.1"
+        "version": "2.0.2"
     };
 
 
@@ -1206,12 +1206,14 @@ function netGobrechtsD3Force(pDomContainerId, pOptions, pApexPluginId, pApexPage
                     return v.tools.getMarkerUrl(l);
                 }
             });
-        v.main.labels.classed("highlighted", function(l) {
-            return l.ID === node.ID;
-        });
-        v.main.labelsCircular.classed("highlighted", function(l) {
-            return l.ID === node.ID;
-        });
+        if (v.conf.showLabels) {
+            v.main.labels.classed("highlighted", function (l) {
+                return l.ID === node.ID;
+            });
+            v.main.labelsCircular.classed("highlighted", function (l) {
+                return l.ID === node.ID;
+            });
+        }
         d3.select(this).classed("highlighted", true);
         v.tools.log("Event node_mouseenter triggered.");
         v.tools.triggerApexEvent(this, "net_gobrechts_d3_force_mouseenter", node);
@@ -1232,8 +1234,10 @@ function netGobrechtsD3Force(pDomContainerId, pOptions, pApexPluginId, pApexPage
         v.main.selfLinks
             .classed("highlighted", false)
             .style("marker-end", v.tools.getMarkerUrl);
-        v.main.labels.classed("highlighted", false);
-        v.main.labelsCircular.classed("highlighted", false);
+        if (v.conf.showLabels) {
+            v.main.labels.classed("highlighted", false);
+            v.main.labelsCircular.classed("highlighted", false);
+        }
         v.tools.log("Event node_mouseleave triggered.");
         v.tools.triggerApexEvent(this, "net_gobrechts_d3_force_mouseleave", node);
         if (typeof(v.conf.onNodeMouseleaveFunction) === "function") {

@@ -1,32 +1,32 @@
 {
-  "name" : "D3 Force Network Chart",
-  "version" : "2.0.1",
-  "description" : "D3 force directed network visualization with an interactive customization wizard",
-  "keywords" : ["d3.js", "force layout", "network visualization"],
-  "homepage" : "https://gobrechts.net/wiki/projects/d3-force-apex-plugin",
-  "bugs" : {
-    "url" : "https://github.com/ogobrecht/d3-force-apex-plugin/issues",
-    "email" : "apex-plugin@gobrechts.net"
+  "name": "D3 Force Network Chart",
+  "version": "2.0.2",
+  "description": "D3 force directed network visualization with an interactive customization wizard",
+  "keywords": ["d3.js", "force layout", "network visualization"],
+  "homepage": "https://gobrechts.net/wiki/projects/d3-force-apex-plugin",
+  "bugs": {
+    "url": "https://github.com/ogobrecht/d3-force-apex-plugin/issues",
+    "email": "apex-plugin@gobrechts.net"
   },
-  "license" : "MIT",
-  "author" : {
-    "name" : "Ottmar Gobrecht",
-    "email" : "apex-plugin@gobrechts.net",
-    "url" : "https://gobrechts.net/wiki"
+  "license": "MIT",
+  "author": {
+    "name": "Ottmar Gobrecht",
+    "email": "apex-plugin@gobrechts.net",
+    "url": "https://gobrechts.net/wiki"
   },
-  "repository" : {
-    "type" : "git",
-    "url" : "https://github.com/ogobrecht/d3-force-apex-plugin.git"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ogobrecht/d3-force-apex-plugin.git"
   },
-  "oracle" : {
-    "versions" : ["11.2.0.1", "12.1.0.1"],
-    "apex" : {
-      "versions" : ["4.2.6", "5.0.0"],
-      "plugin" : {
-        "internalName" : "NET.GOBRECHTS.D3.FORCE",
-        "type" : "region",
-        "demo" : "https://apex.oracle.com/pls/apex/f?p=18290:1",
-        "previewImage" : "https://raw.githubusercontent.com/ogobrecht/d3-force-apex-plugin/master/preview.png"
+  "oracle": {
+    "versions": ["11.2.0.1", "12.1.0.1"],
+    "apex": {
+      "versions": ["4.2.6", "5.0.0"],
+      "plugin": {
+        "internalName": "NET.GOBRECHTS.D3.FORCE",
+        "type": "region",
+        "demo": "https://apex.oracle.com/pls/apex/f?p=18290:1",
+        "previewImage": "https://raw.githubusercontent.com/ogobrecht/d3-force-apex-plugin/master/preview.png"
       }
     }
   }

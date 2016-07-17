@@ -59,6 +59,10 @@ Please refer to the [documentation] (https://gobrechts.net/wiki/projects/d3-forc
 for more informations on how to get started and an overview of all graph methods. Please use for all comments and 
 discussions the [issues functionality on GitHub] (https://github.com/ogobrecht/d3-force-apex-plugin/issues).
 
+### 2.0.2 (2016-07-17)
+
+* Fixed: #12 - tooltips not showing correctly, if showLabels are set to false - thanks to github.com/pocelka to report this issue
+
 ### 2.0.1 (2015-11-18)
 
 * Fixed: Fixed positions not working in initial data in v2.0.0 - thanks to github.com/rlashaw to report this issue
@@ -81,7 +85,8 @@ discussions the [issues functionality on GitHub] (https://github.com/ogobrecht/d
   configuration and you hover the links; ATTENTION: links are very narrow, so this plays nice together with
   the zoomMode; thanks again to Philippe Duchateau for the ideas of this and the next feature :-)
 * New link attribute COLOR: This must be a HTML color code like `green` or `#00ff00` because of SVG standard 1.1
-  does not support the inheritance of colors to markers and the graph function hast to manage dynamic markers for the colors and therefore the color names are used as identifiers for the markers
+  does not support the inheritance of colors to markers and the graph function hast to manage dynamic markers for the 
+  colors and therefore the color names are used as identifiers for the markers
 * New API method/option transform: behaves like a normal getter/setter (the zoom and zoomSmooth methods implements
   only setters) and can be used in the conf object to initialize the graph with different translate/scale factors
   than [0,0]/1 - works only, if the zoomMode is set to true - the current transform value(an object) is rendered

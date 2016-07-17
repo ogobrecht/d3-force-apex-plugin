@@ -1,6 +1,6 @@
 {
   "name": "d3-force-apex-plugin",
-  "version": "2.0.0",
+  "version": "2.0.2",
   "description": "D3 force Oracle APEX plugin, standalone implementation and playground",
   "author": {
     "name": "Ottmar Gobrecht",

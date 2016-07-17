@@ -5,7 +5,7 @@ module.exports = function(grunt) {
         path: {
             lint: [
                 "Gruntfile.js",
-                "js/d3-force-2.0.0.js"
+                "js/d3-force-2.0.2.js"
             ]
         },
         jshint: {
@@ -17,7 +17,7 @@ module.exports = function(grunt) {
         uglify: {
             myTarget: {
                 files: {
-                    "js/d3-force-2.0.0.min.js": ["js/d3-force-2.0.0.js"]
+                    "js/d3-force-2.0.2.min.js": ["js/d3-force-2.0.2.js"]
                 }
             }
         },
