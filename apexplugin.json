@@ -1,6 +1,6 @@
 {
   "name": "D3 Force Network Chart",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "description": "D3 force directed network visualization with an interactive customization wizard",
   "keywords": ["d3.js", "force layout", "network visualization"],
   "homepage": "https://gobrechts.net/wiki/projects/d3-force-apex-plugin",
