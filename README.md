@@ -61,7 +61,7 @@ discussions the [issues functionality on GitHub] (https://github.com/ogobrecht/d
 
 ### 2.0.3 (2016-12-13)
 
-* Fixed: #18 - jQuery reports syntax error and graph stops loading, if "Page Items to Submit" is not configured - thanks to github.com/KiralyCs to report this issue
+* Fixed: #18 - APEX 5.1: jQuery reports syntax error and graph stops loading, if "Page Items to Submit" is not configured - thanks to github.com/KiralyCs to report this issue
 
 ### 2.0.2 (2016-07-17)
 
