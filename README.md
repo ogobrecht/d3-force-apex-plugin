@@ -56,8 +56,12 @@ mentoring me on Oracle APEX plugin development.
 This D3 force implementation uses [semantic versioning] (http://semver.org).
 
 Please refer to the [documentation] (https://gobrechts.net/wiki/projects/d3-force-apex-plugin)
-for more informations on how to get started and an overview of all graph methods. Please use for all comments and 
+for more informations on how to get started and an overview of all graph methods. Please use for all comments and
 discussions the [issues functionality on GitHub] (https://github.com/ogobrecht/d3-force-apex-plugin/issues).
+
+### 2.0.3 (2016-12-13)
+
+* Fixed: #18 - jQuery reports syntax error and graph stops loading, if "Page Items to Submit" is not configured - thanks to github.com/KiralyCs to report this issue
 
 ### 2.0.2 (2016-07-17)
 
@@ -67,7 +71,7 @@ discussions the [issues functionality on GitHub] (https://github.com/ogobrecht/d
 
 * Fixed: Fixed positions not working in initial data in v2.0.0 - thanks to github.com/rlashaw to report this issue
 * Move online demo and documentation to own [wiki] (https://gobrechts.net/wiki/projects/d3-force-apex-plugin)
-  for better maintenance 
+  for better maintenance
 
 ### 2.0.0 (2015-11-07)
 
@@ -85,7 +89,7 @@ discussions the [issues functionality on GitHub] (https://github.com/ogobrecht/d
   configuration and you hover the links; ATTENTION: links are very narrow, so this plays nice together with
   the zoomMode; thanks again to Philippe Duchateau for the ideas of this and the next feature :-)
 * New link attribute COLOR: This must be a HTML color code like `green` or `#00ff00` because of SVG standard 1.1
-  does not support the inheritance of colors to markers and the graph function hast to manage dynamic markers for the 
+  does not support the inheritance of colors to markers and the graph function hast to manage dynamic markers for the
   colors and therefore the color names are used as identifiers for the markers
 * New API method/option transform: behaves like a normal getter/setter (the zoom and zoomSmooth methods implements
   only setters) and can be used in the conf object to initialize the graph with different translate/scale factors
