@@ -24,7 +24,7 @@ function netGobrechtsD3Force(pDomContainerId, pOptions, pApexPluginId, pApexPage
         "main": {},
         "status": {},
         "tools": {},
-        "version": "2.0.2"
+        "version": "2.0.3"
     };
 
 
@@ -37,7 +37,8 @@ function netGobrechtsD3Force(pDomContainerId, pOptions, pApexPluginId, pApexPage
         v.dom.containerId = pDomContainerId || "D3Force" + Math.floor(Math.random() * 1000000);
         v.confUser = pOptions || {};
         v.status.apexPluginId = pApexPluginId;
-        v.status.apexPageItemsToSubmit = pApexPageItemsToSubmit;
+        v.status.apexPageItemsToSubmit = (pApexPageItemsToSubmit === "" ? false :
+            pApexPageItemsToSubmit.replace(/\s/g,"").split(","));
 
         // initialize the graph function
         v.main.setupConfiguration();
@@ -2514,7 +2515,7 @@ function netGobrechtsD3Force(pDomContainerId, pOptions, pApexPluginId, pApexPage
             apex.server.plugin(
                 v.status.apexPluginId, {
                     p_debug: $v("pdebug"), //jshint ignore:line
-                    pageItems: v.status.apexPageItemsToSubmit.split(",")
+                    pageItems: v.status.apexPageItemsToSubmit
                 }, {
                     success: function(dataString) {
                         // dataString starts NOT with "<" or "{", when there are no queries defined in APEX or
