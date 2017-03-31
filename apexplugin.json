@@ -10,9 +10,11 @@
   },
   "license": "MIT",
   "author": {
-    "name": "Ottmar Gobrecht",
-    "email": "apex-plugin@gobrechts.net",
-    "url": "https://gobrechts.net/wiki"
+    "name" : "Ottmar Gobrecht",
+    "email" : "ottmar.gobrecht@gmail.com",
+    "url" : "https://ogobrecht.github.io",
+    "twitter": "ogobrecht",
+    "donationUrl": "https://www.paypal.me/ogobrecht"
   },
   "repository": {
     "type": "git",
