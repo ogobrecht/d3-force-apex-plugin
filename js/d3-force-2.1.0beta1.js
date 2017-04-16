@@ -24,7 +24,7 @@ function netGobrechtsD3Force(pDomContainerId, pOptions, pApexPluginId, pApexPage
         "main": {},
         "status": {},
         "tools": {},
-        "version": "2.0.3"
+        "version": "2.1.0beta1"
     };
 
 
@@ -37,8 +37,8 @@ function netGobrechtsD3Force(pDomContainerId, pOptions, pApexPluginId, pApexPage
         v.dom.containerId = pDomContainerId || "D3Force" + Math.floor(Math.random() * 1000000);
         v.confUser = pOptions || {};
         v.status.apexPluginId = pApexPluginId;
-        v.status.apexPageItemsToSubmit = (pApexPageItemsToSubmit === "" ? false :
-            pApexPageItemsToSubmit.replace(/\s/g,"").split(","));
+        v.status.apexPageItemsToSubmit = (!pApexPageItemsToSubmit || pApexPageItemsToSubmit === "" ? false :
+            pApexPageItemsToSubmit.replace(/\s/g, "").split(","));
 
         // initialize the graph function
         v.main.setupConfiguration();
@@ -69,6 +69,8 @@ function netGobrechtsD3Force(pDomContainerId, pOptions, pApexPluginId, pApexPage
         v.status.graphReady = false;
         v.status.graphOldPositions = null;
         v.status.sampleData = false;
+        v.status.wrapLabelsOnNextTick = false;
+        v.status.labelFontSize = null;
 
         // default configuration
         v.confDefaults.minNodeRadius = {
@@ -136,35 +138,56 @@ function netGobrechtsD3Force(pDomContainerId, pOptions, pApexPluginId, pApexPage
         };
         v.confDefaults.showLabels = {
             "display": true,
-            "relation": "node",
+            "relation": "label",
             "type": "bool",
             "val": true,
             "options": [true, false]
         };
+        v.confDefaults.wrapLabels = {
+            "display": true,
+            "relation": "label",
+            "type": "bool",
+            "val": false,
+            "options": [true, false]
+        };
+        v.confDefaults.wrappedLabelWidth = {
+            "display": true,
+            "relation": "label",
+            "type": "number",
+            "val": 80,
+            "options": [200, 190, 180, 170, 160, 150, 140, 130, 120, 110, 100, 90, 80, 70, 60, 50, 40]
+        };
+        v.confDefaults.wrappedLabelLineHeight = {
+            "display": true,
+            "relation": "label",
+            "type": "number",
+            "val": 1.2,
+            "options": [1.5, 1.4, 1.3, 1.2, 1.1, 1.0]
+        };
         v.confDefaults.labelsCircular = {
             "display": true,
-            "relation": "node",
+            "relation": "label",
             "type": "bool",
             "val": false,
             "options": [true, false]
         };
         v.confDefaults.labelDistance = {
             "display": true,
-            "relation": "node",
+            "relation": "label",
             "type": "number",
             "val": 12,
             "options": [30, 28, 26, 24, 22, 20, 18, 16, 14, 12, 10, 8, 6, 4, 2]
         };
         v.confDefaults.preventLabelOverlappingOnForceEnd = {
             "display": true,
-            "relation": "node",
+            "relation": "label",
             "type": "bool",
             "val": false,
             "options": [true, false]
         };
         v.confDefaults.labelPlacementIterations = {
             "display": true,
-            "relation": "node",
+            "relation": "label",
             "type": "number",
             "val": 250,
             "options": [2000, 1000, 500, 250, 125]
@@ -344,8 +367,7 @@ function netGobrechtsD3Force(pDomContainerId, pOptions, pApexPluginId, pApexPage
             "relation": "graph",
             "type": "number",
             "val": -350,
-            "options": [-1000, -950, -900, -850, -800, -750, -700, -650, -600, -550, -500, -450, -400, -350, -300, -250,
-                -200, -150, -100, -50, 0],
+            "options": [-1000, -950, -900, -850, -800, -750, -700, -650, -600, -550, -500, -450, -400, -350, -300, -250, -200, -150, -100, -50, 0], // jshint ignore:line
             "internal": true
         };
         v.confDefaults.gravity = {
@@ -407,6 +429,10 @@ function netGobrechtsD3Force(pDomContainerId, pOptions, pApexPluginId, pApexPage
         v.conf.nodeLinkTarget = v.confUser.nodeLinkTarget || v.confDefaults.nodeLinkTarget.val;
         v.conf.showLabels = (typeof v.confUser.showLabels !== "undefined" ? v.tools.parseBool(v.confUser.showLabels) :
             v.confDefaults.showLabels.val);
+        v.conf.wrapLabels = (typeof v.confUser.wrapLabels !== "undefined" ? v.tools.parseBool(v.confUser.wrapLabels) :
+            v.confDefaults.wrapLabels.val);
+        v.conf.wrappedLabelWidth = v.confUser.wrappedLabelWidth || v.confDefaults.wrappedLabelWidth.val;
+        v.conf.wrappedLabelLineHeight = v.confUser.wrappedLabelLineHeight || v.confDefaults.wrappedLabelLineHeight.val;
         v.conf.labelsCircular = (typeof v.confUser.labelsCircular !== "undefined" ?
             v.tools.parseBool(v.confUser.labelsCircular) : v.confDefaults.labelsCircular.val);
         v.conf.labelDistance = v.confUser.labelDistance || v.confDefaults.labelDistance.val;
@@ -479,7 +505,8 @@ function netGobrechtsD3Force(pDomContainerId, pOptions, pApexPluginId, pApexPage
             '<nodes ID="7698" LABEL="BLAKE" COLORVALUE="30" COLORLABEL="Sales" SIZEVALUE="2850" />' +
             '<nodes ID="7782" LABEL="CLARK" COLORVALUE="10" COLORLABEL="Accounting" SIZEVALUE="2450" />' +
             '<nodes ID="7566" LABEL="JONES" COLORVALUE="20" COLORLABEL="Research" SIZEVALUE="2975" />' +
-            '<nodes ID="7788" LABEL="SCOTT" COLORVALUE="20" COLORLABEL="Research" SIZEVALUE="3000" />' +
+            '<nodes ID="7788" LABEL="SCOTT with a very long label" ' +
+            'COLORVALUE="20" COLORLABEL="Research" SIZEVALUE="3000" />' +
             '<nodes ID="7902" LABEL="FORD" COLORVALUE="20" COLORLABEL="Research" SIZEVALUE="3000" />' +
             '<nodes ID="7369" LABEL="SMITH" COLORVALUE="20" COLORLABEL="Research" SIZEVALUE="800" />' +
             '<nodes ID="7499" LABEL="ALLEN" COLORVALUE="30" COLORLABEL="Sales" SIZEVALUE="1600" />' +
@@ -663,6 +690,7 @@ function netGobrechtsD3Force(pDomContainerId, pOptions, pApexPluginId, pApexPage
                 v.status.forceRunning = true;
             })
             .on("tick", function() {
+                v.status.forceTickCounter += 1;
                 // hello IE 9 - 11:
                 // http://stackoverflow.com/questions/15588478/internet-explorer-10-not-showing-svg-path-d3-js-graph
                 if (v.status.userAgentIe9To11 && v.conf.showLinkDirection) {
@@ -698,6 +726,23 @@ function netGobrechtsD3Force(pDomContainerId, pOptions, pApexPluginId, pApexPage
                         .attr("y", function(l) {
                             return l.y - l.radius - v.conf.labelDistance;
                         });
+
+                    if (v.status.wrapLabelsOnNextTick) {
+                        v.main.labels.call(v.tools.wrapLabels, v.conf.wrappedLabelWidth);
+                        v.status.wrapLabelsOnNextTick = false;
+                    }
+                    // reposition on every tick only
+                    if (v.conf.wrapLabels) {
+                        v.main.labels.each(function() {
+                            var label = d3.select(this);
+                            var y = label.attr("y") - (label.attr("lines") - 1) *
+                                v.status.labelFontSize * v.conf.wrappedLabelLineHeight;
+                            label.attr("y", y)
+                                .selectAll("tspan")
+                                .attr("x", label.attr("x"))
+                                .attr("y", y);
+                        });
+                    }
                     v.main.labelPaths
                         .attr("transform", function(n) {
                             return "translate(" + n.x + "," + n.y + ")";
@@ -710,27 +755,32 @@ function netGobrechtsD3Force(pDomContainerId, pOptions, pApexPluginId, pApexPage
                     .attr("cy", function(n) {
                         return n.y;
                     });
-                v.status.forceTickCounter += 1;
+
             })
             .on("end", function() {
                 if (v.conf.showLabels && v.conf.preventLabelOverlappingOnForceEnd) {
                     v.data.simulatedAnnealingLabels = [];
                     v.data.simulatedAnnealingAnchors = [];
-                    v.main.labels.each(function(l, i) {
+                    v.main.labels.each(function(node, i) {
+                        var label = d3.select(this);
                         v.data.simulatedAnnealingLabels[i] = {
                             width: this.getBBox().width,
                             height: this.getBBox().height,
-                            x: l.x,
-                            y: l.y - l.radius - v.conf.labelDistance
+                            x: node.x,
+                            y: label.attr("y") - (label.attr("lines") - 1) *
+                                v.status.labelFontSize * v.conf.wrappedLabelLineHeight
                         };
                     });
                     v.main.nodes.filter(function(n) {
                         return !n.LABELCIRCULAR && !v.conf.labelsCircular;
-                    }).each(function(n, i) {
+                    }).each(function(node, i) {
                         v.data.simulatedAnnealingAnchors[i] = {
-                            x: n.x,
-                            y: n.y - n.radius - v.conf.labelDistance, // set anchors to the same positions as the label
-                            r: 0.5 //fake radius for labeler plugin, because our labels are already outside of the nodes
+                            x: node.x,
+                            // set anchors to the same positions as the label
+                            y: node.y - node.radius - v.conf.labelDistance,
+                            //fake radius for labeler plugin, because our labels are already outside of the nodes
+                            r: 0.5
+
                         };
                     });
                     v.lib.labelerPlugin()
@@ -739,12 +789,27 @@ function netGobrechtsD3Force(pDomContainerId, pOptions, pApexPluginId, pApexPage
                         .width(v.tools.getGraphWidth())
                         .height(v.conf.height)
                         .start(v.conf.labelPlacementIterations);
-                    v.main.labels.each(function(l, i) {
-                        d3.select(this)
-                            .transition()
-                            .duration(800)
-                            .attr("x", v.data.simulatedAnnealingLabels[i].x)
-                            .attr("y", v.data.simulatedAnnealingLabels[i].y);
+                    v.main.labels.each(function(node, i) {
+                        var label = d3.select(this),
+                            x = v.data.simulatedAnnealingLabels[i].x,
+                            y = v.data.simulatedAnnealingLabels[i].y;
+                        if (v.conf.wrapLabels) {
+                            y = y - (label.attr("lines") - 1) * v.status.labelFontSize * v.conf.wrappedLabelLineHeight;
+                            label
+                                .transition()
+                                .duration(800)
+                                .attr("x", x)
+                                .attr("y", y)
+                                .selectAll("tspan")
+                                .attr("x", x)
+                                .attr("y", y);
+                        } else {
+                            label
+                                .transition()
+                                .duration(800)
+                                .attr("x", x)
+                                .attr("y", y);
+                        }
                     });
                 }
                 v.status.forceRunning = false;
@@ -829,45 +894,48 @@ function netGobrechtsD3Force(pDomContainerId, pOptions, pApexPluginId, pApexPage
 
     // convert XML to JSON: modified version of http://davidwalsh.name/convert-xml-json
     v.tools.xmlToJson = function(xml) {
-        var obj = null, subobj, item, subItem, nodeName, attribute;
-    	var convertItemToJson = function(item) {
-    		subobj = {};
-    		if (item.attributes.length > 0) {
-    			for (var i = 0; i < item.attributes.length; i++) {
-    				attribute = item.attributes.item(i);
-    				subobj[attribute.nodeName] = attribute.nodeValue;
-    			}
-    		}
-    		if (item.hasChildNodes()) {
-    			for(var j = 0; j < item.childNodes.length; j++) {
-    				subItem = item.childNodes.item(j);
-    				// check, if subItem has minimum one child (hopefully a textnode) inside
-    				if (subItem.hasChildNodes()) { subobj[subItem.nodeName] = subItem.childNodes.item(0).nodeValue; }
-    				else { subobj[subItem.nodeName] = ""; }
-    			}
-    		}
-    		return subobj;
-    	};
-    	if (xml) {
-    		obj = {};
-    		obj.data = {};
-    		obj.data.nodes = [];
-    		obj.data.links = [];
-    		if (xml.childNodes.item(0).hasChildNodes()) {
-    			for(var i = 0; i < xml.childNodes.item(0).childNodes.length; i++) {
-    				subobj = null;
-    				item = xml.childNodes.item(0).childNodes.item(i);
-    				nodeName = item.nodeName;
-    				if (nodeName === "nodes" || nodeName === "node") {
-    					obj.data.nodes.push(convertItemToJson(item));
-    				}
-    				else if (nodeName === "links" || nodeName === "link") {
-    					obj.data.links.push(convertItemToJson(item));
-    				}
-    			}
-    		}
-    	}
-    	return obj;
+        var obj = null,
+            subobj, item, subItem, nodeName, attribute;
+        var convertItemToJson = function(item) {
+            subobj = {};
+            if (item.attributes.length > 0) {
+                for (var i = 0; i < item.attributes.length; i++) {
+                    attribute = item.attributes.item(i);
+                    subobj[attribute.nodeName] = attribute.nodeValue;
+                }
+            }
+            if (item.hasChildNodes()) {
+                for (var j = 0; j < item.childNodes.length; j++) {
+                    subItem = item.childNodes.item(j);
+                    // check, if subItem has minimum one child (hopefully a textnode) inside
+                    if (subItem.hasChildNodes()) {
+                        subobj[subItem.nodeName] = subItem.childNodes.item(0).nodeValue;
+                    } else {
+                        subobj[subItem.nodeName] = "";
+                    }
+                }
+            }
+            return subobj;
+        };
+        if (xml) {
+            obj = {};
+            obj.data = {};
+            obj.data.nodes = [];
+            obj.data.links = [];
+            if (xml.childNodes.item(0).hasChildNodes()) {
+                for (var i = 0; i < xml.childNodes.item(0).childNodes.length; i++) {
+                    subobj = null;
+                    item = xml.childNodes.item(0).childNodes.item(i);
+                    nodeName = item.nodeName;
+                    if (nodeName === "nodes" || nodeName === "node") {
+                        obj.data.nodes.push(convertItemToJson(item));
+                    } else if (nodeName === "links" || nodeName === "link") {
+                        obj.data.links.push(convertItemToJson(item));
+                    }
+                }
+            }
+        }
+        return obj;
     };
 
     // get inner width for the SVG parents element
@@ -1208,10 +1276,10 @@ function netGobrechtsD3Force(pDomContainerId, pOptions, pApexPluginId, pApexPage
                 }
             });
         if (v.conf.showLabels) {
-            v.main.labels.classed("highlighted", function (l) {
+            v.main.labels.classed("highlighted", function(l) {
                 return l.ID === node.ID;
             });
-            v.main.labelsCircular.classed("highlighted", function (l) {
+            v.main.labelsCircular.classed("highlighted", function(l) {
                 return l.ID === node.ID;
             });
         }
@@ -1564,7 +1632,7 @@ function netGobrechtsD3Force(pDomContainerId, pOptions, pApexPluginId, pApexPage
                     // add short link to release all fixed (pinned) nodes
                     if (key === "pinMode") {
                         td.append("a")
-                            .text("release all")
+                            .text(" release all")
                             .attr("href", null)
                             .on("click", releaseFixedNodesAndResume);
                     }
@@ -1635,7 +1703,8 @@ function netGobrechtsD3Force(pDomContainerId, pOptions, pApexPluginId, pApexPage
         if (v.status.customizeCurrentMenu === "nodes") {
             v.dom.customizeMenu.append("span").style("font-weight", "bold").style("margin-left", "10px").text("NODES");
             v.dom.customizeOptionsTable.selectAll("tr.node-related").classed("hidden", false);
-            v.dom.customizeOptionsTable.selectAll("tr.link-related,tr.graph-related").classed("hidden", true);
+            v.dom.customizeOptionsTable.selectAll("tr.label-related,tr.link-related,tr.graph-related")
+                .classed("hidden", true);
         } else {
             v.dom.customizeMenu.append("a")
                 .style("font-weight", "bold")
@@ -1645,13 +1714,40 @@ function netGobrechtsD3Force(pDomContainerId, pOptions, pApexPluginId, pApexPage
                 .on("click", function() {
                     v.tools.createCustomizeMenu("nodes");
                     v.dom.customizeOptionsTable.selectAll("tr.node-related").classed("hidden", false);
-                    v.dom.customizeOptionsTable.selectAll("tr.link-related,tr.graph-related").classed("hidden", true);
+                    v.dom.customizeOptionsTable.selectAll("tr.label-related,tr.link-related,tr.graph-related")
+                        .classed("hidden", true);
                 })
                 .on("keydown", function() {
                     if (d3.event.keyCode === 13) {
                         v.tools.createCustomizeMenu("nodes");
                         v.dom.customizeOptionsTable.selectAll("tr.node-related").classed("hidden", false);
-                        v.dom.customizeOptionsTable.selectAll("tr.link-related,tr.graph-related")
+                        v.dom.customizeOptionsTable.selectAll("tr.label-related,tr.link-related,tr.graph-related")
+                            .classed("hidden", true);
+                    }
+                });
+        }
+        if (v.status.customizeCurrentMenu === "labels") {
+            v.dom.customizeMenu.append("span").style("font-weight", "bold").style("margin-left", "10px").text("LABELS");
+            v.dom.customizeOptionsTable.selectAll("tr.label-related").classed("hidden", false);
+            v.dom.customizeOptionsTable.selectAll("tr.node-related,tr.link-related,tr.graph-related")
+                .classed("hidden", true);
+        } else {
+            v.dom.customizeMenu.append("a")
+                .style("font-weight", "bold")
+                .style("margin-left", "10px")
+                .text("LABELS")
+                .attr("tabindex", 2)
+                .on("click", function() {
+                    v.tools.createCustomizeMenu("labels");
+                    v.dom.customizeOptionsTable.selectAll("tr.label-related").classed("hidden", false);
+                    v.dom.customizeOptionsTable.selectAll("tr.node-related,tr.link-related,tr.graph-related")
+                        .classed("hidden", true);
+                })
+                .on("keydown", function() {
+                    if (d3.event.keyCode === 13) {
+                        v.tools.createCustomizeMenu("labels");
+                        v.dom.customizeOptionsTable.selectAll("tr.label-related").classed("hidden", false);
+                        v.dom.customizeOptionsTable.selectAll("tr.node-related,tr.link-related,tr.graph-related")
                             .classed("hidden", true);
                     }
                 });
@@ -1659,7 +1755,8 @@ function netGobrechtsD3Force(pDomContainerId, pOptions, pApexPluginId, pApexPage
         if (v.status.customizeCurrentMenu === "links") {
             v.dom.customizeMenu.append("span").style("font-weight", "bold").style("margin-left", "10px").text("LINKS");
             v.dom.customizeOptionsTable.selectAll("tr.link-related").classed("hidden", false);
-            v.dom.customizeOptionsTable.selectAll("tr.node-related,tr.graph-related").classed("hidden", true);
+            v.dom.customizeOptionsTable.selectAll("tr.node-related,tr.label-related,tr.graph-related")
+                .classed("hidden", true);
         } else {
             v.dom.customizeMenu.append("a")
                 .style("font-weight", "bold")
@@ -1669,13 +1766,14 @@ function netGobrechtsD3Force(pDomContainerId, pOptions, pApexPluginId, pApexPage
                 .on("click", function() {
                     v.tools.createCustomizeMenu("links");
                     v.dom.customizeOptionsTable.selectAll("tr.link-related").classed("hidden", false);
-                    v.dom.customizeOptionsTable.selectAll("tr.node-related,tr.graph-related").classed("hidden", true);
+                    v.dom.customizeOptionsTable.selectAll("tr.node-related,tr.label-related,tr.graph-related")
+                        .classed("hidden", true);
                 })
                 .on("keydown", function() {
                     if (d3.event.keyCode === 13) {
                         v.tools.createCustomizeMenu("links");
                         v.dom.customizeOptionsTable.selectAll("tr.link-related").classed("hidden", false);
-                        v.dom.customizeOptionsTable.selectAll("tr.node-related,tr.graph-related")
+                        v.dom.customizeOptionsTable.selectAll("tr.node-related,tr.label-related,tr.graph-related")
                             .classed("hidden", true);
                     }
                 });
@@ -1683,7 +1781,8 @@ function netGobrechtsD3Force(pDomContainerId, pOptions, pApexPluginId, pApexPage
         if (v.status.customizeCurrentMenu === "graph") {
             v.dom.customizeMenu.append("span").style("font-weight", "bold").style("margin-left", "10px").text("GRAPH");
             v.dom.customizeOptionsTable.selectAll("tr.graph-related").classed("hidden", false);
-            v.dom.customizeOptionsTable.selectAll("tr.node-related,tr.link-related").classed("hidden", true);
+            v.dom.customizeOptionsTable.selectAll("tr.node-related,tr.label-related,tr.link-related")
+                .classed("hidden", true);
         } else {
             v.dom.customizeMenu.append("a")
                 .style("font-weight", "bold")
@@ -1693,18 +1792,54 @@ function netGobrechtsD3Force(pDomContainerId, pOptions, pApexPluginId, pApexPage
                 .on("click", function() {
                     v.tools.createCustomizeMenu("graph");
                     v.dom.customizeOptionsTable.selectAll("tr.graph-related").classed("hidden", false);
-                    v.dom.customizeOptionsTable.selectAll("tr.node-related,tr.link-related").classed("hidden", true);
+                    v.dom.customizeOptionsTable.selectAll("tr.node-related,tr.label-related,tr.link-related")
+                        .classed("hidden", true);
                 })
                 .on("keydown", function() {
                     if (d3.event.keyCode === 13) {
                         v.tools.createCustomizeMenu("graph");
                         v.dom.customizeOptionsTable.selectAll("tr.graph-related").classed("hidden", false);
-                        v.dom.customizeOptionsTable.selectAll("tr.node-related,tr.link-related")
+                        v.dom.customizeOptionsTable.selectAll("tr.node-related,tr.label-related,tr.link-related")
                             .classed("hidden", true);
                     }
                 });
         }
         v.dom.customizeMenu.append("span").html("<br><br>");
+    };
+
+    // helper function to wrap text - https://bl.ocks.org/mbostock/7555321
+    v.tools.wrapLabels = function(labels, width) {
+        labels.each(function(label, i) {
+            var text = d3.select(this);
+            if (i === 0) {
+                v.status.labelFontSize = parseInt(text.style("font-size"));
+            }
+            if (!this.hasAttribute("lines")) {
+                var words = text.text().split(/\s+/).reverse(),
+                    word,
+                    line = [],
+                    lineNumber = 0,
+                    lineHeight = v.status.labelFontSize * v.conf.wrappedLabelLineHeight,
+                    x = text.attr("x"),
+                    y = text.attr("y"),
+                    dy = 0,
+                    tspan = text.text(null).append("tspan").attr("x", x).attr("y", y).attr("dy", dy + "px");
+
+                while (word = words.pop()) { // jshint ignore:line
+                    line.push(word);
+                    tspan.text(line.join(" "));
+                    if (tspan.node().getComputedTextLength() > width) {
+                        line.pop();
+                        tspan.text(line.join(" "));
+                        line = [word];
+                        tspan = text.append("tspan").attr("x", x).attr("y", y).attr("dy", ++lineNumber * lineHeight +
+                            dy + "px").text(word);
+                    }
+                }
+                //save number of lines
+                text.attr("lines", lineNumber + 1);
+            }
+        });
     };
 
     /*******************************************************************************************************************
@@ -1963,7 +2098,7 @@ function netGobrechtsD3Force(pDomContainerId, pOptions, pApexPluginId, pApexPage
 
         };
 
-        var intersect = function(x1, x2, x3, x4, y1, y2, y3, y4) {
+        var intersect = function(x1, x2, x3, x4, y1, y2, y3, y4) { // jshint ignore:line
             // returns true if two lines intersect, else false
             // from http://paulbourke.net/geometry/lineline2d/
 
@@ -2478,7 +2613,7 @@ function netGobrechtsD3Force(pDomContainerId, pOptions, pApexPluginId, pApexPage
         };
         /* <-------------------------------------------------------- END MODIFICATION */
 
-        function sign(x) {
+        function sign(x) { // jshint ignore:line
             return x ? x < 0 ? -1 : 1 : 0;
         }
 
@@ -2497,7 +2632,7 @@ function netGobrechtsD3Force(pDomContainerId, pOptions, pApexPluginId, pApexPage
      * PUBLIC GRAPH FUNCTION AND API METHODS
      */
 
-    function graph() {}
+    function graph() {} // jshint ignore:line
 
     // public start function: get data and start visualization
     graph.start = function(pData) {
@@ -3121,6 +3256,7 @@ function netGobrechtsD3Force(pDomContainerId, pOptions, pApexPluginId, pApexPage
             .transform(v.conf.transform)
             .autoRefresh(v.conf.autoRefresh)
             .linkDistance(v.conf.linkDistance)
+            .wrapLabels(v.conf.wrapLabels)
             .charge(v.conf.charge)
             .chargeDistance(v.conf.chargeDistance)
             .gravity(v.conf.gravity)
@@ -3259,11 +3395,67 @@ function netGobrechtsD3Force(pDomContainerId, pOptions, pApexPluginId, pApexPage
         return graph;
     };
 
+    graph.wrapLabels = function(value) {
+        if (!arguments.length) {
+            return v.conf.wrapLabels;
+        }
+        v.conf.wrapLabels = value;
+        if (v.conf.wrapLabels) {
+            v.status.wrapLabelsOnNextTick = true;
+        }
+        if (v.status.graphStarted) {
+            v.main.labels.attr("lines", null);
+            v.tools.createCustomizeWizardIfNotRendering();
+        }
+        return graph;
+    };
+
+    graph.wrappedLabelWidth = function(value) {
+        if (!arguments.length) {
+            return v.conf.wrappedLabelWidth;
+        }
+        v.conf.wrappedLabelWidth = value;
+        if (v.conf.wrapLabels) {
+            v.main.labels.attr("lines", null);
+            v.status.wrapLabelsOnNextTick = true;
+        }
+        if (v.status.graphStarted) {
+            v.tools.createCustomizeWizardIfNotRendering();
+        }
+        return graph;
+    };
+
+    graph.wrappedLabelLineHeight = function(value) {
+        if (!arguments.length) {
+            return v.conf.wrappedLabelLineHeight;
+        }
+        v.conf.wrappedLabelLineHeight = value;
+        if (v.conf.wrapLabels) {
+            v.status.wrapLabelsOnNextTick = true;
+        }
+        if (v.status.graphStarted) {
+            v.main.labels.attr("lines", null);
+            v.tools.createCustomizeWizardIfNotRendering();
+        }
+        return graph;
+    };
+
     graph.labelsCircular = function(value) {
         if (!arguments.length) {
             return v.conf.labelsCircular;
         }
         v.conf.labelsCircular = value;
+        if (v.status.graphStarted) {
+            v.tools.createCustomizeWizardIfNotRendering();
+        }
+        return graph;
+    };
+
+    graph.labelDistance = function(value) {
+        if (!arguments.length) {
+            return v.conf.labelDistance;
+        }
+        v.conf.labelDistance = value;
         if (v.status.graphStarted) {
             v.tools.createCustomizeWizardIfNotRendering();
         }
@@ -3827,17 +4019,6 @@ function netGobrechtsD3Force(pDomContainerId, pOptions, pApexPluginId, pApexPage
             v.main.nodes.attr("r", function(n) {
                 return n.radius;
             });
-            v.tools.createCustomizeWizardIfNotRendering();
-        }
-        return graph;
-    };
-
-    graph.labelDistance = function(value) {
-        if (!arguments.length) {
-            return v.conf.labelDistance;
-        }
-        v.conf.labelDistance = value;
-        if (v.status.graphStarted) {
             v.tools.createCustomizeWizardIfNotRendering();
         }
         return graph;

@@ -4,9 +4,9 @@
 <head>
     <meta charset="utf-8">
     <title>D3 Force APEX Plugin</title>
-    <link href="css/d3-force-2.0.2.css" rel="stylesheet" type="text/css">
+    <link href="css/d3-force-2.1.0beta1.css" rel="stylesheet" type="text/css">
     <script src="lib/d3/d3-3.5.6.min.js"></script>
-    <script src="js/d3-force-2.0.2.min.js"></script>
+    <script src="js/d3-force-2.1.0beta1.js"></script>
 </head>
 
 <body onload="example = netGobrechtsD3Force()
@@ -16,6 +16,7 @@
     .pinMode(true)
     .transform({translate: [0, 0], scale: 1})
     .preventLabelOverlappingOnForceEnd(true)
+    .wrapLabels(true)
     .start()">
 </body>
 </html>

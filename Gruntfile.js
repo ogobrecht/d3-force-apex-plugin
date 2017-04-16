@@ -5,7 +5,7 @@ module.exports = function(grunt) {
         path: {
             lint: [
                 "Gruntfile.js",
-                "js/d3-force-2.0.3.js"
+                "js/d3-force-2.1.0beta1.js"
             ]
         },
         jshint: {
@@ -17,7 +17,7 @@ module.exports = function(grunt) {
         uglify: {
             myTarget: {
                 files: {
-                    "js/d3-force-2.0.3.min.js": ["js/d3-force-2.0.3.js"]
+                    "js/d3-force-2.1.0beta1.min.js": ["js/d3-force-2.1.0beta1.js"]
                 }
             }
         },
@@ -30,5 +30,5 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks("grunt-contrib-uglify");
     grunt.loadNpmTasks("grunt-contrib-watch");
     grunt.loadNpmTasks("grunt-notify");
-    grunt.registerTask("default", "jshint");
+    grunt.registerTask("default", ["jshint", "uglify"]);
 };
