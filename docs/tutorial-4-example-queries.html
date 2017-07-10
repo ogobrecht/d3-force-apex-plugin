@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Example Queries - Documentation</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    <li class="nav-link nav-home-link"><a href="index.html">Home</a></li><li class="nav-heading">Tutorials</li><li class="nav-item"><a href="tutorial-1-getting-started.html">Getting Started</a></li><li class="nav-item"><a href="tutorial-2-node-and-link-attributes.html">Node & Link Attributes</a></li><li class="nav-item"><a href="tutorial-3-included-sample-data.html">Included Sample Data</a></li><li class="nav-item"><a href="tutorial-4-example-queries.html">Example Queries</a></li><li class="nav-heading">Modules</li><li class="nav-heading"><span class="nav-item-type type-module">M</span><span class="nav-item-name"><a href="module-API.html">API</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.alignFixedNodesToGrid">alignFixedNodesToGrid</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.autoRefresh">autoRefresh</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.autoZoom">autoZoom</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.autoZoomOnForceEnd">autoZoomOnForceEnd</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.charge">charge</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.chargeDistance">chargeDistance</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.colorScheme">colorScheme</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.customize">customize</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.data">data</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.debug">debug</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.domParentWidth">domParentWidth</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.dragMode">dragMode</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.friction">friction</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.gravity">gravity</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.gridSize">gridSize</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.height">height</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.inspect">inspect</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.labelDistance">labelDistance</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.labelPlacementIterations">labelPlacementIterations</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.labelsCircular">labelsCircular</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.lassoMode">lassoMode</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.linkDistance">linkDistance</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.linkStrength">linkStrength</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.maxNodeRadius">maxNodeRadius</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.maxZoomFactor">maxZoomFactor</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.minNodeRadius">minNodeRadius</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.minZoomFactor">minZoomFactor</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.moveFixedNodes">moveFixedNodes</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.nodeDataById">nodeDataById</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.nodeEventToOpenLink">nodeEventToOpenLink</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.nodeEventToStopPinMode">nodeEventToStopPinMode</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.nodeLinkTarget">nodeLinkTarget</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.onLassoEndFunction">onLassoEndFunction</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.onLassoStartFunction">onLassoStartFunction</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.onLinkClickFunction">onLinkClickFunction</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.onNodeClickFunction">onNodeClickFunction</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.onNodeContextmenuFunction">onNodeContextmenuFunction</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.onNodeContextmenuPreventDefault">onNodeContextmenuPreventDefault</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.onNodeDblclickFunction">onNodeDblclickFunction</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.onNodeMouseenterFunction">onNodeMouseenterFunction</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.onNodeMouseleaveFunction">onNodeMouseleaveFunction</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.options">options</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.optionsCustomizationWizard">optionsCustomizationWizard</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.pinMode">pinMode</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.positions">positions</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.preventLabelOverlappingOnForceEnd">preventLabelOverlappingOnForceEnd</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.refreshInterval">refreshInterval</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.releaseFixedNodes">releaseFixedNodes</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.render">render</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.resume">resume</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.sampleData">sampleData</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.selfLinkDistance">selfLinkDistance</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.setDomParentPaddingToZero">setDomParentPaddingToZero</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.showBorder">showBorder</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.showLabels">showLabels</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.showLegend">showLegend</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.showLinkDirection">showLinkDirection</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.showLoadingIndicator">showLoadingIndicator</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.showLoadingIndicatorOnAjaxCall">showLoadingIndicatorOnAjaxCall</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.showSelfLinks">showSelfLinks</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.showTooltips">showTooltips</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.start">start</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.theta">theta</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.tooltipPosition">tooltipPosition</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.transform">transform</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.useDomParentWidth">useDomParentWidth</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.userAgent">userAgent</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.version">version</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.width">width</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.wrapLabels">wrapLabels</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.wrappedLabelLineHeight">wrappedLabelLineHeight</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.wrappedLabelWidth">wrappedLabelWidth</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.zoom">zoom</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.zoomMode">zoomMode</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.zoomSmooth">zoomSmooth</a></span></li><li class="nav-heading"><a href="global.html">Globals</a></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#netGobrechtsD3Force">netGobrechtsD3Force</a></span></li>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">Example Queries</h1>
+    
+
+    <section>
+
+<header>
+    
+</header>
+
+<article>
+    <p>Please note, that you have to deliver distinct data to ensure your graph is rendered correctly - see also this <a href="https://github.com/ogobrecht/d3-force-apex-plugin/issues/17">issue on GitHub</a>. It is always a good idea to review your queries/data before you try to use it in a visualization ;-)</p>
+<h2>Oracle - Table EMP</h2><p>This query is the base for the shipped sample data:</p>
+<pre class="prettyprint source lang-sql"><code>WITH
+nodes AS ( --> START YOUR NODES QUERY HERE
+  SELECT XMLELEMENT( &quot;nodes&quot;, xmlattributes(
+         empno        AS id
+       , ename        AS label
+       , sal          AS sizevalue
+       , d.deptno     AS colorvalue
+     --, d.dname      AS colorlabel    -- optional, used for the graph legend
+     --, 'http://...' AS link          -- optional
+     --, 'some text'  AS infostring    -- optional, rendered as tooltip
+     --, 'false'      AS labelcircular -- optional, overwrites labelsCircular
+     --, 'http://...' AS image         -- optional, background image for a node
+     --, 'true'       AS &quot;fixed&quot;       -- optional | fixed, x and y are native
+     --, 100          AS &quot;x&quot;           -- optional | D3 attributes, they must be
+     --, 100          AS &quot;y&quot;           -- optional | lowercase
+         ) ) AS xml_nodes
+    FROM emp e join dept d on e.deptno = d.deptno --&lt; STOP YOUR NODES QUERY HERE
+),
+links AS ( --> START YOUR LINKS QUERY HERE
+  SELECT XMLELEMENT( &quot;links&quot;, xmlattributes(
+         empno          AS fromid
+       , NVL(mgr,empno) AS toid
+     --, 'dashed'       AS style       -- optional, solid, dotted or dashed
+     --, 'red'          AS color       -- optional, must be a HTML color code
+     --, 'some text'    AS infostring  -- optional, rendered as tooltip
+         ) ) AS xml_links
+    FROM emp --&lt; STOP YOUR LINKS QUERY HERE
+)
+SELECT XMLSERIALIZE( DOCUMENT( XMLELEMENT( &quot;data&quot;,
+       ( SELECT XMLAGG( xml_nodes ) FROM nodes ),
+       ( SELECT XMLAGG( xml_links ) FROM links ) ) ) INDENT ) AS single_clob_result
+  FROM DUAL</code></pre><h2>Oracle - Data Model of Current Schema</h2><p>With this query you can visualize the data model of the current schema. Tested on Oracle 11g. Some subqueries select more data then needed for the visualization - this could be a starting point for your own custom visualization.</p>
+<p>ATTENTION: I tried to speed up the dictionary queries by using the with clause and filtering each subquery for the desired tables. Also, I tried to get the correct NOT NULL informations from the dictionary, since the nullable column in user_tab_columns does not reflect table level not null constraints. If you play around with the query to find an own solution you can run in massive performance problems when you join directly the dictionary views.</p>
+<p>Many thanks to Adrian Billington for his excellent <a href="http://www.oracle-developer.net/display.php?id=430">article about working with long columns</a>.</p>
+<pre class="prettyprint source lang-sql"><code>--> The following helper function is needed to read the constraint search condition:
+CREATE OR REPLACE FUNCTION get_long_search_condition( p_constraint_name IN VARCHAR2 )
+   RETURN VARCHAR2
+AS
+   v_return LONG;
+   CURSOR c_search_condition
+   IS
+        SELECT search_condition
+          FROM user_constraints
+         WHERE constraint_name = p_constraint_name;
+BEGIN
+   OPEN c_search_condition;
+   FETCH c_search_condition INTO v_return;
+   CLOSE c_search_condition;
+   RETURN SUBSTR( v_return, 1, 4000 );
+END;</code></pre><pre class="prettyprint source lang-sql"><code>WITH
+tabs AS ( --> filter your tables here, all other queries use tabs as filter
+  SELECT table_name
+       , NVL( num_rows, 0 ) AS num_rows
+       , CASE --> used for coloring the nodes in the graph
+            WHEN table_name LIKE 'APEX$%' THEN 'APEX websheet apps'
+            WHEN table_name LIKE 'DEMO%' THEN 'Sample database app'
+            WHEN table_name in ('EMP', 'DEPT') THEN
+               'The well known emp & dept tables'
+            ELSE 'uncategorized tables'
+         END
+            AS table_group
+    FROM user_tables
+   WHERE table_name NOT LIKE 'PLSQL%'
+),
+cons AS (
+  SELECT owner
+       , constraint_name
+       , constraint_type
+       , table_name
+       , get_long_search_condition( constraint_name ) AS search_condition
+       , r_owner
+       , r_constraint_name
+       , delete_rule
+       , status
+    FROM user_constraints
+   WHERE table_name IN (SELECT table_name FROM tabs)
+),
+concols AS (
+  SELECT owner
+       , constraint_name
+       , table_name
+       , column_name
+       , position
+    FROM user_cons_columns
+   WHERE table_name IN (SELECT table_name FROM tabs)
+),
+connotnulls AS ( --> because of primary keys and not null check constraints we
+                 --> have to select distinct here
+  SELECT   DISTINCT table_name, column_name, nullable
+     FROM (  SELECT c.table_name
+                  , cc.column_name
+                  , c.constraint_name
+                  , c.constraint_type
+                  , c.search_condition
+                  , 'N' AS nullable
+               FROM cons c
+               JOIN concols cc ON c.constraint_name = cc.constraint_name
+              WHERE     c.status = 'ENABLED'
+                    AND (   c.constraint_type = 'P'
+                         OR     c.constraint_type = 'C'
+                            AND REGEXP_COUNT( TRIM( c.search_condition )
+                                            ,    '^&quot;{0,1}'
+                                              || cc.column_name
+                                              || '&quot;{0,1}\s+is\s+not\s+null$'
+                                            , 1
+                                            , 'i' ) = 1 ))
+),
+tabcols AS (
+  SELECT t.table_name
+       , t.column_name
+       , t.data_type
+       , t.data_length
+       , t.data_precision
+       , t.data_scale
+       , t.nullable AS nullable_dict
+       --> dict does not recognize table level not null constraints:
+       --> working with long columns:
+       --> http://www.oracle-developer.net/display.php?id=430
+       , NVL( n.nullable, 'Y' ) AS nullable_cons
+    FROM user_tab_columns t
+         LEFT JOIN connotnulls n
+            ON     t.table_name = n.table_name
+               AND t.column_name = n.column_name
+   WHERE t.table_name IN (SELECT table_name FROM tabs)
+),
+fks AS (
+   SELECT concols.table_name AS source_table
+       , r_concols.table_name AS target_table
+       , cons.status
+       , tabcols.nullable_cons
+    FROM cons
+         JOIN concols
+            ON cons.constraint_name = concols.constraint_name
+          JOIN concols r_concols
+            ON cons.r_constraint_name = r_concols.constraint_name
+         JOIN tabcols
+            ON     concols.table_name = tabcols.table_name
+               AND concols.column_name = tabcols.column_name
+   WHERE     cons.constraint_type = 'R'
+         AND cons.status = 'ENABLED'
+),
+nodes AS ( --> START YOUR NODES QUERY HERE
+  SELECT   XMLELEMENT( &quot;nodes&quot;
+                     , xmlattributes( table_name AS id
+                                    , table_name AS label
+                                    , table_group AS colorvalue
+                                    , num_rows AS sizevalue ) )
+              AS xml_nodes
+    FROM tabs --&lt; STOP YOUR NODES QUERY HERE
+),
+links AS ( --> START YOUR LINKS QUERY HERE
+  SELECT   XMLELEMENT( &quot;links&quot;
+                     , xmlattributes( source_table AS fromid
+                                    , target_table AS toid
+                                    , CASE nullable_cons
+                                         WHEN 'Y' THEN 'dashed'
+                                         WHEN 'N' THEN 'solid'
+                                      END AS style )
+                     , status )
+              AS xml_links
+    FROM fks --&lt; STOP YOUR LINKS QUERY HERE
+)
+SELECT XMLSERIALIZE( DOCUMENT( XMLELEMENT( &quot;data&quot;,
+       ( SELECT XMLAGG( xml_nodes ) FROM nodes ),
+       ( SELECT XMLAGG( xml_links ) FROM links ) ) ) INDENT ) AS single_clob_result
+  FROM DUAL</code></pre>
+</article>
+
+</section>
+
+</div>
+
+<br class="clear">
+
+<footer>
+    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Mon Jul 10 2017 21:57:27 GMT+0200 (CEST) using the Minami theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+</body>
+</html>

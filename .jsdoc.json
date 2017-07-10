@@ -1,0 +1,16 @@
+{
+    "tags": {
+        "allowUnknownTags": true
+    },
+    "plugins": ["plugins/markdown"],
+    "templates": {
+        "cleverLinks": false,
+        "monospaceLinks": false,
+        "useLongnameInNav": false,
+        "showInheritedInNav": true
+    },
+    "markdown": {
+        "parser": "gfm",
+        "hardwrap": true
+    }
+}

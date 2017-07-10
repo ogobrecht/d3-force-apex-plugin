@@ -21,14 +21,28 @@ module.exports = function(grunt) {
                 }
             }
         },
+        clean: ["docs"],
+        jsdoc: {
+            dist: {
+                src: ["js/*.js", "README.md"],
+                options: {
+                    destination: "docs",
+                    tutorials: "tutorials",
+                    template: "node_modules/minami",
+                    configure: ".jsdoc.json"
+                }
+            }
+        },
         watch: {
             files: "<%= path.lint %>",
-            tasks: ["jshint","uglify"]
+            tasks: ["jshint", "uglify", "jsdoc"]
         }
     });
     grunt.loadNpmTasks("grunt-contrib-jshint");
     grunt.loadNpmTasks("grunt-contrib-uglify");
     grunt.loadNpmTasks("grunt-contrib-watch");
+    grunt.loadNpmTasks("grunt-contrib-clean");
     grunt.loadNpmTasks("grunt-notify");
-    grunt.registerTask("default", ["jshint", "uglify"]);
+    grunt.loadNpmTasks("grunt-jsdoc");
+    grunt.registerTask("default", ["jshint", "uglify", "clean", "jsdoc"]);
 };

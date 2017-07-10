@@ -220,11 +220,11 @@ wwv_flow_api.create_plugin (
 '   IF p_region.source IS NOT NULL THEN'||unistr('\000a')||
 '      v_binds := wwv_flow_utilities.get_binds( p_region.source );'||unistr('\000a')||
 '      v_cur   := DBMS_SQL.open_cursor;'||unistr('\000a')||
-'      DBMS_SQL.parse( c => v_cur, statement => p_region.source, language_flag => DBMS_SQL.native );'||unistr('\000a')||
+'      DBMS_SQL.parse( c => v_cur, statement => REGEXP_REPLACE(p_region.source,'';\s*$'',''''), language_flag => DBMS_SQL.native );'||unistr('\000a')||
 ''||unistr('\000a')||
 '      IF v_binds.COUNT > 0 THEN'||unistr('\000a')||
-'         FOR i IN v_binds.FIRST '||
-'.. v_binds.LAST LOOP'||unistr('\000a')||
+'     '||
+'    FOR i IN v_binds.FIRST .. v_binds.LAST LOOP'||unistr('\000a')||
 '            DBMS_SQL.bind_variable( v_cur'||unistr('\000a')||
 '                                  , v_binds( i )'||unistr('\000a')||
 '                                  , APEX_UTIL.get_session_state( SUBSTR( v_binds( i ), 2 ) ) );'||unistr('\000a')||
@@ -234,8 +234,8 @@ wwv_flow_api.create_plugin (
 '      DBMS_SQL.define_column( c => v_cur, position => 1, column => v_clob );'||unistr('\000a')||
 '      v_ret   := DBMS_SQL.execute( c => v_cur );'||unistr('\000a')||
 ''||unistr('\000a')||
-'      WHILE DBMS_SQL.fetch_rows'||
-'( v_cur ) > 0 LOOP'||unistr('\000a')||
+'    '||
+'  WHILE DBMS_SQL.fetch_rows( v_cur ) > 0 LOOP'||unistr('\000a')||
 '         DBMS_SQL.COLUMN_VALUE( v_cur, 1, v_clob );'||unistr('\000a')||
 '      END LOOP;'||unistr('\000a')||
 ''||unistr('\000a')||
@@ -248,8 +248,8 @@ wwv_flow_api.create_plugin (
 '            v_amo PLS_INTEGER := 4000;'||unistr('\000a')||
 '            v_chu VARCHAR2( 32767 );'||unistr('\000a')||
 '         BEGIN'||unistr('\000a')||
-'            v_len := DBMS_LOB.getlength( v_clob'||
-' );'||unistr('\000a')||
+'            v_len :='||
+' DBMS_LOB.getlength( v_clob );'||unistr('\000a')||
 ''||unistr('\000a')||
 '            WHILE v_pos <= v_len LOOP'||unistr('\000a')||
 '               v_amo := LEAST( v_amo, v_len - ( v_pos - 1 ) );'||unistr('\000a')||
@@ -260,10 +260,10 @@ wwv_flow_api.create_plugin (
 '         END;'||unistr('\000a')||
 '      ELSE'||unistr('\000a')||
 '         HTP.prn( ''query_returned_no_data'' ); --> prn prints without newline'||unistr('\000a')||
-'      END IF;'||unistr('\000a')||
+'      '||
+'END IF;'||unistr('\000a')||
 '   ELSE'||unistr('\000a')||
-'      HTP.p'||
-'rn( ''no_query_defined'' );'||unistr('\000a')||
+'      HTP.prn( ''no_query_defined'' );'||unistr('\000a')||
 '   END IF;'||unistr('\000a')||
 ''||unistr('\000a')||
 '   --> Free the temp LOB, if necessary'||unistr('\000a')||
@@ -281,8 +281,8 @@ wwv_flow_api.create_plugin (
 '      BEGIN'||unistr('\000a')||
 '         IF     v_cur IS NOT NULL'||unistr('\000a')||
 '            AND DBMS_SQL.is_open( v_cur ) THEN'||unistr('\000a')||
-'            DBMS_SQL.close_cursor( v_cu'||
-'r );'||unistr('\000a')||
+'            '||
+'DBMS_SQL.close_cursor( v_cur );'||unistr('\000a')||
 '         END IF;'||unistr('\000a')||
 '      EXCEPTION'||unistr('\000a')||
 '         WHEN OTHERS THEN'||unistr('\000a')||
