@@ -869,6 +869,38 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
         // create zoom reference
         v.main.zoom = d3.behavior.zoom();
 
+        // create zoomed function
+        v.main.zoomed = function() {
+            v.conf.transform = {
+                "translate": v.main.zoom.translate(),
+                "scale": v.main.zoom.scale()
+            };
+            v.dom.graph.attr("transform", "translate(" + v.main.zoom.translate() + ")scale(" +
+                v.main.zoom.scale() + ")");
+            v.tools.writeConfObjectIntoWizard();
+        };
+
+        // create interpolate zoom helper
+        v.main.interpolateZoom = function(translate, scale, duration) {
+            if (v.conf.zoomMode && v.status.graphStarted) {
+                if (scale < v.conf.minZoomFactor) {
+                    scale = v.conf.minZoomFactor;
+                } else if (scale > v.conf.maxZoomFactor) {
+                    scale = v.conf.maxZoomFactor;
+                }
+                return d3.transition().duration(duration).tween("zoom", function() {
+                    var iTranslate = d3.interpolate(v.main.zoom.translate(), translate),
+                        iScale = d3.interpolate(v.main.zoom.scale(), scale);
+                    return function(t) {
+                        v.main.zoom
+                            .scale(iScale(t))
+                            .translate(iTranslate(t));
+                        v.main.zoomed();
+                    };
+                });
+            }
+        };
+
     }; // --> END v.main.setupFunctionReferences
 
 
@@ -3810,20 +3842,10 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
         v.conf.zoomMode = value;
         if (v.status.graphStarted) {
             if (v.conf.zoomMode) {
-                v.dom.graphOverlay.call(v.main.zoom);
                 v.main.zoom.scaleExtent([v.conf.minZoomFactor, v.conf.maxZoomFactor])
                     .size([v.tools.getGraphWidth(), v.conf.height])
-                    .on("zoom", function() {
-                        v.main.zoom.translate(d3.event.translate);
-                        v.main.zoom.scale(d3.event.scale);
-                        v.conf.transform = {
-                            "translate": v.main.zoom.translate(),
-                            "scale": v.main.zoom.scale()
-                        };
-                        v.dom.graph.attr("transform", "translate(" + v.main.zoom.translate() + ")scale(" +
-                            v.main.zoom.scale() + ")");
-                        v.tools.writeConfObjectIntoWizard();
-                    });
+                    .on("zoom", v.main.zoomed);
+                v.dom.graphOverlay.call(v.main.zoom);
                 // save zoom events for use in event proxy
                 v.events.dblclickZoom = v.dom.graphOverlay.on("dblclick.zoom");
                 v.events.mousedownZoom = v.dom.graphOverlay.on("mousedown.zoom");
@@ -3916,34 +3938,7 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
      * @returns {Object} The graph object for method chaining.
      */
     graph.zoom = function(centerX, centerY, viewportWidth) {
-        if (v.conf.zoomMode) {
-            var width = v.tools.getGraphWidth();
-            if (!centerX) {
-                centerX = width / 2;
-            }
-            if (!centerY) {
-                centerY = v.conf.height / 2;
-            }
-            if (!viewportWidth) {
-                viewportWidth = width;
-            }
-            v.main.zoom.scale(width / viewportWidth);
-            if (v.main.zoom.scale() < v.conf.minZoomFactor) {
-                v.main.zoom.scale(v.conf.minZoomFactor);
-            }
-            if (v.main.zoom.scale() > v.conf.maxZoomFactor) {
-                v.main.zoom.scale(v.conf.maxZoomFactor);
-            }
-            v.main.zoom.translate([
-                (width / 2 - centerX * v.main.zoom.scale()), (v.conf.height / 2 - centerY * v.main.zoom.scale())
-            ]);
-            v.conf.transform = {
-                "translate": v.main.zoom.translate(),
-                "scale": v.main.zoom.scale()
-            };
-            v.main.zoom.event(v.dom.graphOverlay);
-            v.tools.writeConfObjectIntoWizard();
-        }
+        graph.zoomSmooth(centerX, centerY, viewportWidth, 0);
         return graph;
     };
 
@@ -3967,39 +3962,17 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
      * @returns {Object} The graph object for method chaining.
      */
     graph.zoomSmooth = function(centerX, centerY, viewportWidth, duration) {
-        if (v.conf.zoomMode) {
-            var width = v.tools.getGraphWidth(); // could be different then configured (responsive)
-            if (!centerX) {
-                centerX = width / 2;
-            }
-            if (!centerY) {
-                centerY = v.conf.height / 2;
-            }
-            if (!viewportWidth) {
-                viewportWidth = width;
-            }
-            if (!duration) {
-                duration = 1500;
-            }
-            v.main.zoom.scale(width / viewportWidth);
-            if (v.main.zoom.scale() < v.conf.minZoomFactor) {
-                v.main.zoom.scale(v.conf.minZoomFactor);
-            }
-            if (v.main.zoom.scale() > v.conf.maxZoomFactor) {
-                v.main.zoom.scale(v.conf.maxZoomFactor);
-            }
-            v.main.zoom.translate([
-                (width / 2 - centerX * v.main.zoom.scale()), (v.conf.height / 2 - centerY * v.main.zoom.scale())
-            ]);
-            v.conf.translate = {
-                "translate": v.main.zoom.translate(),
-                "scale": v.main.zoom.scale()
-            };
-            v.dom.graphOverlay.transition()
-                .duration(duration)
-                .call(v.main.zoom.event);
-            v.tools.writeConfObjectIntoWizard();
-        }
+        // http://bl.ocks.org/linssen/7352810
+        var x, y, scale;
+        var width = v.tools.getGraphWidth(); // could be different then configured (responsive)
+        centerX = (isNaN(centerX) ? width / 2 : parseInt(centerX));
+        centerY = (isNaN(centerY) ? v.conf.height / 2 : parseInt(centerY));
+        viewportWidth = (isNaN(viewportWidth) ? width : parseInt(viewportWidth));
+        duration = (isNaN(duration) ? 1500 : parseInt(duration));
+        scale = width / viewportWidth;
+        x = width / 2 - centerX * scale;
+        y = v.conf.height / 2 - centerY * scale;
+        v.main.interpolateZoom([x, y], scale, duration);
         return graph;
     };
 
@@ -4011,33 +3984,17 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
      * @see {@link module:API.zoomMode}
      * @see {@link module:API.zoom}
      * @see {@link module:API.zoomSmooth}
-     * @param {Object} [transformObject={“translate”:[0,0],“scale”:1}] - The new config value.
+     * @param {Object} [transform={“translate”:[0,0],“scale”:1}] - The new config value.
      * @returns {Object} The current config value if no parameter is given or the graph object for method chaining.
      */
-    graph.transform = function(transformObject) {
+    graph.transform = function(transform) {
         if (!arguments.length) {
             return {
                 "translate": v.main.zoom.translate(),
                 "scale": v.main.zoom.scale()
             };
         } else {
-            v.main.zoom.translate(transformObject.translate);
-            v.main.zoom.scale(transformObject.scale);
-            if (v.main.zoom.scale() < v.conf.minZoomFactor) {
-                v.main.zoom.scale(v.conf.minZoomFactor);
-            }
-            if (v.main.zoom.scale() > v.conf.maxZoomFactor) {
-                v.main.zoom.scale(v.conf.maxZoomFactor);
-            }
-            v.conf.transform = {
-                "translate": v.main.zoom.translate(),
-                "scale": v.main.zoom.scale()
-            };
-            if (v.conf.zoomMode && v.status.graphStarted) {
-                v.dom.graphOverlay.transition()
-                    .call(v.main.zoom.event);
-                v.tools.writeConfObjectIntoWizard();
-            }
+            v.main.interpolateZoom(transform.translate, transform.scale, 0);
         }
         return graph;
     };
@@ -4052,40 +4009,22 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
      * @see {@link module:API.maxZoomFactor}
      * @see {@link module:API.transform}
      * @see {@link module:API.autoZoomOnForceEnd}
-     * @param {number} [duration=1500] - The transition duration in milliseconds.
+     * @param {number} [duration=500] - The transition duration in milliseconds.
      * @returns {Object} The graph object for method chaining.
      */
     graph.autoZoom = function(duration) {
-        if (v.status.graphStarted && v.conf.zoomMode) {
-            var svg = {},
-                graph_, padding = 10,
-                x, y, scale;
-            if (!duration) {
-                duration = 1500;
-            }
-            svg.width = v.tools.getGraphWidth();
-            svg.height = v.conf.height;
-            graph_ = v.dom.graph.node().getBBox();
-            scale = Math.min((svg.height - 2 * padding) / graph_.height,
-                (svg.width - 2 * padding) / graph_.width);
-            if (scale > v.conf.maxZoomFactor) {
-                scale = v.conf.maxZoomFactor;
-            } else if (scale < v.conf.minZoomFactor) {
-                scale = v.conf.minZoomFactor;
-            }
-            x = (svg.width - graph_.width * scale) / 2 - graph_.x * scale;
-            y = (svg.height - graph_.height * scale) / 2 - graph_.y * scale;
-            v.main.zoom.scale(scale);
-            v.main.zoom.translate([x, y]);
-            v.conf.translate = {
-                "translate": v.main.zoom.translate(),
-                "scale": v.main.zoom.scale()
-            };
-            v.dom.graphOverlay.transition()
-                .duration(duration)
-                .call(v.main.zoom.event);
-            v.tools.writeConfObjectIntoWizard();
-        }
+        var svg = {},
+            graph_, padding = 10,
+            x, y, scale;
+        duration = (isNaN(duration) ? 500 : parseInt(duration));
+        svg.width = v.tools.getGraphWidth();
+        svg.height = v.conf.height;
+        graph_ = v.dom.graph.node().getBBox();
+        scale = Math.min((svg.height - 2 * padding) / graph_.height,
+            (svg.width - 2 * padding) / graph_.width);
+        x = (svg.width - graph_.width * scale) / 2 - graph_.x * scale;
+        y = (svg.height - graph_.height * scale) / 2 - graph_.y * scale;
+        v.main.interpolateZoom([x, y], scale, duration);
         return graph;
     };
 

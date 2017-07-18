@@ -51,7 +51,9 @@ Please refer to the [documentation](https://gobrechts.net/wiki/projects/d3-force
 - [x] Fixed: Standalone version not loading after APEX 5.1 bugfix
 - [x] Fixed: APEX plugin - semi colon in region query no longer throws an error
 - Current hints:
+  - tween function with own zoomed function (v.main.zoomed): https://bl.ocks.org/mbostock/3892928 
   - https://stackoverflow.com/questions/38597582/d3-js-pan-and-zoom-jumps-when-using-mouse-after-programatic-zoom
+  - https://stackoverflow.com/questions/31905763/d3-zoom-behaviour-after-target-has-been-translated
 
 ### 2.0.3 (2016-12-13)
 
