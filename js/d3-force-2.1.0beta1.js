@@ -1673,8 +1673,8 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
                         .attr("class", v.confDefaults[key].relation + "-related");
                     row.append("td")
                         .attr("class", "label")
-                        .html("<a href=\"https://gobrechts.net/wiki/projects/d3-force-apex-plugin#" +
-                            key.toLowerCase() + "\" target=\"github_d3_force\" tabindex=\"" + i + 100 + "\">" +
+                        .html("<a href=\"https://ogobrecht.github.io/d3-force-apex-plugin/module-API.html#." +
+                            key + "\" target=\"github_d3_force\" tabindex=\"" + i + 100 + "\">" +
                             key + "</a>");
                     td = row.append("td");
                     form = td.append("select")

@@ -47,9 +47,10 @@ Please refer to the [documentation](https://gobrechts.net/wiki/projects/d3-force
 
 ### 2.1.0 (2017-xx-xx) still in development
 
-- [x] New Option `wrapLabels` with a configurable max width - thanks to Ekaterina & Andrey for the idea
-- [x] New Option `zoomToFitOnForceEnd` to fit the graph in the available space on force end (like the automatic label placement) - needs the zoomMode switched on to work properly
-- [x] New API method `zoomToFit`, which is used by the option zoomToFitOnForceEnd - needs the zoomMode switched on to work properly - now you can do things like `example.width(800).height(600).zoomToFit()` :-)
+- [x] New option `wrapLabels` with a configurable max width - thanks to Ekaterina & Andrey for the idea
+- [x] New option `zoomToFitOnForceEnd` to fit the graph in the available space on force end (like the automatic label placement) - needs the zoomMode switched on to work properly
+- [x] New API method `zoomToFit`, which is used by the option zoomToFitOnForceEnd - now you can do things like `example.width(800).height(600).zoomToFit()` :-)
+- [ ] New option `useDomParentHeight` (a companion to `useDomParentWidth`) - since APEX 5 supports the maximization of reports this could be very handy for large graphs in combination with the option zoomToFitOnForceEnd
 - [x] Changed: Use JSDoc to generate documentation and API reference. Relocate documentation from own Wiki to GitHub pages
 - [x] Fixed: Standalone version not loading after APEX 5.1 bugfix
 - [x] Fixed: APEX plugin - semi colon in region query no longer throws an error
