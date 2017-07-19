@@ -361,7 +361,7 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
                 "scale": 1
             }
         };
-        v.confDefaults.autoZoomOnForceEnd = {
+        v.confDefaults.zoomToFitOnForceEnd = {
             "display": true,
             "relation": "graph",
             "type": "bool",
@@ -505,8 +505,8 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
         v.conf.minZoomFactor = v.confUser.minZoomFactor || v.confDefaults.minZoomFactor.val;
         v.conf.maxZoomFactor = v.confUser.maxZoomFactor || v.confDefaults.maxZoomFactor.val;
         v.conf.transform = v.confUser.transform || v.confDefaults.transform.val;
-        v.conf.autoZoomOnForceEnd = (typeof v.confUser.autoZoomOnForceEnd !== "undefined" ? v.tools.parseBool(v.confUser.autoZoomOnForceEnd) :
-            v.confDefaults.autoZoomOnForceEnd.val);
+        v.conf.zoomToFitOnForceEnd = (typeof v.confUser.zoomToFitOnForceEnd !== "undefined" ? v.tools.parseBool(v.confUser.zoomToFitOnForceEnd) :
+            v.confDefaults.zoomToFitOnForceEnd.val);
         v.conf.autoRefresh = (typeof v.confUser.autoRefresh !== "undefined" ?
             v.tools.parseBool(v.confUser.autoRefresh) : v.confDefaults.autoRefresh.val);
         v.conf.refreshInterval = v.confUser.refreshInterval || v.confDefaults.refreshInterval.val;
@@ -841,6 +841,9 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
                                 .attr("y", y);
                         }
                     });
+                }
+                if (v.conf.zoomToFitOnForceEnd && v.conf.zoomMode) {
+                    graph.zoomToFit();
                 }
                 v.status.forceRunning = false;
                 var milliseconds = new Date().getTime() - v.status.forceStartTime;
@@ -4002,17 +4005,17 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
     /**
      * Helper/Command method - automatically zoom, so that the whole graph is visible and optimal sized. No `render` or `resume` call needed to take into effect:
      *
-     *     example.autoZoom();
+     *     example.zoomToFit();
      * @see {@link module:API.zoomMode}
      * @see {@link module:API.zoomSmooth}
      * @see {@link module:API.minZoomFactor}
      * @see {@link module:API.maxZoomFactor}
      * @see {@link module:API.transform}
-     * @see {@link module:API.autoZoomOnForceEnd}
+     * @see {@link module:API.zoomToFitOnForceEnd}
      * @param {number} [duration=500] - The transition duration in milliseconds.
      * @returns {Object} The graph object for method chaining.
      */
-    graph.autoZoom = function(duration) {
+    graph.zoomToFit = function(duration) {
         var svg = {},
             graph_, padding = 10,
             x, y, scale;
@@ -4029,30 +4032,30 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
     };
 
     /**
-     * Automatically zoom at force end, so that the whole graph is visible and optimal sized. Needs a `resume` call to take into effect. If enabled it fires at every force end event. If you only want to resize your graph once than have a look at the command/helper method `autoZoom`:
+     * Automatically zoom at force end, so that the whole graph is visible and optimal sized. Needs a `resume` call to take into effect. If enabled it fires at every force end event. If you only want to resize your graph once than have a look at the command/helper method `zoomToFit`:
      *
      *     //we need resume only to trigger the force end event the first time
-     *     example.autoZoomOnForceEnd(true).resume();
+     *     example.zoomToFitOnForceEnd(true).resume();
      *
      *     //alternative way without a resume call
-     *     example.autoZoomOnForceEnd(true).autoZoom();
+     *     example.zoomToFitOnForceEnd(true).zoomToFit();
      *
      *     //resize only once
-     *     example.autoZoom();
+     *     example.zoomToFit();
      * @see {@link module:API.zoomMode}
      * @see {@link module:API.zoomSmooth}
      * @see {@link module:API.minZoomFactor}
      * @see {@link module:API.maxZoomFactor}
      * @see {@link module:API.transform}
-     * @see {@link module:API.autoZoom}
+     * @see {@link module:API.zoomToFit}
      * @param {boolean} [value=false] - The new config value.
      * @returns {(boolean|Object)} The current config value if no parameter is given or the graph object for method chaining.
      */
-    graph.autoZoomOnForceEnd = function(value) {
+    graph.zoomToFitOnForceEnd = function(value) {
         if (!arguments.length) {
-            return v.conf.autoZoomOnForceEnd;
+            return v.conf.zoomToFitOnForceEnd;
         }
-        v.conf.autoZoomOnForceEnd = value;
+        v.conf.zoomToFitOnForceEnd = value;
         if (v.status.graphStarted) {
             v.tools.createCustomizeWizardIfNotRendering();
         }

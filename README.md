@@ -31,29 +31,28 @@ This is a D3 force implementation, playground and Oracle APEX plugin, which uses
 I would like to say THANK YOU to all the people who share their knowledge. Without this sharing I would not have been able to create this D3 implementation. Special thanks to Mike Bostock for his great library and to Carsten Czarski for mentoring me on Oracle APEX plugin development.
 
 
-## Changelog
-
-This D3 force implementation uses [semantic versioning](http://semver.org).
-
-Please refer to the [documentation](https://gobrechts.net/wiki/projects/d3-force-apex-plugin) for more informations on how to get started and an overview of all graph methods. Please use for all comments and discussions the [issues functionality on GitHub](https://github.com/ogobrecht/d3-force-apex-plugin/issues).
-
+## Roadmap
 
 ### 3.0.0 (201x-xx-xx) in planning
 
 - [ ] Update to current D3 version (4.x.x): [link 1](https://github.com/d3/d3/blob/master/CHANGES.md#forces-d3-force), [link 2](https://github.com/d3/d3-force/blob/master/README.md)
 - [ ] Devide code base into modularized graph code and APEX plugin code in different repos to make clear, that graph function can run in any HTML environment
 
+
+## Changelog
+
+This D3 force implementation uses [semantic versioning](http://semver.org).
+
+Please refer to the [documentation](https://gobrechts.net/wiki/projects/d3-force-apex-plugin) for more informations on how to get started and an overview of all graph methods. Please use for all comments and discussions the [issues functionality on GitHub](https://github.com/ogobrecht/d3-force-apex-plugin/issues).
+
 ### 2.1.0 (2017-xx-xx) still in development
 
 - [x] New Option `wrapLabels` with a configurable max width - thanks to Ekaterina & Andrey for the idea
-- [ ] New Option `autoZoomOnForceEnd` to fit the graph in the available space on force end (like the automatic label placement) - needs the zoomMode switched on to work properly
+- [x] New Option `zoomToFitOnForceEnd` to fit the graph in the available space on force end (like the automatic label placement) - needs the zoomMode switched on to work properly
+- [x] New API method `zoomToFit`, which is used by the option zoomToFitOnForceEnd - needs the zoomMode switched on to work properly - now you can do things like `example.width(800).height(600).zoomToFit()` :-)
 - [x] Changed: Use JSDoc to generate documentation and API reference. Relocate documentation from own Wiki to GitHub pages
 - [x] Fixed: Standalone version not loading after APEX 5.1 bugfix
 - [x] Fixed: APEX plugin - semi colon in region query no longer throws an error
-- Current hints:
-  - tween function with own zoomed function (v.main.zoomed): https://bl.ocks.org/mbostock/3892928 
-  - https://stackoverflow.com/questions/38597582/d3-js-pan-and-zoom-jumps-when-using-mouse-after-programatic-zoom
-  - https://stackoverflow.com/questions/31905763/d3-zoom-behaviour-after-target-has-been-translated
 
 ### 2.0.3 (2016-12-13)
 
