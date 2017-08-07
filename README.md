@@ -1,11 +1,11 @@
 Please do not download directly this code - this is the development version and can be unstable. You can find the [latest
-stable version here] (https://github.com/ogobrecht/d3-force-apex-plugin/releases/latest).
+stable version here](https://github.com/ogobrecht/d3-force-apex-plugin/releases/latest).
 
 
 # Oracle APEX Region Type Plugin: D3 Force Network Chart
 
 This is a D3 force implementation, playground and Oracle APEX plugin, which uses the
-[D3 visualization library] (http://d3js.org/) to render a network layout. It has the following features:
+[D3 visualization library](http://d3js.org/) to render a network layout. It has the following features:
 
 * Works with APEX versions 4.2.x and 5.x or standalone in every HTML page
 * Interactive customization wizard
@@ -33,15 +33,15 @@ This is a D3 force implementation, playground and Oracle APEX plugin, which uses
 
 * APEX 4.2 or higher, if used as a plugin
 * A modern browser, who is able to work with SVG and CSS3 - for more informations see the
-  [D3 Wiki] (https://github.com/mbostock/d3/wiki#browser--platform-support)
+  [D3 Wiki](https://github.com/mbostock/d3/wiki#browser--platform-support)
 
 
 ## Links
 
-* [APEX Plugin demo] (https://apex.oracle.com/pls/apex/f?p=18290)
-* [Standalone demo and documentation] (https://gobrechts.net/wiki/projects/d3-force-apex-plugin)
-* [Download] (https://github.com/ogobrecht/d3-force-apex-plugin/releases/latest)
-* [Issues, comments and discussions] (https://github.com/ogobrecht/d3-force-apex-plugin/issues)
+* [APEX Plugin demo](https://apex.oracle.com/pls/apex/f?p=18290)
+* [Standalone demo and documentation](https://gobrechts.net/wiki/projects/d3-force-apex-plugin)
+* [Download](https://github.com/ogobrecht/d3-force-apex-plugin/releases/latest)
+* [Issues, comments and discussions](https://github.com/ogobrecht/d3-force-apex-plugin/issues)
 
 
 ## Credits
@@ -53,11 +53,11 @@ mentoring me on Oracle APEX plugin development.
 
 ## Changelog
 
-This D3 force implementation uses [semantic versioning] (http://semver.org).
+This D3 force implementation uses [semantic versioning](http://semver.org).
 
-Please refer to the [documentation] (https://gobrechts.net/wiki/projects/d3-force-apex-plugin)
+Please refer to the [documentation](https://gobrechts.net/wiki/projects/d3-force-apex-plugin)
 for more informations on how to get started and an overview of all graph methods. Please use for all comments and
-discussions the [issues functionality on GitHub] (https://github.com/ogobrecht/d3-force-apex-plugin/issues).
+discussions the [issues functionality on GitHub](https://github.com/ogobrecht/d3-force-apex-plugin/issues).
 
 ### 2.0.3 (2016-12-13)
 
@@ -70,7 +70,7 @@ discussions the [issues functionality on GitHub] (https://github.com/ogobrecht/d
 ### 2.0.1 (2015-11-18)
 
 * Fixed: Fixed positions not working in initial data in v2.0.0 - thanks to github.com/rlashaw to report this issue
-* Move online demo and documentation to own [wiki] (https://gobrechts.net/wiki/projects/d3-force-apex-plugin)
+* Move online demo and documentation to own [wiki](https://gobrechts.net/wiki/projects/d3-force-apex-plugin)
   for better maintenance
 
 ### 2.0.0 (2015-11-07)
