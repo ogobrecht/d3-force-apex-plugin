@@ -1,5 +1,7 @@
 /**
- * D3 Force Implementation, Playground and Oracle APEX Plugin: https://github.com/ogobrecht/d3-force-apex-plugin
+ * D3 Force Network Chart - v2.1.0 - 2017-08-05
+ * https://github.com/ogobrecht/d3-force-apex-plugin
+ * Copyright (c) 2015-2017 Ottmar Gobrecht - MIT license
  */
 
 /**
@@ -24,7 +26,7 @@
  */
 function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItemsToSubmit) { // jshint ignore:line
     /* exported netGobrechtsD3Force */
-    /* globals apex, $v, navigator, d3, document, console, window, clearInterval, ActiveXObject, DOMParser */
+    /* globals apex, $v, navigator, d3, document, console, window, clearInterval, ActiveXObject, DOMParser, setTimeout */
     /* jshint -W101 */
 
     "use strict";
@@ -40,7 +42,7 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
         "main": {},
         "status": {},
         "tools": {},
-        "version": "2.1.0beta1"
+        "version": "2.1.0"
     };
 
     /**
@@ -3954,7 +3956,7 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
      *     var node = example.nodeDataById('9999');
      *     example.zoomSmooth(node.x, node.y, node.radius * 6, 3000); // duration of 3000ms
      * @see {@link module:API.zoomMode}
-     * @see {@link module:API.zoomSmooth}
+     * @see {@link module:API.zoom}
      * @see {@link module:API.minZoomFactor}
      * @see {@link module:API.maxZoomFactor}
      * @see {@link module:API.transform}
@@ -4032,15 +4034,14 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
     };
 
     /**
-     * Automatically zoom at force end, so that the whole graph is visible and optimal sized. Needs a `resume` call to take into effect. If enabled it fires at every force end event. If you only want to resize your graph once than have a look at the command/helper method `zoomToFit`:
+     * Automatically zoom at force end, so that the whole graph is visible and optimal sized. Needs a `resume` call to take into effect or must be set at initialization (before the graph starts). If enabled it fires at every force end event. If you only want to resize your graph once than have a look at the command/helper method `zoomToFit`:
      *
-     *     //we need resume only to trigger the force end event the first time
+     *     //running graph: change config
      *     example.zoomToFitOnForceEnd(true).resume();
-     *
      *     //alternative way without a resume call
      *     example.zoomToFitOnForceEnd(true).zoomToFit();
      *
-     *     //resize only once
+     *     //running graph: resize only once
      *     example.zoomToFit();
      * @see {@link module:API.zoomMode}
      * @see {@link module:API.zoomSmooth}
@@ -5177,12 +5178,23 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
      * var myChart = net_gobrechts_d3_force( domContainerId, pConf, apexPluginId ).start();
      */
 
-    // bind to the apexrefresh event, so that this region can be refreshed by a dynamic action
     if (v.status.apexPluginId) {
+        // bind to the apexrefresh event, so that this region can be refreshed by a dynamic action
         apex.jQuery("#" + v.dom.containerId).bind("apexrefresh", function() {
             graph.start();
         });
+        //rerender on window resize
+        apex.jQuery(window).on("apexwindowresized", function() {
+            graph.render();
+        });
+        apex.jQuery("#t_Button_navControl").click(function() {
+            setTimeout(function() {
+                graph.render();
+            }, 500);
+        });
+
     }
+
 
     // final return
     return graph;

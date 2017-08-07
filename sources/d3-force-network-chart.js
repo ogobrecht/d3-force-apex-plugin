@@ -1,48 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>d3-force-2.1.0beta1.js - Documentation</title>
-
-    <script src="scripts/prettify/prettify.js"></script>
-    <script src="scripts/prettify/lang-css.js"></script>
-    <!--[if lt IE 9]>
-      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-    <link type="text/css" rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
-    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
-</head>
-<body>
-
-<input type="checkbox" id="nav-trigger" class="nav-trigger" />
-<label for="nav-trigger" class="navicon-button x">
-  <div class="navicon"></div>
-</label>
-
-<label for="nav-trigger" class="overlay"></label>
-
-<nav>
-    <li class="nav-link nav-home-link"><a href="index.html">Home</a></li><li class="nav-heading">Tutorials</li><li class="nav-item"><a href="tutorial-1-getting-started.html">Getting Started</a></li><li class="nav-item"><a href="tutorial-2-node-and-link-attributes.html">Node & Link Attributes</a></li><li class="nav-item"><a href="tutorial-3-included-sample-data.html">Included Sample Data</a></li><li class="nav-item"><a href="tutorial-4-example-queries.html">Example Queries</a></li><li class="nav-heading">Modules</li><li class="nav-heading"><span class="nav-item-type type-module">M</span><span class="nav-item-name"><a href="module-API.html">API</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.alignFixedNodesToGrid">alignFixedNodesToGrid</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.autoRefresh">autoRefresh</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.autoZoom">autoZoom</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.autoZoomOnForceEnd">autoZoomOnForceEnd</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.charge">charge</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.chargeDistance">chargeDistance</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.colorScheme">colorScheme</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.customize">customize</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.data">data</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.debug">debug</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.domParentWidth">domParentWidth</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.dragMode">dragMode</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.friction">friction</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.gravity">gravity</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.gridSize">gridSize</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.height">height</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.inspect">inspect</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.labelDistance">labelDistance</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.labelPlacementIterations">labelPlacementIterations</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.labelsCircular">labelsCircular</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.lassoMode">lassoMode</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.linkDistance">linkDistance</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.linkStrength">linkStrength</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.maxNodeRadius">maxNodeRadius</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.maxZoomFactor">maxZoomFactor</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.minNodeRadius">minNodeRadius</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.minZoomFactor">minZoomFactor</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.moveFixedNodes">moveFixedNodes</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.nodeDataById">nodeDataById</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.nodeEventToOpenLink">nodeEventToOpenLink</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.nodeEventToStopPinMode">nodeEventToStopPinMode</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.nodeLinkTarget">nodeLinkTarget</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.onLassoEndFunction">onLassoEndFunction</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.onLassoStartFunction">onLassoStartFunction</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.onLinkClickFunction">onLinkClickFunction</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.onNodeClickFunction">onNodeClickFunction</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.onNodeContextmenuFunction">onNodeContextmenuFunction</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.onNodeContextmenuPreventDefault">onNodeContextmenuPreventDefault</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.onNodeDblclickFunction">onNodeDblclickFunction</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.onNodeMouseenterFunction">onNodeMouseenterFunction</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.onNodeMouseleaveFunction">onNodeMouseleaveFunction</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.options">options</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.optionsCustomizationWizard">optionsCustomizationWizard</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.pinMode">pinMode</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.positions">positions</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.preventLabelOverlappingOnForceEnd">preventLabelOverlappingOnForceEnd</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.refreshInterval">refreshInterval</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.releaseFixedNodes">releaseFixedNodes</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.render">render</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.resume">resume</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.sampleData">sampleData</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.selfLinkDistance">selfLinkDistance</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.setDomParentPaddingToZero">setDomParentPaddingToZero</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.showBorder">showBorder</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.showLabels">showLabels</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.showLegend">showLegend</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.showLinkDirection">showLinkDirection</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.showLoadingIndicator">showLoadingIndicator</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.showLoadingIndicatorOnAjaxCall">showLoadingIndicatorOnAjaxCall</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.showSelfLinks">showSelfLinks</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.showTooltips">showTooltips</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.start">start</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.theta">theta</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.tooltipPosition">tooltipPosition</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.transform">transform</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.useDomParentWidth">useDomParentWidth</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.userAgent">userAgent</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.version">version</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.width">width</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.wrapLabels">wrapLabels</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.wrappedLabelLineHeight">wrappedLabelLineHeight</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.wrappedLabelWidth">wrappedLabelWidth</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.zoom">zoom</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.zoomMode">zoomMode</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-API.html#.zoomSmooth">zoomSmooth</a></span></li><li class="nav-heading"><a href="global.html">Globals</a></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#netGobrechtsD3Force">netGobrechtsD3Force</a></span></li>
-</nav>
-
-<div id="main">
-    
-    <h1 class="page-title">d3-force-2.1.0beta1.js</h1>
-    
-
-    
-
-
-
-    
-    <section>
-        <article>
-            <pre class="prettyprint source linenums"><code>/**
- * D3 Force Implementation, Playground and Oracle APEX Plugin: https://github.com/ogobrecht/d3-force-apex-plugin
- */
-
 /**
  * This is the global function which encapsulates all variables and methods. All
  * parameters are optional.
@@ -65,7 +20,7 @@
  */
 function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItemsToSubmit) { // jshint ignore:line
     /* exported netGobrechtsD3Force */
-    /* globals apex, $v, navigator, d3, document, console, window, clearInterval, ActiveXObject, DOMParser */
+    /* globals apex, $v, navigator, d3, document, console, window, clearInterval, ActiveXObject, DOMParser, setTimeout */
     /* jshint -W101 */
 
     "use strict";
@@ -81,7 +36,7 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
         "main": {},
         "status": {},
         "tools": {},
-        "version": "2.1.0beta1"
+        "version": "x.x.x"
     };
 
     /**
@@ -116,7 +71,7 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
         /* jshint -W074, -W071 */
         // configure debug mode for APEX, can be overwritten by users configuration object
         // or later on with the API debug method
-        v.conf.debug = (v.status.apexPluginId &amp;&amp; apex.jQuery("#pdebug").length === 1);
+        v.conf.debug = (v.status.apexPluginId && apex.jQuery("#pdebug").length === 1);
         v.status.debugPrefix = "D3 Force in DOM container #" + v.dom.containerId + ": ";
 
         // status variables
@@ -402,7 +357,7 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
                 "scale": 1
             }
         };
-        v.confDefaults.autoZoomOnForceEnd = {
+        v.confDefaults.zoomToFitOnForceEnd = {
             "display": true,
             "relation": "graph",
             "type": "bool",
@@ -516,7 +471,7 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
         v.conf.tooltipPosition = v.confUser.tooltipPosition || v.confDefaults.tooltipPosition.val;
         v.conf.alignFixedNodesToGrid = (typeof v.confUser.alignFixedNodesToGrid !== "undefined" ?
             v.tools.parseBool(v.confUser.alignFixedNodesToGrid) : v.confDefaults.alignFixedNodesToGrid.val);
-        v.conf.gridSize = (v.confUser.gridSize &amp;&amp; v.confUser.gridSize > 0 ?
+        v.conf.gridSize = (v.confUser.gridSize && v.confUser.gridSize > 0 ?
             v.confUser.gridSize : v.confDefaults.gridSize.val);
 
         v.conf.linkDistance = v.confUser.linkDistance || v.confDefaults.linkDistance.val;
@@ -546,8 +501,8 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
         v.conf.minZoomFactor = v.confUser.minZoomFactor || v.confDefaults.minZoomFactor.val;
         v.conf.maxZoomFactor = v.confUser.maxZoomFactor || v.confDefaults.maxZoomFactor.val;
         v.conf.transform = v.confUser.transform || v.confDefaults.transform.val;
-        v.conf.autoZoomOnForceEnd = (typeof v.confUser.autoZoomOnForceEnd !== "undefined" ? v.tools.parseBool(v.confUser.autoZoomOnForceEnd) :
-            v.confDefaults.autoZoomOnForceEnd.val);
+        v.conf.zoomToFitOnForceEnd = (typeof v.confUser.zoomToFitOnForceEnd !== "undefined" ? v.tools.parseBool(v.confUser.zoomToFitOnForceEnd) :
+            v.confDefaults.zoomToFitOnForceEnd.val);
         v.conf.autoRefresh = (typeof v.confUser.autoRefresh !== "undefined" ?
             v.tools.parseBool(v.confUser.autoRefresh) : v.confDefaults.autoRefresh.val);
         v.conf.refreshInterval = v.confUser.refreshInterval || v.confDefaults.refreshInterval.val;
@@ -569,48 +524,48 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
 
         // initialize sample data
         /* jshint -W110 */
-        v.data.sampleData = '&lt;data>' +
-            '&lt;nodes ID="7839" LABEL="KING is THE KING, you know?" LABELCIRCULAR="true" COLORVALUE="10" ' +
+        v.data.sampleData = '<data>' +
+            '<nodes ID="7839" LABEL="KING is THE KING, you know?" LABELCIRCULAR="true" COLORVALUE="10" ' +
             'COLORLABEL="Accounting" SIZEVALUE="5000" LINK="http://apex.oracle.com/" ' +
             'INFOSTRING="This visualization is based on the well known emp table." />' +
-            '&lt;nodes ID="7698" LABEL="BLAKE" COLORVALUE="30" COLORLABEL="Sales" SIZEVALUE="2850" />' +
-            '&lt;nodes ID="7782" LABEL="CLARK" COLORVALUE="10" COLORLABEL="Accounting" SIZEVALUE="2450" />' +
-            '&lt;nodes ID="7566" LABEL="JONES" COLORVALUE="20" COLORLABEL="Research" SIZEVALUE="2975" />' +
-            '&lt;nodes ID="7788" LABEL="SCOTT with a very long label" ' +
+            '<nodes ID="7698" LABEL="BLAKE" COLORVALUE="30" COLORLABEL="Sales" SIZEVALUE="2850" />' +
+            '<nodes ID="7782" LABEL="CLARK" COLORVALUE="10" COLORLABEL="Accounting" SIZEVALUE="2450" />' +
+            '<nodes ID="7566" LABEL="JONES" COLORVALUE="20" COLORLABEL="Research" SIZEVALUE="2975" />' +
+            '<nodes ID="7788" LABEL="SCOTT with a very long label" ' +
             'COLORVALUE="20" COLORLABEL="Research" SIZEVALUE="3000" />' +
-            '&lt;nodes ID="7902" LABEL="FORD" COLORVALUE="20" COLORLABEL="Research" SIZEVALUE="3000" />' +
-            '&lt;nodes ID="7369" LABEL="SMITH" COLORVALUE="20" COLORLABEL="Research" SIZEVALUE="800" />' +
-            '&lt;nodes ID="7499" LABEL="ALLEN" COLORVALUE="30" COLORLABEL="Sales" SIZEVALUE="1600" />' +
-            '&lt;nodes ID="7521" LABEL="WARD" COLORVALUE="30" COLORLABEL="Sales" SIZEVALUE="1250" />' +
-            '&lt;nodes ID="7654" LABEL="MARTIN" COLORVALUE="30" COLORLABEL="Sales" SIZEVALUE="1250" />' +
-            '&lt;nodes ID="7844" LABEL="TURNER" COLORVALUE="30" COLORLABEL="Sales" SIZEVALUE="1500" />' +
-            '&lt;nodes ID="7876" LABEL="ADAMS" COLORVALUE="20" COLORLABEL="Research" SIZEVALUE="1100" />' +
-            '&lt;nodes ID="7900" LABEL="JAMES" COLORVALUE="30" COLORLABEL="Sales" SIZEVALUE="950" />' +
-            '&lt;nodes ID="7934" LABEL="MILLER" COLORVALUE="10" COLORLABEL="Accounting" SIZEVALUE="1300" />' +
-            '&lt;nodes ID="8888" LABEL="Who am I?" COLORVALUE="green" COLORLABEL="unspecified" SIZEVALUE="2000" ' +
+            '<nodes ID="7902" LABEL="FORD" COLORVALUE="20" COLORLABEL="Research" SIZEVALUE="3000" />' +
+            '<nodes ID="7369" LABEL="SMITH" COLORVALUE="20" COLORLABEL="Research" SIZEVALUE="800" />' +
+            '<nodes ID="7499" LABEL="ALLEN" COLORVALUE="30" COLORLABEL="Sales" SIZEVALUE="1600" />' +
+            '<nodes ID="7521" LABEL="WARD" COLORVALUE="30" COLORLABEL="Sales" SIZEVALUE="1250" />' +
+            '<nodes ID="7654" LABEL="MARTIN" COLORVALUE="30" COLORLABEL="Sales" SIZEVALUE="1250" />' +
+            '<nodes ID="7844" LABEL="TURNER" COLORVALUE="30" COLORLABEL="Sales" SIZEVALUE="1500" />' +
+            '<nodes ID="7876" LABEL="ADAMS" COLORVALUE="20" COLORLABEL="Research" SIZEVALUE="1100" />' +
+            '<nodes ID="7900" LABEL="JAMES" COLORVALUE="30" COLORLABEL="Sales" SIZEVALUE="950" />' +
+            '<nodes ID="7934" LABEL="MILLER" COLORVALUE="10" COLORLABEL="Accounting" SIZEVALUE="1300" />' +
+            '<nodes ID="8888" LABEL="Who am I?" COLORVALUE="green" COLORLABEL="unspecified" SIZEVALUE="2000" ' +
             'LINK="https://github.com/ogobrecht/d3-force-apex-plugin/wiki/API-Reference#nodelinktarget" ' +
             'INFOSTRING="This is a good question. Think about it." />' +
-            '&lt;nodes ID="9999" LABEL="Where I am?" COLORVALUE="#f00" COLORLABEL="unspecified" SIZEVALUE="1000" ' +
+            '<nodes ID="9999" LABEL="Where I am?" COLORVALUE="#f00" COLORLABEL="unspecified" SIZEVALUE="1000" ' +
             'LINK="https://github.com/ogobrecht/d3-force-apex-plugin/wiki/API-Reference#nodelinktarget" ' +
             'INFOSTRING="This is a good question. What do you think?" />' +
-            '&lt;links FROMID="7839" TOID="7839" STYLE="dotted" COLOR="blue" ' +
+            '<links FROMID="7839" TOID="7839" STYLE="dotted" COLOR="blue" ' +
             'INFOSTRING="This is a self link (same source and target node) rendered along a path with the STYLE ' +
             'attribute set to dotted and COLOR attribute set to blue." />' +
-            '&lt;links FROMID="7698" TOID="7839" STYLE="dashed" />' +
-            '&lt;links FROMID="7782" TOID="7839" STYLE="dashed" COLOR="red" INFOSTRING="This is a link with the STYLE ' +
+            '<links FROMID="7698" TOID="7839" STYLE="dashed" />' +
+            '<links FROMID="7782" TOID="7839" STYLE="dashed" COLOR="red" INFOSTRING="This is a link with the STYLE ' +
             'attribute set to dashed and COLOR attribute set to red." />' +
-            '&lt;links FROMID="7566" TOID="7839" STYLE="dashed" />' +
-            '&lt;links FROMID="7788" TOID="7566" STYLE="solid" />' +
-            '&lt;links FROMID="7902" TOID="7566" STYLE="solid" />' +
-            '&lt;links FROMID="7369" TOID="7902" STYLE="solid" />' +
-            '&lt;links FROMID="7499" TOID="7698" STYLE="solid" />' +
-            '&lt;links FROMID="7521" TOID="7698" STYLE="solid" />' +
-            '&lt;links FROMID="7654" TOID="7698" STYLE="solid" />' +
-            '&lt;links FROMID="7844" TOID="7698" STYLE="solid" />' +
-            '&lt;links FROMID="7876" TOID="7788" STYLE="solid" />' +
-            '&lt;links FROMID="7900" TOID="7698" STYLE="solid" />' +
-            '&lt;links FROMID="7934" TOID="7782" STYLE="solid" />' +
-            '&lt;/data>';
+            '<links FROMID="7566" TOID="7839" STYLE="dashed" />' +
+            '<links FROMID="7788" TOID="7566" STYLE="solid" />' +
+            '<links FROMID="7902" TOID="7566" STYLE="solid" />' +
+            '<links FROMID="7369" TOID="7902" STYLE="solid" />' +
+            '<links FROMID="7499" TOID="7698" STYLE="solid" />' +
+            '<links FROMID="7521" TOID="7698" STYLE="solid" />' +
+            '<links FROMID="7654" TOID="7698" STYLE="solid" />' +
+            '<links FROMID="7844" TOID="7698" STYLE="solid" />' +
+            '<links FROMID="7876" TOID="7788" STYLE="solid" />' +
+            '<links FROMID="7900" TOID="7698" STYLE="solid" />' +
+            '<links FROMID="7934" TOID="7782" STYLE="solid" />' +
+            '</data>';
         /* jshint +W110 */
 
         // check user agent: http://stackoverflow.com/questions/16135814/check-for-ie-10
@@ -619,7 +574,7 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
         // Hello IE 9 - 11
         if (navigator.appVersion.indexOf("MSIE 9") !== -1 ||
             navigator.appVersion.indexOf("MSIE 10") !== -1 ||
-            v.status.userAgent.indexOf("Trident") !== -1 &amp;&amp; v.status.userAgent.indexOf("rv:11") !== -1) {
+            v.status.userAgent.indexOf("Trident") !== -1 && v.status.userAgent.indexOf("rv:11") !== -1) {
             v.status.userAgentIe9To11 = true;
             v.tools.logError("Houston, we have a problem - user agent is IE 9, 10 or 11 - we have to provide a fix " +
                 "for markers: " +
@@ -675,7 +630,7 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
         // create definitions element inside the SVG element
         v.dom.defs = v.dom.svg.append("defs");
 
-        // create overlay element to fetch events for lasso &amp; zoom
+        // create overlay element to fetch events for lasso & zoom
         v.dom.graphOverlay = v.dom.svg.append("g").attr("class", "graphOverlay");
 
         // create element for resizing the overlay g element
@@ -753,7 +708,7 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
         v.main.force = d3.layout.force()
             .on("start", function() {
                 v.tools.log("Force started.");
-                if (v.status.customize &amp;&amp; v.dom.customizePositions) {
+                if (v.status.customize && v.dom.customizePositions) {
                     v.dom.customizePositions.text("Force started - wait for end event to show positions...");
                 }
                 v.status.forceTickCounter = 0;
@@ -764,7 +719,7 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
                 v.status.forceTickCounter += 1;
                 // hello IE 9 - 11:
                 // http://stackoverflow.com/questions/15588478/internet-explorer-10-not-showing-svg-path-d3-js-graph
-                if (v.status.userAgentIe9To11 &amp;&amp; v.conf.showLinkDirection) {
+                if (v.status.userAgentIe9To11 && v.conf.showLinkDirection) {
                     v.main.links.each(function() {
                         this.parentNode.insertBefore(this, this);
                     });
@@ -829,7 +784,7 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
 
             })
             .on("end", function() {
-                if (v.conf.showLabels &amp;&amp; v.conf.preventLabelOverlappingOnForceEnd) {
+                if (v.conf.showLabels && v.conf.preventLabelOverlappingOnForceEnd) {
                     v.data.simulatedAnnealingLabels = [];
                     v.data.simulatedAnnealingAnchors = [];
                     v.main.labels.each(function(node, i) {
@@ -843,7 +798,7 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
                         };
                     });
                     v.main.nodes.filter(function(n) {
-                        return !n.LABELCIRCULAR &amp;&amp; !v.conf.labelsCircular;
+                        return !n.LABELCIRCULAR && !v.conf.labelsCircular;
                     }).each(function(node, i) {
                         v.data.simulatedAnnealingAnchors[i] = {
                             x: node.x,
@@ -883,12 +838,15 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
                         }
                     });
                 }
+                if (v.conf.zoomToFitOnForceEnd && v.conf.zoomMode) {
+                    graph.zoomToFit();
+                }
                 v.status.forceRunning = false;
                 var milliseconds = new Date().getTime() - v.status.forceStartTime;
                 var seconds = (milliseconds / 1000).toFixed(1);
                 var ticksPerSecond = Math.round(v.status.forceTickCounter / (milliseconds / 1000));
                 var millisecondsPerTick = Math.round(milliseconds / v.status.forceTickCounter);
-                if (v.status.customize &amp;&amp; v.dom.customizePositions) {
+                if (v.status.customize && v.dom.customizePositions) {
                     v.dom.customizePositions.text(JSON.stringify(graph.positions()));
                 }
                 v.tools.log("Force ended.");
@@ -923,8 +881,8 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
 
         // create interpolate zoom helper
         v.main.interpolateZoom = function(translate, scale, duration) {
-            if (v.conf.zoomMode &amp;&amp; v.status.graphStarted) {
-                if (scale &lt; v.conf.minZoomFactor) {
+            if (v.conf.zoomMode && v.status.graphStarted) {
+                if (scale < v.conf.minZoomFactor) {
                     scale = v.conf.minZoomFactor;
                 } else if (scale > v.conf.maxZoomFactor) {
                     scale = v.conf.maxZoomFactor;
@@ -1002,13 +960,13 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
         var convertItemToJson = function(item) {
             subobj = {};
             if (item.attributes.length > 0) {
-                for (var i = 0; i &lt; item.attributes.length; i++) {
+                for (var i = 0; i < item.attributes.length; i++) {
                     attribute = item.attributes.item(i);
                     subobj[attribute.nodeName] = attribute.nodeValue;
                 }
             }
             if (item.hasChildNodes()) {
-                for (var j = 0; j &lt; item.childNodes.length; j++) {
+                for (var j = 0; j < item.childNodes.length; j++) {
                     subItem = item.childNodes.item(j);
                     // check, if subItem has minimum one child (hopefully a textnode) inside
                     if (subItem.hasChildNodes()) {
@@ -1026,7 +984,7 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
             obj.data.nodes = [];
             obj.data.links = [];
             if (xml.childNodes.item(0).hasChildNodes()) {
-                for (var i = 0; i &lt; xml.childNodes.item(0).childNodes.length; i++) {
+                for (var i = 0; i < xml.childNodes.item(0).childNodes.length; i++) {
                     subobj = null;
                     item = xml.childNodes.item(0).childNodes.item(i);
                     nodeName = item.nodeName;
@@ -1063,7 +1021,7 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
                 console.log(v.status.debugPrefix + message);
             }
         }
-        if (v.status.customize &amp;&amp; v.dom.customizeLog) {
+        if (v.status.customize && v.dom.customizeLog) {
             v.dom.customizeLog.text(message + "\n" + v.dom.customizeLog.text());
         }
     };
@@ -1071,7 +1029,7 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
     // log error function
     v.tools.logError = function(message) {
         console.log(v.status.debugPrefix + "ERROR: " + message);
-        if (v.status.customize &amp;&amp; v.dom.customizeLog) {
+        if (v.status.customize && v.dom.customizeLog) {
             v.dom.customizeLog.text("ERROR: " + message + "\n" + v.dom.customizeLog.text());
         }
     };
@@ -1134,7 +1092,7 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
                 if (position === maxPos) {
                     position = position - v.conf.gridSize;
                 }
-            } else if (currentPos &lt;= v.conf.gridSize / 2) {
+            } else if (currentPos <= v.conf.gridSize / 2) {
                 position = v.conf.gridSize;
             } else {
                 offset = currentPos % v.conf.gridSize;
@@ -1233,8 +1191,8 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
     v.tools.applyConfigurationObject = function(confObject) {
         var key;
         for (key in confObject) {
-            if (confObject.hasOwnProperty(key) &amp;&amp;
-                v.conf.hasOwnProperty(key) &amp;&amp;
+            if (confObject.hasOwnProperty(key) &&
+                v.conf.hasOwnProperty(key) &&
                 confObject[key] !== v.conf[key]) {
                 graph[key](confObject[key]);
             }
@@ -1247,9 +1205,9 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
     v.tools.zoomEventProxy = function(fn) {
         return function() {
             if (
-                (!v.conf.dragMode || v.conf.dragMode &amp;&amp; d3.event.target.tagName !== "circle") &amp;&amp;
-                v.conf.zoomMode &amp;&amp;
-                (!d3.event.altKey &amp;&amp; !d3.event.shiftKey)
+                (!v.conf.dragMode || v.conf.dragMode && d3.event.target.tagName !== "circle") &&
+                v.conf.zoomMode &&
+                (!d3.event.altKey && !d3.event.shiftKey)
             ) {
                 fn.apply(this, arguments);
             }
@@ -1259,8 +1217,8 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
     v.tools.lassoEventProxy = function(fn) {
         return function() {
             if (
-                (!v.conf.dragMode || d3.event.target.tagName !== "circle") &amp;&amp;
-                v.conf.lassoMode &amp;&amp;
+                (!v.conf.dragMode || d3.event.target.tagName !== "circle") &&
+                v.conf.lassoMode &&
                 (!v.conf.zoomMode || d3.event.altKey || d3.event.shiftKey)
             ) {
                 fn.apply(this, arguments);
@@ -1339,7 +1297,7 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
 
     // on link mouseenter function
     v.tools.onLinkMouseenter = function(link) {
-        if (v.conf.showTooltips &amp;&amp; link.INFOSTRING) {
+        if (v.conf.showTooltips && link.INFOSTRING) {
             v.tools.showTooltip(link.INFOSTRING);
         }
     };
@@ -1392,7 +1350,7 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
         if (typeof(v.conf.onNodeMouseenterFunction) === "function") {
             v.conf.onNodeMouseenterFunction.call(this, d3.event, node);
         }
-        if (v.conf.showTooltips &amp;&amp; node.INFOSTRING) {
+        if (v.conf.showTooltips && node.INFOSTRING) {
             v.tools.showTooltip(node.INFOSTRING);
         }
     };
@@ -1425,7 +1383,7 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
         if (d3.event.defaultPrevented) { // ignore drag
             return null;
         } else {
-            if (node.LINK &amp;&amp; v.conf.nodeEventToOpenLink === "click") {
+            if (node.LINK && v.conf.nodeEventToOpenLink === "click") {
                 v.tools.openLink(node);
             }
             if (v.conf.nodeEventToStopPinMode === "click") {
@@ -1441,7 +1399,7 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
 
     // on node double click function
     v.tools.onNodeDblclick = function(node) {
-        if (node.LINK &amp;&amp; v.conf.nodeEventToOpenLink === "dblclick") {
+        if (node.LINK && v.conf.nodeEventToOpenLink === "dblclick") {
             v.tools.openLink(node);
         }
         if (v.conf.nodeEventToStopPinMode === "dblclick") {
@@ -1459,7 +1417,7 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
         if (v.conf.onNodeContextmenuPreventDefault) {
             d3.event.preventDefault();
         }
-        if (node.LINK &amp;&amp; v.conf.nodeEventToOpenLink === "contextmenu") {
+        if (node.LINK && v.conf.nodeEventToOpenLink === "contextmenu") {
             v.tools.openLink(node);
         }
         if (v.conf.nodeEventToStopPinMode === "contextmenu") {
@@ -1563,7 +1521,7 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
 
     // create customize link
     v.tools.createCustomizeLink = function() {
-        if (!v.status.customize &amp;&amp;
+        if (!v.status.customize &&
             (v.conf.debug || document.querySelector("#apex-dev-toolbar") || document.querySelector("#apexDevToolbar"))
         ) {
             if (document.querySelector("#" + v.dom.containerId + " svg text.link") === null) {
@@ -1610,7 +1568,7 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
 
     // create customize wizard, if graph not rendering
     v.tools.createCustomizeWizardIfNotRendering = function() {
-        if (v.status.customize &amp;&amp; !v.status.graphRendering) {
+        if (v.status.customize && !v.status.graphRendering) {
             v.tools.createCustomizeWizard();
         }
     };
@@ -1705,15 +1663,15 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
             v.dom.customizeMenu = gridCell.append("span");
             v.dom.customizeOptionsTable = gridCell.append("table");
             for (key in v.confDefaults) {
-                if (v.confDefaults.hasOwnProperty(key) &amp;&amp; v.confDefaults[key].display) {
+                if (v.confDefaults.hasOwnProperty(key) && v.confDefaults[key].display) {
                     i += 1;
                     row = v.dom.customizeOptionsTable.append("tr")
                         .attr("class", v.confDefaults[key].relation + "-related");
                     row.append("td")
                         .attr("class", "label")
-                        .html("&lt;a href=\"https://gobrechts.net/wiki/projects/d3-force-apex-plugin#" +
-                            key.toLowerCase() + "\" target=\"github_d3_force\" tabindex=\"" + i + 100 + "\">" +
-                            key + "&lt;/a>");
+                        .html("<a href=\"https://ogobrecht.github.io/d3-force-apex-plugin/module-API.html#." +
+                            key + "\" target=\"github_d3_force\" tabindex=\"" + i + 100 + "\">" +
+                            key + "</a>");
                     td = row.append("td");
                     form = td.append("select")
                         .attr("id", v.dom.containerId + "_" + key)
@@ -1743,27 +1701,27 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
             }
             v.dom.customizeOptionsTable.style("width", d3.select(v.dom.customizeOptionsTable).node()[0][0].clientWidth +
                 "px");
-            gridCell.append("span").html("&lt;br>");
+            gridCell.append("span").html("<br>");
             gridCell = gridRow.append("td")
                 .style("vertical-align", "top")
                 .style("padding-left", "5px");
             gridCell.append("span")
-                .html("Your Configuration Object&lt;p style=\"font-size:10px;margin:0;\">" +
+                .html("Your Configuration Object<p style=\"font-size:10px;margin:0;\">" +
                     (v.status.apexPluginId ?
-                        "To save your options please copy&lt;br>this to your plugin region attributes.&lt;br>" +
-                        "Only non-default options are shown.&lt;/p>" :
-                        "Use this to initialize your graph.&lt;br>Only non-default options are shown.&lt;/p>")
+                        "To save your options please copy<br>this to your plugin region attributes.<br>" +
+                        "Only non-default options are shown.</p>" :
+                        "Use this to initialize your graph.<br>Only non-default options are shown.</p>")
                 );
             v.dom.customizeConfObject = gridCell.append("textarea")
                 .attr("tabindex", i + 5)
                 .attr("readonly", "readonly");
-            gridCell.append("span").html("&lt;br>&lt;br>Current Positions&lt;br>");
+            gridCell.append("span").html("<br><br>Current Positions<br>");
             v.dom.customizePositions = gridCell.append("textarea")
                 .attr("tabindex", i + 6)
                 .attr("readonly", "readonly")
                 .text((v.status.forceRunning ? "Force started - wait for end event to show positions..." :
                     JSON.stringify(graph.positions())));
-            gridCell.append("span").html("&lt;br>&lt;br>Debug Log (descending)&lt;br>");
+            gridCell.append("span").html("<br><br>Debug Log (descending)<br>");
             v.dom.customizeLog = gridCell.append("textarea")
                 .attr("tabindex", i + 7)
                 .attr("readonly", "readonly");
@@ -1774,19 +1732,19 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
             gridRow = grid.append("tr");
             gridCell = gridRow.append("td")
                 .attr("colspan", 2)
-                .html("&lt;table>&lt;tr>&lt;td style=\"padding-right:20px;\">" +
-                    "&lt;a href=\"https://github.com/ogobrecht/d3-force-apex-plugin\" target=\"_blank\" " +
-                    "tabindex=\"" + (i + 8) + "\">D3 Force APEX Plugin&lt;/a> (" + v.version +
-                    ")&lt;br>Ottmar Gobrecht&lt;/td>&lt;td style=\"padding-right:20px;\">" +
-                    "&lt;a href=\"https://github.com/mbostock/d3\" target=\"d3js_org\" tabindex=\"" + (i + 9) +
-                    "\">D3.js&lt;/a> (" + d3.version + ") and " +
-                    "&lt;a href=\"https://github.com/d3/d3-plugins/tree/master/lasso\" target=\"_blank\" tabindex=\"" +
-                    (i + 10) + "\">D3 Lasso Plugin&lt;/a> (modified)&lt;br>Mike Bostock" +
-                    "&lt;/td>&lt;/tr>&lt;tr>&lt;td colspan=\"3\">" +
-                    "&lt;a href=\"https://github.com/tinker10/D3-Labeler\" target=\"github_d3_labeler\" " +
+                .html("<table><tr><td style=\"padding-right:20px;\">" +
+                    "<a href=\"https://github.com/ogobrecht/d3-force-apex-plugin\" target=\"_blank\" " +
+                    "tabindex=\"" + (i + 8) + "\">D3 Force APEX Plugin</a> (" + v.version +
+                    ")<br>Ottmar Gobrecht</td><td style=\"padding-right:20px;\">" +
+                    "<a href=\"https://github.com/mbostock/d3\" target=\"d3js_org\" tabindex=\"" + (i + 9) +
+                    "\">D3.js</a> (" + d3.version + ") and " +
+                    "<a href=\"https://github.com/d3/d3-plugins/tree/master/lasso\" target=\"_blank\" tabindex=\"" +
+                    (i + 10) + "\">D3 Lasso Plugin</a> (modified)<br>Mike Bostock" +
+                    "</td></tr><tr><td colspan=\"3\">" +
+                    "<a href=\"https://github.com/tinker10/D3-Labeler\" target=\"github_d3_labeler\" " +
                     "tabindex=\"" + (i + 11) +
-                    "\">D3 Labeler Plugin&lt;/a> (automatic label placement using simulated annealing)" +
-                    "&lt;br>Evan Wang&lt;/td>&lt;/tr>&lt;/table>"); // https://github.com/tinker10/D3-Labeler
+                    "\">D3 Labeler Plugin</a> (automatic label placement using simulated annealing)" +
+                    "<br>Evan Wang</td></tr></table>"); // https://github.com/tinker10/D3-Labeler
             v.tools.createCustomizeMenu(v.status.customizeCurrentMenu);
             v.tools.writeConfObjectIntoWizard();
             if (v.status.customizeCurrentTabPosition) {
@@ -1907,7 +1865,7 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
                     }
                 });
         }
-        v.dom.customizeMenu.append("span").html("&lt;br>&lt;br>");
+        v.dom.customizeMenu.append("span").html("<br><br>");
     };
 
     // helper function to wrap text - https://bl.ocks.org/mbostock/7555321
@@ -2019,11 +1977,11 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
             // label orientation bias
             dx /= dist;
             dy /= dist;
-            if (dx > 0 &amp;&amp; dy > 0) {
+            if (dx > 0 && dy > 0) {
                 ener += 0;
-            } else if (dx &lt; 0 &amp;&amp; dy > 0) {
+            } else if (dx < 0 && dy > 0) {
                 ener += w_orient;
-            } else if (dx &lt; 0 &amp;&amp; dy &lt; 0) {
+            } else if (dx < 0 && dy < 0) {
                 ener += 2 * w_orient;
             } else {
                 ener += 3 * w_orient;
@@ -2035,7 +1993,7 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
                 y22 = lab[index].y + 2.0;
             var x11, x12, y11, y12, x_overlap, y_overlap, overlap_area;
 
-            for (var i = 0; i &lt; m; i++) {
+            for (var i = 0; i < m; i++) {
                 if (i !== index) {
 
                     // penalty for intersection of leader lines
@@ -2096,13 +2054,13 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
             if (lab[i].x > w) {
                 lab[i].x = x_old;
             }
-            if (lab[i].x &lt; 0) {
+            if (lab[i].x < 0) {
                 lab[i].x = x_old;
             }
             if (lab[i].y > h) {
                 lab[i].y = y_old;
             }
-            if (lab[i].y &lt; 0) {
+            if (lab[i].y < 0) {
                 lab[i].y = y_old;
             }
 
@@ -2117,7 +2075,7 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
             // delta E
             var delta_energy = new_energy - old_energy;
 
-            if (Math.random() &lt; Math.exp(-delta_energy / currT)) {
+            if (Math.random() < Math.exp(-delta_energy / currT)) {
                 acc += 1;
             } else {
                 // move back to old coordinates
@@ -2169,13 +2127,13 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
             if (lab[i].x > w) {
                 lab[i].x = x_old;
             }
-            if (lab[i].x &lt; 0) {
+            if (lab[i].x < 0) {
                 lab[i].x = x_old;
             }
             if (lab[i].y > h) {
                 lab[i].y = y_old;
             }
-            if (lab[i].y &lt; 0) {
+            if (lab[i].y < 0) {
                 lab[i].y = y_old;
             }
 
@@ -2190,7 +2148,7 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
             // delta E
             var delta_energy = new_energy - old_energy;
 
-            if (Math.random() &lt; Math.exp(-delta_energy / currT)) {
+            if (Math.random() < Math.exp(-delta_energy / currT)) {
                 acc += 1;
             } else {
                 // move back to old coordinates
@@ -2215,7 +2173,7 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
             /* Is the intersection along the the segments */
             mua = numera / denom;
             mub = numerb / denom;
-            return !(mua &lt; 0 || mua > 1 || mub &lt; 0 || mub > 1);
+            return !(mua < 0 || mua > 1 || mub < 0 || mub > 1);
 
         };
 
@@ -2230,9 +2188,9 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
                 currT = 1.0,
                 initialT = 1.0;
 
-            for (var i = 0; i &lt; nsweeps; i++) {
-                for (var j = 0; j &lt; m; j++) {
-                    if (Math.random() &lt; 0.5) {
+            for (var i = 0; i < nsweeps; i++) {
+                for (var j = 0; j < m; j++) {
+                    if (Math.random() < 0.5) {
                         mcmove(currT);
                     } else {
                         mcrotate(currT);
@@ -2367,7 +2325,7 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
                 close_path = g.select("path.loop_close");
                 complete_path = g.select("path.complete_path");
             }
-            /* &lt;-------------------------------------------------------- END MODIFICATION */
+            /* <-------------------------------------------------------- END MODIFICATION */
 
             function dragstart() {
                 // Reset blank lasso path
@@ -2389,7 +2347,7 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
                     d.lassoPoint = {
                         cx: Math.round((cur_box.x + cur_box.width / 2) * ctm.a + ctm.e),
                         cy: Math.round((cur_box.y + cur_box.height / 2) * ctm.d + ctm.f),
-                        /* &lt;-------------------------------------------------------- END MODIFICATION */
+                        /* <-------------------------------------------------------- END MODIFICATION */
                         edges: {
                             top: 0,
                             right: 0,
@@ -2437,17 +2395,17 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
                         if (cur_pos_obj.x > d.lassoPoint.cx) {
                             d.lassoPoint.edges.right = d.lassoPoint.edges.right + 1;
                         }
-                        if (cur_pos_obj.x &lt; d.lassoPoint.cx) {
+                        if (cur_pos_obj.x < d.lassoPoint.cx) {
                             d.lassoPoint.edges.left = d.lassoPoint.edges.left + 1;
                         }
                     },
                     calcLassoPointCloseEdges = function(d) {
-                        if (Math.round(cur_pos.y) !== Math.round(prior_pos.y) &amp;&amp;
+                        if (Math.round(cur_pos.y) !== Math.round(prior_pos.y) &&
                             Math.round(cur_pos.x) > d.lassoPoint.cx) {
                             d.lassoPoint.close_edges.right = 1;
                         }
-                        if (Math.round(cur_pos.y) !== Math.round(prior_pos.y) &amp;&amp;
-                            Math.round(cur_pos.x) &lt; d.lassoPoint.cx) {
+                        if (Math.round(cur_pos.y) !== Math.round(prior_pos.y) &&
+                            Math.round(cur_pos.x) < d.lassoPoint.cx) {
                             d.lassoPoint.close_edges.left = 1;
                         }
                     },
@@ -2456,15 +2414,15 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
                     },
                     ckeckIfNodeYequalsCurrentPriorPosY = function(d) {
                         var a;
-                        if (d.lassoPoint.cy === cur_pos_obj.y &amp;&amp; d.lassoPoint.cy !== prior_pos_obj.y) {
+                        if (d.lassoPoint.cy === cur_pos_obj.y && d.lassoPoint.cy !== prior_pos_obj.y) {
                             last_known_point = {
                                 x: prior_pos_obj.x,
                                 y: prior_pos_obj.y
                             };
                             a = false;
-                        } else if (d.lassoPoint.cy === cur_pos_obj.y &amp;&amp; d.lassoPoint.cy === prior_pos_obj.y) {
+                        } else if (d.lassoPoint.cy === cur_pos_obj.y && d.lassoPoint.cy === prior_pos_obj.y) {
                             a = false;
-                        } else if (d.lassoPoint.cy === prior_pos_obj.y &amp;&amp; d.lassoPoint.cy !== cur_pos_obj.y) {
+                        } else if (d.lassoPoint.cy === prior_pos_obj.y && d.lassoPoint.cy !== cur_pos_obj.y) {
                             a = sign(d.lassoPoint.cy - cur_pos_obj.y) !== sign(d.lassoPoint.cy - last_known_point.y);
                         } else {
                             last_known_point = {
@@ -2502,13 +2460,13 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
                 dyn_path.attr("d", path);
 
                 // If within the closed path distance parameter, show the closed path. otherwise, hide it
-                if (distance &lt;= closePathDistance) {
+                if (distance <= closePathDistance) {
                     close_path.attr("display", null);
                 } else {
                     close_path.attr("display", "none");
                 }
 
-                isPathClosed = distance &lt;= closePathDistance;
+                isPathClosed = distance <= closePathDistance;
 
                 // create complete path
                 complete_path_d = d3.select("path")[0][0].attributes.d.value + "Z";
@@ -2519,7 +2477,7 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
                 path_length_end = path_node.getTotalLength();
                 last_pos = path_node.getPointAtLength(path_length_start - 1);
 
-                for (i = path_length_start; i &lt;= path_length_end; i++) {
+                for (i = path_length_start; i <= path_length_end; i++) {
                     cur_pos = path_node.getPointAtLength(i);
                     cur_pos_obj = {
                         x: Math.round(cur_pos.x * 100) / 100,
@@ -2534,7 +2492,7 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
                     items[0].filter(ckeckIfNodeYequalsCurrentPriorPosY).forEach(calcLassoPointEdges);
                 }
 
-                if (isPathClosed === true &amp;&amp; closePathSelect === true) {
+                if (isPathClosed === true && closePathSelect === true) {
                     close_path.attr("d", close_draw_path);
                     close_path_node = close_path.node();
                     close_path_length = close_path_node.getTotalLength();
@@ -2542,13 +2500,13 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
                         left: 0,
                         right: 0
                     };
-                    for (i = 0; i &lt;= close_path_length; i++) {
+                    for (i = 0; i <= close_path_length; i++) {
                         cur_pos = close_path_node.getPointAtLength(i);
                         prior_pos = close_path_node.getPointAtLength(i - 1);
                         items[0].filter(ckeckIfNodeYequalsCurrentPosY).forEach(calcLassoPointCloseEdges);
                     }
                     items[0].forEach(function(a) {
-                        if ((a.lassoPoint.edges.left + a.lassoPoint.close_edges.left) > 0 &amp;&amp;
+                        if ((a.lassoPoint.edges.left + a.lassoPoint.close_edges.left) > 0 &&
                             (a.lassoPoint.edges.right + a.lassoPoint.close_edges.right) % 2 === 1) {
                             a.loopSelected = true;
                         } else {
@@ -2563,7 +2521,7 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
 
                 // Tag possible items
                 d3.selectAll(items[0].filter(function(d) {
-                        return (d.loopSelected &amp;&amp; isPathClosed) || d.hoverSelected;
+                        return (d.loopSelected && isPathClosed) || d.hoverSelected;
                     }))
                     .attr("d", function(d) {
                         d.possible = true;
@@ -2571,7 +2529,7 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
                     });
 
                 d3.selectAll(items[0].filter(function(d) {
-                        return !((d.loopSelected &amp;&amp; isPathClosed) || d.hoverSelected);
+                        return !((d.loopSelected && isPathClosed) || d.hoverSelected);
                     }))
                     .attr("d", function(d) {
                         d.possible = false;
@@ -2714,10 +2672,10 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
             pathContainer = d3.select(_[0][0]);
             return lasso;
         };
-        /* &lt;-------------------------------------------------------- END MODIFICATION */
+        /* <-------------------------------------------------------- END MODIFICATION */
 
         function sign(x) { // jshint ignore:line
-            return x ? x &lt; 0 ? -1 : 1 : 0;
+            return x ? x < 0 ? -1 : 1 : 0;
         }
 
         return lasso;
@@ -2765,13 +2723,13 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
                     pageItems: v.status.apexPageItemsToSubmit
                 }, {
                     success: function(dataString) {
-                        // dataString starts NOT with "&lt;" or "{", when there are no queries defined in APEX or
+                        // dataString starts NOT with "<" or "{", when there are no queries defined in APEX or
                         // when the queries returns empty data or when a error occurs on the APEX backend side
                         if (v.conf.showLoadingIndicatorOnAjaxCall) {
                             graph.showLoadingIndicator(false);
                         }
                         firstChar = dataString.trim().substr(0, 1);
-                        if (firstChar === "&lt;" || firstChar === "{") {
+                        if (firstChar === "<" || firstChar === "{") {
                             graph.render(dataString);
                         } else if (dataString.trim().substr(0, 16) === "no_query_defined") {
                             // this will keep the old data or using the sample data, if no old data existing
@@ -2848,7 +2806,7 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
         v.tools.triggerApexEvent(document.querySelector("#" + v.dom.containerId), "apexbeforerefresh");
 
         // if we start the rendering the first time and there is no input data, then provide sample data
-        if (!data &amp;&amp; !v.status.graphReady) {
+        if (!data && !v.status.graphReady) {
             v.tools.logError("Houston, we have a problem - we have to provide sample data.");
             v.status.sampleData = true;
             data = v.data.sampleData;
@@ -2874,7 +2832,7 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
             // data is a string
             else if (data.constructor === String) {
                 // convert incoming data depending on type
-                if (data.trim().substr(0, 1) === "&lt;") {
+                if (data.trim().substr(0, 1) === "<") {
                     try {
                         v.data.dataConverted = v.tools.xmlToJson(v.tools.parseXml(data));
                         if (v.data.dataConverted === null) {
@@ -2926,7 +2884,7 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
                         };
                     }
                 } else {
-                    message = "Your data string is not starting with \"&lt;\" or \"{\" - parsing not possible.";
+                    message = "Your data string is not starting with \"<\" or \"{\" - parsing not possible.";
                     v.tools.logError(message);
                     v.data.dataConverted = {
                         "data": {
@@ -2967,8 +2925,8 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
 
             // create references to our new data
             if (v.data.dataConverted !== null) {
-                if (v.data.dataConverted.hasOwnProperty("data") &amp;&amp; v.data.dataConverted.data !== null) {
-                    if (v.data.dataConverted.data.hasOwnProperty("nodes") &amp;&amp; v.data.dataConverted.data.nodes !== null) {
+                if (v.data.dataConverted.hasOwnProperty("data") && v.data.dataConverted.data !== null) {
+                    if (v.data.dataConverted.data.hasOwnProperty("nodes") && v.data.dataConverted.data.nodes !== null) {
                         v.data.nodes = v.data.dataConverted.data.nodes;
                         if (v.data.nodes.length === 0) {
                             message = "Your data contains an empty nodes array.";
@@ -2990,7 +2948,7 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
                             "SIZEVALUE": "1"
                         }];
                     }
-                    if (v.data.dataConverted.data.hasOwnProperty("links") &amp;&amp; v.data.dataConverted.data.links !== null) {
+                    if (v.data.dataConverted.data.hasOwnProperty("links") && v.data.dataConverted.data.links !== null) {
                         v.data.links = v.data.dataConverted.data.links;
                     } else {
                         v.data.links = [];
@@ -3045,7 +3003,7 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
 
             // sort out links with invalid node references
             v.data.links = v.data.links.filter(function(l) {
-                return typeof l.source !== "undefined" &amp;&amp; typeof l.target !== "undefined";
+                return typeof l.source !== "undefined" && typeof l.target !== "undefined";
             });
 
             // create helper array to lookup if nodes are neighbors
@@ -3065,7 +3023,7 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
                 .sort(function(a, b) { // http://www.sitepoint.com/sophisticated-sorting-in-javascript/
                     var x = a.toLowerCase(),
                         y = b.toLowerCase();
-                    return x &lt; y ? 1 : x > y ? -1 : 0;
+                    return x < y ? 1 : x > y ? -1 : 0;
                 });
 
             // calculate distinct link colors for the markers
@@ -3082,7 +3040,7 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
                 .sort(function(a, b) { // http://www.sitepoint.com/sophisticated-sorting-in-javascript/
                     var x = a.toLowerCase(),
                         y = b.toLowerCase();
-                    return x &lt; y ? 1 : x > y ? -1 : 0;
+                    return x < y ? 1 : x > y ? -1 : 0;
                 });
 
             // apply user provided positions once (new data has priority)
@@ -3192,7 +3150,7 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
         // SELFLINKS
         v.main.selfLinks = v.dom.graph.selectAll("path.link")
             .data(v.data.links.filter(function(l) {
-                    return l.FROMID === l.TOID &amp;&amp; v.conf.showSelfLinks;
+                    return l.FROMID === l.TOID && v.conf.showSelfLinks;
                 }),
                 function(l) {
                     return l.FROMID + "_" + l.TOID;
@@ -3270,13 +3228,13 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
         v.main.nodes.enter().append("svg:circle")
             .attr("class", "node")
             .attr("cx", function(n) {
-                if (!n.fixed &amp;&amp; !n.x) {
+                if (!n.fixed && !n.x) {
                     n.x = Math.floor((Math.random() * v.tools.getGraphWidth()) + 1);
                     return n.x;
                 }
             })
             .attr("cy", function(n) {
-                if (!n.fixed &amp;&amp; !n.y) {
+                if (!n.fixed && !n.y) {
                     n.y = Math.floor((Math.random() * v.conf.height) + 1);
                     return n.y;
                 }
@@ -3304,7 +3262,7 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
             // normal text labels
             v.main.labels = v.dom.graph.selectAll("text.label")
                 .data(v.data.nodes.filter(function(n) {
-                        return !n.LABELCIRCULAR &amp;&amp; !v.conf.labelsCircular;
+                        return !n.LABELCIRCULAR && !v.conf.labelsCircular;
                     }),
                     function(n) {
                         return n.ID;
@@ -3992,7 +3950,7 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
      *     var node = example.nodeDataById('9999');
      *     example.zoomSmooth(node.x, node.y, node.radius * 6, 3000); // duration of 3000ms
      * @see {@link module:API.zoomMode}
-     * @see {@link module:API.zoomSmooth}
+     * @see {@link module:API.zoom}
      * @see {@link module:API.minZoomFactor}
      * @see {@link module:API.maxZoomFactor}
      * @see {@link module:API.transform}
@@ -4043,17 +4001,17 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
     /**
      * Helper/Command method - automatically zoom, so that the whole graph is visible and optimal sized. No `render` or `resume` call needed to take into effect:
      *
-     *     example.autoZoom();
+     *     example.zoomToFit();
      * @see {@link module:API.zoomMode}
      * @see {@link module:API.zoomSmooth}
      * @see {@link module:API.minZoomFactor}
      * @see {@link module:API.maxZoomFactor}
      * @see {@link module:API.transform}
-     * @see {@link module:API.autoZoomOnForceEnd}
+     * @see {@link module:API.zoomToFitOnForceEnd}
      * @param {number} [duration=500] - The transition duration in milliseconds.
      * @returns {Object} The graph object for method chaining.
      */
-    graph.autoZoom = function(duration) {
+    graph.zoomToFit = function(duration) {
         var svg = {},
             graph_, padding = 10,
             x, y, scale;
@@ -4070,30 +4028,29 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
     };
 
     /**
-     * Automatically zoom at force end, so that the whole graph is visible and optimal sized. Needs a `resume` call to take into effect. If enabled it fires at every force end event. If you only want to resize your graph once than have a look at the command/helper method `autoZoom`:
+     * Automatically zoom at force end, so that the whole graph is visible and optimal sized. Needs a `resume` call to take into effect or must be set at initialization (before the graph starts). If enabled it fires at every force end event. If you only want to resize your graph once than have a look at the command/helper method `zoomToFit`:
      *
-     *     //we need resume only to trigger the force end event the first time
-     *     example.autoZoomOnForceEnd(true).resume();
-     *
+     *     //running graph: change config
+     *     example.zoomToFitOnForceEnd(true).resume();
      *     //alternative way without a resume call
-     *     example.autoZoomOnForceEnd(true).autoZoom();
+     *     example.zoomToFitOnForceEnd(true).zoomToFit();
      *
-     *     //resize only once
-     *     example.autoZoom();
+     *     //running graph: resize only once
+     *     example.zoomToFit();
      * @see {@link module:API.zoomMode}
      * @see {@link module:API.zoomSmooth}
      * @see {@link module:API.minZoomFactor}
      * @see {@link module:API.maxZoomFactor}
      * @see {@link module:API.transform}
-     * @see {@link module:API.autoZoom}
+     * @see {@link module:API.zoomToFit}
      * @param {boolean} [value=false] - The new config value.
      * @returns {(boolean|Object)} The current config value if no parameter is given or the graph object for method chaining.
      */
-    graph.autoZoomOnForceEnd = function(value) {
+    graph.zoomToFitOnForceEnd = function(value) {
         if (!arguments.length) {
-            return v.conf.autoZoomOnForceEnd;
+            return v.conf.zoomToFitOnForceEnd;
         }
-        v.conf.autoZoomOnForceEnd = value;
+        v.conf.zoomToFitOnForceEnd = value;
         if (v.status.graphStarted) {
             v.tools.createCustomizeWizardIfNotRendering();
         }
@@ -4338,12 +4295,12 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
         }
         v.conf.autoRefresh = value;
         if (v.status.graphStarted) {
-            if (v.conf.autoRefresh &amp;&amp; v.conf.refreshInterval &amp;&amp; !v.conf.interval) {
+            if (v.conf.autoRefresh && v.conf.refreshInterval && !v.conf.interval) {
                 v.conf.interval = window.setInterval(function() {
                     graph.start();
                 }, v.conf.refreshInterval);
                 v.tools.log("Auto refresh started with an interval of " + v.conf.refreshInterval + " milliseconds.");
-            } else if (!v.conf.autoRefresh &amp;&amp; v.conf.interval) {
+            } else if (!v.conf.autoRefresh && v.conf.interval) {
                 clearInterval(v.conf.interval);
                 v.conf.interval = null;
                 v.tools.log("Auto refresh stopped.");
@@ -5002,10 +4959,10 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
      * Gets or sets the sample data. This makes only sense before the first start, because only on the first start without data available the sample data is used. After the first start you can provide new data with the start method. Example:
      *
      *     //first start
-     *     example.sampleData('&lt;node>...').start();
+     *     example.sampleData('<node>...').start();
      *
      *     //later
-     *     example.start('&lt;node>...');
+     *     example.start('<node>...');
      * @see {@link module:API.start}
      * @param {(string|Object)} [data] - The new sample data as XML string, JSON string or JSON object.
      * @returns {Object} The current sample data in JSON format if no parameter is given or the graph object for method chaining.
@@ -5071,15 +5028,15 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
                     if (v.confDefaults.hasOwnProperty(key)) {
                         if ((v.confDefaults[key].type === "bool" ||
                                 v.confDefaults[key].type === "number" ||
-                                v.confDefaults[key].type === "text") &amp;&amp;
+                                v.confDefaults[key].type === "text") &&
                             v.confDefaults[key].val !== v.conf[key]) {
                             conf[key] = v.conf[key];
-                        } else if (v.confDefaults[key].type === "object" &amp;&amp;
+                        } else if (v.confDefaults[key].type === "object" &&
                             JSON.stringify(v.confDefaults[key].val) !== JSON.stringify(v.conf[key])) {
                             conf[key] = v.conf[key];
                         }
-                    } else if (!v.confDefaults.hasOwnProperty(key) &amp;&amp;
-                        v.conf[key] !== undefined &amp;&amp;
+                    } else if (!v.confDefaults.hasOwnProperty(key) &&
+                        v.conf[key] !== undefined &&
                         v.conf[key] !== null) {
                         conf[key] = v.conf[key];
                     }
@@ -5111,10 +5068,10 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
                 if (v.confDefaults.hasOwnProperty(key)) {
                     if ((v.confDefaults[key].type === "bool" ||
                             v.confDefaults[key].type === "number" ||
-                            v.confDefaults[key].type === "text") &amp;&amp;
+                            v.confDefaults[key].type === "text") &&
                         v.confDefaults[key].val !== v.conf[key]) {
                         conf[key] = v.conf[key];
-                    } else if (v.confDefaults[key].type === "object" &amp;&amp;
+                    } else if (v.confDefaults[key].type === "object" &&
                         JSON.stringify(v.confDefaults[key].val) !== JSON.stringify(v.conf[key])) {
                         conf[key] = v.conf[key];
                     }
@@ -5215,33 +5172,25 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
      * var myChart = net_gobrechts_d3_force( domContainerId, pConf, apexPluginId ).start();
      */
 
-    // bind to the apexrefresh event, so that this region can be refreshed by a dynamic action
     if (v.status.apexPluginId) {
+        // bind to the apexrefresh event, so that this region can be refreshed by a dynamic action
         apex.jQuery("#" + v.dom.containerId).bind("apexrefresh", function() {
             graph.start();
         });
+        //rerender on window resize
+        apex.jQuery(window).on("apexwindowresized", function() {
+            graph.render();
+        });
+        apex.jQuery("#t_Button_navControl").click(function() {
+            setTimeout(function() {
+                graph.render();
+            }, 500);
+        });
+
     }
+
 
     // final return
     return graph;
 
 }
-</code></pre>
-        </article>
-    </section>
-
-
-
-
-</div>
-
-<br class="clear">
-
-<footer>
-    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Tue Jul 18 2017 22:39:35 GMT+0200 (CEST) using the Minami theme.
-</footer>
-
-<script>prettyPrint();</script>
-<script src="scripts/linenumber.js"></script>
-</body>
-</html>

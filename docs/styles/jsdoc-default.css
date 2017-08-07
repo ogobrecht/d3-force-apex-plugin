@@ -542,7 +542,7 @@ dl.param-type {
   position: relative;
   width: 2.5em;
   height: .3125rem;
-  background: #000;
+  background: hsla(0, 0%, 0%, 0.5);
   transition: 0.3s;
   border-radius: 2.5rem;
 }
@@ -551,7 +551,7 @@ dl.param-type {
   content: "";
   height: .3125rem;
   width: 2.5rem;
-  background: #000;
+  background: hsla(0, 0%, 0%, 0.5);
   position: absolute;
   z-index: -1;
   transition: 0.3s 0.25s;

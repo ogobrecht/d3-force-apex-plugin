@@ -5,7 +5,7 @@
 This is a D3 force implementation, playground and Oracle APEX plugin, which uses the
 [D3 visualization library](http://d3js.org/) to render a network layout. It has the following features:
 
-- Works with APEX versions 4.2.x and 5.x or standalone in every HTML page
+- Works with APEX versions 5.1.x or standalone in every HTML page (older APEX versions down to 4.2.x are supported with the plugin version 2.0.3)
 - Interactive customization wizard
 - Source data can be a XML string, JSON string or JavaScript Object (JSON)
 - Link directions are visible and self references are rendered in a nice way - have a look in the online demos
@@ -18,7 +18,8 @@ This is a D3 force implementation, playground and Oracle APEX plugin, which uses
 - The graph can be zoomed between the two configured min and max scale factors and is callable with the API
 - There is a JavaScript API to interact with the graph, also including eight events (node click, node double click, node contextmenu, node mouse enter, node mouse leave, link click, lasso start, lasso end)
 - All eight events are available in APEX - the plugin region can be AJAX refreshed and triggers then also apexbeforerefresh and apexafterrefresh
-- NEW in 2.0.0: Automatic label placement after force end to prevent overlapping (optional, per default switched off), links can now have a COLOR and a INFOSTRING attribute - see also the changelog
+- Since 2.0.0: Automatic label placement after force end to prevent overlapping (optional, per default switched off), links can now have a COLOR and a INFOSTRING attribute - see also the change log
+- NEW in 2.1.0: Labels can be wrapped and the zoom can be configured to fit in the available space - see also the change log
 
 
 ## Requirements
@@ -36,22 +37,23 @@ I would like to say THANK YOU to all the people who share their knowledge. Witho
 ### 3.0.0 (201x-xx-xx) in planning
 
 - [ ] Update to current D3 version (4.x.x): [link 1](https://github.com/d3/d3/blob/master/CHANGES.md#forces-d3-force), [link 2](https://github.com/d3/d3-force/blob/master/README.md)
-- [ ] Devide code base into modularized graph code and APEX plugin code in different repos to make clear, that graph function can run in any HTML environment
+- [ ] Devide code base into modularized graph code and APEX plugin code in different repos to make clear, that the graph function can run in any HTML environment
 
 
 ## Changelog
 
 This D3 force implementation uses [semantic versioning](http://semver.org).
 
-Please refer to the [documentation](https://gobrechts.net/wiki/projects/d3-force-apex-plugin) for more informations on how to get started and an overview of all graph methods. Please use for all comments and discussions the [issues functionality on GitHub](https://github.com/ogobrecht/d3-force-apex-plugin/issues).
+Please refer to the [documentation](https://ogobrecht.github.io/d3-force-apex-plugin/) for more informations on how to get started and an overview of all graph methods. Please use for all comments and discussions the [issues functionality on GitHub](https://github.com/ogobrecht/d3-force-apex-plugin/issues).
 
 ### 2.1.0 (2017-xx-xx) still in development
 
 - [x] New option `wrapLabels` with a configurable max width - thanks to Ekaterina & Andrey for the idea
 - [x] New option `zoomToFitOnForceEnd` to fit the graph in the available space on force end (like the automatic label placement) - needs the zoomMode switched on to work properly
 - [x] New API method `zoomToFit`, which is used by the option zoomToFitOnForceEnd - now you can do things like `example.width(800).height(600).zoomToFit()` :-)
-- [ ] New option `useDomParentHeight` (a companion to `useDomParentWidth`) - since APEX 5 supports the maximization of reports this could be very handy for large graphs in combination with the option zoomToFitOnForceEnd
+- [x] APEX enhancements: the graph is listen to the event `apexwindowresized` and the click on the navigation control button in the universal theme - together with the option `useDomParentWidth` the graph is then always using the available width
 - [x] Changed: Use JSDoc to generate documentation and API reference. Relocate documentation from own Wiki to GitHub pages
+- [x] Reorganized repository structure:  
 - [x] Fixed: Standalone version not loading after APEX 5.1 bugfix
 - [x] Fixed: APEX plugin - semi colon in region query no longer throws an error
 
