@@ -1,5 +1,5 @@
 /**
- * D3 Force Network Chart - v2.1.0 - 2017-08-05
+ * D3 Force Network Chart - v2.1.0beta1 - 2017-11-18
  * https://github.com/ogobrecht/d3-force-apex-plugin
  * Copyright (c) 2015-2017 Ottmar Gobrecht - MIT license
  */
@@ -42,7 +42,7 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
         "main": {},
         "status": {},
         "tools": {},
-        "version": "2.1.0"
+        "version": "2.1.0beta1"
     };
 
     /**
