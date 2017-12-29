@@ -49,9 +49,26 @@
 
     <section class="readme">
         <article><p><a href="https://github.com/ogobrecht/d3-force-apex-plugin/releases/latest">Latest version</a> | <a href="https://ogobrecht.github.io/d3-force-apex-plugin/">Documentation</a> | <a href="https://ogobrecht.github.io/d3-force-apex-plugin/module-API.html">API Reference</a> | <a href="https://apex.oracle.com/pls/apex/f?p=18290">APEX Plugin demo</a></p>
-<h1>Oracle APEX Region Type Plugin: D3 Force Network Chart</h1><p>This is a D3 force implementation, playground and Oracle APEX plugin, which uses the<br><a href="http://d3js.org/">D3 visualization library</a> to render a network layout. It has the following features:</p>
+<h1>Oracle APEX Region Type Plugin: D3 Force Network Chart</h1><p><div id="example"></div><!--the graph container--></p>
+<p><link  href="https://github.com/ogobrecht/d3-force-apex-plugin/blob/master/dist/d3-force-2.1.0.css" rel="stylesheet" type="text/css"></p>
+<script src="https://github.com/ogobrecht/d3-force-apex-plugin/blob/master/dist/d3/d3-3.5.6.min.js"></script>
+<script src="https://github.com/ogobrecht/d3-force-apex-plugin/blob/master/dist/d3-force-2.1.0.min.js"></script>
+<script>
+  window.onload = function (){
+    window.example = netGobrechtsD3Force("example")
+      .debug(true) //to enable the customization wizard
+      .lassoMode(true)
+      //.zoomMode(true)
+      .useDomParentWidth(true) //for responsive layout
+      .wrapLabels(true)
+      .start(); //sample data is provided when called without data
+  }
+</script>
+
+
+<p>This is a D3 force implementation, playground and Oracle APEX plugin, which uses the<br><a href="http://d3js.org/">D3 visualization library</a> to render a network layout. It has the following features:</p>
 <ul>
-<li>Works with APEX versions 5.1.x or standalone in every HTML page (older APEX versions down to 4.2.x are supported with the plugin version 2.0.3)</li>
+<li>Works with APEX versions 4.2.x and 5.x or standalone in every HTML page</li>
 <li>Interactive customization wizard</li>
 <li>Source data can be a XML string, JSON string or JavaScript Object (JSON)</li>
 <li>Link directions are visible and self references are rendered in a nice way - have a look in the online demos</li>
@@ -73,20 +90,20 @@
 </ul>
 <h2>Credits</h2><p>I would like to say THANK YOU to all the people who share their knowledge. Without this sharing I would not have been able to create this D3 implementation. Special thanks to Mike Bostock for his great library and to Carsten Czarski for mentoring me on Oracle APEX plugin development.</p>
 <h2>Roadmap</h2><h3>3.0.0 (201x-xx-xx) in planning</h3><ul>
-<li>[ ] Update to current D3 version (4.x.x): <a href="https://github.com/d3/d3/blob/master/CHANGES.md#forces-d3-force">link 1</a>, <a href="https://github.com/d3/d3-force/blob/master/README.md">link 2</a></li>
-<li>[ ] Devide code base into modularized graph code and APEX plugin code in different repos to make clear, that the graph function can run in any HTML environment</li>
+<li>Update to current D3 version (4.x.x): <a href="https://github.com/d3/d3/blob/master/CHANGES.md#forces-d3-force">link 1</a>, <a href="https://github.com/d3/d3-force/blob/master/README.md">link 2</a></li>
+<li>Devide code base into modularized graph code and APEX plugin code in different repos to make clear, that the graph function can run in any HTML environment</li>
 </ul>
 <h2>Changelog</h2><p>This D3 force implementation uses <a href="http://semver.org">semantic versioning</a>.</p>
 <p>Please refer to the <a href="https://ogobrecht.github.io/d3-force-apex-plugin/">documentation</a> for more informations on how to get started and an overview of all graph methods. Please use for all comments and discussions the <a href="https://github.com/ogobrecht/d3-force-apex-plugin/issues">issues functionality on GitHub</a>.</p>
-<h3>2.1.0 (2017-xx-xx) still in development</h3><ul>
-<li>[x] New option <code>wrapLabels</code> with a configurable max width - thanks to Ekaterina &amp; Andrey for the idea</li>
-<li>[x] New option <code>zoomToFitOnForceEnd</code> to fit the graph in the available space on force end (like the automatic label placement) - needs the zoomMode switched on to work properly</li>
-<li>[x] New API method <code>zoomToFit</code>, which is used by the option zoomToFitOnForceEnd - now you can do things like <code>example.width(800).height(600).zoomToFit()</code> :-)</li>
-<li>[x] APEX enhancements: the graph is listen to the event <code>apexwindowresized</code> and the click on the navigation control button in the universal theme - together with the option <code>useDomParentWidth</code> the graph is then always using the available width</li>
-<li>[x] Changed: Use JSDoc to generate documentation and API reference. Relocate documentation from own Wiki to GitHub pages</li>
-<li>[x] Reorganized repository structure:  </li>
-<li>[x] Fixed: Standalone version not loading after APEX 5.1 bugfix</li>
-<li>[x] Fixed: APEX plugin - semi colon in region query no longer throws an error</li>
+<h3>2.1.0 (2017-12-30)</h3><ul>
+<li>New option <code>wrapLabels</code> with a configurable max width - thanks to Ekaterina &amp; Andrey for the idea</li>
+<li>New option <code>zoomToFitOnForceEnd</code> to fit the graph in the available space on force end (like the automatic label placement) - needs the zoomMode switched on to work properly</li>
+<li>New API method <code>zoomToFit</code>, which is used by the option zoomToFitOnForceEnd - now you can do things like <code>example.width(800).height(600).zoomToFit()</code> :-)</li>
+<li>APEX enhancements: the graph is listen to the event <code>apexwindowresized</code> and the click on the navigation control button in the universal theme - together with the option <code>useDomParentWidth</code> the graph is then always using the available width</li>
+<li>Changed: Use JSDoc to generate documentation and API reference. Relocate documentation from own Wiki to GitHub pages</li>
+<li>Reorganized repository structure</li>
+<li>Fixed: Standalone version not loading after APEX 5.1 bugfix</li>
+<li>Fixed: APEX plugin - semi colon in region query no longer throws an error</li>
 </ul>
 <h3>2.0.3 (2016-12-13)</h3><ul>
 <li>Fixed: #18 - APEX 5.1: jQuery reports syntax error and graph stops loading, if &quot;Page Items to Submit&quot; is not configured - thanks to github.com/KiralyCs to report this issue</li>
@@ -96,7 +113,7 @@
 </ul>
 <h3>2.0.1 (2015-11-18)</h3><ul>
 <li>Fixed: Fixed positions not working in initial data in v2.0.0 - thanks to github.com/rlashaw to report this issue</li>
-<li>Move online demo and documentation to own for better maintenance</li>
+<li>Move online demo and documentation to own wiki for better maintenance</li>
 </ul>
 <h3>2.0.0 (2015-11-07)</h3><ul>
 <li>New option <code>preventLabelOverlappingOnForceEnd</code>: If set to true the labels are aligned with a simulated annealing function to prevent overlapping when the graph is cooled down (correctly on the force end event and only on labels, who are not circular) - thanks to Philippe Duchateau to ask for such a feature and all the testing</li>
@@ -193,7 +210,7 @@
 <br class="clear">
 
 <footer>
-    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Sat Nov 18 2017 11:17:07 GMT+0100 (CET) using the Minami theme.
+    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Fri Dec 29 2017 22:11:33 GMT+0100 (CET) using the Minami theme.
 </footer>
 
 <script>prettyPrint();</script>

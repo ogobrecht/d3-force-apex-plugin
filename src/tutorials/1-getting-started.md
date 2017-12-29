@@ -1,22 +1,8 @@
-The shortest possible way to get up and running a graph with the shipped sample data:
+{{EXAMPLE-GRAPH}}
 
+The graph above was started with this code:
 ```html
-<!DOCTYPE html>
-<html>
-
-<head>
-    <meta charset="utf-8">
-    <title>D3 Force APEX Plugin</title>
-    <link href="css/d3-force-2.0.1.css" rel="stylesheet" type="text/css">
-    <script src="lib/d3/d3-3.5.6.min.js"></script>
-    <script src="js/d3-force-2.0.1.min.js"></script>
-</head>
-
-<body
-    onload="example = netGobrechtsD3Force().render();">
-</body>
-
-</html>
+{{EXAMPLE-GRAPH-CODE}}
 ```
 
 When using the APEX plugin, your variable to access the graph is automatically set by the plugin. You can open the JavaScript console in your browser and look for `d3_force_YOUR_REGION_STATIC_ID`. You can then interact with the graph - in the example we inspect the graphs current variables:

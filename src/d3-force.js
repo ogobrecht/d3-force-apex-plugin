@@ -1,10 +1,4 @@
 /**
- * D3 Force Network Chart - v2.1.0beta1 - 2017-11-18
- * https://github.com/ogobrecht/d3-force-apex-plugin
- * Copyright (c) 2015-2017 Ottmar Gobrecht - MIT license
- */
-
-/**
  * This is the global function which encapsulates all variables and methods. All
  * parameters are optional.
  *
@@ -42,7 +36,7 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
         "main": {},
         "status": {},
         "tools": {},
-        "version": "2.1.0beta1"
+        "version": "x.x.x"
     };
 
     /**
@@ -1631,7 +1625,8 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
             // set initial position
             if (!v.dom.customizePosition) {
                 v.dom.customizePosition = v.tools.getOffsetRect(v.dom.svg.node());
-                v.dom.customizePosition.left = v.dom.customizePosition.left + v.conf.width + 8;
+                v.dom.customizePosition.top = v.dom.customizePosition.top + 100;
+                v.dom.customizePosition.left = v.dom.customizePosition.left + 200;
             }
             if (document.querySelector("#" + v.dom.containerId + "_customizing") !== null) {
                 v.dom.customize.remove();
@@ -5183,13 +5178,13 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
         apex.jQuery("#" + v.dom.containerId).bind("apexrefresh", function() {
             graph.start();
         });
-        //rerender on window resize
+        //resume on window resize
         apex.jQuery(window).on("apexwindowresized", function() {
-            graph.render();
+            graph.resume();
         });
         apex.jQuery("#t_Button_navControl").click(function() {
             setTimeout(function() {
-                graph.render();
+                apex.jQuery(window).trigger("apexwindowresized");
             }, 500);
         });
 

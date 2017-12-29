@@ -3,22 +3,38 @@ module.exports = function(grunt) {
     "use strict";
     grunt.initConfig({
         pkg: grunt.file.readJSON("apexplugin.json"),
+        currentYear: parseInt(grunt.template.today("yyyy")),
         banner: '/**\n' +
             ' * <%= pkg.name %> - v<%= pkg.version %> - <%= grunt.template.today("yyyy-mm-dd") %>\n' +
             '<%= pkg.homepage ? " * " + pkg.homepage + "\\n" : "" %>' +
-            ' * Copyright (c) 2015<%= parseInt(grunt.template.today("yyyy")) > 2015 ? "-" + grunt.template.today("yyyy") : "" %> <%= pkg.author.name %> - <%= pkg.license %> license\n' +
+            ' * Copyright (c) 2015<%= currentYear > 2015 ? "-" + currentYear : "" %> <%= pkg.author.name %> - <%= pkg.license %> license\n' +
             ' */\n',
+        exampleGraph: '<div id="example"></div><!--the graph container-->\n' +
+            '<link  href="https://github.com/ogobrecht/d3-force-apex-plugin/blob/master/dist/d3-force-<%= pkg.version %>.css" rel="stylesheet" type="text/css">\n' +
+            '<script src="https://github.com/ogobrecht/d3-force-apex-plugin/blob/master/dist/d3/d3-3.5.6.min.js"></script>\n' +
+            '<script src="https://github.com/ogobrecht/d3-force-apex-plugin/blob/master/dist/d3-force-<%= pkg.version %>.min.js"></script>\n' +
+            '<script>\n' +
+            '  window.onload = function (){\n' +
+            '    window.example = netGobrechtsD3Force("example")\n' +
+            '      .debug(true) //to enable the customization wizard\n' +
+            '      .lassoMode(true)\n' +
+            '      //.zoomMode(true)\n' +
+            '      .useDomParentWidth(true) //for responsive layout\n' +
+            '      .wrapLabels(true)\n' +
+            '      .start(); //sample data is provided when called without data\n' +
+            '  }\n' +
+            '</script>\n',
         jshint: {
             files: [
                 "Gruntfile.js",
                 "apexplugin.json",
-                "sources/d3-force-network-chart.js"
+                "src/d3-force.js"
             ]
         },
         copy: {
-            task1: {
-                src: "sources/d3-force-network-chart.js",
-                dest: "server/d3-force-network-chart.js",
+            dist1: {
+                src: "src/d3-force.js",
+                dest: "dist/d3-force-<%= pkg.version %>.js",
                 options: {
                     process: function(content, srcpath) {
                         return grunt.template.process("<%= banner %>") + "\n" +
@@ -26,16 +42,42 @@ module.exports = function(grunt) {
                     }
                 }
             },
-            task2: {
-                src: "sources/d3-force-network-chart.css",
-                dest: "server/d3-force-network-chart.css"
-            },
-            task3: {
-                src: "sources/example.html",
-                dest: "server/example.html",
+            dist2: {
+                files: [{
+                        src: "src/d3-force.css",
+                        dest: "dist/d3-force-<%= pkg.version %>.css"
+                    },
+                    {
+                        src: "src/example.html",
+                        dest: "dist/example.html"
+                    },
+                    {
+                        src: "src/LICENSE.txt",
+                        dest: "LICENSE.txt"
+                    },
+                    {
+                        src: "src/README.md",
+                        dest: "README.md"
+                    }
+                ],
                 options: {
                     process: function(content) {
-                        return content.replace(/x\.x\.x/g, grunt.template.process("<%= pkg.version %>"));
+                        return content
+                            .replace(/x\.x\.x/g, grunt.template.process("<%= pkg.version %>"))
+                            .replace(/{{CURRENT-YEAR}}/g, grunt.template.process("<%= currentYear %>"))
+                            .replace(/{{EXAMPLE-GRAPH}}/g, grunt.template.process("<%= exampleGraph %>"));
+                    }
+                }
+            },
+            docs: {
+                files: [{
+                    src: "docs/tutorial-1-getting-started.html",
+                    dest: "docs/tutorial-1-getting-started.html"
+                }],
+                options: {
+                    process: function(content, srcpath) {
+                        return content.replace(/{{EXAMPLE-GRAPH}}/g, grunt.template.process("<%= exampleGraph %>"))
+                            .replace(/{{EXAMPLE-GRAPH-CODE}}/g, grunt.template.process("<%= exampleGraph %>").replace(/</g, "&lt;"));
                     }
                 }
             }
@@ -44,18 +86,18 @@ module.exports = function(grunt) {
             options: {
                 banner: "<%= banner %>"
             },
-            server: {
-                src: "server/d3-force-network-chart.js",
-                dest: "server/d3-force-network-chart.min.js"
+            dist: {
+                src: "dist/d3-force-<%= pkg.version %>.js",
+                dest: "dist/d3-force-<%= pkg.version %>.min.js"
             },
         },
         clean: ["docs"],
         jsdoc: {
-            dist: {
-                src: ["sources/*.js", "README.md"],
+            docs: {
+                src: ["README.md", "src/*.js"],
                 options: {
                     destination: "docs",
-                    tutorials: "tutorials",
+                    tutorials: "src/tutorials",
                     template: "node_modules/minami",
                     configure: ".jsdoc.json"
                 }
@@ -65,7 +107,7 @@ module.exports = function(grunt) {
             files: [
                 "Gruntfile.js",
                 "apexplugin.json",
-                "sources/*",
+                "src/**"
             ],
             tasks: ["default"]
         }
@@ -77,5 +119,5 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks("grunt-contrib-watch");
     grunt.loadNpmTasks("grunt-notify");
     grunt.loadNpmTasks("grunt-jsdoc");
-    grunt.registerTask("default", ["jshint", "copy", "uglify", "clean", "jsdoc"]);
+    grunt.registerTask("default", ["jshint", "copy:dist1", "copy:dist2", "uglify", "clean", "jsdoc", "copy:docs"]);
 };
