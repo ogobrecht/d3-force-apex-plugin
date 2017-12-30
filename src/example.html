@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>D3 Force Network Chart</title>
+</head>
+
+<body>
+  <h2>D3 Force Network Chart x.x.x example page</h2>
+  <p>To play around with the graph options click the "Customize Me" link.</p>
+  <p>For more informations see also the <a href="https://ogobrecht.github.io/d3-force-apex-plugin/" target="_blank">docs</a>.</p>
+  <link  href="d3-force-x.x.x.css" rel="stylesheet" type="text/css">
+  <script src="d3/d3-3.5.6.min.js"></script>
+  <script src="d3-force-x.x.x.min.js"></script>
+  <script>
+    window.onload = function (){
+      window.example = netGobrechtsD3Force('example')
+        .debug(true) //to enable the customization wizard
+        .lassoMode(true)
+        //.zoomMode(true)
+        .useDomParentWidth(true) //for responsive layout
+        .wrapLabels(true)
+        .start(); //sample data is provided when called without data
+    }
+  </script>
+</body>
+
+</html>
