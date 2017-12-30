@@ -1,28 +1,12 @@
-[Latest version][1] | [Documentation][2] | [API Reference][3] | [APEX Plugin demo][4]
+[Latest version][1] | [Documentation][2] | [API Reference][3] | [Online demo][4] | [APEX Plugin demo][5]
 
 [1]: https://github.com/ogobrecht/d3-force-apex-plugin/releases/latest
 [2]: https://ogobrecht.github.io/d3-force-apex-plugin/
 [3]: https://ogobrecht.github.io/d3-force-apex-plugin/module-API.html
-[4]: https://apex.oracle.com/pls/apex/f?p=18290
+[4]: https://ogobrecht.github.io/d3-force-apex-plugin/tutorial-1-getting-started.html
+[5]: https://apex.oracle.com/pls/apex/f?p=18290
 
 # Oracle APEX Region Type Plugin: D3 Force Network Chart
-
-<div id="example"></div><!--the graph container-->
-<link  href="https://github.com/ogobrecht/d3-force-apex-plugin/blob/master/dist/d3-force-2.1.0.css" rel="stylesheet" type="text/css">
-<script src="https://github.com/ogobrecht/d3-force-apex-plugin/blob/master/dist/d3/d3-3.5.6.min.js"></script>
-<script src="https://github.com/ogobrecht/d3-force-apex-plugin/blob/master/dist/d3-force-2.1.0.min.js"></script>
-<script>
-  window.onload = function (){
-    window.example = netGobrechtsD3Force("example")
-      .debug(true) //to enable the customization wizard
-      .lassoMode(true)
-      //.zoomMode(true)
-      .useDomParentWidth(true) //for responsive layout
-      .wrapLabels(true)
-      .start(); //sample data is provided when called without data
-  }
-</script>
-
 
 This is a D3 force implementation, playground and Oracle APEX plugin, which uses the
 [D3 visualization library](http://d3js.org/) to render a network layout. It has the following features:
