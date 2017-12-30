@@ -9,16 +9,18 @@ IS
 BEGIN
    v_region_static_id := apex_plugin_util.escape( p_region.static_id, TRUE );
 
-   apex_css.add_file( p_name      => 'd3-force-network-chart'
-                    , p_directory => p_plugin.file_prefix );
+   apex_css.add_file( p_name      => 'd3-force-'
+                    , p_directory => p_plugin.file_prefix
+                    , p_version   => '2.1.0' );
 
    apex_javascript.add_library( p_name                  => 'd3-'
-                              , p_directory             => p_plugin.file_prefix || 'd3/'
+                              , p_directory             => p_plugin.file_prefix
                               , p_version               => '3.5.6'
                               , p_check_to_add_minified => TRUE );
 
-   apex_javascript.add_library( p_name                  => 'd3-force-network-chart'
+   apex_javascript.add_library( p_name                  => 'd3-force-'
                               , p_directory             => p_plugin.file_prefix
+                              , p_version               => '2.1.0'
                               , p_check_to_add_minified => TRUE );
 
    HTP.p(    CASE
