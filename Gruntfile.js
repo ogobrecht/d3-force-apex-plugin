@@ -10,9 +10,9 @@ module.exports = function(grunt) {
             ' * Copyright (c) 2015<%= currentYear > 2015 ? "-" + currentYear : "" %> <%= pkg.author.name %> - <%= pkg.license %> license\n' +
             ' */\n',
         exampleGraph: '<div id="example"></div><!--the graph container-->\n' +
-            '<link  href="https://github.com/ogobrecht/d3-force-apex-plugin/blob/master/dist/d3-force-<%= pkg.version %>.css" rel="stylesheet" type="text/css">\n' +
-            '<script src="https://github.com/ogobrecht/d3-force-apex-plugin/blob/master/dist/d3/d3-3.5.6.min.js"></script>\n' +
-            '<script src="https://github.com/ogobrecht/d3-force-apex-plugin/blob/master/dist/d3-force-<%= pkg.version %>.min.js"></script>\n' +
+            '<link  href="./d3/d3-force-<%= pkg.version %>.css" rel="stylesheet" type="text/css">\n' +
+            '<script src="./d3/d3-3.5.6.min.js"></script>\n' +
+            '<script src="./d3/d3-force-<%= pkg.version %>.min.js"></script>\n' +
             '<script>\n' +
             '  window.onload = function (){\n' +
             '    window.example = netGobrechtsD3Force("example")\n' +
@@ -69,7 +69,7 @@ module.exports = function(grunt) {
                     }
                 }
             },
-            docs: {
+            docs1: {
                 files: [{
                     src: "docs/tutorial-1-getting-started.html",
                     dest: "docs/tutorial-1-getting-started.html"
@@ -80,6 +80,21 @@ module.exports = function(grunt) {
                             .replace(/{{EXAMPLE-GRAPH-CODE}}/g, grunt.template.process("<%= exampleGraph %>").replace(/</g, "&lt;"));
                     }
                 }
+            },
+            docs2: {
+                files: [{
+                        src: "dist/d3/d3-3.5.6.min.js",
+                        dest: "docs/d3/d3-3.5.6.min.js"
+                    },
+                    {
+                        src: "dist/d3-force-<%= pkg.version %>.css",
+                        dest: "docs/d3/d3-force-<%= pkg.version %>.css"
+                    },
+                    {
+                        src: "dist/d3-force-<%= pkg.version %>.min.js",
+                        dest: "docs/d3/d3-force-<%= pkg.version %>.min.js"
+                    }
+                ]
             }
         },
         uglify: {
@@ -119,5 +134,5 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks("grunt-contrib-watch");
     grunt.loadNpmTasks("grunt-notify");
     grunt.loadNpmTasks("grunt-jsdoc");
-    grunt.registerTask("default", ["jshint", "copy:dist1", "copy:dist2", "uglify", "clean", "jsdoc", "copy:docs"]);
+    grunt.registerTask("default", ["jshint", "copy:dist1", "copy:dist2", "uglify", "clean", "jsdoc", "copy:docs1", "copy:docs2"]);
 };
