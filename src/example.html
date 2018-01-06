@@ -14,15 +14,16 @@
   <script src="d3/d3-3.5.6.min.js"></script>
   <script src="d3-force-x.x.x.min.js"></script>
   <script>
-    window.onload = function (){
+  window.onload = function() {
       window.example = netGobrechtsD3Force('example')
-        .debug(true) //to enable the customization wizard
-        .lassoMode(true)
-        //.zoomMode(true)
-        .useDomParentWidth(true) //for responsive layout
-        .wrapLabels(true)
-        .start(); //sample data is provided when called without data
-    }
+          .debug(true) //to enable the customization wizard
+          .lassoMode(true)
+          //.zoomMode(true)
+          .useDomParentWidth(true) //for responsive layout
+          .wrapLabels(true)
+          .render(); //sample data is provided when called without data
+          //see also https://ogobrecht.github.io/d3-force-apex-plugin/tutorial-1-getting-started.html
+  }
   </script>
 </body>
 

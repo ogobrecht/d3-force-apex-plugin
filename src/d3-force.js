@@ -3372,7 +3372,11 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
      * @returns {Object} The graph object for method chaining.
      */
     graph.resume = function() {
-        v.main.force.resume();
+        if (v.status.graphReady)
+            v.main.force.resume();
+        else {
+            graph.render();
+        }
         v.tools.createCustomizeWizardIfNotRendering();
         return graph;
     };

@@ -21,7 +21,7 @@ module.exports = function(grunt) {
             '      //.zoomMode(true)\n' +
             '      .useDomParentWidth(true) //for responsive layout\n' +
             '      .wrapLabels(true)\n' +
-            '      .start(); //sample data is provided when called without data\n' +
+            '      .render(); //sample data is provided when called without data\n' +
             '  }\n' +
             '</script>\n',
         jshint: {
@@ -31,6 +31,7 @@ module.exports = function(grunt) {
                 "src/d3-force.js"
             ]
         },
+        clean: ["docs", "dist/*.css", "dist/*.js"],
         copy: {
             dist1: {
                 src: "src/d3-force.js",
@@ -106,7 +107,6 @@ module.exports = function(grunt) {
                 dest: "dist/d3-force-<%= pkg.version %>.min.js"
             },
         },
-        clean: ["docs"],
         jsdoc: {
             docs: {
                 src: ["README.md", "src/*.js"],
@@ -134,5 +134,5 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks("grunt-contrib-watch");
     grunt.loadNpmTasks("grunt-notify");
     grunt.loadNpmTasks("grunt-jsdoc");
-    grunt.registerTask("default", ["jshint", "copy:dist1", "copy:dist2", "uglify", "clean", "jsdoc", "copy:docs1", "copy:docs2"]);
+    grunt.registerTask("default", ["jshint", "clean", "copy:dist1", "copy:dist2", "uglify", "jsdoc", "copy:docs1", "copy:docs2"]);
 };

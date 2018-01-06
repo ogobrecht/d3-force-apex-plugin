@@ -1,7 +1,7 @@
 /**
- * D3 Force Network Chart - v2.1.0 - 2017-12-30
+ * D3 Force Network Chart - v2.1.1 - 2018-01-06
  * https://github.com/ogobrecht/d3-force-apex-plugin
- * Copyright (c) 2015-2017 Ottmar Gobrecht - MIT license
+ * Copyright (c) 2015-2018 Ottmar Gobrecht - MIT license
  */
 
 /**
@@ -42,7 +42,7 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
         "main": {},
         "status": {},
         "tools": {},
-        "version": "2.1.0"
+        "version": "2.1.1"
     };
 
     /**
@@ -3378,7 +3378,11 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
      * @returns {Object} The graph object for method chaining.
      */
     graph.resume = function() {
-        v.main.force.resume();
+        if (v.status.graphReady)
+            v.main.force.resume();
+        else {
+            graph.render();
+        }
         v.tools.createCustomizeWizardIfNotRendering();
         return graph;
     };

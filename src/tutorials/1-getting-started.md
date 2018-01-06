@@ -5,18 +5,77 @@ The graph above was started with this code:
 {{EXAMPLE-GRAPH-CODE}}
 ```
 
-When using the APEX plugin, your variable to access the graph is automatically set by the plugin. You can open the JavaScript console in your browser and look for `d3_force_YOUR_REGION_STATIC_ID`. You can then interact with the graph - in the example we inspect the graphs current variables:
+When using the Oracle APEX plugin, your variable to access the graph is automatically set by the plugin. You can open the JavaScript console in your browser and look for `d3_force_YOUR_REGION_STATIC_ID`. You can then interact with the graph - in the example we inspect the graphs current variables:
 
 ```js
 example.inspect();                        // in the example above
-d3_force_YOUR_REGION_STATIC_ID.inspect(); // when using the APEX plugin
+d3_force_YOUR_REGION_STATIC_ID.inspect(); // when using the Oracle APEX plugin
 
 // or you can change the width of your graph:
+example.width(700).resume();
 d3_force_YOUR_REGION_STATIC_ID.width(700).resume();
 
 // there are more then sixty methods...
 // please have a look in the API methods overview
 ```
+
+## Providing Data
+
+You can provide data to the [render](./module-API.html#.render) (or [start](./module-API.html#.start) ) function. This data can be a JSON object, a JSON string or a XML string. Below the call for the graph variable `example` with the graph method `render` and the data for two nodes and links.
+
+For all people outside the Oracle world: we use here data from an example employees table which is used since years for almost all Oracle related SQL trainings. Inside this table you find employees with an ID, name, salary, department ID and so on. We use here the department ID to color the nodes and the salary to calculate the node sizes.
+
+Please have also a look at the [possible node and link attributes](./tutorial-2-node-and-link-attributes.html)
+
+```js
+example.render({
+    "data": {
+        "nodes": [{
+                "ID": "7839",
+                "LABEL": "KING is THE KING, you know?",
+                "COLORVALUE": "10",
+                "COLORLABEL": "Accounting",
+                "SIZEVALUE": 5000,
+                "LABELCIRCULAR": true,
+                "LINK": "http://apex.oracle.com/",
+                "INFOSTRING": "This visualization is based on the well known emp table."
+            },
+            {
+                "ID": "7698",
+                "LABEL": "BLAKE",
+                "COLORVALUE": "30",
+                "COLORLABEL": "Sales",
+                "SIZEVALUE": 2850
+            }
+        ],
+        "links": [{
+                "FROMID": "7839",
+                "TOID": "7839",
+                "STYLE": "dotted",
+                "COLOR": "blue",
+                "INFOSTRING": "This is a self link (same source and target node) rendered along a path with the STYLE attribute set to dotted and COLOR attribute set to blue."
+            },
+            {
+                "FROMID": "7698",
+                "TOID": "7839",
+                "STYLE": "dashed"
+            }
+        ]
+    }
+});
+```
+
+You can export the current graph data as a JSON object at every time with the [data](./module-API.html#.data) method:
+
+```js
+//JSON object
+example.data();
+
+//stringified JSON object
+JSON.stringify(example.data());
+```
+
+
 ## Configure The Graph
 
 There are two ways to configure the graph:

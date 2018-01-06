@@ -11,7 +11,7 @@ BEGIN
 
    apex_css.add_file( p_name      => 'd3-force-'
                     , p_directory => p_plugin.file_prefix
-                    , p_version   => '2.1.0' );
+                    , p_version   => '2.1.1' );
 
    apex_javascript.add_library( p_name                  => 'd3-'
                               , p_directory             => p_plugin.file_prefix
@@ -20,7 +20,7 @@ BEGIN
 
    apex_javascript.add_library( p_name                  => 'd3-force-'
                               , p_directory             => p_plugin.file_prefix
-                              , p_version               => '2.1.0'
+                              , p_version               => '2.1.1'
                               , p_check_to_add_minified => TRUE );
 
    HTP.p(    CASE

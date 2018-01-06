@@ -40,9 +40,9 @@
 
 <article>
     <p><div id="example"></div><!--the graph container-->
-<link  href="./d3/d3-force-2.1.0.css" rel="stylesheet" type="text/css">
+<link  href="./d3/d3-force-2.1.1.css" rel="stylesheet" type="text/css">
 <script src="./d3/d3-3.5.6.min.js"></script>
-<script src="./d3/d3-force-2.1.0.min.js"></script>
+<script src="./d3/d3-force-2.1.1.min.js"></script>
 <script>
   window.onload = function (){
     window.example = netGobrechtsD3Force("example")
@@ -51,15 +51,15 @@
       //.zoomMode(true)
       .useDomParentWidth(true) //for responsive layout
       .wrapLabels(true)
-      .start(); //sample data is provided when called without data
+      .render(); //sample data is provided when called without data
   }
 </script>
 </p>
 <p>The graph above was started with this code:</p>
 <pre class="prettyprint source lang-html"><code>&lt;div id="example">&lt;/div>&lt;!--the graph container-->
-&lt;link  href="./d3/d3-force-2.1.0.css" rel="stylesheet" type="text/css">
+&lt;link  href="./d3/d3-force-2.1.1.css" rel="stylesheet" type="text/css">
 &lt;script src="./d3/d3-3.5.6.min.js">&lt;/script>
-&lt;script src="./d3/d3-force-2.1.0.min.js">&lt;/script>
+&lt;script src="./d3/d3-force-2.1.1.min.js">&lt;/script>
 &lt;script>
   window.onload = function (){
     window.example = netGobrechtsD3Force("example")
@@ -68,18 +68,61 @@
       //.zoomMode(true)
       .useDomParentWidth(true) //for responsive layout
       .wrapLabels(true)
-      .start(); //sample data is provided when called without data
+      .render(); //sample data is provided when called without data
   }
 &lt;/script>
-</code></pre><p>When using the APEX plugin, your variable to access the graph is automatically set by the plugin. You can open the JavaScript console in your browser and look for <code>d3_force_YOUR_REGION_STATIC_ID</code>. You can then interact with the graph - in the example we inspect the graphs current variables:</p>
+</code></pre><p>When using the Oracle APEX plugin, your variable to access the graph is automatically set by the plugin. You can open the JavaScript console in your browser and look for <code>d3_force_YOUR_REGION_STATIC_ID</code>. You can then interact with the graph - in the example we inspect the graphs current variables:</p>
 <pre class="prettyprint source lang-js"><code>example.inspect();                        // in the example above
-d3_force_YOUR_REGION_STATIC_ID.inspect(); // when using the APEX plugin
+d3_force_YOUR_REGION_STATIC_ID.inspect(); // when using the Oracle APEX plugin
 
 // or you can change the width of your graph:
+example.width(700).resume();
 d3_force_YOUR_REGION_STATIC_ID.width(700).resume();
 
 // there are more then sixty methods...
-// please have a look in the API methods overview</code></pre><h2>Configure The Graph</h2><p>There are two ways to configure the graph:</p>
+// please have a look in the API methods overview</code></pre><h2>Providing Data</h2><p>You can provide data to the <a href="./module-API.html#.render">render</a> (or <a href="./module-API.html#.start">start</a> ) function. This data can be a JSON object, a JSON string or a XML string. Below the call for the graph variable <code>example</code> with the graph method <code>render</code> and the data for two nodes and links.</p>
+<p>For all people outside the Oracle world: we use here data from an example employees table which is used since years for almost all Oracle related SQL trainings. Inside this table you find employees with an ID, name, salary, department ID and so on. We use here the department ID to color the nodes and the salary to calculate the node sizes.</p>
+<p>Please have also a look at the <a href="./tutorial-2-node-and-link-attributes.html">possible node and link attributes</a></p>
+<pre class="prettyprint source lang-js"><code>example.render({
+    &quot;data&quot;: {
+        &quot;nodes&quot;: [{
+                &quot;ID&quot;: &quot;7839&quot;,
+                &quot;LABEL&quot;: &quot;KING is THE KING, you know?&quot;,
+                &quot;COLORVALUE&quot;: &quot;10&quot;,
+                &quot;COLORLABEL&quot;: &quot;Accounting&quot;,
+                &quot;SIZEVALUE&quot;: 5000,
+                &quot;LABELCIRCULAR&quot;: true,
+                &quot;LINK&quot;: &quot;http://apex.oracle.com/&quot;,
+                &quot;INFOSTRING&quot;: &quot;This visualization is based on the well known emp table.&quot;
+            },
+            {
+                &quot;ID&quot;: &quot;7698&quot;,
+                &quot;LABEL&quot;: &quot;BLAKE&quot;,
+                &quot;COLORVALUE&quot;: &quot;30&quot;,
+                &quot;COLORLABEL&quot;: &quot;Sales&quot;,
+                &quot;SIZEVALUE&quot;: 2850
+            }
+        ],
+        &quot;links&quot;: [{
+                &quot;FROMID&quot;: &quot;7839&quot;,
+                &quot;TOID&quot;: &quot;7839&quot;,
+                &quot;STYLE&quot;: &quot;dotted&quot;,
+                &quot;COLOR&quot;: &quot;blue&quot;,
+                &quot;INFOSTRING&quot;: &quot;This is a self link (same source and target node) rendered along a path with the STYLE attribute set to dotted and COLOR attribute set to blue.&quot;
+            },
+            {
+                &quot;FROMID&quot;: &quot;7698&quot;,
+                &quot;TOID&quot;: &quot;7839&quot;,
+                &quot;STYLE&quot;: &quot;dashed&quot;
+            }
+        ]
+    }
+});</code></pre><p>You can export the current graph data as a JSON object at every time with the <a href="./module-API.html#.data">data</a> method:</p>
+<pre class="prettyprint source lang-js"><code>//JSON object
+example.data();
+
+//stringified JSON object
+JSON.stringify(example.data());</code></pre><h2>Configure The Graph</h2><p>There are two ways to configure the graph:</p>
 <ol>
 <li>Provide a configuration object to the graph function on initialisation</li>
 <li>Use API methods before starting the graph or also on runtime</li>
@@ -132,7 +175,7 @@ example.width(700).resume(); //set the current graph width and resume the graph<
 <br class="clear">
 
 <footer>
-    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Sat Dec 30 2017 20:40:02 GMT+0100 (CET) using the Minami theme.
+    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Sat Jan 06 2018 20:57:14 GMT+0100 (CET) using the Minami theme.
 </footer>
 
 <script>prettyPrint();</script>
