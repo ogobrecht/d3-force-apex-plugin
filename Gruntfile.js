@@ -55,10 +55,6 @@ module.exports = function(grunt) {
                     {
                         src: "src/LICENSE.txt",
                         dest: "LICENSE.txt"
-                    },
-                    {
-                        src: "src/README.md",
-                        dest: "README.md"
                     }
                 ],
                 options: {
