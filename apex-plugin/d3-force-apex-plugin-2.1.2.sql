@@ -99,7 +99,7 @@ wwv_flow_api.create_plugin (
 ''||unistr('\000a')||
 '   apex_css.add_file( p_name      => ''d3-force-'''||unistr('\000a')||
 '                    , p_directory => p_plugin.file_prefix'||unistr('\000a')||
-'                    , p_version   => ''2.1.1'' );'||unistr('\000a')||
+'                    , p_version   => ''2.1.2'' );'||unistr('\000a')||
 ''||unistr('\000a')||
 '   apex_javascript.add_library( p_name                  => '''||
 'd3-'''||unistr('\000a')||
@@ -110,7 +110,7 @@ wwv_flow_api.create_plugin (
 '   apex_javascript.add_library( p_name                  => ''d3-force-'''||unistr('\000a')||
 '                              , p_directory             => p_plugin.file_prefix'||unistr('\000a')||
 '                             '||
-' , p_version               => ''2.1.1'''||unistr('\000a')||
+' , p_version               => ''2.1.2'''||unistr('\000a')||
 '                              , p_check_to_add_minified => TRUE );'||unistr('\000a')||
 ''||unistr('\000a')||
 '   HTP.p(    CASE'||unistr('\000a')||
@@ -220,11 +220,11 @@ wwv_flow_api.create_plugin (
 '   IF p_region.source IS NOT NULL THEN'||unistr('\000a')||
 '      v_binds := wwv_flow_utilities.get_binds( p_region.source );'||unistr('\000a')||
 '      v_cur   := DBMS_SQL.open_cursor;'||unistr('\000a')||
-'      DBMS_SQL.parse( c => v_cur, statement => p_region.source, language_flag => DBMS_SQL.native );'||unistr('\000a')||
+'      DBMS_SQL.parse( c => v_cur, statement => REGEXP_REPLACE(p_region.source,'';\s*$'',''''), language_flag => DBMS_SQL.native );'||unistr('\000a')||
 ''||unistr('\000a')||
 '      IF v_binds.COUNT > 0 THEN'||unistr('\000a')||
-'         FOR i IN v_binds.FIRST .. v_binds'||
-'.LAST LOOP'||unistr('\000a')||
+'         FOR i '||
+'IN v_binds.FIRST .. v_binds.LAST LOOP'||unistr('\000a')||
 '            DBMS_SQL.bind_variable( v_cur'||unistr('\000a')||
 '                                  , v_binds( i )'||unistr('\000a')||
 '                                  , APEX_UTIL.get_session_state( SUBSTR( v_binds( i ), 2 ) ) );'||unistr('\000a')||
@@ -234,8 +234,8 @@ wwv_flow_api.create_plugin (
 '      DBMS_SQL.define_column( c => v_cur, position => 1, column => v_clob );'||unistr('\000a')||
 '      v_ret   := DBMS_SQL.execute( c => v_cur );'||unistr('\000a')||
 ''||unistr('\000a')||
-'      WHILE DBMS_SQL.fetch_rows( v_cur ) '||
-'> 0 LOOP'||unistr('\000a')||
+'      WHILE DB'||
+'MS_SQL.fetch_rows( v_cur ) > 0 LOOP'||unistr('\000a')||
 '         DBMS_SQL.COLUMN_VALUE( v_cur, 1, v_clob );'||unistr('\000a')||
 '      END LOOP;'||unistr('\000a')||
 ''||unistr('\000a')||
@@ -248,10 +248,10 @@ wwv_flow_api.create_plugin (
 '            v_amo PLS_INTEGER := 4000;'||unistr('\000a')||
 '            v_chu VARCHAR2( 32767 );'||unistr('\000a')||
 '         BEGIN'||unistr('\000a')||
-'            v_len := DBMS_LOB.getlength( v_clob );'||unistr('\000a')||
+'            v_len := DBMS_LOB.'||
+'getlength( v_clob );'||unistr('\000a')||
 ''||unistr('\000a')||
-'     '||
-'       WHILE v_pos <= v_len LOOP'||unistr('\000a')||
+'            WHILE v_pos <= v_len LOOP'||unistr('\000a')||
 '               v_amo := LEAST( v_amo, v_len - ( v_pos - 1 ) );'||unistr('\000a')||
 '               v_chu := DBMS_LOB.SUBSTR( v_clob, v_amo, v_pos );'||unistr('\000a')||
 '               v_pos := v_pos + v_amo;'||unistr('\000a')||
@@ -261,9 +261,9 @@ wwv_flow_api.create_plugin (
 '      ELSE'||unistr('\000a')||
 '         HTP.prn( ''query_returned_no_data'' ); --> prn prints without newline'||unistr('\000a')||
 '      END IF;'||unistr('\000a')||
-'   ELSE'||unistr('\000a')||
-'      HTP.prn( ''no_qu'||
-'ery_defined'' );'||unistr('\000a')||
+'  '||
+' ELSE'||unistr('\000a')||
+'      HTP.prn( ''no_query_defined'' );'||unistr('\000a')||
 '   END IF;'||unistr('\000a')||
 ''||unistr('\000a')||
 '   --> Free the temp LOB, if necessary'||unistr('\000a')||
@@ -281,9 +281,9 @@ wwv_flow_api.create_plugin (
 '      BEGIN'||unistr('\000a')||
 '         IF     v_cur IS NOT NULL'||unistr('\000a')||
 '            AND DBMS_SQL.is_open( v_cur ) THEN'||unistr('\000a')||
-'            DBMS_SQL.close_cursor( v_cur );'||unistr('\000a')||
-'     '||
-'    END IF;'||unistr('\000a')||
+'            DBMS_SQL.c'||
+'lose_cursor( v_cur );'||unistr('\000a')||
+'         END IF;'||unistr('\000a')||
 '      EXCEPTION'||unistr('\000a')||
 '         WHEN OTHERS THEN'||unistr('\000a')||
 '            NULL;'||unistr('\000a')||
@@ -293,7 +293,8 @@ wwv_flow_api.create_plugin (
 '      --> Write error back to the Browser'||unistr('\000a')||
 '      HTP.prn( SQLERRM );'||unistr('\000a')||
 '      RETURN NULL;'||unistr('\000a')||
-'END d3_force__ajax;'
+'END d3_force__ajax;'||unistr('\000a')||
+''
  ,p_render_function => 'd3_force__render'
  ,p_ajax_function => 'd3_force__ajax'
  ,p_standard_attributes => 'SOURCE_SQL:AJAX_ITEMS_TO_SUBMIT'
@@ -385,7 +386,7 @@ wwv_flow_api.create_plugin (
 '<p>'||unistr('\000a')||
 '	&nbsp;</p>'||unistr('\000a')||
 ''
- ,p_version_identifier => '2.1.1'
+ ,p_version_identifier => '2.1.2'
  ,p_about_url => 'https://github.com/ogobrecht/d3-force-apex-plugin'
  ,p_plugin_comment => 'Source code on GitHub: https://github.com/ogobrecht/d3-force-apex-plugin'
   );
@@ -5825,10 +5826,10 @@ end;
 begin
  
 wwv_flow_api.g_varchar2_table := wwv_flow_api.empty_varchar2_table;
-wwv_flow_api.g_varchar2_table(1) := '2F2A2A0A202A20443320466F726365204E6574776F726B204368617274202D2076322E312E31202D20323031382D30312D30360A202A2068747470733A2F2F6769746875622E636F6D2F6F676F6272656368742F64332D666F7263652D617065782D706C';
+wwv_flow_api.g_varchar2_table(1) := '2F2A2A0A202A20443320466F726365204E6574776F726B204368617274202D2076322E312E32202D20323031382D30312D30370A202A2068747470733A2F2F6769746875622E636F6D2F6F676F6272656368742F64332D666F7263652D617065782D706C';
 wwv_flow_api.g_varchar2_table(2) := '7567696E0A202A20436F707972696768742028632920323031352D32303138204F74746D617220476F627265636874202D204D4954206C6963656E73650A202A2F0A66756E6374696F6E206E6574476F627265636874734433466F72636528612C622C63';
 wwv_flow_api.g_varchar2_table(3) := '2C64297B2275736520737472696374223B76617220653D7B636F6E663A7B7D2C636F6E6644656661756C74733A7B7D2C646174613A7B7D2C646F6D3A7B7D2C6576656E74733A7B7D2C6C69623A7B7D2C6D61696E3A7B7D2C7374617475733A7B7D2C746F';
-wwv_flow_api.g_varchar2_table(4) := '6F6C733A7B7D2C76657273696F6E3A22322E312E31227D2C663D7B7D3B72657475726E20652E6D61696E2E696E69743D66756E6374696F6E28297B652E646F6D2E636F6E7461696E657249643D617C7C224433466F726365222B4D6174682E666C6F6F72';
+wwv_flow_api.g_varchar2_table(4) := '6F6C733A7B7D2C76657273696F6E3A22322E312E32227D2C663D7B7D3B72657475726E20652E6D61696E2E696E69743D66756E6374696F6E28297B652E646F6D2E636F6E7461696E657249643D617C7C224433466F726365222B4D6174682E666C6F6F72';
 wwv_flow_api.g_varchar2_table(5) := '283165362A4D6174682E72616E646F6D2829292C652E636F6E66557365723D627C7C7B7D2C652E7374617475732E61706578506C7567696E49643D632C652E7374617475732E61706578506167654974656D73546F5375626D69743D6426262222213D3D';
 wwv_flow_api.g_varchar2_table(6) := '643F642E7265706C616365282F5C732F672C2222292E73706C697428222C22293A21312C652E6D61696E2E7365747570436F6E66696775726174696F6E28292C652E6D61696E2E7365747570446F6D28292C652E6D61696E2E736574757046756E637469';
 wwv_flow_api.g_varchar2_table(7) := '6F6E5265666572656E63657328297D2C652E6D61696E2E7365747570436F6E66696775726174696F6E3D66756E6374696F6E28297B652E636F6E662E64656275673D652E7374617475732E61706578506C7567696E49642626313D3D3D617065782E6A51';
@@ -6657,10 +6658,10 @@ end;
 begin
  
 wwv_flow_api.create_plugin_file (
-  p_id => 4081400827845210 + wwv_flow_api.g_id_offset
+  p_id => 4097325454449717 + wwv_flow_api.g_id_offset
  ,p_flow_id => wwv_flow.g_flow_id
  ,p_plugin_id => 130313733459878454604 + wwv_flow_api.g_id_offset
- ,p_file_name => 'd3-force-2.1.1.min.js'
+ ,p_file_name => 'd3-force-2.1.2.min.js'
  ,p_mime_type => 'text/javascript'
  ,p_file_content => wwv_flow_api.g_varchar2_table
   );
@@ -6730,10 +6731,10 @@ end;
 begin
  
 wwv_flow_api.create_plugin_file (
-  p_id => 4082021682846538 + wwv_flow_api.g_id_offset
+  p_id => 4098013752450774 + wwv_flow_api.g_id_offset
  ,p_flow_id => wwv_flow.g_flow_id
  ,p_plugin_id => 130313733459878454604 + wwv_flow_api.g_id_offset
- ,p_file_name => 'd3-force-2.1.1.css'
+ ,p_file_name => 'd3-force-2.1.2.css'
  ,p_mime_type => 'text/css'
  ,p_file_content => wwv_flow_api.g_varchar2_table
   );
@@ -6746,7 +6747,7 @@ end;
 begin
  
 wwv_flow_api.g_varchar2_table := wwv_flow_api.empty_varchar2_table;
-wwv_flow_api.g_varchar2_table(1) := '2F2A2A0A202A20443320466F726365204E6574776F726B204368617274202D2076322E312E31202D20323031382D30312D30360A202A2068747470733A2F2F6769746875622E636F6D2F6F676F6272656368742F64332D666F7263652D617065782D706C';
+wwv_flow_api.g_varchar2_table(1) := '2F2A2A0A202A20443320466F726365204E6574776F726B204368617274202D2076322E312E32202D20323031382D30312D30370A202A2068747470733A2F2F6769746875622E636F6D2F6F676F6272656368742F64332D666F7263652D617065782D706C';
 wwv_flow_api.g_varchar2_table(2) := '7567696E0A202A20436F707972696768742028632920323031352D32303138204F74746D617220476F627265636874202D204D4954206C6963656E73650A202A2F0A0A2F2A2A0A202A20546869732069732074686520676C6F62616C2066756E6374696F';
 wwv_flow_api.g_varchar2_table(3) := '6E20776869636820656E63617073756C6174657320616C6C207661726961626C657320616E64206D6574686F64732E20416C6C0A202A20706172616D657465727320617265206F7074696F6E616C2E0A202A0A202A205468652073686F72746573742070';
 wwv_flow_api.g_varchar2_table(4) := '6F737369626C652077617920746F2067657420757020616E642072756E6E696E67206120677261706820776974682074686520736869707065642073616D706C6520646174613A0A202A0A202A20202020206578616D706C65203D206E6574476F627265';
@@ -6762,7 +6763,7 @@ wwv_flow_api.g_varchar2_table(13) := '202F2A206578706F72746564206E6574476F627265
 wwv_flow_api.g_varchar2_table(14) := '772C20636C656172496E74657276616C2C20416374697665584F626A6563742C20444F4D5061727365722C2073657454696D656F7574202A2F0A202020202F2A206A7368696E74202D57313031202A2F0A0A202020202275736520737472696374223B0A';
 wwv_flow_api.g_varchar2_table(15) := '0A202020202F2F207365747570206772617068207661726961626C650A202020207661722076203D207B0A202020202020202022636F6E66223A207B7D2C0A202020202020202022636F6E6644656661756C7473223A207B7D2C0A202020202020202022';
 wwv_flow_api.g_varchar2_table(16) := '64617461223A207B7D2C0A202020202020202022646F6D223A207B7D2C0A2020202020202020226576656E7473223A207B7D2C0A2020202020202020226C6962223A207B7D2C0A2020202020202020226D61696E223A207B7D2C0A202020202020202022';
-wwv_flow_api.g_varchar2_table(17) := '737461747573223A207B7D2C0A202020202020202022746F6F6C73223A207B7D2C0A20202020202020202276657273696F6E223A2022322E312E31220A202020207D3B0A0A202020202F2A2A0A20202020202A2041206D6F64756C652072657072657365';
+wwv_flow_api.g_varchar2_table(17) := '737461747573223A207B7D2C0A202020202020202022746F6F6C73223A207B7D2C0A20202020202020202276657273696F6E223A2022322E312E32220A202020207D3B0A0A202020202F2A2A0A20202020202A2041206D6F64756C652072657072657365';
 wwv_flow_api.g_varchar2_table(18) := '6E74696E6720746865207075626C6963206772617068204150492E0A20202020202A20406578706F727473204150490A20202020202A2F0A20202020766172206772617068203D207B7D3B0A0A202020202F2A2A0A20202020202A20412068656C706572';
 wwv_flow_api.g_varchar2_table(19) := '2066756E6374696F6E20746F20696E697469616C697A65207468652067726170680A20202020202A2F0A20202020762E6D61696E2E696E6974203D2066756E6374696F6E2829207B0A0A20202020202020202F2F207361766520706172616D6574657220';
 wwv_flow_api.g_varchar2_table(20) := '666F72206C61746572207573650A2020202020202020762E646F6D2E636F6E7461696E65724964203D20646F6D436F6E7461696E65724964207C7C20224433466F72636522202B204D6174682E666C6F6F72284D6174682E72616E646F6D2829202A2031';
@@ -9038,10 +9039,10 @@ end;
 begin
  
 wwv_flow_api.create_plugin_file (
-  p_id => 4082721044847502 + wwv_flow_api.g_id_offset
+  p_id => 4098723967451769 + wwv_flow_api.g_id_offset
  ,p_flow_id => wwv_flow.g_flow_id
  ,p_plugin_id => 130313733459878454604 + wwv_flow_api.g_id_offset
- ,p_file_name => 'd3-force-2.1.1.js'
+ ,p_file_name => 'd3-force-2.1.2.js'
  ,p_mime_type => 'text/javascript'
  ,p_file_content => wwv_flow_api.g_varchar2_table
   );

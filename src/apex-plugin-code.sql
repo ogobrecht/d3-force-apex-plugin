@@ -11,7 +11,7 @@ BEGIN
 
    apex_css.add_file( p_name      => 'd3-force-'
                     , p_directory => p_plugin.file_prefix
-                    , p_version   => '2.1.1' );
+                    , p_version   => '2.1.2' );
 
    apex_javascript.add_library( p_name                  => 'd3-'
                               , p_directory             => p_plugin.file_prefix
@@ -20,7 +20,7 @@ BEGIN
 
    apex_javascript.add_library( p_name                  => 'd3-force-'
                               , p_directory             => p_plugin.file_prefix
-                              , p_version               => '2.1.1'
+                              , p_version               => '2.1.2'
                               , p_check_to_add_minified => TRUE );
 
    HTP.p(    CASE
@@ -117,7 +117,7 @@ BEGIN
    IF p_region.source IS NOT NULL THEN
       v_binds := wwv_flow_utilities.get_binds( p_region.source );
       v_cur   := DBMS_SQL.open_cursor;
-      DBMS_SQL.parse( c => v_cur, statement => p_region.source, language_flag => DBMS_SQL.native );
+      DBMS_SQL.parse( c => v_cur, statement => REGEXP_REPLACE(p_region.source,';\s*$',''), language_flag => DBMS_SQL.native );
 
       IF v_binds.COUNT > 0 THEN
          FOR i IN v_binds.FIRST .. v_binds.LAST LOOP
