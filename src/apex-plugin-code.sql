@@ -100,7 +100,27 @@ BEGIN
                                        END
                                     || CASE
                                           WHEN p_region.attribute_11 IS NOT NULL THEN
-                                             '.onLassoEndFunction(' || p_region.attribute_11 || ')'
+                                                '.onLassoEndFunction(' 
+                                             || p_region.attribute_11
+                                             || ')'
+                                       END
+                                    || CASE
+                                          WHEN p_region.attribute_13 IS NOT NULL THEN
+                                                '.onForceStartFunction(' 
+                                             || p_region.attribute_13
+                                             || ')'
+                                       END
+                                    || CASE
+                                          WHEN p_region.attribute_14 IS NOT NULL THEN
+                                                '.onForceEndFunction(' 
+                                             || p_region.attribute_14
+                                             || ')'
+                                       END
+                                    || CASE
+                                          WHEN p_region.attribute_15 IS NOT NULL THEN
+                                                '.onRenderEndFunction(' 
+                                             || p_region.attribute_15
+                                             || ')'
                                        END
                                     --> start the visualization
                                     || '.start();' );
