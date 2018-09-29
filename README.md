@@ -61,7 +61,8 @@ Please refer to the [documentation](https://ogobrecht.github.io/d3-force-apex-pl
 - New graph methods
   - nodes ([API reference](https://ogobrecht.github.io/d3-force-apex-plugin/module-API.html#.nodes))
   - links ([API reference](https://ogobrecht.github.io/d3-force-apex-plugin/module-API.html#.links))
-  - Both returning a D3 selection (array) for direct manipulation with D3 methods like `style` or `classed` - see also the [D3 docs](https://github.com/d3/d3-3.x-api-reference/blob/master/Selections.md#operating-on-selections)
+  - selfLinks ([API reference](https://ogobrecht.github.io/d3-force-apex-plugin/module-API.html#.selfLinks))
+  - All three returning a D3 selection (array) for direct manipulation with D3 methods like `style` or `classed` - see also the [D3 docs](https://github.com/d3/d3-3.x-api-reference/blob/master/Selections.md#operating-on-selections)
 
 Thanks are going to github.com/Ignacius68 for the inspiration.
 
