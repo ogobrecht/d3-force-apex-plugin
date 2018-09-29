@@ -42,7 +42,7 @@ I would like to say THANK YOU to all the people who share their knowledge. Witho
 
 ### 3.0.0 (201x-xx-xx) in planning
 
-- Update to current D3 version (4.x.x): [link 1](https://github.com/d3/d3/blob/master/CHANGES.md#forces-d3-force), [link 2](https://github.com/d3/d3-force/blob/master/README.md)
+- Update to current D3 version (5.x.x): [link 1](https://github.com/d3/d3/blob/master/CHANGES.md#forces-d3-force), [link 2](https://github.com/d3/d3-force/blob/master/README.md)
 - Devide code base into modularized graph code and APEX plugin code in different repos to make clear, that the graph function can run in any HTML environment
 
 
@@ -51,6 +51,19 @@ I would like to say THANK YOU to all the people who share their knowledge. Witho
 This D3 force implementation uses [semantic versioning](http://semver.org).
 
 Please refer to the [documentation](https://ogobrecht.github.io/d3-force-apex-plugin/) for more informations on how to get started and an overview of all graph methods. Please use for all comments and discussions the [issues functionality on GitHub](https://github.com/ogobrecht/d3-force-apex-plugin/issues).
+
+### 2.2.0 (2018-09-xx)
+
+- New events
+  - Render end ([API reference](https://ogobrecht.github.io/d3-force-apex-plugin/module-API.html#.onRenderEndFunction))
+  - Force start ([API reference](https://ogobrecht.github.io/d3-force-apex-plugin/module-API.html#.onForceStartFunction))
+  - Force end ([API reference](https://ogobrecht.github.io/d3-force-apex-plugin/module-API.html#.onForceEndFunction))
+- New graph methods
+  - nodes ([API reference](https://ogobrecht.github.io/d3-force-apex-plugin/module-API.html#.nodes))
+  - links ([API reference](https://ogobrecht.github.io/d3-force-apex-plugin/module-API.html#.links))
+  - Both returning a D3 selection (array) for direct manipulation with D3 methods like `style` or `classed` - see also the [D3 docs](https://github.com/d3/d3-3.x-api-reference/blob/master/Selections.md#operating-on-selections)
+
+Thanks are going to github.com/Ignacius68 for the inspiration.
 
 ### 2.1.2 (2018-01-07)
 
