@@ -5106,6 +5106,7 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
      *       return node.ID === "7839";
      *     }).classed("myOwnClass", true);
      * @see {@link module:API.links}
+     * @see {@link module:API.selfLinks}
      * @returns {Array} The current graph nodes.
      */
     graph.nodes = function() {
@@ -5119,10 +5120,23 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
      *       return link.TOID === "7839";
      *     }).style("stroke", "red");
      * @see {@link module:API.nodes}
+     * @see {@link module:API.selfLinks}
      * @returns {Array} The current graph links.
      */
     graph.links = function() {
         return v.main.links;
+    };
+
+    /**
+     * Returns the current graph selfLinks as D3 array for direct modifications. This method expects no parameter and terminates the method chain. See also the [D3 docs](https://github.com/d3/d3-3.x-api-reference/blob/master/Selections.md#operating-on-selections). Example:
+     *
+     *     example.selfLinks().style("stroke", "green");
+     * @see {@link module:API.nodes}
+     * @see {@link module:API.links}
+     * @returns {Array} The current graph links.
+     */
+    graph.selfLinks = function() {
+        return v.main.selfLinks;
     };
 
     /**
