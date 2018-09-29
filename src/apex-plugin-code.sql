@@ -11,7 +11,7 @@ BEGIN
 
    apex_css.add_file( p_name      => 'd3-force-'
                     , p_directory => p_plugin.file_prefix
-                    , p_version   => '2.1.2' );
+                    , p_version   => '2.2.0' );
 
    apex_javascript.add_library( p_name                  => 'd3-'
                               , p_directory             => p_plugin.file_prefix
@@ -20,7 +20,7 @@ BEGIN
 
    apex_javascript.add_library( p_name                  => 'd3-force-'
                               , p_directory             => p_plugin.file_prefix
-                              , p_version               => '2.1.2'
+                              , p_version               => '2.2.0'
                               , p_check_to_add_minified => TRUE );
 
    HTP.p(    CASE
@@ -34,9 +34,9 @@ BEGIN
                                    'd3_force_'
                                     || v_region_static_id --> we need to use a global var - that is the reason to NOT use the var keyword
                                     || ' = netGobrechtsD3Force('
-                                    --> pDomContainerId:
+                                    --> domContainerId:
                                     || apex_javascript.add_value( v_region_static_id, TRUE )
-                                    --> pUserConf:
+                                    --> options:
                                     || CASE
                                           WHEN v_configuration_object IS NOT NULL THEN
                                              v_configuration_object
@@ -44,9 +44,10 @@ BEGIN
                                              'null'
                                        END
                                     || ', '
-                                    --> pApexPluginId:
+                                    --> apexPluginId:
                                     || apex_javascript.add_value( apex_plugin.get_ajax_identifier
                                                                 , TRUE )
+                                    --> apexPageItemsToSubmit:
                                     || apex_javascript.add_value( p_region.ajax_items_to_submit
                                                                 , FALSE )
                                     || ')'

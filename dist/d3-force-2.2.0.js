@@ -1,5 +1,5 @@
 /**
- * D3 Force Network Chart - v2.1.2 - 2018-01-07
+ * D3 Force Network Chart - v2.2.0 - 2018-09-28
  * https://github.com/ogobrecht/d3-force-apex-plugin
  * Copyright (c) 2015-2018 Ottmar Gobrecht - MIT license
  */
@@ -42,7 +42,7 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
         "main": {},
         "status": {},
         "tools": {},
-        "version": "2.1.2"
+        "version": "2.2.0"
     };
 
     /**
@@ -527,6 +527,9 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
         v.conf.onLinkClickFunction = v.confUser.onLinkClickFunction || null;
         v.conf.onLassoStartFunction = v.confUser.onLassoStartFunction || null;
         v.conf.onLassoEndFunction = v.confUser.onLassoEndFunction || null;
+        v.conf.onRenderEndFunction = v.confUser.onRenderEndFunction || null;
+        v.conf.onForceStartFunction = v.confUser.onForceStartFunction || null;
+        v.conf.onForceEndFunction = v.confUser.onForceEndFunction || null;
 
         // initialize sample data
         /* jshint -W110 */
@@ -720,6 +723,16 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
                 v.status.forceTickCounter = 0;
                 v.status.forceStartTime = new Date().getTime();
                 v.status.forceRunning = true;
+
+                // trigger force start event
+                v.tools.log("Event forcestart triggered.");
+                v.tools.triggerApexEvent(document.querySelector("#" + v.dom.containerId),
+                    "net_gobrechts_d3_force_forcestart"
+                );
+                if (typeof(v.conf.onForceStartFunction) === "function") {
+                    v.conf.onForceStartFunction.call(v.dom.svg);
+                }
+
             })
             .on("tick", function() {
                 v.status.forceTickCounter += 1;
@@ -858,6 +871,15 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
                 v.tools.log("Force ended.");
                 v.tools.log(seconds + " seconds, " + v.status.forceTickCounter + " ticks to cool down (" +
                     ticksPerSecond + " ticks/s, " + millisecondsPerTick + " ms/tick).");
+
+                // trigger force end event
+                v.tools.log("Event forceend triggered.");
+                v.tools.triggerApexEvent(document.querySelector("#" + v.dom.containerId),
+                    "net_gobrechts_d3_force_forceend"
+                );
+                if (typeof(v.conf.onForceEndFunction) === "function") {
+                    v.conf.onForceEndFunction.call(v.dom.svg);
+                }
             });
 
         // create drag reference
@@ -1278,7 +1300,7 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
         if (d3.event.defaultPrevented) { // ignore drag
             return null;
         } else {
-            v.tools.log("Event link_click triggered.");
+            v.tools.log("Event linkclick triggered.");
             v.tools.triggerApexEvent(this, "net_gobrechts_d3_force_linkclick", link);
             if (typeof(v.conf.onLinkClickFunction) === "function") {
                 v.conf.onLinkClickFunction.call(this, d3.event, link);
@@ -1351,7 +1373,7 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
             });
         }
         d3.select(this).classed("highlighted", true);
-        v.tools.log("Event node_mouseenter triggered.");
+        v.tools.log("Event nodemouseenter triggered.");
         v.tools.triggerApexEvent(this, "net_gobrechts_d3_force_mouseenter", node);
         if (typeof(v.conf.onNodeMouseenterFunction) === "function") {
             v.conf.onNodeMouseenterFunction.call(this, d3.event, node);
@@ -1374,7 +1396,7 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
             v.main.labels.classed("highlighted", false);
             v.main.labelsCircular.classed("highlighted", false);
         }
-        v.tools.log("Event node_mouseleave triggered.");
+        v.tools.log("Event nodemouseleave triggered.");
         v.tools.triggerApexEvent(this, "net_gobrechts_d3_force_mouseleave", node);
         if (typeof(v.conf.onNodeMouseleaveFunction) === "function") {
             v.conf.onNodeMouseleaveFunction.call(this, d3.event, node);
@@ -1395,7 +1417,7 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
             if (v.conf.nodeEventToStopPinMode === "click") {
                 d3.select(this).classed("fixed", node.fixed = 0);
             }
-            v.tools.log("Event node_click triggered.");
+            v.tools.log("Event nodeclick triggered.");
             v.tools.triggerApexEvent(this, "net_gobrechts_d3_force_click", node);
             if (typeof(v.conf.onNodeClickFunction) === "function") {
                 v.conf.onNodeClickFunction.call(this, d3.event, node);
@@ -1411,7 +1433,7 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
         if (v.conf.nodeEventToStopPinMode === "dblclick") {
             d3.select(this).classed("fixed", node.fixed = 0);
         }
-        v.tools.log("Event node_dblclick triggered.");
+        v.tools.log("Event nodedblclick triggered.");
         v.tools.triggerApexEvent(this, "net_gobrechts_d3_force_dblclick", node);
         if (typeof(v.conf.onNodeDblclickFunction) === "function") {
             v.conf.onNodeDblclickFunction.call(this, d3.event, node);
@@ -1429,7 +1451,7 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
         if (v.conf.nodeEventToStopPinMode === "contextmenu") {
             d3.select(this).classed("fixed", node.fixed = 0);
         }
-        v.tools.log("Event node_contextmenu triggered.");
+        v.tools.log("Event nodecontextmenu triggered.");
         v.tools.triggerApexEvent(this, "net_gobrechts_d3_force_contextmenu", node);
         if (typeof(v.conf.onNodeContextmenuFunction) === "function") {
             v.conf.onNodeContextmenuFunction.call(this, d3.event, node);
@@ -1443,7 +1465,7 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
         data.idsOfSelectedNodes = null;
         data.numberOfNodes = nodes.size();
         data.nodes = nodes;
-        v.tools.log("Event lasso_start triggered.");
+        v.tools.log("Event lassostart triggered.");
         v.tools.triggerApexEvent(document.querySelector("#" + v.dom.containerId),
             "net_gobrechts_d3_force_lassostart",
             data
@@ -1470,7 +1492,7 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
             (data.idsOfSelectedNodes.length > 0 ?
                 data.idsOfSelectedNodes.substr(0, data.idsOfSelectedNodes.length - 1) :
                 null);
-        v.tools.log("Event lasso_end triggered.");
+        v.tools.log("Event lassoend triggered.");
         v.tools.triggerApexEvent(document.querySelector("#" + v.dom.containerId),
             "net_gobrechts_d3_force_lassoend", data);
         if (typeof(v.conf.onLassoEndFunction) === "function") {
@@ -3091,7 +3113,7 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
             // clear positions
             v.conf.positions = null;
             v.status.graphOldPositions = null;
-
+            
         } //END: if (data)
 
         // set color and radius function and calculate nodes radius
@@ -3363,6 +3385,15 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
 
         v.status.graphReady = true;
         v.status.graphRendering = false;
+
+        // trigger render end event
+        v.tools.log("Event renderend triggered.");
+        v.tools.triggerApexEvent(document.querySelector("#" + v.dom.containerId),
+            "net_gobrechts_d3_force_renderend"
+        );
+        if (typeof(v.conf.onRenderEndFunction) === "function") {
+            v.conf.onRenderEndFunction.call(v.dom.svg);
+        }            
 
         v.tools.triggerApexEvent(document.querySelector("#" + v.dom.containerId), "apexafterrefresh");
 
@@ -4966,6 +4997,90 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
         return graph;
     };
 
+
+    /**
+     * Gets or sets the function for the renderend event.
+     *
+     * No data is provided because this is a very generic event. You can use the `nodes` and `links` API methods for a D3 array to modify directly the nodes or links:
+     *
+     *     example.onRenderEndFunction(
+     *         function(){
+     *           example.nodes().filter(function (node) {
+     *             return node.ID === "7839";
+     *           }).style("fill", "blue");
+     *         }
+     *     );
+     *
+     * If used as APEX plugin you can also create an APEX dynamic action on the component event “Render End [D3 - Force Layout]” on your graph region.
+     * @param {Object} [eventFunction] - The new function.
+     * @returns {Object} The current function if no parameter is given or the graph object for method chaining.
+     * @see {@link module:API.onForceStartFunction}
+     * @see {@link module:API.onForceEndFunction}
+     * @see {@link module:API.nodes}
+     * @see {@link module:API.links}
+     */
+    graph.onRenderEndFunction = function(value) {
+        if (!arguments.length) {
+            return v.conf.onRenderEndFunction;
+        }
+        v.conf.onRenderEndFunction = value;
+        return graph;
+    };
+
+    /**
+     * Gets or sets the function for the forcestart event.
+     *
+     * No data is provided because this is a very generic event:
+     *
+     *     example.onForceStartFunction(
+     *         function(){
+     *           // your logic here.
+     *         }
+     *     );
+     *
+     * If used as APEX plugin you can also create an APEX dynamic action on the component event “Force Start [D3 - Force Layout]” on your graph region.
+     * @param {Object} [eventFunction] - The new function.
+     * @returns {Object} The current function if no parameter is given or the graph object for method chaining.
+     * @see {@link module:API.onForceEndFunction}
+     * @see {@link module:API.onRenderEndFunction}
+     * @see {@link module:API.nodes}
+     * @see {@link module:API.links}
+     */
+    graph.onForceStartFunction = function(value) {
+        if (!arguments.length) {
+            return v.conf.onForceStartFunction;
+        }
+        v.conf.onForceStartFunction = value;
+        return graph;
+    };
+
+    /**
+     * Gets or sets the function for the forceend event.
+     *
+     * No data is provided because this is a very generic event:
+     *
+     *     example.onForceEndFunction(
+     *         function(){
+     *           // your logic here.
+     *         }
+     *     );
+     *
+     * If used as APEX plugin you can also create an APEX dynamic action on the component event “Force End [D3 - Force Layout]” on your graph region.
+     * @param {Object} [eventFunction] - The new function.
+     * @returns {Object} The current function if no parameter is given or the graph object for method chaining.
+     * @see {@link module:API.onForceStartFunction}
+     * @see {@link module:API.onRenderEndFunction}
+     * @see {@link module:API.nodes}
+     * @see {@link module:API.links}
+     */
+    graph.onForceEndFunction = function(value) {
+        if (!arguments.length) {
+            return v.conf.onForceEndFunction;
+        }
+        v.conf.onForceEndFunction = value;
+        return graph;
+    };
+
     /**
      * Gets or sets the sample data. This makes only sense before the first start, because only on the first start without data available the sample data is used. After the first start you can provide new data with the start method. Example:
      *
@@ -4986,6 +5101,35 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
         return graph;
     };
 
+    /**
+     * Returns the current graph nodes as D3 array for direct modifications. This method expects no parameter and terminates the method chain. See also the [D3 docs](https://github.com/d3/d3-3.x-api-reference/blob/master/Selections.md#operating-on-selections). Example:
+     *
+     *     example.nodes().filter(function (node) {
+     *       return node.ID === "7839";
+     *     }).style("fill", "blue");
+     *     
+     *     example.nodes().filter(function (node) {
+     *       return node.ID === "7839";
+     *     }).classed("myOwnClass", true);
+     * @see {@link module:API.links}
+     * @returns {Array} The current graph nodes.
+     */
+    graph.nodes = function() {
+        return v.main.nodes;
+    };
+
+    /**
+     * Returns the current graph links as D3 array for direct modifications. This method expects no parameter and terminates the method chain. See also the [D3 docs](https://github.com/d3/d3-3.x-api-reference/blob/master/Selections.md#operating-on-selections). Example:
+     *
+     *     example.links().filter(function (link) {
+     *       return link.TOID === "7839";
+     *     }).style("stroke", "red");
+     * @see {@link module:API.nodes}
+     * @returns {Array} The current graph links.
+     */
+    graph.links = function() {
+        return v.main.links;
+    };
 
     /**
      * Returns the current graph data as JSON object. This method expects no parameter and terminates the method chain. Example:
@@ -5180,7 +5324,7 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
 
     /*******************************************************************************************************************
      * Startup code - runs one time after the initialization of a new chart - example:
-     * var myChart = net_gobrechts_d3_force( domContainerId, pConf, apexPluginId ).start();
+     * var myChart = net_gobrechts_d3_force( domContainerId, options, apexPluginId ).start();
      */
 
     if (v.status.apexPluginId) {
