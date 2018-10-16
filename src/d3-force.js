@@ -88,6 +88,8 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
         v.status.sampleData = false;
         v.status.wrapLabelsOnNextTick = false;
         v.status.labelFontSize = null;
+        v.status.resizeTriggered = false;
+        v.status.executeResizeEventOnceAfterForceEnd = false;
 
         // default configuration
         v.confDefaults.minNodeRadius = {
@@ -166,6 +168,13 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
             "type": "bool",
             "val": false,
             "options": [true, false]
+        };
+        v.confDefaults.labelSplitCharacter = {
+            "display": true,
+            "relation": "label",
+            "type": "text",
+            "val": "none",
+            "options": ["none", "^", "`", "°", "\\", "|", "/", "#", ":", "::"]
         };
         v.confDefaults.wrappedLabelWidth = {
             "display": true,
@@ -364,6 +373,20 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
             "val": false,
             "options": [true, false]
         };
+        v.confDefaults.zoomToFitOnResize = {
+            "display": true,
+            "relation": "graph",
+            "type": "bool",
+            "val": false,
+            "options": [true, false]
+        };
+        v.confDefaults.onResizeFunctionTimeout = {
+            "display": true,
+            "relation": "graph",
+            "type": "number",
+            "val": 600,
+            "options": [1000, 900, 800, 700, 600, 500, 400, 300, 200, 100, 0]
+        };
         v.confDefaults.autoRefresh = {
             "display": true,
             "relation": "graph",
@@ -441,9 +464,11 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
         v.conf.minNodeRadius = v.confUser.minNodeRadius || v.confDefaults.minNodeRadius.val;
         v.conf.maxNodeRadius = v.confUser.maxNodeRadius || v.confDefaults.maxNodeRadius.val;
         v.conf.colorScheme = v.confUser.colorScheme || v.confDefaults.colorScheme.val;
-        v.conf.dragMode = (typeof v.confUser.dragMode !== "undefined" ? v.tools.parseBool(v.confUser.dragMode) :
+        v.conf.dragMode = (typeof v.confUser.dragMode !== "undefined" ? 
+            v.tools.parseBool(v.confUser.dragMode) :
             v.confDefaults.dragMode.val);
-        v.conf.pinMode = (typeof v.confUser.pinMode !== "undefined" ? v.tools.parseBool(v.confUser.pinMode) :
+        v.conf.pinMode = (typeof v.confUser.pinMode !== "undefined" ? 
+            v.tools.parseBool(v.confUser.pinMode) :
             v.confDefaults.pinMode.val);
         v.conf.nodeEventToStopPinMode = v.confUser.nodeEventToStopPinMode || v.confDefaults.nodeEventToStopPinMode.val;
         v.conf.onNodeContextmenuPreventDefault = (typeof v.confUser.onNodeContextmenuPreventDefault !== "undefined" ?
@@ -451,60 +476,78 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
             v.confDefaults.onNodeContextmenuPreventDefault.val);
         v.conf.nodeEventToOpenLink = v.confUser.nodeEventToOpenLink || v.confDefaults.nodeEventToOpenLink.val;
         v.conf.nodeLinkTarget = v.confUser.nodeLinkTarget || v.confDefaults.nodeLinkTarget.val;
-        v.conf.showLabels = (typeof v.confUser.showLabels !== "undefined" ? v.tools.parseBool(v.confUser.showLabels) :
+        v.conf.showLabels = (typeof v.confUser.showLabels !== "undefined" ? 
+            v.tools.parseBool(v.confUser.showLabels) :
             v.confDefaults.showLabels.val);
-        v.conf.wrapLabels = (typeof v.confUser.wrapLabels !== "undefined" ? v.tools.parseBool(v.confUser.wrapLabels) :
+        v.conf.wrapLabels = (typeof v.confUser.wrapLabels !== "undefined" ? 
+            v.tools.parseBool(v.confUser.wrapLabels) :
             v.confDefaults.wrapLabels.val);
+        v.conf.labelSplitCharacter = v.confUser.labelSplitCharacter || v.confDefaults.labelSplitCharacter.val;
         v.conf.wrappedLabelWidth = v.confUser.wrappedLabelWidth || v.confDefaults.wrappedLabelWidth.val;
         v.conf.wrappedLabelLineHeight = v.confUser.wrappedLabelLineHeight || v.confDefaults.wrappedLabelLineHeight.val;
         v.conf.labelsCircular = (typeof v.confUser.labelsCircular !== "undefined" ?
-            v.tools.parseBool(v.confUser.labelsCircular) : v.confDefaults.labelsCircular.val);
+            v.tools.parseBool(v.confUser.labelsCircular) :
+            v.confDefaults.labelsCircular.val);
         v.conf.labelDistance = v.confUser.labelDistance || v.confDefaults.labelDistance.val;
-        v.conf.preventLabelOverlappingOnForceEnd =
-            (typeof v.confUser.preventLabelOverlappingOnForceEnd !== "undefined" ?
+        v.conf.preventLabelOverlappingOnForceEnd = (typeof v.confUser.preventLabelOverlappingOnForceEnd !== "undefined" ?
                 v.tools.parseBool(v.confUser.preventLabelOverlappingOnForceEnd) :
                 v.confDefaults.preventLabelOverlappingOnForceEnd.val);
         v.conf.labelPlacementIterations = v.confUser.labelPlacementIterations ||
             v.confDefaults.labelPlacementIterations.val;
         v.conf.showTooltips = (typeof v.confUser.showTooltips !== "undefined" ?
-            v.tools.parseBool(v.confUser.showTooltips) : v.confDefaults.showTooltips.val);
+            v.tools.parseBool(v.confUser.showTooltips) :
+            v.confDefaults.showTooltips.val);
         v.conf.tooltipPosition = v.confUser.tooltipPosition || v.confDefaults.tooltipPosition.val;
         v.conf.alignFixedNodesToGrid = (typeof v.confUser.alignFixedNodesToGrid !== "undefined" ?
-            v.tools.parseBool(v.confUser.alignFixedNodesToGrid) : v.confDefaults.alignFixedNodesToGrid.val);
+            v.tools.parseBool(v.confUser.alignFixedNodesToGrid) :
+            v.confDefaults.alignFixedNodesToGrid.val);
         v.conf.gridSize = (v.confUser.gridSize && v.confUser.gridSize > 0 ?
-            v.confUser.gridSize : v.confDefaults.gridSize.val);
-
+            v.confUser.gridSize :
+            v.confDefaults.gridSize.val);
         v.conf.linkDistance = v.confUser.linkDistance || v.confDefaults.linkDistance.val;
         v.conf.showLinkDirection = (typeof v.confUser.showLinkDirection !== "undefined" ?
-            v.tools.parseBool(v.confUser.showLinkDirection) : v.confDefaults.showLinkDirection.val);
+            v.tools.parseBool(v.confUser.showLinkDirection) :
+            v.confDefaults.showLinkDirection.val);
         v.conf.showSelfLinks = (typeof v.confUser.showSelfLinks !== "undefined" ?
-            v.tools.parseBool(v.confUser.showSelfLinks) : v.confDefaults.showSelfLinks.val);
+            v.tools.parseBool(v.confUser.showSelfLinks) :
+            v.confDefaults.showSelfLinks.val);
         v.conf.selfLinkDistance = v.confUser.selfLinkDistance || v.confDefaults.selfLinkDistance.val;
-
         v.conf.useDomParentWidth = (typeof v.confUser.useDomParentWidth !== "undefined" ?
-            v.tools.parseBool(v.confUser.useDomParentWidth) : v.confDefaults.useDomParentWidth.val);
+            v.tools.parseBool(v.confUser.useDomParentWidth) :
+            v.confDefaults.useDomParentWidth.val);
         v.conf.width = v.confUser.width || v.confDefaults.width.val;
         v.conf.height = v.confUser.height || v.confDefaults.height.val;
         v.conf.setDomParentPaddingToZero = (typeof v.confUser.setDomParentPaddingToZero !== "undefined" ?
-            v.tools.parseBool(v.confUser.setDomParentPaddingToZero) : v.confDefaults.setDomParentPaddingToZero.val);
-        v.conf.showBorder = (typeof v.confUser.showBorder !== "undefined" ? v.tools.parseBool(v.confUser.showBorder) :
+            v.tools.parseBool(v.confUser.setDomParentPaddingToZero) :
+            v.confDefaults.setDomParentPaddingToZero.val);
+        v.conf.showBorder = (typeof v.confUser.showBorder !== "undefined" ?
+            v.tools.parseBool(v.confUser.showBorder) :
             v.confDefaults.showBorder.val);
-        v.conf.showLegend = (typeof v.confUser.showLegend !== "undefined" ? v.tools.parseBool(v.confUser.showLegend) :
+        v.conf.showLegend = (typeof v.confUser.showLegend !== "undefined" ?
+            v.tools.parseBool(v.confUser.showLegend) :
             v.confDefaults.showLegend.val);
         v.conf.showLoadingIndicatorOnAjaxCall = (typeof v.confUser.showLoadingIndicatorOnAjaxCall !== "undefined" ?
             v.tools.parseBool(v.confUser.showLoadingIndicatorOnAjaxCall) :
             v.confDefaults.showLoadingIndicatorOnAjaxCall.val);
-        v.conf.lassoMode = (typeof v.confUser.lassoMode !== "undefined" ? v.tools.parseBool(v.confUser.lassoMode) :
+        v.conf.lassoMode = (typeof v.confUser.lassoMode !== "undefined" ?
+            v.tools.parseBool(v.confUser.lassoMode) :
             v.confDefaults.lassoMode.val);
-        v.conf.zoomMode = (typeof v.confUser.zoomMode !== "undefined" ? v.tools.parseBool(v.confUser.zoomMode) :
+        v.conf.zoomMode = (typeof v.confUser.zoomMode !== "undefined" ?
+            v.tools.parseBool(v.confUser.zoomMode) :
             v.confDefaults.zoomMode.val);
         v.conf.minZoomFactor = v.confUser.minZoomFactor || v.confDefaults.minZoomFactor.val;
         v.conf.maxZoomFactor = v.confUser.maxZoomFactor || v.confDefaults.maxZoomFactor.val;
         v.conf.transform = v.confUser.transform || v.confDefaults.transform.val;
-        v.conf.zoomToFitOnForceEnd = (typeof v.confUser.zoomToFitOnForceEnd !== "undefined" ? v.tools.parseBool(v.confUser.zoomToFitOnForceEnd) :
+        v.conf.zoomToFitOnForceEnd = (typeof v.confUser.zoomToFitOnForceEnd !== "undefined" ? 
+            v.tools.parseBool(v.confUser.zoomToFitOnForceEnd) :
             v.confDefaults.zoomToFitOnForceEnd.val);
+        v.conf.zoomToFitOnResize = (typeof v.confUser.zoomToFitOnResize !== "undefined" ? 
+            v.tools.parseBool(v.confUser.zoomToFitOnResize) :
+            v.confDefaults.zoomToFitOnResize.val);
+        v.conf.onResizeFunctionTimeout = v.confUser.onResizeFunctionTimeout || v.confDefaults.onResizeFunctionTimeout.val;
         v.conf.autoRefresh = (typeof v.confUser.autoRefresh !== "undefined" ?
-            v.tools.parseBool(v.confUser.autoRefresh) : v.confDefaults.autoRefresh.val);
+            v.tools.parseBool(v.confUser.autoRefresh) :
+            v.confDefaults.autoRefresh.val);
         v.conf.refreshInterval = v.confUser.refreshInterval || v.confDefaults.refreshInterval.val;
         v.conf.chargeDistance = v.confUser.chargeDistance || Infinity;
         v.conf.charge = v.confUser.charge || v.confDefaults.charge.val;
@@ -524,6 +567,7 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
         v.conf.onRenderEndFunction = v.confUser.onRenderEndFunction || null;
         v.conf.onForceStartFunction = v.confUser.onForceStartFunction || null;
         v.conf.onForceEndFunction = v.confUser.onForceEndFunction || null;
+        v.conf.onResizeFunction = v.confUser.onResizeFunction || null;
 
         // initialize sample data
         /* jshint -W110 */
@@ -590,6 +634,7 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
      * MAIN: SETUP DOM
      */
     v.main.setupDom = function() {
+        var width = v.tools.getGraphWidth();
 
         // create reference to body
         v.dom.body = d3.select("body");
@@ -625,9 +670,8 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
             .attr("height", v.conf.height);
 
         // calculate width of SVG parent
-        v.dom.containerWidth = v.tools.getSvgParentInnerWidth();
         if (v.conf.useDomParentWidth) {
-            v.dom.svg.attr("width", v.dom.containerWidth);
+            v.dom.svg.attr("width", v.tools.getSvgParentInnerWidth());
         }
 
         // create definitions element inside the SVG element
@@ -651,11 +695,11 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
             .style("display", "none");
         v.dom.loadingRect = v.dom.loading
             .append("svg:rect")
-            .attr("width", v.tools.getGraphWidth())
+            .attr("width", width)
             .attr("height", v.conf.height);
         v.dom.loadingText = v.dom.loading
             .append("svg:text")
-            .attr("x", v.tools.getGraphWidth() / 2)
+            .attr("x", width / 2)
             .attr("y", v.conf.height / 2)
             .text("Loading...");
 
@@ -851,9 +895,6 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
                         }
                     });
                 }
-                if (v.conf.zoomToFitOnForceEnd && v.conf.zoomMode) {
-                    graph.zoomToFit();
-                }
                 v.status.forceRunning = false;
                 var milliseconds = new Date().getTime() - v.status.forceStartTime;
                 var seconds = (milliseconds / 1000).toFixed(1);
@@ -871,8 +912,15 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
                 v.tools.triggerApexEvent(document.querySelector("#" + v.dom.containerId),
                     "net_gobrechts_d3_force_forceend"
                 );
+                if (v.conf.zoomToFitOnForceEnd) {
+                    graph.zoomToFit();
+                }
                 if (typeof(v.conf.onForceEndFunction) === "function") {
                     v.conf.onForceEndFunction.call(v.dom.svg);
+                }
+                if (v.status.executeResizeEventOnceAfterForceEnd) {
+                    v.tools.executeResizeEvent();
+                    v.status.executeResizeEventOnceAfterForceEnd = false;
                 }
             });
 
@@ -903,7 +951,7 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
 
         // create interpolate zoom helper
         v.main.interpolateZoom = function(translate, scale, duration) {
-            if (v.conf.zoomMode && v.status.graphStarted) {
+            if (v.status.graphStarted) {
                 if (scale < v.conf.minZoomFactor) {
                     scale = v.conf.minZoomFactor;
                 } else if (scale > v.conf.maxZoomFactor) {
@@ -920,7 +968,7 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
                     };
                 });
             }
-        };
+        };     
 
     }; // --> END v.main.setupFunctionReferences
 
@@ -1020,7 +1068,7 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
         }
         return obj;
     };
-
+    
     // get inner width for the SVG parents element
     v.tools.getSvgParentInnerWidth = function() {
         return parseInt(v.dom.svgParent.style("width")) -
@@ -1031,8 +1079,66 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
 
     // helper function to get effective graph width
     v.tools.getGraphWidth = function() {
-        return (v.conf.useDomParentWidth ? v.dom.containerWidth : v.conf.width);
+        return (v.conf.useDomParentWidth ? v.tools.getSvgParentInnerWidth() : v.conf.width);
     };
+
+    // helper function to do resize all relevant dom nodes
+    v.tools.executeResize = function () {
+        var width = v.tools.getGraphWidth();
+        v.dom.svg.attr("width", width);
+        v.dom.svg.attr("height", v.conf.height);
+        v.dom.graphOverlaySizeHelper.attr("width", width);
+        v.dom.graphOverlaySizeHelper.attr("height", v.conf.height);
+        v.dom.loadingRect.attr("width", width);
+        v.dom.loadingRect.attr("height", v.conf.height);
+        v.dom.loadingText.attr("x", width / 2);
+        v.dom.loadingText.attr("y", v.conf.height / 2);
+        v.main.zoom.size([width, v.conf.height]);
+        v.tools.triggerResizeEvent();
+    };
+
+    // helper function to execute the resize event
+    v.tools.executeResizeEvent = function () {
+        v.tools.log("Event resize triggered.");
+        v.tools.triggerApexEvent(document.querySelector("#" + v.dom.containerId),
+            "net_gobrechts_d3_force_resize"
+        );
+        if (typeof(v.conf.onResizeFunction) === "function") {
+            v.conf.onResizeFunction.call(v.dom.svg);
+        }
+        else if (v.conf.zoomToFitOnResize) {
+            graph.zoomToFit();
+        }
+        // The old default was resume(), which also centers the graph, so we fallback to center() for performance reasons.
+        else {
+            graph.center();
+        }
+        v.status.resizeTriggered = false;
+    };
+
+
+    // helper function for resizing the graph
+    v.tools.triggerResizeEvent = function() {
+        // Harmonize events - fire only once depending on v.conf.onResizeFunctionTimeout
+        if (v.status.graphStarted && !v.status.resizeTriggered) {
+            v.status.resizeTriggered = true;
+            setTimeout(function(){
+                if (v.status.forceRunning) {
+                    v.status.executeResizeEventOnceAfterForceEnd = true;
+                }
+                else {
+                    v.tools.executeResizeEvent();
+                }
+            }, v.conf.onResizeFunctionTimeout);
+        }
+    };
+
+    // https://github.com/que-etc/resize-observer-polyfill
+    v.tools.ResizeObserver = new ResizeObserver( function (entries, observer) {
+        entries.forEach( function (entry) {
+            v.tools.executeResize();
+        });
+    });
 
     // log function for debug mode
     v.tools.log = function(message, omitDebugPrefix) {
@@ -1899,25 +2005,41 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
                 v.status.labelFontSize = parseInt(text.style("font-size"));
             }
             if (!this.hasAttribute("lines")) {
-                var words = text.text().split(/\s+/).reverse(),
-                    word,
-                    line = [],
-                    lineNumber = 0,
-                    lineHeight = v.status.labelFontSize * v.conf.wrappedLabelLineHeight,
-                    x = text.attr("x"),
-                    y = text.attr("y"),
-                    dy = 0,
-                    tspan = text.text(null).append("tspan").attr("x", x).attr("y", y).attr("dy", dy + "px");
+                var tokens = text.text()
+                    .split( (v.conf.labelSplitCharacter !== "none" ? v.conf.labelSplitCharacter : /\s+/) )
+                    .reverse(),
+                token,
+                line = [],
+                lineNumber = 0,
+                lineHeight = v.status.labelFontSize * v.conf.wrappedLabelLineHeight,
+                x = text.attr("x"),
+                y = text.attr("y"),
+                dy = 0,
+                tspan = text.text(null).append("tspan").attr("x", x).attr("y", y).attr("dy", dy + "px");
 
-                while (word = words.pop()) { // jshint ignore:line
-                    line.push(word);
-                    tspan.text(line.join(" "));
-                    if (tspan.node().getComputedTextLength() > width) {
-                        line.pop();
+                if (v.conf.labelSplitCharacter !== "none") {
+                    while (token = tokens.pop()) { // jshint ignore:line
+                        tspan = text.append("tspan")
+                            .attr("x", x)
+                            .attr("y", y)
+                            .attr("dy", ++lineNumber * lineHeight + dy + "px")
+                            .text(token);
+                    }
+                }
+                else {
+                    while (token = tokens.pop()) { // jshint ignore:line
+                        line.push(token);
                         tspan.text(line.join(" "));
-                        line = [word];
-                        tspan = text.append("tspan").attr("x", x).attr("y", y).attr("dy", ++lineNumber * lineHeight +
-                            dy + "px").text(word);
+                        if (tspan.node().getComputedTextLength() > width) {
+                            line.pop();
+                            tspan.text(line.join(" "));
+                            line = [token];
+                            tspan = text.append("tspan")
+                                .attr("x", x)
+                                .attr("y", y)
+                                .attr("dy", ++lineNumber * lineHeight + dy + "px")
+                                .text(token);
+                        }
                     }
                 }
                 //save number of lines
@@ -2753,12 +2875,13 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
                         }
                         firstChar = dataString.trim().substr(0, 1);
                         if (firstChar === "<" || firstChar === "{") {
-                            graph.render(dataString);
+                            graph.render(dataString.trim());
                         } else if (dataString.trim().substr(0, 16) === "no_query_defined") {
                             // this will keep the old data or using the sample data, if no old data existing
-                            graph.render();
                             v.tools.logError("No query defined.");
+                            graph.render();
                         } else if (dataString.trim().substr(0, 22) === "query_returned_no_data") {
+                            v.tools.logError("Query returned no data.");
                             graph.render({
                                 "data": {
                                     "nodes": [{
@@ -2770,8 +2893,8 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
                                     "links": []
                                 }
                             });
-                            v.tools.logError("Query returned no data.");
                         } else {
+                            v.tools.logError(dataString);
                             graph.render({
                                 "data": {
                                     "nodes": [{
@@ -2783,10 +2906,10 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
                                     "links": []
                                 }
                             });
-                            v.tools.logError(dataString);
                         }
                     },
                     error: function(xhr, status, errorThrown) {
+                        v.tools.logError("AJAX call terminated with errors: " + errorThrown + ".");
                         graph.render({
                             "data": {
                                 "nodes": [{
@@ -2798,7 +2921,6 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
                                 "links": []
                             }
                         });
-                        v.tools.logError("AJAX call terminated with errors: " + errorThrown + ".");
                     },
                     dataType: "text"
                 }
@@ -2829,12 +2951,12 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
         v.tools.triggerApexEvent(document.querySelector("#" + v.dom.containerId), "apexbeforerefresh");
 
         // if we start the rendering the first time and there is no input data, then provide sample data
-        if (!data && !v.status.graphReady) {
+        if (data) {
+            v.status.sampleData = false;
+        } else if (!data && !v.status.graphReady) {
             v.tools.logError("Houston, we have a problem - we have to provide sample data.");
             v.status.sampleData = true;
             data = v.data.sampleData;
-        } else if (data) {
-            v.status.sampleData = false;
         }
 
         // if we have incoming data, than we do our transformations here, otherwise we use the existing data
@@ -3347,8 +3469,6 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
             .showBorder(v.conf.showBorder)
             .setDomParentPaddingToZero(v.conf.setDomParentPaddingToZero)
             .useDomParentWidth(v.conf.useDomParentWidth)
-            .width(v.conf.width)
-            .height(v.conf.height)
             .alignFixedNodesToGrid(v.conf.alignFixedNodesToGrid)
             .dragMode(v.conf.dragMode)
             .pinMode(v.conf.pinMode)
@@ -3365,20 +3485,23 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
             .friction(v.conf.friction)
             .theta(v.conf.theta);
 
+        v.tools.executeResize();
+
         // start visualization
         v.main.force
             .nodes(v.data.nodes)
             .links(v.data.links)
+            .size([v.tools.getGraphWidth(), v.conf.height])
             .start();
 
-        if (v.status.customize) {
+        v.status.graphReady = true;
+        v.status.graphRendering = false;
+
+            if (v.status.customize) {
             v.tools.createCustomizeWizard();
         } else {
             v.tools.createCustomizeLink();
         }
-
-        v.status.graphReady = true;
-        v.status.graphRendering = false;
 
         // trigger render end event
         v.tools.log("Event renderend triggered.");
@@ -3403,10 +3526,8 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
      * @returns {Object} The graph object for method chaining.
      */
     graph.resume = function() {
-        if (v.status.graphReady)
+        if (v.status.graphReady) {
             v.main.force.resume();
-        else {
-            graph.render();
         }
         v.tools.createCustomizeWizardIfNotRendering();
         return graph;
@@ -3581,6 +3702,7 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
      *
      *     example.wrapLabels(true).render();
      * @see {@link module:API.showLabels}
+     * @see {@link module:API.labelSplitCharacter}
      * @see {@link module:API.wrappedLabelWidth}
      * @see {@link module:API.wrappedLabelLineHeight}
      * @see {@link module:API.labelsCircular}
@@ -3603,11 +3725,38 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
     };
 
     /**
+     * If not equal "none" labels are splitted on this character. Needs wrapLabels to be true and a `render` call to take into effect:
+     *
+     *     example.wrapLabels(true).labelSplitCharacter("^").render();
+     * @see {@link module:API.showLabels}
+     * @see {@link module:API.wrappedLabelWidth}
+     * @see {@link module:API.wrappedLabelLineHeight}
+     * @see {@link module:API.labelsCircular}
+     * @param {string} [value="none"] - The new config value.
+     * @returns {(string|Object)} The current config value if no parameter is given or the graph object for method chaining.
+     */
+    graph.labelSplitCharacter = function(value) {
+        if (!arguments.length) {
+            return v.conf.labelSplitCharacter;
+        }
+        v.conf.labelSplitCharacter = value;
+        if (v.conf.wrapLabels) {
+            v.status.wrapLabelsOnNextTick = true;
+        }
+        if (v.status.graphStarted) {
+            v.main.labels.attr("lines", null);
+            v.tools.createCustomizeWizardIfNotRendering();
+        }
+        return graph;
+    };
+
+    /**
      * The width of the labels, if option `wrapLabels` is set to true. Needs a `render` call to take into effect:
      *
      *     example.wrappedLabelWidth(40).render();
      * @see {@link module:API.showLabels}
      * @see {@link module:API.wrapLabels}
+     * @see {@link module:API.labelSplitCharacter}
      * @see {@link module:API.wrappedLabelLineHeight}
      * @see {@link module:API.labelsCircular}
      * @param {number} [value=80] - The new config value.
@@ -3634,6 +3783,7 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
      *     example.wrappedLabelLineHeight(1.5).render();
      * @see {@link module:API.showLabels}
      * @see {@link module:API.wrapLabels}
+     * @see {@link module:API.labelSplitCharacter}
      * @see {@link module:API.wrappedLabelWidth}
      * @see {@link module:API.labelsCircular}
      * @param {number} [value=1.2] - The new config value.
@@ -3664,8 +3814,11 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
      * Needs a `render` call to take into effect:
      *
      *     example.labelsCircular(true).render();
+     * @see {@link module:API.showLabels}
      * @see {@link module:API.labelDistance}
      * @see {@link module:API.wrapLabels}
+     * @see {@link module:API.labelSplitCharacter}
+     * @see {@link module:API.wrappedLabelWidth}
      * @param {boolean} [value=false] - The new config value.
      * @returns {(boolean|Object)} The current config value if no parameter is given or the graph object for method chaining.
      */
@@ -3888,7 +4041,7 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
                 //v.events.touchmoveZoom = v.dom.graphOverlay.on("touchmove.zoom");
                 //v.events.touchendZoom = v.dom.graphOverlay.on("touchend.zoom");
 
-                // register event proxy for relevant zoom events who conflicts with force functions -> see also
+                // register event proxy for relevant zoom events which conflicts with force functions -> see also
                 // v.tools.zoomEventProxy
                 v.dom.graphOverlay.on("dblclick.zoom", v.tools.zoomEventProxy(v.events.dblclickZoom));
                 v.dom.graphOverlay.on("mousedown.zoom", v.tools.zoomEventProxy(v.events.mousedownZoom));
@@ -3906,13 +4059,6 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
                 // http://stackoverflow.com/questions/22302919/
                 // unregister-zoom-listener-and-restore-scroll-ability-in-d3-js/22303160?noredirect=1#22303160
                 v.dom.graphOverlay.on(".zoom", null);
-                v.main.zoom.translate([0, 0]);
-                v.main.zoom.scale(1);
-                v.conf.transform = {
-                    "translate": [0, 0],
-                    "scale": 1
-                };
-                v.dom.graph.attr("transform", "translate(0,0)scale(1)");
             }
             v.tools.createCustomizeWizardIfNotRendering();
         }
@@ -3958,7 +4104,7 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
     };
 
     /**
-     * If the graph option `zoomMode` is set to true, then the graph is centered to the given position and scaled to the calculated scale factor (effective graph with / viewportWidth). The reason to have a viewportWidth instead of a scale factor is, that you can rely on given data like the coordinates and radius of a node without calculating the scale factor by yourself - you define your desired viewport width and the zoom method is calculating the neccesary scale factor for this viewport width. If the calculated scale factor is less then or greater then the configured minimum and maximum scale factors, then these configured scale factors are used. The reason for this a good user experience, since the graph would be otherwise falling back on these scale factors when the user is scaling the graph by mouse or touch events. No `render` or `resume` call needed to take into effect:
+     * The graph is centered to the given position and scaled to the calculated scale factor (effective graph with / viewportWidth). The reason to have a viewportWidth instead of a scale factor is, that you can rely on given data like the coordinates and radius of a node without calculating the scale factor by yourself - you define your desired viewport width and the zoom method is calculating the neccesary scale factor for this viewport width. If the calculated scale factor is less then or greater then the configured minimum and maximum scale factors, then these configured scale factors are used. The reason for this a good user experience, since the graph would be otherwise falling back on these scale factors when the user is scaling the graph by mouse or touch events. No `render` or `resume` call needed to take into effect:
      *
      *     var node = example.nodeDataById('9999');
      *     example.zoom(node.x, node.y, node.radius * 6);
@@ -4012,7 +4158,7 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
     };
 
     /**
-     * Behaves like a normal getter/setter (the `zoom` and `zoomSmooth` methods implements only setters) and can be used in the conf object to initialize the graph with different translate values/scale factors than [0,0]/1. Works only, if the `zoomMode` is set to true. The current transform value(an object) is rendered in the customization wizard conf object text area like all other options when the current value is different then the default value. No `render` or `resume` call needed to take into effect:
+     * Behaves like a normal getter/setter (the `zoom` and `zoomSmooth` methods implements only setters) and can be used in the conf object to initialize the graph with different translate values/scale factors than [0,0]/1. The current transform value(an object) is rendered in the customization wizard conf object text area like all other options when the current value is different then the default value. No `render` or `resume` call needed to take into effect:
      *
      *     //example.zoomMode(true);
      *     example.transform({"translate":[100,100],"scale":0.5});
@@ -4031,6 +4177,35 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
         } else {
             v.main.interpolateZoom(transform.translate, transform.scale, 0);
         }
+        return graph;
+    };
+
+    /**
+     * Helper/Command method - center the graph. No `render` or `resume` call needed to take into effect:
+     *
+     *     example.center();
+     * @see {@link module:API.zoomMode}
+     * @see {@link module:API.zoomSmooth}
+     * @see {@link module:API.minZoomFactor}
+     * @see {@link module:API.maxZoomFactor}
+     * @see {@link module:API.transform}
+     * @see {@link module:API.zoomToFit}
+     * @see {@link module:API.zoomToFitOnForceEnd}
+     * @param {number} [duration=500] - The transition duration in milliseconds.
+     * @returns {Object} The graph object for method chaining.
+     */
+    graph.center = function (duration) {
+        var svg = {},
+            graph_,
+            x, y, scale;
+        duration = (isNaN(duration) ? 500 : parseInt(duration));
+        svg.width = v.tools.getGraphWidth();
+        svg.height = v.conf.height;
+        graph_ = v.dom.graph.node().getBBox();
+        scale = v.main.zoom.scale();
+        x = (svg.width - graph_.width * scale) / 2 - graph_.x * scale;
+        y = (svg.height - graph_.height * scale) / 2 - graph_.y * scale;
+        v.main.interpolateZoom([x, y], scale, duration);
         return graph;
     };
 
@@ -4064,14 +4239,12 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
     };
 
     /**
-     * Automatically zoom at force end, so that the whole graph is visible and optimal sized. Needs a `resume` call to take into effect or must be set at initialization (before the graph starts). If enabled it fires at every force end event. If you only want to resize your graph once than have a look at the command/helper method `zoomToFit`:
+     * Automatically zoom at force end, so that the whole graph is visible and optimal sized. If enabled it fires at every force end event. If you only want to resize your graph once than have a look at the command/helper method `zoomToFit`:
      *
-     *     //running graph: change config
-     *     example.zoomToFitOnForceEnd(true).resume();
-     *     //alternative way without a resume call
+     *     //change config and resize once
      *     example.zoomToFitOnForceEnd(true).zoomToFit();
      *
-     *     //running graph: resize only once
+     *     //resize only once
      *     example.zoomToFit();
      * @see {@link module:API.zoomMode}
      * @see {@link module:API.zoomSmooth}
@@ -4087,6 +4260,87 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
             return v.conf.zoomToFitOnForceEnd;
         }
         v.conf.zoomToFitOnForceEnd = value;
+        if (v.status.graphStarted) {
+            v.tools.createCustomizeWizardIfNotRendering();
+        }
+        return graph;
+    };
+
+    /**
+     * Automatically zoom at resize (call of `width`, `height` or responsive change of parent container size with `useDomParentWidth` set to true), so that the whole graph is visible and optimal sized. The event is harmonized/delayed for for performance reasons (could fire very often when for example the browser window is resized by the user) - see the corresponding option `onResizeFunctionTimeout` which has a default value of 600. If you only want to resize your graph once than have a look at the command/helper method `zoomToFit`:
+     *
+     *     //change config and resize once
+     *     example.zoomToFitOnResize(true).zoomToFit();
+     *
+     *     //resize only once
+     *     example.zoomToFit();
+     * @see {@link module:API.onResizeFunctionTimeout}
+     * @see {@link module:API.zoomMode}
+     * @see {@link module:API.zoomSmooth}
+     * @see {@link module:API.minZoomFactor}
+     * @see {@link module:API.maxZoomFactor}
+     * @see {@link module:API.transform}
+     * @see {@link module:API.zoomToFit}
+     * @see {@link module:API.zoomToFitOnForceEnd}
+     * @param {boolean} [value=false] - The new config value.
+     * @returns {(boolean|Object)} The current config value if no parameter is given or the graph object for method chaining.
+     */
+    graph.zoomToFitOnResize = function(value) {
+        if (!arguments.length) {
+            return v.conf.zoomToFitOnResize;
+        }
+        v.conf.zoomToFitOnResize = value;
+        if (v.status.graphStarted) {
+            v.tools.createCustomizeWizardIfNotRendering();
+        }
+        return graph;
+    };
+
+    /**
+     * Gets or sets the function for the resize event.
+     *
+     * No data is provided because this is a very generic event:
+     *
+     *     example.onResizeFunction(
+     *         function(){
+     *           // your logic here
+     *         }
+     *     );
+     *
+     * If used as APEX plugin you can also create an APEX dynamic action on the component event “Resize [D3 - Force Layout]” on your graph region.
+     * @see {@link module:API.onResizeFunctionTimeout}
+     * @param {Object} [eventFunction] - The new function.
+     * @returns {Object} The current function if no parameter is given or the graph object for method chaining.
+     */
+    graph.onResizeFunction = function(value) {
+        if (!arguments.length) {
+            return v.conf.onResizeFunction;
+        }
+        v.conf.onResizeFunction = value;
+        return graph;
+    };
+
+    /**
+     * The harmonized/delayed handling of the resize event to prevent performance issues - see also `zoomToFitOnResize`:
+     *
+     *     example.onResizeFunctionTimeout(100).height(400);
+     * @see {@link module:API.onResizeFunction}
+     * @see {@link module:API.zoomToFitOnResize}
+     * @see {@link module:API.zoomMode}
+     * @see {@link module:API.zoomSmooth}
+     * @see {@link module:API.minZoomFactor}
+     * @see {@link module:API.maxZoomFactor}
+     * @see {@link module:API.transform}
+     * @see {@link module:API.zoomToFit}
+     * @see {@link module:API.zoomToFitOnForceEnd}
+     * @param {number} [value=600] - The new chart width value.
+     * @returns {(number|Object)} The current chart width value if no parameter is given or the graph object for method chaining.
+     */
+    graph.onResizeFunctionTimeout = function(value) {
+        if (!arguments.length) {
+            return v.conf.onResizeFunctionTimeout;
+        }
+        v.conf.onResizeFunctionTimeout = value;
         if (v.status.graphStarted) {
             v.tools.createCustomizeWizardIfNotRendering();
         }
@@ -4384,19 +4638,10 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
         v.conf.useDomParentWidth = value;
         if (v.status.graphStarted) {
             if (v.conf.useDomParentWidth) {
-                v.dom.containerWidth = v.tools.getSvgParentInnerWidth();
-                d3.select(window).on("resize", function() {
-                    var oldWidth = v.dom.containerWidth;
-                    var newWidth = v.tools.getSvgParentInnerWidth();
-                    if (oldWidth !== newWidth) {
-                        v.dom.containerWidth = newWidth;
-                        graph.width(v.conf.width).resume();
-                    }
-                });
+                v.tools.ResizeObserver.observe(v.dom.svgParent.node());
             } else {
-                d3.select(window).on("resize", null);
+                v.tools.ResizeObserver.unobserve(v.dom.svgParent.node());
             }
-            v.tools.createCustomizeWizardIfNotRendering();
         }
         return graph;
     };
@@ -4434,13 +4679,13 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
      * @returns {number} The current DOM parent width.
      */
     graph.domParentWidth = function() {
-        return v.dom.containerWidth || v.tools.getSvgParentInnerWidth();
+        return v.tools.getSvgParentInnerWidth();
     };
 
     /**
-     * The width of the chart. Needs a `resume` call to take into effect:
+     * The width of the chart:
      *
-     *     example.width(800).resume();
+     *     example.width(800);
      * @see {@link module:API.height}
      * @param {number} [value=500] - The new chart width value.
      * @returns {(number|Object)} The current chart width value if no parameter is given or the graph object for method chaining.
@@ -4451,23 +4696,16 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
         }
         v.conf.width = value;
         if (v.status.graphStarted) {
-            v.dom.svg.attr("width", v.tools.getGraphWidth());
-            v.dom.graphOverlaySizeHelper.attr("width", v.tools.getGraphWidth());
-            v.dom.loadingRect.attr("width", v.tools.getGraphWidth());
-            v.dom.loadingText.attr("x", v.tools.getGraphWidth() / 2);
-            v.main.force.size([v.tools.getGraphWidth(), v.conf.height]);
-            if (v.conf.zoomMode) {
-                v.main.zoom.size([v.tools.getGraphWidth(), v.conf.height]);
-            }
+            v.tools.executeResize();
             v.tools.createCustomizeWizardIfNotRendering();
         }
         return graph;
     };
 
     /**
-     * The height of the chart. Needs a `resume` call to take into effect:
+     * The height of the chart:
      *
-     *     example.height(600).resume();
+     *     example.height(600);
      * @see {@link module:API.width}
      * @param {number} [value=500] - The new chart height value.
      * @returns {(number|Object)} The current chart height value if no parameter is given or the graph object for method chaining.
@@ -4478,17 +4716,10 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
         }
         v.conf.height = value;
         if (v.status.graphStarted) {
-            v.dom.svg.attr("height", v.conf.height);
-            v.dom.graphOverlaySizeHelper.attr("height", v.conf.height);
-            v.dom.loadingRect.attr("height", v.conf.height);
-            v.dom.loadingText.attr("y", v.conf.height / 2);
-            v.main.force.size([v.tools.getGraphWidth(), v.conf.height]);
+            v.tools.executeResize();
             if (v.conf.showLegend) {
                 v.tools.removeLegend();
                 v.tools.createLegend();
-            }
-            if (v.conf.zoomMode) {
-                v.main.zoom.size([v.tools.getGraphWidth(), v.conf.height]);
             }
             v.tools.createCustomizeWizardIfNotRendering();
         }
@@ -5340,6 +5571,7 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
         apex.jQuery("#" + v.dom.containerId).bind("apexrefresh", function() {
             graph.start();
         });
+        /*
         //resume on window resize
         apex.jQuery(window).on("apexwindowresized", function() {
             graph.resume();
@@ -5349,6 +5581,7 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
                 apex.jQuery(window).trigger("apexwindowresized");
             }, 500);
         });
+        */
 
     }
 
