@@ -380,11 +380,18 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
             "val": false,
             "options": [true, false]
         };
+        v.confDefaults.keepAspectRatioOnResize = {
+            "display": true,
+            "relation": "graph",
+            "type": "bool",
+            "val": false,
+            "options": [true, false]
+        };
         v.confDefaults.onResizeFunctionTimeout = {
             "display": true,
             "relation": "graph",
             "type": "number",
-            "val": 600,
+            "val": 300,
             "options": [1000, 900, 800, 700, 600, 500, 400, 300, 200, 100, 0]
         };
         v.confDefaults.autoRefresh = {
@@ -544,6 +551,9 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
         v.conf.zoomToFitOnResize = (typeof v.confUser.zoomToFitOnResize !== "undefined" ? 
             v.tools.parseBool(v.confUser.zoomToFitOnResize) :
             v.confDefaults.zoomToFitOnResize.val);
+        v.conf.keepAspectRatioOnResize = (typeof v.confUser.keepAspectRatioOnResize !== "undefined" ? 
+            v.tools.parseBool(v.confUser.keepAspectRatioOnResize) :
+            v.confDefaults.keepAspectRatioOnResize.val);
         v.conf.onResizeFunctionTimeout = v.confUser.onResizeFunctionTimeout || v.confDefaults.onResizeFunctionTimeout.val;
         v.conf.autoRefresh = (typeof v.confUser.autoRefresh !== "undefined" ?
             v.tools.parseBool(v.confUser.autoRefresh) :
@@ -635,6 +645,7 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
      */
     v.main.setupDom = function() {
         var width = v.tools.getGraphWidth();
+        var height = v.tools.getGraphHeight();
 
         // create reference to body
         v.dom.body = d3.select("body");
@@ -666,8 +677,8 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
         v.dom.svg
             .attr("class", "net_gobrechts_d3_force")
             .classed("border", v.conf.showBorder)
-            .attr("width", v.conf.width)
-            .attr("height", v.conf.height);
+            .attr("width", width)
+            .attr("height", height);
 
         // calculate width of SVG parent
         if (v.conf.useDomParentWidth) {
@@ -696,11 +707,11 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
         v.dom.loadingRect = v.dom.loading
             .append("svg:rect")
             .attr("width", width)
-            .attr("height", v.conf.height);
+            .attr("height", height);
         v.dom.loadingText = v.dom.loading
             .append("svg:text")
             .attr("x", width / 2)
-            .attr("y", v.conf.height / 2)
+            .attr("y", height / 2)
             .text("Loading...");
 
         // create marker definitions
@@ -870,7 +881,7 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
                         .label(v.data.simulatedAnnealingLabels)
                         .anchor(v.data.simulatedAnnealingAnchors)
                         .width(v.tools.getGraphWidth())
-                        .height(v.conf.height)
+                        .height(v.tools.getGraphHeight())
                         .start(v.conf.labelPlacementIterations);
                     v.main.labels.each(function(node, i) {
                         var label = d3.select(this),
@@ -914,6 +925,9 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
                 );
                 if (v.conf.zoomToFitOnForceEnd) {
                     graph.zoomToFit();
+                }
+                else {
+                    graph.center();
                 }
                 if (typeof(v.conf.onForceEndFunction) === "function") {
                     v.conf.onForceEndFunction.call(v.dom.svg);
@@ -1082,40 +1096,42 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
         return (v.conf.useDomParentWidth ? v.tools.getSvgParentInnerWidth() : v.conf.width);
     };
 
+    // helper function to get effective graph width
+    v.tools.getGraphHeight = function() {
+        return (
+            v.conf.useDomParentWidth ?
+                (v.conf.keepAspectRatioOnResize ? 
+                    v.tools.getSvgParentInnerWidth() * 1 / v.status.aspectRatio : 
+                    v.conf.height) :
+            v.conf.height
+        );
+    };
+
     // helper function to do resize all relevant dom nodes
     v.tools.executeResize = function () {
         var width = v.tools.getGraphWidth();
+        var height = v.tools.getGraphHeight();
         v.dom.svg.attr("width", width);
-        v.dom.svg.attr("height", v.conf.height);
+        v.dom.svg.attr("height", height);
         v.dom.graphOverlaySizeHelper.attr("width", width);
-        v.dom.graphOverlaySizeHelper.attr("height", v.conf.height);
+        v.dom.graphOverlaySizeHelper.attr("height", height);
         v.dom.loadingRect.attr("width", width);
-        v.dom.loadingRect.attr("height", v.conf.height);
+        v.dom.loadingRect.attr("height", height);
         v.dom.loadingText.attr("x", width / 2);
-        v.dom.loadingText.attr("y", v.conf.height / 2);
-        v.main.zoom.size([width, v.conf.height]);
-        v.tools.triggerResizeEvent();
-    };
-
-    // helper function to execute the resize event
-    v.tools.executeResizeEvent = function () {
-        v.tools.log("Event resize triggered.");
-        v.tools.triggerApexEvent(document.querySelector("#" + v.dom.containerId),
-            "net_gobrechts_d3_force_resize"
-        );
-        if (typeof(v.conf.onResizeFunction) === "function") {
-            v.conf.onResizeFunction.call(v.dom.svg);
-        }
-        else if (v.conf.zoomToFitOnResize) {
-            graph.zoomToFit();
+        v.dom.loadingText.attr("y", height / 2);
+        v.main.zoom.size([width, height]);
+        if (v.conf.zoomToFitOnResize) {
+            graph.zoomToFit(0);
         }
         // The old default was resume(), which also centers the graph, so we fallback to center() for performance reasons.
         else {
-            graph.center();
+            graph.center(0);
         }
-        v.status.resizeTriggered = false;
+        if (v.conf.showLegend) {
+            v.tools.moveLegend();
+        }
+        v.tools.triggerResizeEvent();
     };
-
 
     // helper function for resizing the graph
     v.tools.triggerResizeEvent = function() {
@@ -1131,6 +1147,18 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
                 }
             }, v.conf.onResizeFunctionTimeout);
         }
+    };
+
+    // helper function to execute the resize event
+    v.tools.executeResizeEvent = function () {
+        v.tools.log("Event resize triggered.");
+        v.tools.triggerApexEvent(document.querySelector("#" + v.dom.containerId),
+            "net_gobrechts_d3_force_resize"
+        );
+        if (typeof(v.conf.onResizeFunction) === "function") {
+            v.conf.onResizeFunction.call(v.dom.svg);
+        }
+        v.status.resizeTriggered = false;
     };
 
     // https://github.com/que-etc/resize-observer-polyfill
@@ -1619,25 +1647,36 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
 
     // create legend
     v.tools.createLegend = function() {
+        // save initial legend height for later use
+        var height = v.status.initialLegendHeight = v.tools.getGraphHeight();
         v.data.distinctNodeColorValues.forEach(function(colorString, i) {
             var color = colorString.split(";");
             v.dom.legend
                 .append("circle")
                 .attr("cx", 11)
-                .attr("cy", v.conf.height - ((i + 1) * 14 - 3))
+                .attr("cy", height - ((i + 1) * 14 - 3))
                 .attr("r", 6)
                 .attr("fill", v.tools.color(color[1]));
             v.dom.legend
                 .append("text")
                 .attr("x", 21)
-                .attr("y", v.conf.height - ((i + 1) * 14 - 6))
+                .attr("y", height - ((i + 1) * 14 - 6))
                 .text((color[0] ? color[0] : color[1]));
         });
+    };
+
+    // move legend
+    v.tools.moveLegend = function() {
+        var heightDifference = v.tools.getGraphHeight() - v.status.initialLegendHeight;
+        if (heightDifference !== 0) {
+            v.dom.legend.attr( "transform", "translate(0," + heightDifference + ")" );
+        }
     };
 
     // remove legend
     v.tools.removeLegend = function() {
         v.dom.legend.selectAll("*").remove();
+        v.dom.legend.attr("transform", null);
     };
 
     // write conf object into customization wizard
@@ -3463,6 +3502,11 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
             v.dom.graph.selectAll("text.label,text.labelCircular").remove();
         }
 
+        // calculate initial aspect ratio
+        if (!v.status.aspectRatio) {
+            v.status.aspectRatio = v.conf.width / v.conf.height;
+        }
+
         // initialize the graph (some options implicit initializes v.main.force, e.g. linkDistance, charge, ...)
         graph
             .debug(v.conf.debug)
@@ -3485,13 +3529,18 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
             .friction(v.conf.friction)
             .theta(v.conf.theta);
 
+        // recreate the legend
+        v.tools.removeLegend();
+        v.tools.createLegend();
+        // set inital size values
         v.tools.executeResize();
+
 
         // start visualization
         v.main.force
             .nodes(v.data.nodes)
             .links(v.data.links)
-            .size([v.tools.getGraphWidth(), v.conf.height])
+            .size([v.tools.getGraphWidth(), v.tools.getGraphHeight()])
             .start();
 
         v.status.graphReady = true;
@@ -4031,7 +4080,7 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
         if (v.status.graphStarted) {
             if (v.conf.zoomMode) {
                 v.main.zoom.scaleExtent([v.conf.minZoomFactor, v.conf.maxZoomFactor])
-                    .size([v.tools.getGraphWidth(), v.conf.height])
+                    .size([v.tools.getGraphWidth(), v.tools.getGraphHeight()])
                     .on("zoom", v.main.zoomed);
                 v.dom.graphOverlay.call(v.main.zoom);
                 // save zoom events for use in event proxy
@@ -4104,35 +4153,47 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
     };
 
     /**
-     * The graph is centered to the given position and scaled to the calculated scale factor (effective graph with / viewportWidth). The reason to have a viewportWidth instead of a scale factor is, that you can rely on given data like the coordinates and radius of a node without calculating the scale factor by yourself - you define your desired viewport width and the zoom method is calculating the neccesary scale factor for this viewport width. If the calculated scale factor is less then or greater then the configured minimum and maximum scale factors, then these configured scale factors are used. The reason for this a good user experience, since the graph would be otherwise falling back on these scale factors when the user is scaling the graph by mouse or touch events. No `render` or `resume` call needed to take into effect:
+     * The graph is centered to the given position and scaled to the calculated scale factor (effective graph with / viewportWidth).
+     * 
+     * The reason to have a viewportWidth instead of a scale factor is, that you can rely on given data like the coordinates and radius of a node without calculating the scale factor by yourself - you define your desired viewport width and the zoom method is calculating the neccesary scale factor for this viewport width. If the calculated scale factor is less or greater then the configured minimum and maximum scale factors, then these configured scale factors are used. The reason for this a good user experience, since the graph would be otherwise falling back on these scale factors when the user is scaling the graph by mouse or touch events. 
+     * 
+     * No `render` or `resume` call needed to take into effect:
+     *
+     *     var node = example.nodeDataById('8888');
+     *     example.zoom(node.x, node.y, node.radius * 6); // default duration of 500ms
      *
      *     var node = example.nodeDataById('9999');
-     *     example.zoom(node.x, node.y, node.radius * 6);
+     *     example.zoom(node.x, node.y, node.radius * 6, 1500); // duration of 1500ms
      * @see {@link module:API.zoomMode}
-     * @see {@link module:API.zoomSmooth}
      * @see {@link module:API.minZoomFactor}
      * @see {@link module:API.maxZoomFactor}
      * @see {@link module:API.transform}
      * @param {number} [centerX=graph width / 2] - The horizontal center position.
      * @param {number} [centerY=graph height / 2] - The vertical center position.
      * @param {number} [viewportWidth=graph width] - The desired viewport width.
+     * @param {number} [duration=500] - the duration of the transition
      * @returns {Object} The graph object for method chaining.
      */
-    graph.zoom = function(centerX, centerY, viewportWidth) {
-        graph.zoomSmooth(centerX, centerY, viewportWidth, 0);
+    graph.zoom = function(centerX, centerY, viewportWidth, duration) {
+        // http://bl.ocks.org/linssen/7352810
+        var x, y, scale;
+        var width = v.tools.getGraphWidth(); // could be different then configured (responsive)
+        var height = v.tools.getGraphHeight(); 
+        centerX = (isNaN(centerX) ? width / 2 : parseInt(centerX));
+        centerY = (isNaN(centerY) ? height / 2 : parseInt(centerY));
+        viewportWidth = (isNaN(viewportWidth) ? width : parseInt(viewportWidth));
+        duration = (isNaN(duration) ? 500 : parseInt(duration));
+        scale = width / viewportWidth;
+        x = width / 2 - centerX * scale;
+        y = height / 2 - centerY * scale;
+        v.main.interpolateZoom([x, y], scale, duration);
         return graph;
     };
 
     /**
-     * This method does the same as the zoom method - the difference is, that the zoom is animated in a nice way and there is a optional fourth parameter for the duration of the transition, which defaults to 1500ms. No `render` or `resume` call needed to take into effect:
-     *
-     *     var node = example.nodeDataById('8888');
-     *     example.zoomSmooth(node.x, node.y, node.radius * 6); // default duration of 1500ms
-     *
-     *     var node = example.nodeDataById('9999');
-     *     example.zoomSmooth(node.x, node.y, node.radius * 6, 3000); // duration of 3000ms
-     * @see {@link module:API.zoomMode}
+     * DEPRECATED: Please use zoom instead.
      * @see {@link module:API.zoom}
+     * @see {@link module:API.zoomMode}
      * @see {@link module:API.minZoomFactor}
      * @see {@link module:API.maxZoomFactor}
      * @see {@link module:API.transform}
@@ -4143,17 +4204,11 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
      * @returns {Object} The graph object for method chaining.
      */
     graph.zoomSmooth = function(centerX, centerY, viewportWidth, duration) {
-        // http://bl.ocks.org/linssen/7352810
-        var x, y, scale;
-        var width = v.tools.getGraphWidth(); // could be different then configured (responsive)
         centerX = (isNaN(centerX) ? width / 2 : parseInt(centerX));
-        centerY = (isNaN(centerY) ? v.conf.height / 2 : parseInt(centerY));
+        centerY = (isNaN(centerY) ? height / 2 : parseInt(centerY));
         viewportWidth = (isNaN(viewportWidth) ? width : parseInt(viewportWidth));
         duration = (isNaN(duration) ? 1500 : parseInt(duration));
-        scale = width / viewportWidth;
-        x = width / 2 - centerX * scale;
-        y = v.conf.height / 2 - centerY * scale;
-        v.main.interpolateZoom([x, y], scale, duration);
+        graph.zoom(centerX, centerY, viewportWidth, duration);
         return graph;
     };
 
@@ -4168,14 +4223,14 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
      * @param {Object} [transform={“translate”:[0,0],“scale”:1}] - The new config value.
      * @returns {Object} The current config value if no parameter is given or the graph object for method chaining.
      */
-    graph.transform = function(transform) {
+    graph.transform = function(transform, duration) {
         if (!arguments.length) {
             return {
                 "translate": v.main.zoom.translate(),
                 "scale": v.main.zoom.scale()
             };
         } else {
-            v.main.interpolateZoom(transform.translate, transform.scale, 0);
+            v.main.interpolateZoom(transform.translate, transform.scale, (isNaN(duration) ? 500 : parseInt(duration)));
         }
         return graph;
     };
@@ -4200,7 +4255,7 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
             x, y, scale;
         duration = (isNaN(duration) ? 500 : parseInt(duration));
         svg.width = v.tools.getGraphWidth();
-        svg.height = v.conf.height;
+        svg.height = v.tools.getGraphHeight();
         graph_ = v.dom.graph.node().getBBox();
         scale = v.main.zoom.scale();
         x = (svg.width - graph_.width * scale) / 2 - graph_.x * scale;
@@ -4228,7 +4283,7 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
             x, y, scale;
         duration = (isNaN(duration) ? 500 : parseInt(duration));
         svg.width = v.tools.getGraphWidth();
-        svg.height = v.conf.height;
+        svg.height = v.tools.getGraphHeight();
         graph_ = v.dom.graph.node().getBBox();
         scale = Math.min((svg.height - 2 * padding) / graph_.height,
             (svg.width - 2 * padding) / graph_.width);
@@ -4267,7 +4322,11 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
     };
 
     /**
-     * Automatically zoom at resize (call of `width`, `height` or responsive change of parent container size with `useDomParentWidth` set to true), so that the whole graph is visible and optimal sized. The event is harmonized/delayed for for performance reasons (could fire very often when for example the browser window is resized by the user) - see the corresponding option `onResizeFunctionTimeout` which has a default value of 600. If you only want to resize your graph once than have a look at the command/helper method `zoomToFit`:
+     * Automatically zoom at resize (call of `width`, `height` or responsive change of parent container size with `useDomParentWidth` set to true), so that the whole graph is visible and optimal sized. 
+     * 
+     * The event is harmonized/delayed for for performance reasons. It could fire very often when for example the browser window is resized by the user. If the graph force simulation is running and not cooled down it is executed on the force end event. Also see the corresponding option `onResizeFunctionTimeout` which has a default value of 600.
+     * 
+     * If you only want to resize your graph once than have a look at the command/helper method `zoomToFit`:
      *
      *     //change config and resize once
      *     example.zoomToFitOnResize(true).zoomToFit();
@@ -4291,6 +4350,33 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
         }
         v.conf.zoomToFitOnResize = value;
         if (v.status.graphStarted) {
+            v.tools.createCustomizeWizardIfNotRendering();
+        }
+        return graph;
+    };
+
+    /**
+     * When the graph is resized, the initial aspect ratio (width and height on first render cycle) is respected:
+     *
+     *     //change config and resize once
+     *     example.keepAspectRatioOnResize(true).height(400);
+     *
+     * @see {@link module:API.width}
+     * @see {@link module:API.height}
+     * @param {boolean} [value=false] - The new config value.
+     * @returns {(boolean|Object)} The current config value if no parameter is given or the graph object for method chaining.
+     */
+    graph.keepAspectRatioOnResize = function(value) {
+        if (!arguments.length) {
+            return v.conf.keepAspectRatioOnResize;
+        }
+        v.conf.keepAspectRatioOnResize = value;
+        if (v.status.graphStarted) {
+            graph.width(v.conf.width);
+            graph.height(v.conf.height);
+            v.tools.removeLegend();
+            v.tools.createLegend();
+            v.tools.executeResize();
             v.tools.createCustomizeWizardIfNotRendering();
         }
         return graph;
@@ -4394,25 +4480,28 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
      * @returns {(boolean|Object)} The current config value if no parameter is given or the graph object for method chaining.
      */
     graph.alignFixedNodesToGrid = function(value) {
+        var width, height;
         if (!arguments.length) {
             return v.conf.alignFixedNodesToGrid;
         }
         v.conf.alignFixedNodesToGrid = value;
         if (v.status.graphStarted) {
+            width = v.tools.getGraphWidth();
+            height = v.tools.getGraphHeight();
             // align fixed nodes to grid
             if (v.conf.alignFixedNodesToGrid) {
                 // NO aligning on the very first start: this would overwrite user defined positions
                 if (v.status.graphReady) {
                     v.main.nodes.each(function(n) {
                         if (n.fixed) {
-                            n.x = n.px = v.tools.getNearestGridPosition(n.x, v.conf.width);
-                            n.y = n.py = v.tools.getNearestGridPosition(n.y, v.conf.height);
+                            n.x = n.px = v.tools.getNearestGridPosition(n.x, width);
+                            n.y = n.py = v.tools.getNearestGridPosition(n.y, height);
                         }
                     });
                 }
                 v.main.drag.on("dragend", function(n) {
-                    n.x = n.px = v.tools.getNearestGridPosition(n.x, v.conf.width);
-                    n.y = n.py = v.tools.getNearestGridPosition(n.y, v.conf.height);
+                    n.x = n.px = v.tools.getNearestGridPosition(n.x, width);
+                    n.y = n.py = v.tools.getNearestGridPosition(n.y, height);
                 });
             } else {
                 v.main.drag.on("dragend", null);
@@ -4696,6 +4785,9 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
         }
         v.conf.width = value;
         if (v.status.graphStarted) {
+            if (v.conf.keepAspectRatioOnResize) {
+                v.conf.height = v.conf.width * 1 / v.status.aspectRatio;
+            }
             v.tools.executeResize();
             v.tools.createCustomizeWizardIfNotRendering();
         }
@@ -4716,11 +4808,10 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
         }
         v.conf.height = value;
         if (v.status.graphStarted) {
-            v.tools.executeResize();
-            if (v.conf.showLegend) {
-                v.tools.removeLegend();
-                v.tools.createLegend();
+            if (v.conf.keepAspectRatioOnResize) {
+                v.conf.width = v.conf.height * v.status.aspectRatio;
             }
+            v.tools.executeResize();
             v.tools.createCustomizeWizardIfNotRendering();
         }
         return graph;
