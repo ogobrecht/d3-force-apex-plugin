@@ -89,7 +89,6 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
         v.status.wrapLabelsOnNextTick = false;
         v.status.labelFontSize = null;
         v.status.resizeTriggered = false;
-        v.status.executeResizeEventOnceAfterForceEnd = false;
 
         // default configuration
         v.confDefaults.minNodeRadius = {
@@ -370,21 +369,21 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
             "display": true,
             "relation": "graph",
             "type": "bool",
-            "val": false,
+            "val": true,
             "options": [true, false]
         };
         v.confDefaults.zoomToFitOnResize = {
             "display": true,
             "relation": "graph",
             "type": "bool",
-            "val": false,
+            "val": true,
             "options": [true, false]
         };
         v.confDefaults.keepAspectRatioOnResize = {
             "display": true,
             "relation": "graph",
             "type": "bool",
-            "val": false,
+            "val": true,
             "options": [true, false]
         };
         v.confDefaults.onResizeFunctionTimeout = {
@@ -849,7 +848,6 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
                     .attr("cy", function(n) {
                         return n.y;
                     });
-
             })
             .on("end", function() {
                 if (v.conf.showLabels && v.conf.preventLabelOverlappingOnForceEnd) {
@@ -931,10 +929,6 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
                 }
                 if (typeof(v.conf.onForceEndFunction) === "function") {
                     v.conf.onForceEndFunction.call(v.dom.svg);
-                }
-                if (v.status.executeResizeEventOnceAfterForceEnd) {
-                    v.tools.executeResizeEvent();
-                    v.status.executeResizeEventOnceAfterForceEnd = false;
                 }
             });
 
@@ -1083,7 +1077,7 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
         return obj;
     };
     
-    // get inner width for the SVG parents element
+    // get inner width for the SVGs parent element
     v.tools.getSvgParentInnerWidth = function() {
         return parseInt(v.dom.svgParent.style("width")) -
             parseInt(v.dom.svgParent.style("padding-left")) -
@@ -1139,12 +1133,7 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
         if (v.status.graphStarted && !v.status.resizeTriggered) {
             v.status.resizeTriggered = true;
             setTimeout(function(){
-                if (v.status.forceRunning) {
-                    v.status.executeResizeEventOnceAfterForceEnd = true;
-                }
-                else {
-                    v.tools.executeResizeEvent();
-                }
+                v.tools.executeResizeEvent();
             }, v.conf.onResizeFunctionTimeout);
         }
     };
@@ -1164,7 +1153,9 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
     // https://github.com/que-etc/resize-observer-polyfill
     v.tools.ResizeObserver = new ResizeObserver( function (entries, observer) {
         entries.forEach( function (entry) {
-            v.tools.executeResize();
+            if (v.conf.useDomParentWidth) {
+                v.tools.executeResize();
+            }
         });
     });
 
@@ -3507,6 +3498,12 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
             v.status.aspectRatio = v.conf.width / v.conf.height;
         }
 
+        // recreate the legend
+        v.tools.removeLegend();
+        v.tools.createLegend();
+        // set inital size values
+        v.tools.executeResize();
+
         // initialize the graph (some options implicit initializes v.main.force, e.g. linkDistance, charge, ...)
         graph
             .debug(v.conf.debug)
@@ -3528,12 +3525,6 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
             .linkStrength(v.conf.linkStrength)
             .friction(v.conf.friction)
             .theta(v.conf.theta);
-
-        // recreate the legend
-        v.tools.removeLegend();
-        v.tools.createLegend();
-        // set inital size values
-        v.tools.executeResize();
 
 
         // start visualization
@@ -4358,7 +4349,7 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
     /**
      * When the graph is resized, the initial aspect ratio (width and height on first render cycle) is respected:
      *
-     *     //change config and resize once
+     *     //change config and resize height (width will change implicit based on initial aspect ratio)
      *     example.keepAspectRatioOnResize(true).height(400);
      *
      * @see {@link module:API.width}
@@ -4713,9 +4704,9 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
     };
 
     /**
-     * If true, the width of the chart(SVG element) is aligned to its DOM parent element. Needs a `render` call to take into effect:
+     * If true, the width of the chart(SVG element) is aligned to its DOM parent element. No `render` or `resume` call needed to take into effect:
      *
-     *     example.useDomParentWidth(true).render();
+     *     example.useDomParentWidth(true);
      * @see {@link module:API.setDomParentPaddingToZero}
      * @param {boolean} [value=false] - The new config value.
      * @returns {(boolean|Object)} The current config value if no parameter is given or the graph object for method chaining.
@@ -4731,6 +4722,12 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
             } else {
                 v.tools.ResizeObserver.unobserve(v.dom.svgParent.node());
             }
+            // legend was not shown up correctly after option change of useDomParentWidth
+            if (v.conf.showLegend) {
+                v.tools.removeLegend();
+                v.tools.createLegend();
+            }
+            v.tools.executeResize();
         }
         return graph;
     };
