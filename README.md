@@ -22,16 +22,19 @@ This is a D3 force implementation, playground and Oracle APEX plugin, which uses
 - Nodes can be pinned and the current positions can be saved and loaded to predefine a layout - optionally you can align the nodes to a grid when they are dragged around
 - With the lasso mode you can select nodes and implement a graphical multi select
 - The graph can be zoomed between the two configured min and max scale factors and is callable with the API
-- There is a JavaScript API to interact with the graph, also including eight events (node click, node double click, node contextmenu, node mouse enter, node mouse leave, link click, lasso start, lasso end)
-- All eight events are available in APEX - the plugin region can be AJAX refreshed and triggers then also apexbeforerefresh and apexafterrefresh
-- Since 2.0.0: Automatic label placement after force end to prevent overlapping (optional, per default switched off), links can now have a COLOR and a INFOSTRING attribute - see also the change log
-- NEW in 2.1.0: Labels can be wrapped and the zoom can be configured to fit in the available space - see also the change log
+- There is a JavaScript API to interact with the graph, also including 12 events (node click, node double click, node contextmenu, node mouse enter, node mouse leave, link click, lasso start, lasso end, force start, force end, render end, resize)
+- All 12 events are available in APEX - the plugin region can be AJAX refreshed and triggers then also apexbeforerefresh and apexafterrefresh
+- FIXME: Update from APEX demo app home page
 
 
 ## Requirements
 
 - APEX 4.2 or higher, if used as a plugin
 - A modern browser, who is able to work with SVG and CSS3 - for more informations see the [D3 Wiki](https://github.com/mbostock/d3/wiki#browser--platform-support)
+
+## Installation
+
+- FIXME: provide infos
 
 ## Credits
 
@@ -40,7 +43,7 @@ I would like to say THANK YOU to all the people who share their knowledge. Witho
 
 ## Roadmap
 
-### 3.0.0 (201x-xx-xx) in planning
+### 4.0.0 (201x-xx-xx) in planning
 
 - Update to current D3 version (5.x.x): [link 1](https://github.com/d3/d3/blob/master/CHANGES.md#forces-d3-force), [link 2](https://github.com/d3/d3-force/blob/master/README.md)
 - Devide code base into modularized graph code and APEX plugin code in different repos to make clear, that the graph function can run in any HTML environment
@@ -52,7 +55,35 @@ This D3 force implementation uses [semantic versioning](http://semver.org).
 
 Please refer to the [documentation](https://ogobrecht.github.io/d3-force-apex-plugin/) for more informations on how to get started and an overview of all graph methods. Please use for all comments and discussions the [issues functionality on GitHub](https://github.com/ogobrecht/d3-force-apex-plugin/issues).
 
-### 2.2.0 (2018-09-xx)
+
+### 3.0.0 (2018-10-xx)
+
+Because of breaking API changes we have a new major realease:
+
+- Overall improvements
+  - Better responsibility by implementing a ResizObserver (native in Chrome since v64, polyfill for other browsers)
+    - Default true for the following options: `zoomToFitOnForceEnd` (was false in the past), `zoomToFitOnResize` (new option), `keepAspectRatioOnResize` (new option)
+    - When setting the option `useDomParentWidth` to true together with the previous mentioned defaults you can achieve a responsibility like with images set to width 100% - see the [online demo][4] and play around with it
+  - All zoom relevant methods are no longer depending on the `zoomMode` - they work simply always
+  - The `zoomMode` sets only the ability for the end user to use zoom and pan 
+- Fixed
+  - APEX plug-in - sample data is rendered before live data (#32) - thanks are going to github.com/Ignacius68 for finding this bug
+- New events
+  - Resize ([API reference](https://ogobrecht.github.io/d3-force-apex-plugin/module-API.html#.onResizeFunction))
+- New options
+  - onResizeFunction ([API reference](https://ogobrecht.github.io/d3-force-apex-plugin/module-API.html#.onResizeFunction))
+  - onResizeFunctionTimeout ([API reference](https://ogobrecht.github.io/d3-force-apex-plugin/module-API.html#.onResizeFunctionTimeout))
+  - zoomToFitOnResize ([API reference](https://ogobrecht.github.io/d3-force-apex-plugin/module-API.html#.zoomToFitOnResize))
+  - keepAspectRatioOnResize ([API reference](https://ogobrecht.github.io/d3-force-apex-plugin/module-API.html#.keepAspectRatioOnResize))
+- Changed methods
+  - `zoom` has now a parameter `duration` ([API reference](https://ogobrecht.github.io/d3-force-apex-plugin/module-API.html#.zoom))
+  - `translate` has now a parameter `duration` ([API reference](https://ogobrecht.github.io/d3-force-apex-plugin/module-API.html#.translate))
+  - `useDomParentWidth` ([API reference](https://ogobrecht.github.io/d3-force-apex-plugin/module-API.html#.useDomParentWidth)) no longer needs a render call to take into effect - it works now immediately; Please remove unneccesary render calls to save CPU and battery time
+- Deprecated methods for clean API
+  - `zoomSmooth` - can be replaced with the `zoom` method ([API reference](https://ogobrecht.github.io/d3-force-apex-plugin/module-API.html#.zoom)), please provide a appropriate duration parameter (default is 1500 with zoomSmooth)
+
+
+### 2.2.0 (2018-09-29)
 
 - New events
   - Render end ([API reference](https://ogobrecht.github.io/d3-force-apex-plugin/module-API.html#.onRenderEndFunction))
@@ -62,7 +93,7 @@ Please refer to the [documentation](https://ogobrecht.github.io/d3-force-apex-pl
   - nodes ([API reference](https://ogobrecht.github.io/d3-force-apex-plugin/module-API.html#.nodes))
   - links ([API reference](https://ogobrecht.github.io/d3-force-apex-plugin/module-API.html#.links))
   - selfLinks ([API reference](https://ogobrecht.github.io/d3-force-apex-plugin/module-API.html#.selfLinks))
-  - All three returning a D3 selection (array) for direct manipulation with D3 methods like `style` or `classed` - see also the [D3 docs](https://github.com/d3/d3-3.x-api-reference/blob/master/Selections.md#operating-on-selections)
+  - All three returning a D3 selection (array) for direct manipulation with D3 methods like `style` or `classed` - also see the [D3 docs](https://github.com/d3/d3-3.x-api-reference/blob/master/Selections.md#operating-on-selections)
 
 Thanks are going to github.com/Ignacius68 for the inspiration.
 

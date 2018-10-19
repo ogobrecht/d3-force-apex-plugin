@@ -11,7 +11,7 @@ BEGIN
 
    apex_css.add_file( p_name      => 'd3-force-'
                     , p_directory => p_plugin.file_prefix
-                    , p_version   => '2.2.0' );
+                    , p_version   => '3.0.beta1' );
 
    apex_javascript.add_library( p_name                  => 'd3-'
                               , p_directory             => p_plugin.file_prefix
@@ -20,7 +20,7 @@ BEGIN
 
    apex_javascript.add_library( p_name                  => 'd3-force-'
                               , p_directory             => p_plugin.file_prefix
-                              , p_version               => '2.2.0'
+                              , p_version               => '3.0.beta1'
                               , p_check_to_add_minified => TRUE );
 
    HTP.p(    CASE
@@ -120,6 +120,12 @@ BEGIN
                                           WHEN p_region.attribute_15 IS NOT NULL THEN
                                                 '.onRenderEndFunction(' 
                                              || p_region.attribute_15
+                                             || ')'
+                                       END
+                                    || CASE
+                                          WHEN p_region.attribute_01 IS NOT NULL THEN
+                                                '.onResizeFunction(' 
+                                             || p_region.attribute_01
                                              || ')'
                                        END
                                     --> start the visualization

@@ -1,4 +1,4 @@
-Source Code: https://github.com/tinker10/D3-Labeler
+FROM: https://github.com/tinker10/D3-Labeler/blob/master/LICENSE
 
 The MIT License (MIT)
 
