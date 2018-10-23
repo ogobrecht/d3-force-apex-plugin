@@ -6,6 +6,7 @@
 [4]: https://ogobrecht.github.io/d3-force-apex-plugin/tutorial-1-getting-started.html
 [5]: https://apex.oracle.com/pls/apex/f?p=18290
 
+
 # Oracle APEX Region Type Plugin: D3 Force Network Chart
 
 This is a D3 force implementation, playground and Oracle APEX plugin, which uses the
@@ -20,11 +21,11 @@ This is a D3 force implementation, playground and Oracle APEX plugin, which uses
 - Optional tooltips depending on the given INFOSTRING attribute in your source data
 - If you have a node attribute called LINK, you can define on which event the URL should be called - default is dblclick - try it out in the online demos by double clicking the node KING
 - Nodes can be pinned and the current positions can be saved and loaded to predefine a layout - optionally you can align the nodes to a grid when they are dragged around
+- Labels can be wrapped and placed after force end to prevent overlapping (optional, per default switched off)
 - With the lasso mode you can select nodes and implement a graphical multi select
-- The graph can be zoomed between the two configured min and max scale factors and is callable with the API
-- There is a JavaScript API to interact with the graph, also including 12 events (node click, node double click, node contextmenu, node mouse enter, node mouse leave, link click, lasso start, lasso end, force start, force end, render end, resize)
+- The graph can be zoomed between the two configured min and max scale factors
+- There is a JavaScript API to interact with the graph ([API reference][3]), also including 12 events (node click, node double click, node contextmenu, node mouse enter, node mouse leave, link click, lasso start, lasso end, force start, force end, render end, resize)
 - All 12 events are available in APEX - the plugin region can be AJAX refreshed and triggers then also apexbeforerefresh and apexafterrefresh
-- FIXME: Update from APEX demo app home page
 
 
 ## Requirements
@@ -32,9 +33,22 @@ This is a D3 force implementation, playground and Oracle APEX plugin, which uses
 - APEX 4.2 or higher, if used as a plugin
 - A modern browser, who is able to work with SVG and CSS3 - for more informations see the [D3 Wiki](https://github.com/mbostock/d3/wiki#browser--platform-support)
 
+
+
 ## Installation
 
-- FIXME: provide infos
+
+### APEX
+
+- Download the [latest version][1]
+- Install the plugin by importing the sql file in the folder `apex-plugin`
+
+
+### Any HTML page
+
+- Download the [latest version][1]
+- See `dist/example.html` and `docs/tutorial-1-getting-started.html`
+
 
 ## Credits
 
