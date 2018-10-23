@@ -13,6 +13,11 @@ BEGIN
                     , p_directory => p_plugin.file_prefix
                     , p_version   => '3.0.beta1' );
 
+   apex_javascript.add_library( p_name                  => 'ResizeObserver-'
+                              , p_directory             => p_plugin.file_prefix
+                              , p_version               => '1.5.0'
+                              , p_check_to_add_minified => TRUE );
+
    apex_javascript.add_library( p_name                  => 'd3-'
                               , p_directory             => p_plugin.file_prefix
                               , p_version               => '3.5.6'
@@ -123,9 +128,9 @@ BEGIN
                                              || ')'
                                        END
                                     || CASE
-                                          WHEN p_region.attribute_01 IS NOT NULL THEN
+                                          WHEN p_region.attribute_16 IS NOT NULL THEN
                                                 '.onResizeFunction(' 
-                                             || p_region.attribute_01
+                                             || p_region.attribute_16
                                              || ')'
                                        END
                                     --> start the visualization

@@ -10,11 +10,11 @@
  *
  * The shortest possible way to get up and running a graph with the shipped sample data:
  *
- *     example = netGobrechtsD3Force().start();
+ *     example = netGobrechtsD3Force().render();
  *
  * You can then interact with the graph API like so:
  *
- *     example.width(800).height(600).resume();
+ *     example.width(800);
  * @see {@link module:API.start}
  * @see {@link module:API.render}
  * @see {@link module:API.resume}
@@ -292,7 +292,7 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
             "display": true,
             "relation": "graph",
             "type": "number",
-            "val": 500,
+            "val": 600,
             "options": [1200, 1150, 1100, 1050, 1000, 950, 900, 850, 800, 750, 700, 650, 600, 550, 500, 450, 400, 350,
                 300
             ]
@@ -301,7 +301,7 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
             "display": true,
             "relation": "graph",
             "type": "number",
-            "val": 500,
+            "val": 400,
             "options": [1200, 1150, 1100, 1050, 1000, 950, 900, 850, 800, 750, 700, 650, 600, 550, 500, 450, 400, 350,
                 300
             ]
@@ -649,8 +649,7 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
      * MAIN: SETUP DOM
      */
     v.main.setupDom = function() {
-        var width = v.tools.getGraphWidth();
-        var height = v.tools.getGraphHeight();
+        var width, height;
 
         // create reference to body
         v.dom.body = d3.select("body");
@@ -677,6 +676,10 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
         if (v.conf.setDomParentPaddingToZero) {
             v.dom.svgParent.style("padding", "0");
         }
+
+        // get width height depending on options
+        width = v.tools.getGraphWidth();
+        height = v.tools.getGraphHeight();
 
         // configure SVG element
         v.dom.svg
@@ -1096,12 +1099,12 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
         return (v.conf.useDomParentWidth ? v.tools.getSvgParentInnerWidth() : v.conf.width);
     };
 
-    // helper function to get effective graph width
+    // helper function to get effective graph height
     v.tools.getGraphHeight = function() {
         return (
             v.conf.useDomParentWidth ?
                 (v.conf.keepAspectRatioOnResize ? 
-                    v.tools.getSvgParentInnerWidth() * 1 / v.status.aspectRatio : 
+                    v.tools.getSvgParentInnerWidth() * 1 / (v.status.aspectRatio?v.status.aspectRatio:1.5) : 
                     v.conf.height) :
             v.conf.height
         );
@@ -1645,19 +1648,19 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
     // create legend
     v.tools.createLegend = function() {
         // save initial legend height for later use
-        var height = v.status.initialLegendHeight = v.tools.getGraphHeight();
+        v.status.initialLegendHeight = v.tools.getGraphHeight();
         v.data.distinctNodeColorValues.forEach(function(colorString, i) {
             var color = colorString.split(";");
             v.dom.legend
                 .append("circle")
                 .attr("cx", 11)
-                .attr("cy", height - ((i + 1) * 14 - 3))
+                .attr("cy", v.status.initialLegendHeight - ((i + 1) * 14 - 3))
                 .attr("r", 6)
                 .attr("fill", v.tools.color(color[1]));
             v.dom.legend
                 .append("text")
                 .attr("x", 21)
-                .attr("y", height - ((i + 1) * 14 - 6))
+                .attr("y", v.status.initialLegendHeight - ((i + 1) * 14 - 6))
                 .text((color[0] ? color[0] : color[1]));
         });
     };
@@ -1665,9 +1668,7 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
     // move legend
     v.tools.moveLegend = function() {
         var heightDifference = v.tools.getGraphHeight() - v.status.initialLegendHeight;
-        if (heightDifference !== 0) {
-            v.dom.legend.attr( "transform", "translate(0," + heightDifference + ")" );
-        }
+        v.dom.legend.attr( "transform", "translate(0," + heightDifference + ")" );
     };
 
     // remove legend
@@ -2861,14 +2862,6 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
 
         return lasso;
     };
-
-
-    /*******************************************************************************************************************
-     * MAIN
-     */
-
-    v.main.init();
-
 
     /*******************************************************************************************************************
      * PUBLIC GRAPH FUNCTION AND API METHODS
@@ -4779,7 +4772,7 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
      *
      *     example.width(800);
      * @see {@link module:API.height}
-     * @param {number} [value=500] - The new chart width value.
+     * @param {number} [value=600] - The new chart width value.
      * @returns {(number|Object)} The current chart width value if no parameter is given or the graph object for method chaining.
      */
     graph.width = function(value) {
@@ -4800,9 +4793,9 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
     /**
      * The height of the chart:
      *
-     *     example.height(600);
+     *     example.height(300);
      * @see {@link module:API.width}
-     * @param {number} [value=500] - The new chart height value.
+     * @param {number} [value=400] - The new chart height value.
      * @returns {(number|Object)} The current chart height value if no parameter is given or the graph object for method chaining.
      */
     graph.height = function(value) {
@@ -5656,9 +5649,11 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
     };
 
     /*******************************************************************************************************************
-     * Startup code - runs one time after the initialization of a new chart - example:
+     * Startup code - runs on the initialization of a new chart - example:
      * var myChart = net_gobrechts_d3_force( domContainerId, options, apexPluginId ).start();
      */
+
+    v.main.init();
 
     if (v.status.apexPluginId) {
         // bind to the apexrefresh event, so that this region can be refreshed by a dynamic action
@@ -5679,8 +5674,7 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
 
     }
 
-
-    // final return
+    // return the graph object for method chaining
     return graph;
 
 }
