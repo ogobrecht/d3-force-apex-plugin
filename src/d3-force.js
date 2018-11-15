@@ -927,7 +927,7 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
                 if (v.conf.zoomToFitOnForceEnd) {
                     graph.zoomToFit();
                 }
-                else {
+                else if (!v.conf.zoomMode) {
                     graph.center();
                 }
                 if (typeof(v.conf.onForceEndFunction) === "function") {
@@ -1082,10 +1082,14 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
     
     // get inner width for the SVGs parent element
     v.tools.getSvgParentInnerWidth = function() {
-        return parseInt(v.dom.svgParent.style("width")) -
+        var svgParentInnerWidth = parseInt(v.dom.svgParent.style("width"));
+        var svgBorderWidth = parseInt(v.dom.svg.style("border-width"));
+        svgParentInnerWidth = 
+            (isNaN(svgParentInnerWidth) ? v.conf.width : svgParentInnerWidth) -
             parseInt(v.dom.svgParent.style("padding-left")) -
             parseInt(v.dom.svgParent.style("padding-right")) -
-            (v.dom.svg.style("border-width") ? parseInt(v.dom.svg.style("border-width")) : 1) * 2;
+            (isNaN(svgBorderWidth) ? 1 : svgBorderWidth) * 2;
+        return svgParentInnerWidth;
     };
 
     // helper function to get effective graph width
@@ -1120,8 +1124,9 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
         if (v.conf.zoomToFitOnResize) {
             graph.zoomToFit(0);
         }
-        // The old default was resume(), which also centers the graph, so we fallback to center() for performance reasons.
-        else {
+        // The old default was resume(), which also centers the graph, 
+        // so we fallback to center() for performance reasons.
+        else if (!v.conf.zoomMode) {
             graph.center(0);
         }
         if (v.conf.showLegend) {
@@ -4269,11 +4274,15 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
         svg.width = v.tools.getGraphWidth();
         svg.height = v.tools.getGraphHeight();
         graph_ = v.dom.graph.node().getBBox();
-        scale = Math.min((svg.height - 2 * padding) / graph_.height,
-            (svg.width - 2 * padding) / graph_.width);
-        x = (svg.width - graph_.width * scale) / 2 - graph_.x * scale;
-        y = (svg.height - graph_.height * scale) / 2 - graph_.y * scale;
-        v.main.interpolateZoom([x, y], scale, duration);
+        // If the graph is hidden we get 0 for width and height. zoom will then fail because
+        // the calculation results in NaN for the translation (x, y) and infinity for the scale.
+        if (graph_.width > 0 && graph_.height > 0) {
+            scale = Math.min((svg.height - 2 * padding) / graph_.height,
+                (svg.width - 2 * padding) / graph_.width);
+            x = (svg.width - graph_.width * scale) / 2 - graph_.x * scale;
+            y = (svg.height - graph_.height * scale) / 2 - graph_.y * scale;
+            v.main.interpolateZoom([x, y], scale, duration);
+        }
         return graph;
     };
 
