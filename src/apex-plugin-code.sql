@@ -11,7 +11,7 @@ BEGIN
 
    apex_css.add_file( p_name      => 'd3-force-'
                     , p_directory => p_plugin.file_prefix
-                    , p_version   => '3.0.beta2' );
+                    , p_version   => '3.0.0' );
 
    apex_javascript.add_library( p_name                  => 'ResizeObserver-'
                               , p_directory             => p_plugin.file_prefix
@@ -25,7 +25,7 @@ BEGIN
 
    apex_javascript.add_library( p_name                  => 'd3-force-'
                               , p_directory             => p_plugin.file_prefix
-                              , p_version               => '3.0.beta2'
+                              , p_version               => '3.0.0'
                               , p_check_to_add_minified => TRUE );
 
    HTP.p(    CASE

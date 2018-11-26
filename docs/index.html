@@ -48,7 +48,7 @@
 
 
     <section class="readme">
-        <article><p><a href="https://github.com/ogobrecht/d3-force-apex-plugin/releases/latest">Latest version</a> | <a href="https://ogobrecht.github.io/d3-force-apex-plugin/">Documentation</a> | <a href="https://ogobrecht.github.io/d3-force-apex-plugin/module-API.html">API Reference</a> | <a href="https://ogobrecht.github.io/d3-force-apex-plugin/tutorial-1-getting-started.html">Online demo</a> | <a href="https://apex.oracle.com/pls/apex/f?p=18290">APEX Plugin demo</a></p>
+        <article><p><a href="https://github.com/ogobrecht/d3-force-apex-plugin/releases/latest">Latest version</a> | <a href="https://ogobrecht.github.io/d3-force-apex-plugin/">Docs &amp; API Reference</a> | <a href="https://ogobrecht.github.io/d3-force-apex-plugin/tutorial-1-getting-started.html">Online demo</a> | <a href="https://apex.oracle.com/pls/apex/f?p=18290">APEX Plugin demo</a></p>
 <h1>Oracle APEX Region Type Plugin: D3 Force Network Chart</h1><p>This is a D3 force implementation, playground and Oracle APEX plugin, which uses the<br><a href="http://d3js.org/">D3 visualization library</a> to render a network layout. It has the following features:</p>
 <ul>
 <li>Works with APEX versions 4.2.x and 5.x or standalone in every HTML page</li>
@@ -63,7 +63,7 @@
 <li>Labels can be wrapped and placed after force end to prevent overlapping (optional, per default switched off)</li>
 <li>With the lasso mode you can select nodes and implement a graphical multi select</li>
 <li>The graph can be zoomed between the two configured min and max scale factors</li>
-<li>There is a JavaScript API to interact with the graph (<a href="https://ogobrecht.github.io/d3-force-apex-plugin/module-API.html">API reference</a>), also including 12 events (node click, node double click, node contextmenu, node mouse enter, node mouse leave, link click, lasso start, lasso end, force start, force end, render end, resize)</li>
+<li>There is a JavaScript API to interact with the graph (<a href="https://ogobrecht.github.io/d3-force-apex-plugin/">API reference</a>), also including 12 events (node click, node double click, node contextmenu, node mouse enter, node mouse leave, link click, lasso start, lasso end, force start, force end, render end, resize)</li>
 <li>All 12 events are available in APEX - the plugin region can be AJAX refreshed and triggers then also apexbeforerefresh and apexafterrefresh</li>
 </ul>
 <h2>Requirements</h2><ul>
@@ -85,7 +85,7 @@
 </ul>
 <h2>Changelog</h2><p>This D3 force implementation uses <a href="http://semver.org">semantic versioning</a>.</p>
 <p>Please refer to the <a href="https://ogobrecht.github.io/d3-force-apex-plugin/">documentation</a> for more informations on how to get started and an overview of all graph methods. Please use for all comments and discussions the <a href="https://github.com/ogobrecht/d3-force-apex-plugin/issues">issues functionality on GitHub</a>.</p>
-<h3>3.0.0 (2018-10-xx)</h3><p>Because of breaking API changes we have a new major realease:</p>
+<h3>3.0.0 (2018-11-26)</h3><p>Because of breaking API changes we have a new major realease:</p>
 <ul>
 <li>Overall improvements<ul>
 <li>Better responsibility by implementing a ResizObserver (native in Chrome since v64, polyfill for other browsers)<ul>
@@ -93,7 +93,7 @@
 <li>When setting the option <code>useDomParentWidth</code> to true together with the previous mentioned defaults you can achieve a responsibility like with images set to width 100% - see the <a href="https://ogobrecht.github.io/d3-force-apex-plugin/tutorial-1-getting-started.html">online demo</a> and play around with it</li>
 </ul>
 </li>
-<li>All zoom relevant methods are no longer depending on the <code>zoomMode</code> - they work simply always</li>
+<li>All zoom relevant API methods are no longer depending on the <code>zoomMode</code> - they work simply always</li>
 <li>The <code>zoomMode</code> sets only the ability for the end user to use zoom and pan </li>
 </ul>
 </li>
@@ -106,6 +106,7 @@
 </ul>
 </li>
 <li>New options<ul>
+<li>labelSplitCharacter (<a href="https://ogobrecht.github.io/d3-force-apex-plugin/module-API.html#.labelSplitCharacter">API reference</a>)</li>
 <li>onResizeFunction (<a href="https://ogobrecht.github.io/d3-force-apex-plugin/module-API.html#.onResizeFunction">API reference</a>)</li>
 <li>onResizeFunctionTimeout (<a href="https://ogobrecht.github.io/d3-force-apex-plugin/module-API.html#.onResizeFunctionTimeout">API reference</a>)</li>
 <li>zoomToFitOnResize (<a href="https://ogobrecht.github.io/d3-force-apex-plugin/module-API.html#.zoomToFitOnResize">API reference</a>)</li>
@@ -114,7 +115,7 @@
 </li>
 <li>Changed methods<ul>
 <li><code>zoom</code> has now a parameter <code>duration</code> (<a href="https://ogobrecht.github.io/d3-force-apex-plugin/module-API.html#.zoom">API reference</a>)</li>
-<li><code>translate</code> has now a parameter <code>duration</code> (<a href="https://ogobrecht.github.io/d3-force-apex-plugin/module-API.html#.translate">API reference</a>)</li>
+<li><code>transform</code> has now a parameter <code>duration</code> (<a href="https://ogobrecht.github.io/d3-force-apex-plugin/module-API.html#.transform">API reference</a>)</li>
 <li><code>useDomParentWidth</code> (<a href="https://ogobrecht.github.io/d3-force-apex-plugin/module-API.html#.useDomParentWidth">API reference</a>) no longer needs a render call to take into effect - it works now immediately; Please remove unneccesary render calls to save CPU and battery time</li>
 </ul>
 </li>
@@ -123,6 +124,7 @@
 </ul>
 </li>
 </ul>
+<p>Thanks are going to github.com/Ignacius68 for the idea for option <code>labelSplitCharacter</code> and all the beta testing.</p>
 <h3>2.2.0 (2018-09-29)</h3><ul>
 <li>New events<ul>
 <li>Render end (<a href="https://ogobrecht.github.io/d3-force-apex-plugin/module-API.html#.onRenderEndFunction">API reference</a>)</li>
@@ -265,7 +267,7 @@
 <br class="clear">
 
 <footer>
-    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Thu Nov 15 2018 16:31:22 GMT+0100 (Mitteleuropäische Zeit) using the Minami theme.
+    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Mon Nov 26 2018 16:52:23 GMT+0100 (Mitteleuropäische Zeit) using the Minami theme.
 </footer>
 
 <script>prettyPrint();</script>

@@ -1,10 +1,9 @@
-[Latest version][1] | [Documentation][2] | [API Reference][3] | [Online demo][4] | [APEX Plugin demo][5]
+[Latest version][zip] | [Docs & API Reference][docs] | [Online demo][demo] | [APEX Plugin demo][apexdemo]
 
-[1]: https://github.com/ogobrecht/d3-force-apex-plugin/releases/latest
-[2]: https://ogobrecht.github.io/d3-force-apex-plugin/
-[3]: https://ogobrecht.github.io/d3-force-apex-plugin/module-API.html
-[4]: https://ogobrecht.github.io/d3-force-apex-plugin/tutorial-1-getting-started.html
-[5]: https://apex.oracle.com/pls/apex/f?p=18290
+[zip]: https://github.com/ogobrecht/d3-force-apex-plugin/releases/latest
+[docs]: https://ogobrecht.github.io/d3-force-apex-plugin/
+[demo]: https://ogobrecht.github.io/d3-force-apex-plugin/tutorial-1-getting-started.html
+[apexdemo]: https://apex.oracle.com/pls/apex/f?p=18290
 
 
 # Oracle APEX Region Type Plugin: D3 Force Network Chart
@@ -24,9 +23,8 @@ This is a D3 force implementation, playground and Oracle APEX plugin, which uses
 - Labels can be wrapped and placed after force end to prevent overlapping (optional, per default switched off)
 - With the lasso mode you can select nodes and implement a graphical multi select
 - The graph can be zoomed between the two configured min and max scale factors
-- There is a JavaScript API to interact with the graph ([API reference][3]), also including 12 events (node click, node double click, node contextmenu, node mouse enter, node mouse leave, link click, lasso start, lasso end, force start, force end, render end, resize)
+- There is a JavaScript API to interact with the graph ([API reference][docs]), also including 12 events (node click, node double click, node contextmenu, node mouse enter, node mouse leave, link click, lasso start, lasso end, force start, force end, render end, resize)
 - All 12 events are available in APEX - the plugin region can be AJAX refreshed and triggers then also apexbeforerefresh and apexafterrefresh
-
 
 ## Requirements
 
@@ -40,13 +38,13 @@ This is a D3 force implementation, playground and Oracle APEX plugin, which uses
 
 ### APEX
 
-- Download the [latest version][1]
+- Download the [latest version][zip]
 - Install the plugin by importing the sql file in the folder `apex-plugin`
 
 
 ### Any HTML page
 
-- Download the [latest version][1]
+- Download the [latest version][zip]
 - See `dist/example.html` and `docs/tutorial-1-getting-started.html`
 
 
@@ -70,32 +68,34 @@ This D3 force implementation uses [semantic versioning](http://semver.org).
 Please refer to the [documentation](https://ogobrecht.github.io/d3-force-apex-plugin/) for more informations on how to get started and an overview of all graph methods. Please use for all comments and discussions the [issues functionality on GitHub](https://github.com/ogobrecht/d3-force-apex-plugin/issues).
 
 
-### 3.0.0 (2018-10-xx)
+### 3.0.0 (2018-11-26)
 
 Because of breaking API changes we have a new major realease:
 
 - Overall improvements
   - Better responsibility by implementing a ResizObserver (native in Chrome since v64, polyfill for other browsers)
     - Default true for the following options: `zoomToFitOnForceEnd` (was false in the past), `zoomToFitOnResize` (new option), `keepAspectRatioOnResize` (new option)
-    - When setting the option `useDomParentWidth` to true together with the previous mentioned defaults you can achieve a responsibility like with images set to width 100% - see the [online demo][4] and play around with it
-  - All zoom relevant methods are no longer depending on the `zoomMode` - they work simply always
+    - When setting the option `useDomParentWidth` to true together with the previous mentioned defaults you can achieve a responsibility like with images set to width 100% - see the [online demo][demo] and play around with it
+  - All zoom relevant API methods are no longer depending on the `zoomMode` - they work simply always
   - The `zoomMode` sets only the ability for the end user to use zoom and pan 
 - Fixed
   - APEX plug-in - sample data is rendered before live data (#32) - thanks are going to github.com/Ignacius68 for finding this bug
 - New events
   - Resize ([API reference](https://ogobrecht.github.io/d3-force-apex-plugin/module-API.html#.onResizeFunction))
 - New options
+  - labelSplitCharacter ([API reference](https://ogobrecht.github.io/d3-force-apex-plugin/module-API.html#.labelSplitCharacter))
   - onResizeFunction ([API reference](https://ogobrecht.github.io/d3-force-apex-plugin/module-API.html#.onResizeFunction))
   - onResizeFunctionTimeout ([API reference](https://ogobrecht.github.io/d3-force-apex-plugin/module-API.html#.onResizeFunctionTimeout))
   - zoomToFitOnResize ([API reference](https://ogobrecht.github.io/d3-force-apex-plugin/module-API.html#.zoomToFitOnResize))
   - keepAspectRatioOnResize ([API reference](https://ogobrecht.github.io/d3-force-apex-plugin/module-API.html#.keepAspectRatioOnResize))
 - Changed methods
   - `zoom` has now a parameter `duration` ([API reference](https://ogobrecht.github.io/d3-force-apex-plugin/module-API.html#.zoom))
-  - `translate` has now a parameter `duration` ([API reference](https://ogobrecht.github.io/d3-force-apex-plugin/module-API.html#.translate))
+  - `transform` has now a parameter `duration` ([API reference](https://ogobrecht.github.io/d3-force-apex-plugin/module-API.html#.transform))
   - `useDomParentWidth` ([API reference](https://ogobrecht.github.io/d3-force-apex-plugin/module-API.html#.useDomParentWidth)) no longer needs a render call to take into effect - it works now immediately; Please remove unneccesary render calls to save CPU and battery time
 - Deprecated methods for clean API
   - `zoomSmooth` - can be replaced with the `zoom` method ([API reference](https://ogobrecht.github.io/d3-force-apex-plugin/module-API.html#.zoom)), please provide a appropriate duration parameter (default is 1500 with zoomSmooth)
 
+Thanks are going to github.com/Ignacius68 for the idea for option `labelSplitCharacter` and all the beta testing.
 
 ### 2.2.0 (2018-09-29)
 

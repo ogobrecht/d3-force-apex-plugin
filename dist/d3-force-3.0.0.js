@@ -1,5 +1,5 @@
 /**
- * D3 Force Network Chart - v3.0.beta2 - 2018-11-15
+ * D3 Force Network Chart - v3.0.0 - 2018-11-26
  * https://github.com/ogobrecht/d3-force-apex-plugin
  * Copyright (c) 2015-2018 Ottmar Gobrecht - MIT license
  */
@@ -42,7 +42,7 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
         "main": {},
         "status": {},
         "tools": {},
-        "version": "3.0.beta2"
+        "version": "3.0.0"
     };
 
     /**
@@ -3504,7 +3504,9 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
 
         // recreate the legend
         v.tools.removeLegend();
-        v.tools.createLegend();
+        if (v.conf.showLegend) {
+            v.tools.createLegend();
+        }
         // set inital size values
         v.tools.executeResize();
 
@@ -3769,8 +3771,8 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
     };
 
     /**
-     * If not equal "none" labels are splitted on this character. Needs wrapLabels to be true and a `render` call to take into effect:
-     *
+     * If set to a value other then `none` labels are splitted on this character. Needs `wrapLabels` to be true and a `render` call to take into effect. If both options `labelSplitCharacter` and `wrappedLabelWidth` are set, then `wrappedLabelWidth` is ignored.
+     * 
      *     example.wrapLabels(true).labelSplitCharacter("^").render();
      * @see {@link module:API.showLabels}
      * @see {@link module:API.wrappedLabelWidth}
@@ -3795,7 +3797,7 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
     };
 
     /**
-     * The width of the labels, if option `wrapLabels` is set to true. Needs a `render` call to take into effect:
+     * The width of the labels, if option `wrapLabels` is set to true. Needs a `render` call to take into effect. This option is ignored when `labelSplitCharacter` is set to a value other then `none`.
      *
      *     example.wrappedLabelWidth(40).render();
      * @see {@link module:API.showLabels}
@@ -4216,6 +4218,7 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
      * @see {@link module:API.zoom}
      * @see {@link module:API.zoomSmooth}
      * @param {Object} [transform={“translate”:[0,0],“scale”:1}] - The new config value.
+     * @param {number} [duration=500] - The transition duration in milliseconds.
      * @returns {Object} The current config value if no parameter is given or the graph object for method chaining.
      */
     graph.transform = function(transform, duration) {

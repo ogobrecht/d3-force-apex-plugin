@@ -5,6 +5,23 @@ The graph above was started with this code:
 {{EXAMPLE-GRAPH-CODE}}
 ```
 
+## Installation
+
+
+### APEX
+
+- Download the [latest version][zip]
+- Install the plugin by importing the sql file in the folder `apex-plugin`
+
+
+### Any HTML page
+
+- Download the [latest version][zip]
+- See `dist/example.html`
+
+[zip]: https://github.com/ogobrecht/d3-force-apex-plugin/releases/latest
+
+
 When using the Oracle APEX plugin, your variable to access the graph is automatically set by the plugin. You can open the JavaScript console in your browser and look for `d3_force_YOUR_REGION_STATIC_ID`. You can then interact with the graph - in the example we inspect the graphs current variables:
 
 ```js
