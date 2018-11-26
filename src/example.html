@@ -3,24 +3,32 @@
 
 <head>
   <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>D3 Force Network Chart</title>
 </head>
 
-<body>
+<body style="font-family:Arial, Helvetica, sans-serif">
   <h2>D3 Force Network Chart x.x.x example page</h2>
   <p>To play around with the graph options click the "Customize Me" link.</p>
-  <p>For more informations see also the <a href="https://ogobrecht.github.io/d3-force-apex-plugin/" target="_blank">docs</a>.</p>
+  <p>For more informations also see <a href="https://ogobrecht.github.io/d3-force-apex-plugin/" target="_blank">the docs</a>. <button onclick="example.useDomParentWidth((example.useDomParentWidth()?false:true))">Toggle option useDomParentWidth</button></p>
+  <div id="example"></div>
+  <p>The customization wizard, which opens by clicking the link "Customize me", is not intended to used by end users (and also not on small devices) - it is a convenience helper for developers to better understand the implications of the different graph options.</p>
+  <p>The link is only shown, when the debug mode is switched on, which is the case here for demonstration purposes. The debug mode writes many informations to the browser console - it should be switched off in a production environment.</p>
   <link  href="d3-force-x.x.x.css" rel="stylesheet" type="text/css">
-  <script src="d3/d3-3.5.6.min.js"></script>
+  <script src="lib/resize-observer-polyfill/ResizeObserver-1.5.0.min.js"></script>
+  <script src="lib/d3/d3-3.5.6.min.js"></script>
   <script src="d3-force-x.x.x.min.js"></script>
   <script>
   window.onload = function() {
       window.example = netGobrechtsD3Force('example')
-          .debug(true) //to enable the customization wizard
-          .lassoMode(true)
+          .width(600)
+          .height(400)
+          //.useDomParentWidth(true) //for responsive layout
           //.zoomMode(true)
-          .useDomParentWidth(true) //for responsive layout
+          .lassoMode(true)
           .wrapLabels(true)
+          .debug(true) //to enable the customization wizard
           .render(); //sample data is provided when called without data
           //see also https://ogobrecht.github.io/d3-force-apex-plugin/tutorial-1-getting-started.html
   }

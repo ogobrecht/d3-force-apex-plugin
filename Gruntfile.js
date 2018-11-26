@@ -9,18 +9,20 @@ module.exports = function(grunt) {
             '<%= pkg.homepage ? " * " + pkg.homepage + "\\n" : "" %>' +
             ' * Copyright (c) 2015<%= currentYear > 2015 ? "-" + currentYear : "" %> <%= pkg.author.name %> - <%= pkg.license %> license\n' +
             ' */\n',
-        exampleGraph: '<div id="example"></div><!--the graph container-->\n' +
-            '<link  href="./d3/d3-force-<%= pkg.version %>.css" rel="stylesheet" type="text/css">\n' +
-            '<script src="./d3/d3-3.5.6.min.js"></script>\n' +
-            '<script src="./d3/d3-force-<%= pkg.version %>.min.js"></script>\n' +
+        exampleGraph: '<button onclick="example.useDomParentWidth((example.useDomParentWidth()?false:true))">Toggle option useDomParentWidth</button>\n' + 
+            '<div id="example"></div><!--the graph container-->\n' +
+            '<link  href="./lib/d3-force-<%= pkg.version %>.css" rel="stylesheet" type="text/css">\n' +
+            '<script src="./lib/ResizeObserver-1.5.0.min.js"></script>\n' +
+            '<script src="./lib/d3-3.5.6.min.js"></script>\n' +
+            '<script src="./lib/d3-force-<%= pkg.version %>.min.js"></script>\n' +
             '<script>\n' +
             '  window.onload = function (){\n' +
             '    window.example = netGobrechtsD3Force("example")\n' +
-            '      .debug(true) //to enable the customization wizard\n' +
+            '      .width(600)\n' +
+            '      .height(400)\n' +
             '      .lassoMode(true)\n' +
-            '      //.zoomMode(true)\n' +
-            '      .useDomParentWidth(true) //for responsive layout\n' +
             '      .wrapLabels(true)\n' +
+            '      .debug(true) //also creates the "Customize Me" link\n' +
             '      .render(); //sample data is provided when called without data\n' +
             '  }\n' +
             '</script>\n',
@@ -80,16 +82,20 @@ module.exports = function(grunt) {
             },
             docs2: {
                 files: [{
-                        src: "dist/d3/d3-3.5.6.min.js",
-                        dest: "docs/d3/d3-3.5.6.min.js"
+                        src: "dist/lib/d3/d3-3.5.6.min.js",
+                        dest: "docs/lib/d3-3.5.6.min.js"
+                    },
+                    {
+                        src: "dist/lib/resize-observer-polyfill/ResizeObserver-1.5.0.min.js",
+                        dest: "docs/lib/ResizeObserver-1.5.0.min.js"
                     },
                     {
                         src: "dist/d3-force-<%= pkg.version %>.css",
-                        dest: "docs/d3/d3-force-<%= pkg.version %>.css"
+                        dest: "docs/lib/d3-force-<%= pkg.version %>.css"
                     },
                     {
                         src: "dist/d3-force-<%= pkg.version %>.min.js",
-                        dest: "docs/d3/d3-force-<%= pkg.version %>.min.js"
+                        dest: "docs/lib/d3-force-<%= pkg.version %>.min.js"
                     }
                 ]
             }
