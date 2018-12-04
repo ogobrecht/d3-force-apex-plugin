@@ -73,7 +73,7 @@ Please refer to the [documentation](https://ogobrecht.github.io/d3-force-apex-pl
 Because of breaking API changes we have a new major realease:
 
 - Overall improvements
-  - Better responsibility by implementing a ResizObserver (native in Chrome since v64, polyfill for other browsers)
+  - Better responsibility by implementing a resize observer (native in Chrome since v64, polyfill for other browsers)
     - Default true for the following options: `zoomToFitOnForceEnd` (was false in the past), `zoomToFitOnResize` (new option), `keepAspectRatioOnResize` (new option)
     - When setting the option `useDomParentWidth` to true together with the previous mentioned defaults you can achieve a responsibility like with images set to width 100% - see the [online demo][demo] and play around with it
   - All zoom relevant API methods are no longer depending on the `zoomMode` - they work simply always
