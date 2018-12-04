@@ -4318,9 +4318,9 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
     };
 
     /**
-     * Automatically zoom at resize (call of `width`, `height` or responsive change of parent container size with `useDomParentWidth` set to true), so that the whole graph is visible and optimal sized. 
+     * Automatically zoom at resize (API call of `width`, `height` or responsive change of parent container size with option `useDomParentWidth` set to true), so that the whole graph is visible and optimal sized. 
      * 
-     * The event is harmonized/delayed for for performance reasons. It could fire very often when for example the browser window is resized by the user. If the graph force simulation is running and not cooled down it is executed on the force end event. Also see the corresponding option `onResizeFunctionTimeout` which has a default value of 600.
+     * The event is harmonized/delayed for performance reasons. It could fire very often when for example the browser window is resized by the user. If the graph force simulation is running and not cooled down it is executed on the force end event. Also see the corresponding option `onResizeFunctionTimeout` which has a default value of 300 (milliseconds).
      * 
      * If you only want to resize your graph once than have a look at the command/helper method `zoomToFit`:
      *
@@ -4415,7 +4415,7 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
      * @see {@link module:API.transform}
      * @see {@link module:API.zoomToFit}
      * @see {@link module:API.zoomToFitOnForceEnd}
-     * @param {number} [value=600] - The new chart width value.
+     * @param {number} [value=300] - The new chart width value.
      * @returns {(number|Object)} The current chart width value if no parameter is given or the graph object for method chaining.
      */
     graph.onResizeFunctionTimeout = function(value) {
