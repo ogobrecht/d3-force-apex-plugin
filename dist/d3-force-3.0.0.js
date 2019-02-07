@@ -1,7 +1,7 @@
 /**
- * D3 Force Network Chart - v3.0.0 - 2018-12-04
+ * D3 Force Network Chart - v3.0.0 - 2019-02-07
  * https://github.com/ogobrecht/d3-force-apex-plugin
- * Copyright (c) 2015-2018 Ottmar Gobrecht - MIT license
+ * Copyright (c) 2015-2019 Ottmar Gobrecht - MIT license
  */
 
 /**
@@ -413,6 +413,13 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
             "val": 5000,
             "options": [60000, 30000, 15000, 10000, 5000, 2500]
         };
+        v.confDefaults.forceTimeLimit = {
+            "display": true,
+            "relation": "graph",
+            "type": "number",
+            "val": Infinity,
+            "options": [Infinity, 6400, 3200, 1600, 800, 400, 200, 100]
+        };
         v.confDefaults.chargeDistance = {
             "display": false,
             "relation": "graph",
@@ -564,7 +571,8 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
             v.tools.parseBool(v.confUser.autoRefresh) :
             v.confDefaults.autoRefresh.val);
         v.conf.refreshInterval = v.confUser.refreshInterval || v.confDefaults.refreshInterval.val;
-        v.conf.chargeDistance = v.confUser.chargeDistance || Infinity;
+        v.conf.forceTimeLimit = v.confUser.forceTimeLimit || v.confDefaults.forceTimeLimit.val;
+        v.conf.chargeDistance = v.confUser.chargeDistance || v.confDefaults.forceTimeLimit.val;
         v.conf.charge = v.confUser.charge || v.confDefaults.charge.val;
         v.conf.gravity = v.confUser.gravity || v.confDefaults.gravity.val;
         v.conf.linkStrength = v.confUser.linkStrength || v.confDefaults.linkStrength.val;
@@ -588,6 +596,7 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
         /* jshint -W110 */
         v.data.sampleData = '<data>' +
             '<nodes ID="7839" LABEL="KING is THE KING, you know?" LABELCIRCULAR="true" COLORVALUE="10" ' +
+            'IMAGE="crown.svg" ' +
             'COLORLABEL="Accounting" SIZEVALUE="5000" LINK="http://apex.oracle.com/" ' +
             'INFOSTRING="This visualization is based on the well known emp table." />' +
             '<nodes ID="7698" LABEL="BLAKE" COLORVALUE="30" COLORLABEL="Sales" SIZEVALUE="2850" />' +
@@ -857,6 +866,9 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
                     .attr("cy", function(n) {
                         return n.y;
                     });
+                if ( (new Date().getTime() - v.status.forceStartTime) > v.conf.forceTimeLimit){
+                    v.main.force.stop();
+                }
             })
             .on("end", function() {
                 if (v.conf.showLabels && v.conf.preventLabelOverlappingOnForceEnd) {
@@ -1648,6 +1660,29 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
             top: Math.round(top),
             left: Math.round(left)
         };
+    };
+
+    // get graph data with an error message for the user
+    v.tools.getGraphDataWithMessage = function (message) {
+        return {
+            "nodes": [{
+                "ID": "1",
+                "LABEL": "ERROR: " + message,
+                "COLORVALUE": "1",
+                "SIZEVALUE": "1"
+            }],
+            "links": []
+        };
+    };
+
+    // get nodes data with an error message for the user
+    v.tools.getNodesDataWithMessage = function (message) {
+        return [{
+                "ID": "1",
+                "LABEL": "ERROR: " + message,
+                "COLORVALUE": "1",
+                "SIZEVALUE": "1"
+            }];
     };
 
     // create legend
@@ -3017,32 +3052,12 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
                         if (v.data.dataConverted === null) {
                             message = "Unable to convert XML string.";
                             v.tools.logError(message);
-                            v.data.dataConverted = {
-                                "data": {
-                                    "nodes": [{
-                                        "ID": "1",
-                                        "LABEL": "ERROR: " + message,
-                                        "COLORVALUE": "1",
-                                        "SIZEVALUE": "1"
-                                    }],
-                                    "links": []
-                                }
-                            };
+                            v.data.dataConverted = v.tools.getGraphDataWithMessage(message);
                         }
                     } catch (e) {
                         message = "Unable to convert XML string: " + e.message + ".";
                         v.tools.logError(message);
-                        v.data.dataConverted = {
-                            "data": {
-                                "nodes": [{
-                                    "ID": "1",
-                                    "LABEL": "ERROR: " + message,
-                                    "COLORVALUE": "1",
-                                    "SIZEVALUE": "1"
-                                }],
-                                "links": []
-                            }
-                        };
+                        v.data.dataConverted = v.tools.getGraphDataWithMessage(message);
                     }
                 } else if (data.trim().substr(0, 1) === "{") {
                     try {
@@ -3050,32 +3065,12 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
                     } catch (e) {
                         message = "Unable to parse JSON string: " + e.message + ".";
                         v.tools.logError(message);
-                        v.data.dataConverted = {
-                            "data": {
-                                "nodes": [{
-                                    "ID": "1",
-                                    "LABEL": "ERROR: " + message,
-                                    "COLORVALUE": "1",
-                                    "SIZEVALUE": "1"
-                                }],
-                                "links": []
-                            }
-                        };
+                        v.data.dataConverted = v.tools.getGraphDataWithMessage(message);
                     }
                 } else {
                     message = "Your data string is not starting with \"<\" or \"{\" - parsing not possible.";
                     v.tools.logError(message);
-                    v.data.dataConverted = {
-                        "data": {
-                            "nodes": [{
-                                "ID": "1",
-                                "LABEL": "ERROR: " + message,
-                                "COLORVALUE": "1",
-                                "SIZEVALUE": "1"
-                            }],
-                            "links": []
-                        }
-                    };
+                    v.data.dataConverted = v.tools.getGraphDataWithMessage(message);
                 }
                 if (v.conf.debug) {
                     v.tools.log("Data string:");
@@ -3089,17 +3084,7 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
                 message = "Unable to parse your data - input data can be a XML string, " +
                     "JSON string or JavaScript object.";
                 v.tools.logError(message);
-                v.data.dataConverted = {
-                    "data": {
-                        "nodes": [{
-                            "ID": "1",
-                            "LABEL": "ERROR: " + message,
-                            "COLORVALUE": "1",
-                            "SIZEVALUE": "1"
-                        }],
-                        "links": []
-                    }
-                };
+                v.data.dataConverted = v.tools.getGraphDataWithMessage(message);
             }
 
             // create references to our new data
@@ -3110,22 +3095,12 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
                         if (v.data.nodes.length === 0) {
                             message = "Your data contains an empty nodes array.";
                             v.tools.logError(message);
-                            v.data.nodes = [{
-                                "ID": "1",
-                                "LABEL": "ERROR: " + message,
-                                "COLORVALUE": "1",
-                                "SIZEVALUE": "1"
-                            }];
+                            v.data.nodes = v.tools.getNodesDataWithMessage(message);
                         }
                     } else {
                         message = "Your data contains no nodes.";
                         v.tools.logError(message);
-                        v.data.nodes = [{
-                            "ID": "1",
-                            "LABEL": "ERROR: " + message,
-                            "COLORVALUE": "1",
-                            "SIZEVALUE": "1"
-                        }];
+                        v.data.nodes = v.tools.getNodesDataWithMessage(message);
                     }
                     if (v.data.dataConverted.data.hasOwnProperty("links") && v.data.dataConverted.data.links !== null) {
                         v.data.links = v.data.dataConverted.data.links;
@@ -3135,28 +3110,12 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
                 } else {
                     message = "Missing root element named data.";
                     v.tools.logError(message);
-                    v.data = {
-                        "nodes": [{
-                            "ID": "1",
-                            "LABEL": "ERROR: " + message,
-                            "COLORVALUE": "1",
-                            "SIZEVALUE": "1"
-                        }],
-                        "links": []
-                    };
+                    v.data = v.tools.getGraphDataWithMessage(message);
                 }
             } else {
                 message = "Unable to parse your data - please consult the API reference for possible data formats.";
                 v.tools.logError(message);
-                v.data = {
-                    "nodes": [{
-                        "ID": "1",
-                        "LABEL": "ERROR: " + message,
-                        "COLORVALUE": "1",
-                        "SIZEVALUE": "1"
-                    }],
-                    "links": []
-                };
+                v.data = v.tools.getGraphDataWithMessage(message);
             }
 
             // switch links to point to node objects instead of id's (needed for force layout) and calculate attributes
@@ -3367,15 +3326,17 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
                 function(n) {
                     return n.ID;
                 });
-        v.main.patterns.enter().append("svg:pattern")
+        var patterns_enter = v.main.patterns.enter().append("svg:pattern")
             .attr("id", function(n) {
                 return v.dom.containerId + "_pattern_" + n.ID;
-            })
-            .append("svg:image");
+            });
+            patterns_enter.append("svg:rect");
+            patterns_enter.append("svg:image");
+            patterns_enter = "";
         v.main.patterns.exit().remove();
         // update all
         v.main.patterns.each(function() {
-            d3.select(this)
+            d3.select(this) //pattern itself
                 .attr("x", 0)
                 .attr("y", 0)
                 .attr("height", function(n) {
@@ -3384,7 +3345,19 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
                 .attr("width", function(n) {
                     return n.radius * 2;
                 });
-            d3.select(this.firstChild)
+            d3.select(this.firstChild) //rect with background color (fill)
+                .attr("x", 0)
+                .attr("y", 0)
+                .attr("height", function(n) {
+                    return n.radius * 2;
+                })
+                .attr("width", function(n) {
+                    return n.radius * 2;
+                })
+                .attr("fill", function(n) {
+                    return v.tools.color(n.COLORVALUE);
+                });
+                d3.select(this.lastChild) //image or SVG?
                 .attr("x", 0)
                 .attr("y", 0)
                 .attr("height", function(n) {
@@ -5027,6 +5000,25 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
         v.conf.theta = value;
         if (v.status.graphStarted) {
             v.main.force.theta(v.conf.theta);
+            v.tools.createCustomizeWizardIfNotRendering();
+        }
+        return graph;
+    };
+
+    /**
+     * Gets or sets the maximum runtime in milliseconds for the force. This could be helpful when the graph is running to long with many node background images or when you want to stop the force early because all nodes are fixed and the running force is useless and costs only battery runtime.
+     *
+     *     example.forceTimeLimit(100);
+     * @see {@link module:API.charge}
+     * @param {number} [value=Infinity] - The new force time limit value.
+     * @returns {(number|Object)} The current force time limit value if no parameter is given or the graph object for method chaining.
+     */
+    graph.forceTimeLimit = function(value) {
+        if (!arguments.length) {
+            return v.conf.forceTimeLimit;
+        }
+        v.conf.forceTimeLimit = value;
+        if (v.status.graphStarted) {
             v.tools.createCustomizeWizardIfNotRendering();
         }
         return graph;

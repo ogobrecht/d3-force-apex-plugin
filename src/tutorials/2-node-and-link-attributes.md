@@ -5,11 +5,11 @@ Node and link attributes are case sensitive:
 
 - `ID`: mandatory, string, alphanumeric node identifier
 - `SIZEVALUE`: mandatory, number, numeric base for radius calculation
-- `COLORVALUE`: mandatory, string, HTML color code or any alphanumeric string - see also [colorScheme]
+- `COLORVALUE`: mandatory, string, HTML color code or any alphanumeric string - see also [colorScheme](./module-API.html#.colorScheme)
 - `COLORLABEL`: optional, string, used for legend - if not existing, colorvalue is used instead
 - `LABEL`: optional, string, label for the node
 - `LABELCIRCULAR`: optional, boolean, overwrites the global option [labelsCircular](./module-API.html#.labelsCircular)
-- `INFOSTRING`: optional, string, this string is shown as a tooltip - see also [showTooltips](./module-API.html#.showTooltips) and [tooltipPosition]\\
+- `INFOSTRING`: optional, string, this string is shown as a tooltip - see also [showTooltips](./module-API.html#.showTooltips) and [tooltipPosition](./module-API.html#.tooltipPosition)
 - `LINK`: optional, string, URL to open on configurable event - see also [nodeEventToOpenLink](./module-API.html#.nodeEventToOpenLink)
 - `IMAGE`: optional, string, URL to a background image for a node instead of a fill color
 - `fixed`: optional, boolean, pin status of a node

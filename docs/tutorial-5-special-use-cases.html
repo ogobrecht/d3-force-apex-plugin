@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Getting Started - Documentation</title>
+    <title>Special Use Cases - Documentation</title>
 
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
@@ -29,7 +29,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">Getting Started</h1>
+    <h1 class="page-title">Special Use Cases</h1>
     
 
     <section>
@@ -39,145 +39,35 @@
 </header>
 
 <article>
-    <p><button onclick="example.useDomParentWidth((example.useDomParentWidth()?false:true))">Toggle option useDomParentWidth</button>
-<div id="example"></div><!--the graph container-->
-<link  href="./lib/d3-force-3.0.0.css" rel="stylesheet" type="text/css">
-<script src="./lib/ResizeObserver-1.5.0.min.js"></script>
-<script src="./lib/d3-3.5.6.min.js"></script>
-<script src="./lib/d3-force-3.0.0.min.js"></script>
-<script>
-  window.onload = function (){
-    window.example = netGobrechtsD3Force("example")
-      .width(600)
-      .height(400)
-      .lassoMode(true)
-      .wrapLabels(true)
-      .debug(true) //also creates the "Customize Me" link
-      .render(); //sample data is provided when called without data
+    <p>Some people have special use cases and ask interesting questions. On this page we collect them to provide examples for other users.</p>
+<h2>Speed up background images on nodes</h2><p>When you use background images on nodes instead of background colors this can slow down your graphs render performance. This is depending on the render performance of your browser, but even the fastest browser engines can have big problems with too many and/or too big images.</p>
+<p>One possible workaround is to switch the background images to background colors when the force is starting and switch back to images when the force is stopping. Fortunately we have events for this available. Here an example - please align the graphs variable <code>example</code> to your specific one:</p>
+<pre class="prettyprint source lang-js"><code>example.onForceStartFunction(
+  function () {
+    example.nodes().each(function (node) {
+      elem = d3.select(this);
+      // Save the reference to the SVG pattern in a new node attribute.
+      // Your provided image URL is used in the pattern, not direct in the fill attribute.
+      // This is how SVG works, sorry. You can inspect the patterns in your browser console.
+      node.fill_backup = elem.style(&quot;fill&quot;);
+      elem.style(&quot;fill&quot;, &quot;silver&quot;)
+    });
   }
-</script>
-</p>
-<p>The graph above was started with this code:</p>
-<pre class="prettyprint source lang-html"><code>&lt;button onclick="example.useDomParentWidth((example.useDomParentWidth()?false:true))">Toggle option useDomParentWidth&lt;/button>
-&lt;div id="example">&lt;/div>&lt;!--the graph container-->
-&lt;link  href="./lib/d3-force-3.0.0.css" rel="stylesheet" type="text/css">
-&lt;script src="./lib/ResizeObserver-1.5.0.min.js">&lt;/script>
-&lt;script src="./lib/d3-3.5.6.min.js">&lt;/script>
-&lt;script src="./lib/d3-force-3.0.0.min.js">&lt;/script>
-&lt;script>
-  window.onload = function (){
-    window.example = netGobrechtsD3Force("example")
-      .width(600)
-      .height(400)
-      .lassoMode(true)
-      .wrapLabels(true)
-      .debug(true) //also creates the "Customize Me" link
-      .render(); //sample data is provided when called without data
+);
+
+example.onForceEndFunction(
+  function () {
+    example.nodes().each(function (node) {
+       // Write back the saved reference to the SVG pattern.
+      d3.select(this).style(&quot;fill&quot;, node.fill_backup);
+    });
   }
-&lt;/script>
-</code></pre><h2>Installation</h2><h3>APEX</h3><ul>
-<li>Download the <a href="https://github.com/ogobrecht/d3-force-apex-plugin/releases/latest">latest version</a></li>
-<li>Install the plugin by importing the sql file in the folder <code>apex-plugin</code></li>
-</ul>
-<h3>Any HTML page</h3><ul>
-<li>Download the <a href="https://github.com/ogobrecht/d3-force-apex-plugin/releases/latest">latest version</a></li>
-<li>See <code>dist/example.html</code></li>
-</ul>
-<p>When using the Oracle APEX plugin, your variable to access the graph is automatically set by the plugin. You can open the JavaScript console in your browser and look for <code>d3_force_YOUR_REGION_STATIC_ID</code>. You can then interact with the graph - in the example we inspect the graphs current variables:</p>
-<pre class="prettyprint source lang-js"><code>example.inspect();                        // in the example above
-d3_force_YOUR_REGION_STATIC_ID.inspect(); // when using the Oracle APEX plugin
-
-// or you can change the width of your graph:
-example.width(700).resume();
-d3_force_YOUR_REGION_STATIC_ID.width(700).resume();
-
-// there are more then sixty methods...
-// please have a look in the API methods overview</code></pre><h2>Providing Data</h2><p>You can provide data to the <a href="./module-API.html#.render">render</a> (or <a href="./module-API.html#.start">start</a> ) function. This data can be a JSON object, a JSON string or a XML string. Below the call for the graph variable <code>example</code> with the graph method <code>render</code> and the data for two nodes and links.</p>
-<p>For all people outside the Oracle world: we use here data from an example employees table which is used since years for almost all Oracle related SQL trainings. Inside this table you find employees with an ID, name, salary, department ID and so on. We use here the department ID to color the nodes and the salary to calculate the node sizes.</p>
-<p>Please have also a look at the <a href="./tutorial-2-node-and-link-attributes.html">possible node and link attributes</a></p>
-<pre class="prettyprint source lang-js"><code>example.render({
-    &quot;data&quot;: {
-        &quot;nodes&quot;: [{
-                &quot;ID&quot;: &quot;7839&quot;,
-                &quot;LABEL&quot;: &quot;KING is THE KING, you know?&quot;,
-                &quot;COLORVALUE&quot;: &quot;10&quot;,
-                &quot;COLORLABEL&quot;: &quot;Accounting&quot;,
-                &quot;SIZEVALUE&quot;: 5000,
-                &quot;LABELCIRCULAR&quot;: true,
-                &quot;LINK&quot;: &quot;http://apex.oracle.com/&quot;,
-                &quot;INFOSTRING&quot;: &quot;This visualization is based on the well known emp table.&quot;
-            },
-            {
-                &quot;ID&quot;: &quot;7698&quot;,
-                &quot;LABEL&quot;: &quot;BLAKE&quot;,
-                &quot;COLORVALUE&quot;: &quot;30&quot;,
-                &quot;COLORLABEL&quot;: &quot;Sales&quot;,
-                &quot;SIZEVALUE&quot;: 2850
-            }
-        ],
-        &quot;links&quot;: [{
-                &quot;FROMID&quot;: &quot;7839&quot;,
-                &quot;TOID&quot;: &quot;7839&quot;,
-                &quot;STYLE&quot;: &quot;dotted&quot;,
-                &quot;COLOR&quot;: &quot;blue&quot;,
-                &quot;INFOSTRING&quot;: &quot;This is a self link (same source and target node) rendered along a path with the STYLE attribute set to dotted and COLOR attribute set to blue.&quot;
-            },
-            {
-                &quot;FROMID&quot;: &quot;7698&quot;,
-                &quot;TOID&quot;: &quot;7839&quot;,
-                &quot;STYLE&quot;: &quot;dashed&quot;
-            }
-        ]
-    }
-});</code></pre><p>You can export the current graph data as a JSON object at every time with the <a href="./module-API.html#.data">data</a> method:</p>
-<pre class="prettyprint source lang-js"><code>//JSON object
-example.data();
-
-//stringified JSON object
-JSON.stringify(example.data());</code></pre><h2>Configure The Graph</h2><p>There are two ways to configure the graph:</p>
-<ol>
-<li>Provide a configuration object to the graph function on initialisation</li>
-<li>Use API methods before starting the graph or also on runtime</li>
-</ol>
-<h3>Configuration Object</h3><pre class="prettyprint source lang-js"><code>var example = netGobrechtsD3Force(
-    'domContainerToAppendTheGraph',
-    {&quot;width&quot;:&quot;700&quot;, &quot;height&quot;:&quot;500&quot;}
-    )
-    .render({&quot;data&quot;:{
-        &quot;nodes&quot;:[{...}, {...}],
-        &quot;links&quot;:[{...}, {...}]
-    }});</code></pre><h3>API Methods</h3><pre class="prettyprint source lang-js"><code>var example = netGobrechtsD3Force(
-    'domContainerToAppendTheGraph'
-    )
-    .width(700)
-    .height(500)
-    .render({&quot;data&quot;:{
-        &quot;nodes&quot;:[{...}, {...}],
-        &quot;links&quot;:[{...}, {...}]
-    }});</code></pre><p>Of course you can combine the two ways:</p>
-<pre class="prettyprint source lang-js"><code>var example = netGobrechtsD3Force(
-    'domContainerToAppendTheGraph',
-    {&quot;width&quot;:&quot;700&quot;,&quot;height&quot;:&quot;500&quot;}
-    )
-    .onNodeClickFunction(
-        function(event, data){
-            console.log(event, data, this);
-        }
-    )
-    .debug(true)
-    .render({&quot;data&quot;:{
-        &quot;nodes&quot;:[{...}, {...}],
-        &quot;links&quot;:[{...}, {...}]
-    }});</code></pre><p>If the DOM container is not existing, then the container is created under the body element.</p>
-<h3>Customization wizard</h3><p>You can use the customization wizard to get your configuration object. This<br>wizard has a predefined set of values, e.g. you can choose values between 300<br>and 1200 for the width. If this does not meet your requirements, you can of<br>course change these values in your configuration object. If you do so and use<br>the customization wizard later on, your additional values are appended to the<br>select lists of the wizard.</p>
-<p>There are two ways to start the wizard:</p>
-<ol>
-<li>Click the link “Customize Me” in the graph - this link is shown, when the graph is in debug mode (when you are using the APEX plugin with a Application Builder session, then the debug mode is automatically set to true): <code>example.debug(true);</code></li>
-<li>Directly start the wizard by setting the customize option to true: <code>example.customize(true);</code></li>
-</ol>
-<p>Each configuration option in the wizard is also implemented as a get and set method:</p>
-<pre class="prettyprint source lang-js"><code>example.width();             //get the current graph width
-example.width(700).resume(); //set the current graph width and resume the graph</code></pre><p>ATTENTION: Some options/methods are instantly working, some needs a resume of the graph force, some needs a complete render cycle with the start or render method. Please have also a look in the method descriptions for <a href="./module-API.html#.start">start</a>, <a href="./module-API.html#.render">render</a>, <a href="./module-API.html#.resume">resume</a>.</p>
+);</code></pre><p>Thanks are going to github.com/Ignacius68 for questions around this topic.</p>
+<h2>Stop force early when all nodes are fixed</h2><p>This use case can be related to the previous one. If you deliver data with predefined, fixed positions for all nodes then the force is still running and calculate all positions. The fixed nodes are not updated within the ticks but the force is running as usual. This might become a problem when you wait for the force end to do some own things - like with the images from the previous use case.</p>
+<p>The force has to run a minimum time to correct render all nodes. So what can we do? The graph API has currently no method to stop the force directly, but there is a trick. The graph API exposes a method mainly for debugging named <code>inspect</code>. With this method you have access to all the graph internal variables and functions. You can try this out in your browser console by executing <code>example.inspect()</code>.</p>
+<p>To stop the force after 100ms we reuse the inspect method like so:</p>
+<p><code>`</code>js<br>example.onForceStartFunction(function () {<br>  setTimeout(function () {<br>    example.inspect().main.force.stop();<br>  }, 100);<br>})</p>
+<p>Thanks are going to github.com/Ignacius68 for questions around this topic.</p>
 </article>
 
 </section>
