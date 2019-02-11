@@ -1,5 +1,5 @@
 /**
- * D3 Force Network Chart - v3.0.0 - 2019-02-07
+ * D3 Force Network Chart - v3.1.0 - 2019-02-11
  * https://github.com/ogobrecht/d3-force-apex-plugin
  * Copyright (c) 2015-2019 Ottmar Gobrecht - MIT license
  */
@@ -42,7 +42,7 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
         "main": {},
         "status": {},
         "tools": {},
-        "version": "3.0.0"
+        "version": "3.1.0"
     };
 
     /**
@@ -596,7 +596,7 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
         /* jshint -W110 */
         v.data.sampleData = '<data>' +
             '<nodes ID="7839" LABEL="KING is THE KING, you know?" LABELCIRCULAR="true" COLORVALUE="10" ' +
-            'IMAGE="crown.svg" ' +
+            'IMAGE="crown-white.svg" ' +
             'COLORLABEL="Accounting" SIZEVALUE="5000" LINK="http://apex.oracle.com/" ' +
             'INFOSTRING="This visualization is based on the well known emp table." />' +
             '<nodes ID="7698" LABEL="BLAKE" COLORVALUE="30" COLORLABEL="Sales" SIZEVALUE="2850" />' +
