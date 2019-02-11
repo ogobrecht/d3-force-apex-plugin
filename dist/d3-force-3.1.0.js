@@ -596,7 +596,6 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
         /* jshint -W110 */
         v.data.sampleData = '<data>' +
             '<nodes ID="7839" LABEL="KING is THE KING, you know?" LABELCIRCULAR="true" COLORVALUE="10" ' +
-            'IMAGE="crown-white.svg" ' +
             'COLORLABEL="Accounting" SIZEVALUE="5000" LINK="http://apex.oracle.com/" ' +
             'INFOSTRING="This visualization is based on the well known emp table." />' +
             '<nodes ID="7698" LABEL="BLAKE" COLORVALUE="30" COLORLABEL="Sales" SIZEVALUE="2850" />' +

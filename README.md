@@ -70,7 +70,7 @@ Please refer to the [documentation](https://ogobrecht.github.io/d3-force-apex-pl
 ### 3.1.0 (2019-02-xx)
 
 - New option forceTimeLimit ([API reference](https://ogobrecht.github.io/d3-force-apex-plugin/module-API.html#.forceTimeLimit))
-- Nodes have now also a background color when an background image is defined (see examples, node KING)
+- Nodes have now also a background color when an background image is defined
 
 Thanks are going to github.com/Ignacius68 for both ideas.
 
