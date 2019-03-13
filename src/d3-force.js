@@ -622,7 +622,7 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
             '<links FROMID="7788" TOID="7566" STYLE="solid" />' +
             '<links FROMID="7902" TOID="7566" STYLE="solid" />' +
             '<links FROMID="7369" TOID="7902" STYLE="solid" />' +
-            '<links FROMID="7499" TOID="7698" STYLE="solid" />' +
+            '<links FROMID="7499" TOID="7698" STYLE="solid" LABEL="A link label"/>' +
             '<links FROMID="7521" TOID="7698" STYLE="solid" />' +
             '<links FROMID="7654" TOID="7698" STYLE="solid" />' +
             '<links FROMID="7844" TOID="7698" STYLE="solid" />' +
@@ -835,7 +835,6 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
                         v.main.labels.call(v.tools.wrapLabels, v.conf.wrappedLabelWidth);
                         v.status.wrapLabelsOnNextTick = false;
                     }
-                    // reposition on every tick only
                     if (v.conf.wrapLabels) {
                         v.main.labels.each(function() {
                             var label = d3.select(this);
@@ -848,8 +847,24 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
                         });
                     }
                     v.main.labelPaths
-                        .attr("transform", function(n) {
+                        .attr("transform", function (n) {
                             return "translate(" + n.x + "," + n.y + ")";
+                        });
+                    v.main.linkLabelPaths
+                        .attr('d', function (l) {
+                            return 'M ' + l.source.x + ' ' + l.source.y + ' L ' + l.target.x + ' ' + l.target.y;
+                        });
+                    v.main.linkLabels
+                        .attr('transform', function (l, i) {
+                            if (l.target.x < l.source.x) {
+                                var bbox = this.getBBox();
+                                var rx = bbox.x + bbox.width / 2;
+                                var ry = bbox.y + bbox.height / 2;
+                                return 'rotate(180 ' + rx + ' ' + ry + ')';
+                            }
+                            else {
+                                return 'rotate(0)';
+                            }
                         });
                 }
                 v.main.nodes
@@ -3403,8 +3418,49 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
         // LABELS
 
         if (v.conf.showLabels) {
+            
+            // paths for link labels
+            v.main.linkLabelPaths = v.dom.defs.selectAll("path.linkLabel")
+                .data(v.data.links.filter(function(l) {
+                        return l.LABEL;
+                    }),
+                    function(l) {
+                        return l.FROMID + "_" + l.TOID;
+                    });
+            v.main.linkLabelPaths.enter().append("svg:path")
+                .attr("id", function(l) {
+                    return v.dom.containerId + "_textPath_" + l.FROMID + "_" + l.TOID;
+                })
+                .attr("class", "linkLabel");
+            v.main.linkLabelPaths.exit().remove();
+            // update all
+            v.main.linkLabelPaths.attr("d", function(l) {
+                return 'M ' + l.source.x + ' ' + l.source.y + ' L ' + l.target.x + ' ' + l.target.y;
+            });
 
-            // normal text labels
+            // link labels
+            v.main.linkLabels = v.dom.graph.selectAll("text.linkLabel")
+                .data(v.data.links.filter(function(l) {
+                        return l.LABEL;
+                    }),
+                    function(l) {
+                        return l.FROMID + "_" + l.TOID;
+                    });
+            v.main.linkLabels.enter().append("svg:text")
+                .attr("class", "linkLabel")
+                .attr("dx",v.conf.linkDistance / 2)
+                .attr("dy","-1")
+                .append("svg:textPath")
+                .attr("xlink:href", function(l) {
+                    return "#" + v.dom.containerId + "_textPath_" + l.FROMID + "_" + l.TOID;
+                });
+            v.main.linkLabels.exit().remove();
+            // update all
+            v.main.linkLabels.each(function(l) {
+                d3.select(this.firstChild).text(l.LABEL);
+            });
+
+            // normal node labels
             v.main.labels = v.dom.graph.selectAll("text.label")
                 .data(v.data.nodes.filter(function(n) {
                         return !n.LABELCIRCULAR && !v.conf.labelsCircular;
@@ -3420,7 +3476,7 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
                 return n.LABEL;
             });
 
-            // paths for circular labels
+            // paths for circular node labels
             v.main.labelPaths = v.dom.defs.selectAll("path.label")
                 .data(v.data.nodes.filter(function(n) {
                         return n.LABELCIRCULAR || v.conf.labelsCircular;
@@ -3439,7 +3495,7 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
                 return v.tools.getLabelPath(n);
             });
 
-            // circular labels
+            // circular node labels
             v.main.labelsCircular = v.dom.graph.selectAll("text.labelCircular")
                 .data(v.data.nodes.filter(function(n) {
                         return n.LABELCIRCULAR || v.conf.labelsCircular;
@@ -3458,9 +3514,11 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
             v.main.labelsCircular.each(function(n) {
                 d3.select(this.firstChild).text(n.LABEL);
             });
+
+
         } else {
-            v.dom.defs.selectAll("path.label").remove();
-            v.dom.graph.selectAll("text.label,text.labelCircular").remove();
+            v.dom.defs.selectAll("path.label,path.linkLabel").remove();
+            v.dom.graph.selectAll("text.label,text.labelCircular,text.linkLabel").remove();
         }
 
         // calculate initial aspect ratio

@@ -25,4 +25,5 @@ Fixed, x and y are native D3 attributes - they must be lowercase.
 - `TOID`: mandatory, string, id of node, where a link ends
 - `STYLE`: optional, string, can be `solid` (default), `dotted` or `dashed`
 - `COLOR`: optional, string, must be a HTML color code like `green` or `#00ff00`
+- `LABEL`: optional, string, label for the link
 - `INFOSTRING`: optional, string, this string is shown as a tooltip - see also [showTooltips](./module-API.html#.showTooltips) and [tooltipPosition](./module-API.html#.tooltipPosition)

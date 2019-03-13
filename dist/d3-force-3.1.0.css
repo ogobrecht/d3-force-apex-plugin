@@ -23,6 +23,12 @@
     stroke-dasharray: 4 2;
     stroke-opacity: 1.0;
 }
+.net_gobrechts_d3_force text.linkLabel {
+    fill: #bbb;
+    font-size: 8px;
+    letter-spacing: 0;
+    pointer-events: none;
+}
 .net_gobrechts_d3_force text.label,
 .net_gobrechts_d3_force text.labelCircular {
     fill: black;
@@ -30,7 +36,8 @@
     letter-spacing: 0;
     pointer-events: none;
 }
-.net_gobrechts_d3_force text.label{
+.net_gobrechts_d3_force text.label,
+.net_gobrechts_d3_force text.linkLabel {
     text-anchor: middle;
 }
 .net_gobrechts_d3_force text.highlighted {

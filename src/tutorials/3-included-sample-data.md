@@ -36,7 +36,8 @@ The following data (XML notation, not all records shown) is included in the sour
       {
         "FROMID":"7698",
         "TOID":"7839",
-        "STYLE":"dashed"
+        "STYLE":"dashed",
+        "LABEL":"A link label"
       }
     ]
   }
@@ -75,6 +76,7 @@ The following data (XML notation, not all records shown) is included in the sour
     FROMID="7698"
     TOID="7839"
     STYLE="dashed"
+    LABEL="A link label"
   />
 </data>
 ```
