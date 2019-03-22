@@ -607,10 +607,10 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
             '<nodes ID="7900" LABEL="JAMES" COLORVALUE="30" COLORLABEL="Sales" SIZEVALUE="950" />' +
             '<nodes ID="7934" LABEL="MILLER" COLORVALUE="10" COLORLABEL="Accounting" SIZEVALUE="1300" />' +
             '<nodes ID="8888" LABEL="Who am I?" COLORVALUE="green" COLORLABEL="unspecified" SIZEVALUE="2000" ' +
-            'LINK="https://github.com/ogobrecht/d3-force-apex-plugin/wiki/API-Reference#nodelinktarget" ' +
+            'LINK="https://ogobrecht.github.io/d3-force-apex-plugin/module-API.html#.nodeLinkTarget" ' +
             'INFOSTRING="This is a good question. Think about it." />' +
             '<nodes ID="9999" LABEL="Where I am?" COLORVALUE="#f00" COLORLABEL="unspecified" SIZEVALUE="1000" ' +
-            'LINK="https://github.com/ogobrecht/d3-force-apex-plugin/wiki/API-Reference#nodelinktarget" ' +
+            'LINK="https://ogobrecht.github.io/d3-force-apex-plugin/module-API.html#.nodeLinkTarget" ' +
             'INFOSTRING="This is a good question. What do you think?" />' +
             '<links FROMID="7839" TOID="7839" STYLE="dotted" COLOR="blue" ' +
             'INFOSTRING="This is a self link (same source and target node) rendered along a path with the STYLE ' +
@@ -622,7 +622,8 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
             '<links FROMID="7788" TOID="7566" STYLE="solid" />' +
             '<links FROMID="7902" TOID="7566" STYLE="solid" />' +
             '<links FROMID="7369" TOID="7902" STYLE="solid" />' +
-            '<links FROMID="7499" TOID="7698" STYLE="solid" LABEL="A link label"/>' +
+            '<links FROMID="7499" TOID="7698" STYLE="solid" LABEL="Allen>Blake" ' + 
+            'INFOSTRING="This link has the LABEL and INFOSTRING attributes set." />' +
             '<links FROMID="7521" TOID="7698" STYLE="solid" />' +
             '<links FROMID="7654" TOID="7698" STYLE="solid" />' +
             '<links FROMID="7844" TOID="7698" STYLE="solid" />' +
@@ -1316,14 +1317,14 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
                 "radius": ri
             },
             "target": {
-                "x": (x + ro / 2),
+                "x": (x - ro / 2),
                 "y": (y + ro),
                 "radius": ri
             }
         };
         var pathEnd = {
             "source": {
-                "x": (x - ro / 2),
+                "x": (x + ro / 2),
                 "y": (y + ro),
                 "radius": ri
             },
@@ -1334,8 +1335,8 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
             }
         };
         var path = "M" + v.tools.adjustSourceX(pathStart) + "," + v.tools.adjustSourceY(pathStart);
-        path += " L" + (x + ro / 2) + "," + (y + ro);
-        path += " A" + ro + "," + ro + " 0 0,1 " + (x - ro / 2) + "," + (y + ro);
+        path += " L" + (x - ro / 2) + "," + (y + ro);
+        path += " A" + ro + "," + ro + " 0 0,0 " + (x + ro / 2) + "," + (y + ro);
         path += " L" + v.tools.adjustTargetX(pathEnd) + "," + v.tools.adjustTargetY(pathEnd);
         return path;
     };
@@ -1350,6 +1351,21 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
         path += " a" + r + "," + r + " 0 0,1 " + (r * 2) + ",0";
         path += " a" + r + "," + r + " 0 0,1 -" + (r * 2) + ",0";
         return path;
+    };
+
+    // get pattern id
+    v.tools.getPatternId = function(n) {
+        return v.dom.containerId + "_pattern_" + n.ID;
+    };
+
+    // get link id
+    v.tools.getLinkId = function(l) {
+        return l.FROMID + "_" + l.TOID;
+    };
+
+    // get link path id
+    v.tools.getPathId = function(l) {
+        return v.dom.containerId + "_path_" + v.tools.getLinkId(l);
     };
 
     // open link function
@@ -1460,6 +1476,7 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
             }
         }
     };
+
     // get marker URL
     v.tools.getMarkerUrl = function(l) {
         if (v.conf.showLinkDirection) {
@@ -3272,7 +3289,7 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
                     return l.FROMID !== l.TOID;
                 }),
                 function(l) {
-                    return l.FROMID + "_" + l.TOID;
+                    return v.tools.getLinkId(l);
                 });
         v.main.links.enter().append("svg:line")
             .attr("class", "link")
@@ -3299,11 +3316,11 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
                     return l.FROMID === l.TOID && v.conf.showSelfLinks;
                 }),
                 function(l) {
-                    return l.FROMID + "_" + l.TOID;
+                    return v.tools.getLinkId(l);
                 });
         v.main.selfLinks.enter().append("svg:path")
             .attr("id", function(l) {
-                return v.dom.containerId + "_link_" + l.FROMID + "_" + l.TOID;
+                return v.tools.getPathId(l);
             })
             .attr("class", "link")
             .on("mouseenter", v.tools.onLinkMouseenter)
@@ -3336,7 +3353,7 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
                 });
         var patterns_enter = v.main.patterns.enter().append("svg:pattern")
             .attr("id", function(n) {
-                return v.dom.containerId + "_pattern_" + n.ID;
+                return v.tools.getPatternId(n);
             });
             patterns_enter.append("svg:rect");
             patterns_enter.append("svg:image");
@@ -3411,7 +3428,7 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
                 return n.radius;
             })
             .attr("fill", function(n) {
-                return (n.IMAGE ? "url(#" + v.dom.containerId + "_pattern_" + n.ID + ")" : v.tools.color(n.COLORVALUE));
+                return (n.IMAGE ? "url(#" + v.tools.getPatternId(n) + ")" : v.tools.color(n.COLORVALUE));
             });
 
 
@@ -3419,17 +3436,17 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
 
         if (v.conf.showLabels) {
             
-            // paths for link labels
+            // paths for normal link labels (no self links)
             v.main.linkLabelPaths = v.dom.defs.selectAll("path.linkLabel")
                 .data(v.data.links.filter(function(l) {
-                        return l.LABEL;
+                        return l.LABEL && l.FROMID !== l.TOID;
                     }),
                     function(l) {
-                        return l.FROMID + "_" + l.TOID;
+                        return v.tools.getLinkId(l);
                     });
             v.main.linkLabelPaths.enter().append("svg:path")
                 .attr("id", function(l) {
-                    return v.dom.containerId + "_textPath_" + l.FROMID + "_" + l.TOID;
+                    return v.tools.getPathId(l);
                 })
                 .attr("class", "linkLabel");
             v.main.linkLabelPaths.exit().remove();
@@ -3444,15 +3461,25 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
                         return l.LABEL;
                     }),
                     function(l) {
-                        return l.FROMID + "_" + l.TOID;
+                        return v.tools.getLinkId(l);
                     });
             v.main.linkLabels.enter().append("svg:text")
                 .attr("class", "linkLabel")
-                .attr("dx",v.conf.linkDistance / 2)
+                .attr("dx", function(l) {
+                    if (l.FROMID !== l.TOID) {
+                        return v.conf.linkDistance / 2;
+                    }
+                    else {
+                        return v.conf.selfLinkDistance + l.source.radius;
+                    }
+                })
                 .attr("dy","-1")
+                .on("mouseenter", v.tools.onLinkMouseenter)
+                .on("mouseleave", v.tools.onLinkMouseleave)    
+                .on("click", v.tools.onLinkClick)
                 .append("svg:textPath")
                 .attr("xlink:href", function(l) {
-                    return "#" + v.dom.containerId + "_textPath_" + l.FROMID + "_" + l.TOID;
+                    return "#" + v.tools.getPathId(l);
                 });
             v.main.linkLabels.exit().remove();
             // update all
@@ -3734,7 +3761,7 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
         if (v.status.graphStarted) {
             v.main.nodes
                 .attr("fill", function(n) {
-                    return (n.IMAGE ? "url(#" + v.dom.containerId + "_pattern_" + n.ID + ")" :
+                    return (n.IMAGE ? "url(#" + v.tools.getPatternId(n) + ")" :
                         v.tools.color(n.COLORVALUE));
                 });
             if (v.conf.showLegend) {
