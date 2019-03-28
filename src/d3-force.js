@@ -616,7 +616,7 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
             'INFOSTRING="This is a self link (same source and target node) rendered along a path with the STYLE ' +
             'attribute set to dotted and COLOR attribute set to blue." />' +
             '<links FROMID="7698" TOID="7839" STYLE="dashed" />' +
-            '<links FROMID="7782" TOID="7839" STYLE="dashed" COLOR="red" INFOSTRING="This is a link with the STYLE ' +
+            '<links FROMID="7782" TOID="7839" STYLE="dashed" COLOR="red" LABEL="Test Label" INFOSTRING="This is a link with the STYLE ' +
             'attribute set to dashed and COLOR attribute set to red." />' +
             '<links FROMID="7566" TOID="7839" STYLE="dashed" />' +
             '<links FROMID="7788" TOID="7566" STYLE="solid" />' +
@@ -3484,7 +3484,8 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
             v.main.linkLabels.exit().remove();
             // update all
             v.main.linkLabels.each(function(l) {
-                d3.select(this.firstChild).text(l.LABEL);
+                d3.select(this.firstChild)
+                .text(l.LABEL);
             });
 
             // normal node labels
