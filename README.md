@@ -29,7 +29,7 @@ This is a D3 force implementation, playground and Oracle APEX plugin, which uses
 ## Requirements
 
 - APEX 5.1.4 or higher, if used as a plugin
-- A modern browser, who is able to work with SVG and CSS3 - for more informations see the [D3 Wiki](https://github.com/mbostock/d3/wiki#browser--platform-support)
+- A modern browser, which is able to work with SVG and CSS3 - for more informations see the [D3 Wiki](https://github.com/mbostock/d3/wiki#browser--platform-support)
 
 
 
@@ -67,13 +67,18 @@ This D3 force implementation uses [semantic versioning](http://semver.org).
 
 Please refer to the [documentation](https://ogobrecht.github.io/d3-force-apex-plugin/) for more informations on how to get started and an overview of all graph methods. Please use for all comments and discussions the [issues functionality on GitHub](https://github.com/ogobrecht/d3-force-apex-plugin/issues).
 
-### 3.1.0 (2019-04-xx)
+### 3.1.0 (2019-0x-xx)
+
+ATTENTION: You need at least APEX 5.1.4 to be able to import the plugin in your APEX apps. If you need to support older APEX versions (at least 4.2) then download the plugin release 3.0.0.
 
 - New option forceTimeLimit ([API reference](https://ogobrecht.github.io/d3-force-apex-plugin/module-API.html#.forceTimeLimit))
 - Nodes have now also a background color when an background image is defined (useful for images with transparency)
-- New Link attribute LABEL, which is rendered as a text along the link path and fires the link click event when clicked (the label is easier to click then the link itself - so we have here a usability improvement)
+- New Link attribute LABEL ([API reference](https://ogobrecht.github.io/d3-force-apex-plugin/tutorial-2-node-and-link-attributes.html)), which is rendered as a text along the link path and fires the link click event when clicked (the label is easier to click then the link itself - so we have here a usability improvement)
+- Two new helper methods to get the center of the graph (border box) or the SVG viewport:
+  - centerPositionGraph ([API reference](https://ogobrecht.github.io/d3-force-apex-plugin/module-API.html#.centerPositionGraph))
+  - centerPositionViewport ([API reference](https://ogobrecht.github.io/d3-force-apex-plugin/module-API.html#.centerPositionViewport))
 
-Thanks are going to github.com/Ignacius68 for all the ideas and feedback.
+Thanks are going to github.com/Ignacius68 for the valuable feedback and all the beta testing.
 
 
 ### 3.0.0 (2018-11-26)

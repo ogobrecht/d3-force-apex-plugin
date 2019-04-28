@@ -1,5 +1,5 @@
 /**
- * D3 Force Network Chart - v3.1.0 - 2019-03-28
+ * D3 Force Network Chart - v3.1.0 - 2019-04-28
  * https://github.com/ogobrecht/d3-force-apex-plugin
  * Copyright (c) 2015-2019 Ottmar Gobrecht - MIT license
  */
@@ -622,7 +622,7 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
             'INFOSTRING="This is a self link (same source and target node) rendered along a path with the STYLE ' +
             'attribute set to dotted and COLOR attribute set to blue." />' +
             '<links FROMID="7698" TOID="7839" STYLE="dashed" />' +
-            '<links FROMID="7782" TOID="7839" STYLE="dashed" COLOR="red" LABEL="Test Label" INFOSTRING="This is a link with the STYLE ' +
+            '<links FROMID="7782" TOID="7839" STYLE="dashed" COLOR="red" INFOSTRING="This is a link with the STYLE ' +
             'attribute set to dashed and COLOR attribute set to red." />' +
             '<links FROMID="7566" TOID="7839" STYLE="dashed" />' +
             '<links FROMID="7788" TOID="7566" STYLE="solid" />' +
@@ -4231,7 +4231,7 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
      */
     graph.zoom = function(centerX, centerY, viewportWidth, duration) {
         // http://bl.ocks.org/linssen/7352810
-        var x, y, scale;
+        var translate, scale;
         var width = v.tools.getGraphWidth(); // could be different then configured (responsive)
         var height = v.tools.getGraphHeight(); 
         centerX = (isNaN(centerX) ? width / 2 : parseInt(centerX));
@@ -4239,9 +4239,11 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
         viewportWidth = (isNaN(viewportWidth) ? width : parseInt(viewportWidth));
         duration = (isNaN(duration) ? 500 : parseInt(duration));
         scale = width / viewportWidth;
-        x = width / 2 - centerX * scale;
-        y = height / 2 - centerY * scale;
-        v.main.interpolateZoom([x, y], scale, duration);
+        translate = [
+            width / 2 - centerX * scale,
+            height / 2 - centerY * scale
+        ];
+        v.main.interpolateZoom(translate, scale, duration);
         return graph;
     };
 
@@ -4286,9 +4288,45 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
                 "scale": v.main.zoom.scale()
             };
         } else {
-            v.main.interpolateZoom(transform.translate, transform.scale, (isNaN(duration) ? 500 : parseInt(duration)));
+            v.main.interpolateZoom(
+                transform.translate, 
+                transform.scale, 
+                (isNaN(duration) ? 500 : parseInt(duration))
+            );
         }
         return graph;
+    };
+
+    /**
+     * Helper/Command method - get the center position of the graph border box:
+     *
+     *     example.centerPositionGraph();
+     * @returns {Array} An array with the x and y positions: [x, y].
+     */
+    graph.centerPositionGraph = function () {
+        var graphBox = v.dom.graph.node().getBBox();
+        return [
+            graphBox.x + graphBox.width / 2,
+            graphBox.y + graphBox.height / 2
+        ];
+    };
+
+    /**
+     * Helper/Command method - get the center position of the SVG viewport:
+     *
+     *     example.centerPositionViewport();
+     * @returns {Array} An array with the x and y positions: [x, y].
+     */
+    graph.centerPositionViewport = function () {
+        var svg = {}, scale, translate;
+        svg.width = v.tools.getGraphWidth();
+        svg.height = v.tools.getGraphHeight();
+        scale = v.main.zoom.scale();
+        translate = v.main.zoom.translate();
+        return [
+            (svg.width / 2 - translate[0]) * 1 / scale,
+            (svg.height / 2 - translate[1]) * 1 / scale
+        ];
     };
 
     /**
@@ -4306,17 +4344,21 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
      * @returns {Object} The graph object for method chaining.
      */
     graph.center = function (duration) {
-        var svg = {},
-            graph_,
-            x, y, scale;
+        var svg = {}, graphBox, translate, scale;
         duration = (isNaN(duration) ? 500 : parseInt(duration));
         svg.width = v.tools.getGraphWidth();
         svg.height = v.tools.getGraphHeight();
-        graph_ = v.dom.graph.node().getBBox();
+        graphBox = v.dom.graph.node().getBBox();
         scale = v.main.zoom.scale();
-        x = (svg.width - graph_.width * scale) / 2 - graph_.x * scale;
-        y = (svg.height - graph_.height * scale) / 2 - graph_.y * scale;
-        v.main.interpolateZoom([x, y], scale, duration);
+        // If the graph is hidden we get 0 for width and height. Zoom will then fail because
+        // the calculation results in NaN for the translation (x, y) and infinity for the scale.
+        if (graphBox.width > 0 && graphBox.height > 0) {
+            translate = [
+                (svg.width - graphBox.width * scale) / 2 - graphBox.x * scale,
+                (svg.height - graphBox.height * scale) / 2 - graphBox.y * scale
+            ];
+            v.main.interpolateZoom(translate, scale, duration);
+        }
         return graph;
     };
 
@@ -4334,21 +4376,21 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
      * @returns {Object} The graph object for method chaining.
      */
     graph.zoomToFit = function(duration) {
-        var svg = {},
-            graph_, padding = 10,
-            x, y, scale;
+        var svg = {}, graphBox, padding = 10, translate, scale;
         duration = (isNaN(duration) ? 500 : parseInt(duration));
         svg.width = v.tools.getGraphWidth();
         svg.height = v.tools.getGraphHeight();
-        graph_ = v.dom.graph.node().getBBox();
-        // If the graph is hidden we get 0 for width and height. zoom will then fail because
+        graphBox = v.dom.graph.node().getBBox();
+        // If the graph is hidden we get 0 for width and height. Zoom will then fail because
         // the calculation results in NaN for the translation (x, y) and infinity for the scale.
-        if (graph_.width > 0 && graph_.height > 0) {
-            scale = Math.min((svg.height - 2 * padding) / graph_.height,
-                (svg.width - 2 * padding) / graph_.width);
-            x = (svg.width - graph_.width * scale) / 2 - graph_.x * scale;
-            y = (svg.height - graph_.height * scale) / 2 - graph_.y * scale;
-            v.main.interpolateZoom([x, y], scale, duration);
+        if (graphBox.width > 0 && graphBox.height > 0) {
+            scale = Math.min((svg.height - 2 * padding) / graphBox.height,
+                (svg.width - 2 * padding) / graphBox.width);
+            translate = [
+                (svg.width - graphBox.width * scale) / 2 - graphBox.x * scale,
+                (svg.height - graphBox.height * scale) / 2 - graphBox.y * scale
+            ];
+            v.main.interpolateZoom(translate, scale, duration);
         }
         return graph;
     };
