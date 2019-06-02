@@ -67,7 +67,7 @@ This D3 force implementation uses [semantic versioning](http://semver.org).
 
 Please refer to the [documentation](https://ogobrecht.github.io/d3-force-apex-plugin/) for more informations on how to get started and an overview of all graph methods. Please use for all comments and discussions the [issues functionality on GitHub](https://github.com/ogobrecht/d3-force-apex-plugin/issues).
 
-### 3.1.0 (2019-0x-xx)
+### 3.1.0 (2019-06-02)
 
 ATTENTION: You need at least APEX 5.1.4 to be able to import the plugin in your APEX apps. If you need to support older APEX versions (at least 4.2) then download the plugin release 3.0.0.
 
