@@ -1,6 +1,6 @@
 {
     "name": "D3 Force Network Chart",
-    "version": "3.0.0",
+    "version": "3.1.0",
     "description": "D3 force directed network visualization with an interactive customization wizard",
     "keywords": ["d3.js", "force layout", "network visualization"],
     "homepage": "https://github.com/ogobrecht/d3-force-apex-plugin",
@@ -22,7 +22,7 @@
     "oracle": {
         "versions": ["11.2.0.1", "12.1.0.1"],
         "apex": {
-            "versions": ["4.2.0", "5.0.0"],
+            "versions": ["5.1.4"],
             "plugin": {
                 "internalName": "NET.GOBRECHTS.D3.FORCE",
                 "type": "region",

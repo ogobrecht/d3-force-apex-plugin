@@ -407,6 +407,13 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
             "val": 5000,
             "options": [60000, 30000, 15000, 10000, 5000, 2500]
         };
+        v.confDefaults.forceTimeLimit = {
+            "display": true,
+            "relation": "graph",
+            "type": "number",
+            "val": Infinity,
+            "options": [Infinity, 6400, 3200, 1600, 800, 400, 200, 100]
+        };
         v.confDefaults.chargeDistance = {
             "display": false,
             "relation": "graph",
@@ -558,7 +565,8 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
             v.tools.parseBool(v.confUser.autoRefresh) :
             v.confDefaults.autoRefresh.val);
         v.conf.refreshInterval = v.confUser.refreshInterval || v.confDefaults.refreshInterval.val;
-        v.conf.chargeDistance = v.confUser.chargeDistance || Infinity;
+        v.conf.forceTimeLimit = v.confUser.forceTimeLimit || v.confDefaults.forceTimeLimit.val;
+        v.conf.chargeDistance = v.confUser.chargeDistance || v.confDefaults.forceTimeLimit.val;
         v.conf.charge = v.confUser.charge || v.confDefaults.charge.val;
         v.conf.gravity = v.confUser.gravity || v.confDefaults.gravity.val;
         v.conf.linkStrength = v.confUser.linkStrength || v.confDefaults.linkStrength.val;
@@ -599,10 +607,10 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
             '<nodes ID="7900" LABEL="JAMES" COLORVALUE="30" COLORLABEL="Sales" SIZEVALUE="950" />' +
             '<nodes ID="7934" LABEL="MILLER" COLORVALUE="10" COLORLABEL="Accounting" SIZEVALUE="1300" />' +
             '<nodes ID="8888" LABEL="Who am I?" COLORVALUE="green" COLORLABEL="unspecified" SIZEVALUE="2000" ' +
-            'LINK="https://github.com/ogobrecht/d3-force-apex-plugin/wiki/API-Reference#nodelinktarget" ' +
+            'LINK="https://ogobrecht.github.io/d3-force-apex-plugin/module-API.html#.nodeLinkTarget" ' +
             'INFOSTRING="This is a good question. Think about it." />' +
             '<nodes ID="9999" LABEL="Where I am?" COLORVALUE="#f00" COLORLABEL="unspecified" SIZEVALUE="1000" ' +
-            'LINK="https://github.com/ogobrecht/d3-force-apex-plugin/wiki/API-Reference#nodelinktarget" ' +
+            'LINK="https://ogobrecht.github.io/d3-force-apex-plugin/module-API.html#.nodeLinkTarget" ' +
             'INFOSTRING="This is a good question. What do you think?" />' +
             '<links FROMID="7839" TOID="7839" STYLE="dotted" COLOR="blue" ' +
             'INFOSTRING="This is a self link (same source and target node) rendered along a path with the STYLE ' +
@@ -614,7 +622,8 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
             '<links FROMID="7788" TOID="7566" STYLE="solid" />' +
             '<links FROMID="7902" TOID="7566" STYLE="solid" />' +
             '<links FROMID="7369" TOID="7902" STYLE="solid" />' +
-            '<links FROMID="7499" TOID="7698" STYLE="solid" />' +
+            '<links FROMID="7499" TOID="7698" STYLE="solid" LABEL="Allen>Blake" ' + 
+            'INFOSTRING="This link has the LABEL and INFOSTRING attributes set." />' +
             '<links FROMID="7521" TOID="7698" STYLE="solid" />' +
             '<links FROMID="7654" TOID="7698" STYLE="solid" />' +
             '<links FROMID="7844" TOID="7698" STYLE="solid" />' +
@@ -827,7 +836,6 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
                         v.main.labels.call(v.tools.wrapLabels, v.conf.wrappedLabelWidth);
                         v.status.wrapLabelsOnNextTick = false;
                     }
-                    // reposition on every tick only
                     if (v.conf.wrapLabels) {
                         v.main.labels.each(function() {
                             var label = d3.select(this);
@@ -840,8 +848,24 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
                         });
                     }
                     v.main.labelPaths
-                        .attr("transform", function(n) {
+                        .attr("transform", function (n) {
                             return "translate(" + n.x + "," + n.y + ")";
+                        });
+                    v.main.linkLabelPaths
+                        .attr('d', function (l) {
+                            return 'M ' + l.source.x + ' ' + l.source.y + ' L ' + l.target.x + ' ' + l.target.y;
+                        });
+                    v.main.linkLabels
+                        .attr('transform', function (l, i) {
+                            if (l.target.x < l.source.x) {
+                                var bbox = this.getBBox();
+                                var rx = bbox.x + bbox.width / 2;
+                                var ry = bbox.y + bbox.height / 2;
+                                return 'rotate(180 ' + rx + ' ' + ry + ')';
+                            }
+                            else {
+                                return 'rotate(0)';
+                            }
                         });
                 }
                 v.main.nodes
@@ -851,6 +875,9 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
                     .attr("cy", function(n) {
                         return n.y;
                     });
+                if ( (new Date().getTime() - v.status.forceStartTime) > v.conf.forceTimeLimit){
+                    v.main.force.stop();
+                }
             })
             .on("end", function() {
                 if (v.conf.showLabels && v.conf.preventLabelOverlappingOnForceEnd) {
@@ -1290,14 +1317,14 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
                 "radius": ri
             },
             "target": {
-                "x": (x + ro / 2),
+                "x": (x - ro / 2),
                 "y": (y + ro),
                 "radius": ri
             }
         };
         var pathEnd = {
             "source": {
-                "x": (x - ro / 2),
+                "x": (x + ro / 2),
                 "y": (y + ro),
                 "radius": ri
             },
@@ -1308,8 +1335,8 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
             }
         };
         var path = "M" + v.tools.adjustSourceX(pathStart) + "," + v.tools.adjustSourceY(pathStart);
-        path += " L" + (x + ro / 2) + "," + (y + ro);
-        path += " A" + ro + "," + ro + " 0 0,1 " + (x - ro / 2) + "," + (y + ro);
+        path += " L" + (x - ro / 2) + "," + (y + ro);
+        path += " A" + ro + "," + ro + " 0 0,0 " + (x + ro / 2) + "," + (y + ro);
         path += " L" + v.tools.adjustTargetX(pathEnd) + "," + v.tools.adjustTargetY(pathEnd);
         return path;
     };
@@ -1324,6 +1351,21 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
         path += " a" + r + "," + r + " 0 0,1 " + (r * 2) + ",0";
         path += " a" + r + "," + r + " 0 0,1 -" + (r * 2) + ",0";
         return path;
+    };
+
+    // get pattern id
+    v.tools.getPatternId = function(n) {
+        return v.dom.containerId + "_pattern_" + n.ID;
+    };
+
+    // get link id
+    v.tools.getLinkId = function(l) {
+        return l.FROMID + "_" + l.TOID;
+    };
+
+    // get link path id
+    v.tools.getPathId = function(l) {
+        return v.dom.containerId + "_path_" + v.tools.getLinkId(l);
     };
 
     // open link function
@@ -1434,6 +1476,7 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
             }
         }
     };
+
     // get marker URL
     v.tools.getMarkerUrl = function(l) {
         if (v.conf.showLinkDirection) {
@@ -1642,6 +1685,29 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
             top: Math.round(top),
             left: Math.round(left)
         };
+    };
+
+    // get graph data with an error message for the user
+    v.tools.getGraphDataWithMessage = function (message) {
+        return {
+            "nodes": [{
+                "ID": "1",
+                "LABEL": "ERROR: " + message,
+                "COLORVALUE": "1",
+                "SIZEVALUE": "1"
+            }],
+            "links": []
+        };
+    };
+
+    // get nodes data with an error message for the user
+    v.tools.getNodesDataWithMessage = function (message) {
+        return [{
+                "ID": "1",
+                "LABEL": "ERROR: " + message,
+                "COLORVALUE": "1",
+                "SIZEVALUE": "1"
+            }];
     };
 
     // create legend
@@ -3011,32 +3077,12 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
                         if (v.data.dataConverted === null) {
                             message = "Unable to convert XML string.";
                             v.tools.logError(message);
-                            v.data.dataConverted = {
-                                "data": {
-                                    "nodes": [{
-                                        "ID": "1",
-                                        "LABEL": "ERROR: " + message,
-                                        "COLORVALUE": "1",
-                                        "SIZEVALUE": "1"
-                                    }],
-                                    "links": []
-                                }
-                            };
+                            v.data.dataConverted = v.tools.getGraphDataWithMessage(message);
                         }
                     } catch (e) {
                         message = "Unable to convert XML string: " + e.message + ".";
                         v.tools.logError(message);
-                        v.data.dataConverted = {
-                            "data": {
-                                "nodes": [{
-                                    "ID": "1",
-                                    "LABEL": "ERROR: " + message,
-                                    "COLORVALUE": "1",
-                                    "SIZEVALUE": "1"
-                                }],
-                                "links": []
-                            }
-                        };
+                        v.data.dataConverted = v.tools.getGraphDataWithMessage(message);
                     }
                 } else if (data.trim().substr(0, 1) === "{") {
                     try {
@@ -3044,32 +3090,12 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
                     } catch (e) {
                         message = "Unable to parse JSON string: " + e.message + ".";
                         v.tools.logError(message);
-                        v.data.dataConverted = {
-                            "data": {
-                                "nodes": [{
-                                    "ID": "1",
-                                    "LABEL": "ERROR: " + message,
-                                    "COLORVALUE": "1",
-                                    "SIZEVALUE": "1"
-                                }],
-                                "links": []
-                            }
-                        };
+                        v.data.dataConverted = v.tools.getGraphDataWithMessage(message);
                     }
                 } else {
                     message = "Your data string is not starting with \"<\" or \"{\" - parsing not possible.";
                     v.tools.logError(message);
-                    v.data.dataConverted = {
-                        "data": {
-                            "nodes": [{
-                                "ID": "1",
-                                "LABEL": "ERROR: " + message,
-                                "COLORVALUE": "1",
-                                "SIZEVALUE": "1"
-                            }],
-                            "links": []
-                        }
-                    };
+                    v.data.dataConverted = v.tools.getGraphDataWithMessage(message);
                 }
                 if (v.conf.debug) {
                     v.tools.log("Data string:");
@@ -3083,17 +3109,7 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
                 message = "Unable to parse your data - input data can be a XML string, " +
                     "JSON string or JavaScript object.";
                 v.tools.logError(message);
-                v.data.dataConverted = {
-                    "data": {
-                        "nodes": [{
-                            "ID": "1",
-                            "LABEL": "ERROR: " + message,
-                            "COLORVALUE": "1",
-                            "SIZEVALUE": "1"
-                        }],
-                        "links": []
-                    }
-                };
+                v.data.dataConverted = v.tools.getGraphDataWithMessage(message);
             }
 
             // create references to our new data
@@ -3104,22 +3120,12 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
                         if (v.data.nodes.length === 0) {
                             message = "Your data contains an empty nodes array.";
                             v.tools.logError(message);
-                            v.data.nodes = [{
-                                "ID": "1",
-                                "LABEL": "ERROR: " + message,
-                                "COLORVALUE": "1",
-                                "SIZEVALUE": "1"
-                            }];
+                            v.data.nodes = v.tools.getNodesDataWithMessage(message);
                         }
                     } else {
                         message = "Your data contains no nodes.";
                         v.tools.logError(message);
-                        v.data.nodes = [{
-                            "ID": "1",
-                            "LABEL": "ERROR: " + message,
-                            "COLORVALUE": "1",
-                            "SIZEVALUE": "1"
-                        }];
+                        v.data.nodes = v.tools.getNodesDataWithMessage(message);
                     }
                     if (v.data.dataConverted.data.hasOwnProperty("links") && v.data.dataConverted.data.links !== null) {
                         v.data.links = v.data.dataConverted.data.links;
@@ -3129,28 +3135,12 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
                 } else {
                     message = "Missing root element named data.";
                     v.tools.logError(message);
-                    v.data = {
-                        "nodes": [{
-                            "ID": "1",
-                            "LABEL": "ERROR: " + message,
-                            "COLORVALUE": "1",
-                            "SIZEVALUE": "1"
-                        }],
-                        "links": []
-                    };
+                    v.data = v.tools.getGraphDataWithMessage(message);
                 }
             } else {
                 message = "Unable to parse your data - please consult the API reference for possible data formats.";
                 v.tools.logError(message);
-                v.data = {
-                    "nodes": [{
-                        "ID": "1",
-                        "LABEL": "ERROR: " + message,
-                        "COLORVALUE": "1",
-                        "SIZEVALUE": "1"
-                    }],
-                    "links": []
-                };
+                v.data = v.tools.getGraphDataWithMessage(message);
             }
 
             // switch links to point to node objects instead of id's (needed for force layout) and calculate attributes
@@ -3299,7 +3289,7 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
                     return l.FROMID !== l.TOID;
                 }),
                 function(l) {
-                    return l.FROMID + "_" + l.TOID;
+                    return v.tools.getLinkId(l);
                 });
         v.main.links.enter().append("svg:line")
             .attr("class", "link")
@@ -3326,11 +3316,11 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
                     return l.FROMID === l.TOID && v.conf.showSelfLinks;
                 }),
                 function(l) {
-                    return l.FROMID + "_" + l.TOID;
+                    return v.tools.getLinkId(l);
                 });
         v.main.selfLinks.enter().append("svg:path")
             .attr("id", function(l) {
-                return v.dom.containerId + "_link_" + l.FROMID + "_" + l.TOID;
+                return v.tools.getPathId(l);
             })
             .attr("class", "link")
             .on("mouseenter", v.tools.onLinkMouseenter)
@@ -3361,15 +3351,17 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
                 function(n) {
                     return n.ID;
                 });
-        v.main.patterns.enter().append("svg:pattern")
+        var patterns_enter = v.main.patterns.enter().append("svg:pattern")
             .attr("id", function(n) {
-                return v.dom.containerId + "_pattern_" + n.ID;
-            })
-            .append("svg:image");
+                return v.tools.getPatternId(n);
+            });
+            patterns_enter.append("svg:rect");
+            patterns_enter.append("svg:image");
+            patterns_enter = "";
         v.main.patterns.exit().remove();
         // update all
         v.main.patterns.each(function() {
-            d3.select(this)
+            d3.select(this) //pattern itself
                 .attr("x", 0)
                 .attr("y", 0)
                 .attr("height", function(n) {
@@ -3378,7 +3370,19 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
                 .attr("width", function(n) {
                     return n.radius * 2;
                 });
-            d3.select(this.firstChild)
+            d3.select(this.firstChild) //rect with background color (fill)
+                .attr("x", 0)
+                .attr("y", 0)
+                .attr("height", function(n) {
+                    return n.radius * 2;
+                })
+                .attr("width", function(n) {
+                    return n.radius * 2;
+                })
+                .attr("fill", function(n) {
+                    return v.tools.color(n.COLORVALUE);
+                });
+                d3.select(this.lastChild) //image or SVG?
                 .attr("x", 0)
                 .attr("y", 0)
                 .attr("height", function(n) {
@@ -3424,15 +3428,67 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
                 return n.radius;
             })
             .attr("fill", function(n) {
-                return (n.IMAGE ? "url(#" + v.dom.containerId + "_pattern_" + n.ID + ")" : v.tools.color(n.COLORVALUE));
+                return (n.IMAGE ? "url(#" + v.tools.getPatternId(n) + ")" : v.tools.color(n.COLORVALUE));
             });
 
 
         // LABELS
 
         if (v.conf.showLabels) {
+            
+            // paths for normal link labels (no self links)
+            v.main.linkLabelPaths = v.dom.defs.selectAll("path.linkLabel")
+                .data(v.data.links.filter(function(l) {
+                        return l.LABEL && l.FROMID !== l.TOID;
+                    }),
+                    function(l) {
+                        return v.tools.getLinkId(l);
+                    });
+            v.main.linkLabelPaths.enter().append("svg:path")
+                .attr("id", function(l) {
+                    return v.tools.getPathId(l);
+                })
+                .attr("class", "linkLabel");
+            v.main.linkLabelPaths.exit().remove();
+            // update all
+            v.main.linkLabelPaths.attr("d", function(l) {
+                return 'M ' + l.source.x + ' ' + l.source.y + ' L ' + l.target.x + ' ' + l.target.y;
+            });
 
-            // normal text labels
+            // link labels
+            v.main.linkLabels = v.dom.graph.selectAll("text.linkLabel")
+                .data(v.data.links.filter(function(l) {
+                        return l.LABEL;
+                    }),
+                    function(l) {
+                        return v.tools.getLinkId(l);
+                    });
+            v.main.linkLabels.enter().append("svg:text")
+                .attr("class", "linkLabel")
+                .attr("dx", function(l) {
+                    if (l.FROMID !== l.TOID) {
+                        return v.conf.linkDistance / 2;
+                    }
+                    else {
+                        return v.conf.selfLinkDistance + l.source.radius;
+                    }
+                })
+                .attr("dy","-1")
+                .on("mouseenter", v.tools.onLinkMouseenter)
+                .on("mouseleave", v.tools.onLinkMouseleave)    
+                .on("click", v.tools.onLinkClick)
+                .append("svg:textPath")
+                .attr("xlink:href", function(l) {
+                    return "#" + v.tools.getPathId(l);
+                });
+            v.main.linkLabels.exit().remove();
+            // update all
+            v.main.linkLabels.each(function(l) {
+                d3.select(this.firstChild)
+                .text(l.LABEL);
+            });
+
+            // normal node labels
             v.main.labels = v.dom.graph.selectAll("text.label")
                 .data(v.data.nodes.filter(function(n) {
                         return !n.LABELCIRCULAR && !v.conf.labelsCircular;
@@ -3448,7 +3504,7 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
                 return n.LABEL;
             });
 
-            // paths for circular labels
+            // paths for circular node labels
             v.main.labelPaths = v.dom.defs.selectAll("path.label")
                 .data(v.data.nodes.filter(function(n) {
                         return n.LABELCIRCULAR || v.conf.labelsCircular;
@@ -3467,7 +3523,7 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
                 return v.tools.getLabelPath(n);
             });
 
-            // circular labels
+            // circular node labels
             v.main.labelsCircular = v.dom.graph.selectAll("text.labelCircular")
                 .data(v.data.nodes.filter(function(n) {
                         return n.LABELCIRCULAR || v.conf.labelsCircular;
@@ -3486,9 +3542,11 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
             v.main.labelsCircular.each(function(n) {
                 d3.select(this.firstChild).text(n.LABEL);
             });
+
+
         } else {
-            v.dom.defs.selectAll("path.label").remove();
-            v.dom.graph.selectAll("text.label,text.labelCircular").remove();
+            v.dom.defs.selectAll("path.label,path.linkLabel").remove();
+            v.dom.graph.selectAll("text.label,text.labelCircular,text.linkLabel").remove();
         }
 
         // calculate initial aspect ratio
@@ -3704,7 +3762,7 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
         if (v.status.graphStarted) {
             v.main.nodes
                 .attr("fill", function(n) {
-                    return (n.IMAGE ? "url(#" + v.dom.containerId + "_pattern_" + n.ID + ")" :
+                    return (n.IMAGE ? "url(#" + v.tools.getPatternId(n) + ")" :
                         v.tools.color(n.COLORVALUE));
                 });
             if (v.conf.showLegend) {
@@ -4167,7 +4225,7 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
      */
     graph.zoom = function(centerX, centerY, viewportWidth, duration) {
         // http://bl.ocks.org/linssen/7352810
-        var x, y, scale;
+        var translate, scale;
         var width = v.tools.getGraphWidth(); // could be different then configured (responsive)
         var height = v.tools.getGraphHeight(); 
         centerX = (isNaN(centerX) ? width / 2 : parseInt(centerX));
@@ -4175,9 +4233,11 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
         viewportWidth = (isNaN(viewportWidth) ? width : parseInt(viewportWidth));
         duration = (isNaN(duration) ? 500 : parseInt(duration));
         scale = width / viewportWidth;
-        x = width / 2 - centerX * scale;
-        y = height / 2 - centerY * scale;
-        v.main.interpolateZoom([x, y], scale, duration);
+        translate = [
+            width / 2 - centerX * scale,
+            height / 2 - centerY * scale
+        ];
+        v.main.interpolateZoom(translate, scale, duration);
         return graph;
     };
 
@@ -4222,9 +4282,45 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
                 "scale": v.main.zoom.scale()
             };
         } else {
-            v.main.interpolateZoom(transform.translate, transform.scale, (isNaN(duration) ? 500 : parseInt(duration)));
+            v.main.interpolateZoom(
+                transform.translate, 
+                transform.scale, 
+                (isNaN(duration) ? 500 : parseInt(duration))
+            );
         }
         return graph;
+    };
+
+    /**
+     * Helper/Command method - get the center position of the graph border box:
+     *
+     *     example.centerPositionGraph();
+     * @returns {Array} An array with the x and y positions: [x, y].
+     */
+    graph.centerPositionGraph = function () {
+        var graphBox = v.dom.graph.node().getBBox();
+        return [
+            graphBox.x + graphBox.width / 2,
+            graphBox.y + graphBox.height / 2
+        ];
+    };
+
+    /**
+     * Helper/Command method - get the center position of the SVG viewport:
+     *
+     *     example.centerPositionViewport();
+     * @returns {Array} An array with the x and y positions: [x, y].
+     */
+    graph.centerPositionViewport = function () {
+        var svg = {}, scale, translate;
+        svg.width = v.tools.getGraphWidth();
+        svg.height = v.tools.getGraphHeight();
+        scale = v.main.zoom.scale();
+        translate = v.main.zoom.translate();
+        return [
+            (svg.width / 2 - translate[0]) * 1 / scale,
+            (svg.height / 2 - translate[1]) * 1 / scale
+        ];
     };
 
     /**
@@ -4242,17 +4338,21 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
      * @returns {Object} The graph object for method chaining.
      */
     graph.center = function (duration) {
-        var svg = {},
-            graph_,
-            x, y, scale;
+        var svg = {}, graphBox, translate, scale;
         duration = (isNaN(duration) ? 500 : parseInt(duration));
         svg.width = v.tools.getGraphWidth();
         svg.height = v.tools.getGraphHeight();
-        graph_ = v.dom.graph.node().getBBox();
+        graphBox = v.dom.graph.node().getBBox();
         scale = v.main.zoom.scale();
-        x = (svg.width - graph_.width * scale) / 2 - graph_.x * scale;
-        y = (svg.height - graph_.height * scale) / 2 - graph_.y * scale;
-        v.main.interpolateZoom([x, y], scale, duration);
+        // If the graph is hidden we get 0 for width and height. Zoom will then fail because
+        // the calculation results in NaN for the translation (x, y) and infinity for the scale.
+        if (graphBox.width > 0 && graphBox.height > 0) {
+            translate = [
+                (svg.width - graphBox.width * scale) / 2 - graphBox.x * scale,
+                (svg.height - graphBox.height * scale) / 2 - graphBox.y * scale
+            ];
+            v.main.interpolateZoom(translate, scale, duration);
+        }
         return graph;
     };
 
@@ -4270,21 +4370,21 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
      * @returns {Object} The graph object for method chaining.
      */
     graph.zoomToFit = function(duration) {
-        var svg = {},
-            graph_, padding = 10,
-            x, y, scale;
+        var svg = {}, graphBox, padding = 10, translate, scale;
         duration = (isNaN(duration) ? 500 : parseInt(duration));
         svg.width = v.tools.getGraphWidth();
         svg.height = v.tools.getGraphHeight();
-        graph_ = v.dom.graph.node().getBBox();
-        // If the graph is hidden we get 0 for width and height. zoom will then fail because
+        graphBox = v.dom.graph.node().getBBox();
+        // If the graph is hidden we get 0 for width and height. Zoom will then fail because
         // the calculation results in NaN for the translation (x, y) and infinity for the scale.
-        if (graph_.width > 0 && graph_.height > 0) {
-            scale = Math.min((svg.height - 2 * padding) / graph_.height,
-                (svg.width - 2 * padding) / graph_.width);
-            x = (svg.width - graph_.width * scale) / 2 - graph_.x * scale;
-            y = (svg.height - graph_.height * scale) / 2 - graph_.y * scale;
-            v.main.interpolateZoom([x, y], scale, duration);
+        if (graphBox.width > 0 && graphBox.height > 0) {
+            scale = Math.min((svg.height - 2 * padding) / graphBox.height,
+                (svg.width - 2 * padding) / graphBox.width);
+            translate = [
+                (svg.width - graphBox.width * scale) / 2 - graphBox.x * scale,
+                (svg.height - graphBox.height * scale) / 2 - graphBox.y * scale
+            ];
+            v.main.interpolateZoom(translate, scale, duration);
         }
         return graph;
     };
@@ -5021,6 +5121,25 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
         v.conf.theta = value;
         if (v.status.graphStarted) {
             v.main.force.theta(v.conf.theta);
+            v.tools.createCustomizeWizardIfNotRendering();
+        }
+        return graph;
+    };
+
+    /**
+     * Gets or sets the maximum runtime in milliseconds for the force. This could be helpful when the graph is running to long with many node background images or when you want to stop the force early because all nodes are fixed and the running force is useless and costs only battery runtime.
+     *
+     *     example.forceTimeLimit(100);
+     * @see {@link module:API.charge}
+     * @param {number} [value=Infinity] - The new force time limit value.
+     * @returns {(number|Object)} The current force time limit value if no parameter is given or the graph object for method chaining.
+     */
+    graph.forceTimeLimit = function(value) {
+        if (!arguments.length) {
+            return v.conf.forceTimeLimit;
+        }
+        v.conf.forceTimeLimit = value;
+        if (v.status.graphStarted) {
             v.tools.createCustomizeWizardIfNotRendering();
         }
         return graph;

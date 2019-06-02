@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Node & Link Attributes - Documentation</title>
+    <title>Special Use Cases - Documentation</title>
 
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
@@ -29,7 +29,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">Node & Link Attributes</h1>
+    <h1 class="page-title">Special Use Cases</h1>
     
 
     <section>
@@ -39,30 +39,35 @@
 </header>
 
 <article>
-    <p>Node and link attributes are case sensitive:</p>
-<h2>Nodes</h2><ul>
-<li><code>ID</code>: mandatory, string, alphanumeric node identifier</li>
-<li><code>SIZEVALUE</code>: mandatory, number, numeric base for radius calculation</li>
-<li><code>COLORVALUE</code>: mandatory, string, HTML color code or any alphanumeric string - see also <a href="./module-API.html#.colorScheme">colorScheme</a></li>
-<li><code>COLORLABEL</code>: optional, string, used for legend - if not existing, colorvalue is used instead</li>
-<li><code>LABEL</code>: optional, string, label for the node</li>
-<li><code>LABELCIRCULAR</code>: optional, boolean, overwrites the global option <a href="./module-API.html#.labelsCircular">labelsCircular</a></li>
-<li><code>INFOSTRING</code>: optional, string, this string is shown as a tooltip - see also <a href="./module-API.html#.showTooltips">showTooltips</a> and <a href="./module-API.html#.tooltipPosition">tooltipPosition</a></li>
-<li><code>LINK</code>: optional, string, URL to open on configurable event - see also <a href="./module-API.html#.nodeEventToOpenLink">nodeEventToOpenLink</a></li>
-<li><code>IMAGE</code>: optional, string, URL to a background image for a node instead of a fill color</li>
-<li><code>fixed</code>: optional, boolean, pin status of a node</li>
-<li><code>x</code>: optional, number, x position of fixed (pinned) node</li>
-<li><code>y</code>: optional, number, y position of fixed (pinned) node</li>
-</ul>
-<p>Fixed, x and y are native D3 attributes - they must be lowercase.</p>
-<h2>Links</h2><ul>
-<li><code>FROMID</code>: mandatory, string, id of node, where a link starts (links are able to showing directions, see also <a href="./module-API.html#.showLinkDirection">showLinkDirection</a>)</li>
-<li><code>TOID</code>: mandatory, string, id of node, where a link ends</li>
-<li><code>STYLE</code>: optional, string, can be <code>solid</code> (default), <code>dotted</code> or <code>dashed</code></li>
-<li><code>COLOR</code>: optional, string, must be a HTML color code like <code>green</code> or <code>#00ff00</code></li>
-<li><code>LABEL</code>: optional, string, label for the link</li>
-<li><code>INFOSTRING</code>: optional, string, this string is shown as a tooltip - see also <a href="./module-API.html#.showTooltips">showTooltips</a> and <a href="./module-API.html#.tooltipPosition">tooltipPosition</a></li>
-</ul>
+    <p>Some people have special use cases and ask interesting questions. On this page we collect them to provide examples for other users.</p>
+<h2>Speed up background images on nodes</h2><p>When you use background images on nodes instead of background colors this can slow down your graphs render performance. This is depending on the render performance of your browser, but even the fastest browser engines can have big problems with too many and/or too big images.</p>
+<p>One possible workaround is to switch the background images to background colors when the force is starting and switch back to images when the force is stopping. Fortunately we have events for this available. Here an example - please align the graphs variable <code>example</code> to your specific one:</p>
+<pre class="prettyprint source lang-js"><code>example.onForceStartFunction(
+  function () {
+    example.nodes().each(function (node) {
+      elem = d3.select(this);
+      // Save the reference to the SVG pattern in a new node attribute.
+      // Your provided image URL is used in the pattern, not direct in the fill attribute.
+      // This is how SVG works, sorry. You can inspect the patterns in your browser console.
+      node.fill_backup = elem.style(&quot;fill&quot;);
+      elem.style(&quot;fill&quot;, &quot;silver&quot;)
+    });
+  }
+);
+
+example.onForceEndFunction(
+  function () {
+    example.nodes().each(function (node) {
+       // Write back the saved reference to the SVG pattern.
+      d3.select(this).style(&quot;fill&quot;, node.fill_backup);
+    });
+  }
+);</code></pre><p>Thanks are going to github.com/Ignacius68 for questions around this topic.</p>
+<h2>Stop force early when all nodes are fixed</h2><p>This use case can be related to the previous one. If you deliver data with predefined, fixed positions for all nodes then the force is still running and calculate all positions. The fixed nodes are not updated within the ticks but the force is running as usual. This might become a problem when you wait for the force end to do some own things - like with the images from the previous use case.</p>
+<p>The force has to run a minimum time to correct render all nodes. So what can we do? The graph API has currently no method to stop the force directly, but there is a trick. The graph API exposes a method mainly for debugging named <code>inspect</code>. With this method you have access to all the graph internal variables and functions. You can try this out in your browser console by executing <code>example.inspect()</code>.</p>
+<p>To stop the force after 100ms we reuse the inspect method like so:</p>
+<p><code>`</code>js<br>example.onForceStartFunction(function () {<br>  setTimeout(function () {<br>    example.inspect().main.force.stop();<br>  }, 100);<br>})</p>
+<p>Thanks are going to github.com/Ignacius68 for questions around this topic.</p>
 </article>
 
 </section>
