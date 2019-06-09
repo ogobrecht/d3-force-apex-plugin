@@ -5127,7 +5127,7 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
     };
 
     /**
-     * Gets or sets the maximum runtime in milliseconds for the force. This could be helpful when the graph is running to long with many node background images or when you want to stop the force early because all nodes are fixed and the running force is useless and costs only battery runtime.
+     * Gets or sets the maximum runtime in milliseconds for the force. This could be helpful when the graph is running too long with many node background images or when you want to stop the force early because all nodes are fixed and the running force is useless and costs only battery runtime.
      *
      *     example.forceTimeLimit(100);
      * @see {@link module:API.charge}
