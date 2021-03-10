@@ -3364,12 +3364,8 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
             d3.select(this) //pattern itself
                 .attr("x", 0)
                 .attr("y", 0)
-                .attr("height", function(n) {
-                    return n.radius * 2;
-                })
-                .attr("width", function(n) {
-                    return n.radius * 2;
-                });
+                .attr("height", 1)
+                .attr("width", 1);
             d3.select(this.firstChild) //rect with background color (fill)
                 .attr("x", 0)
                 .attr("y", 0)
