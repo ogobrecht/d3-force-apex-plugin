@@ -49,7 +49,9 @@
 
     <section class="readme">
         <article><p><a href="https://github.com/ogobrecht/d3-force-apex-plugin/releases/latest">Latest version</a> | <a href="https://ogobrecht.github.io/d3-force-apex-plugin/">Docs &amp; API Reference</a> | <a href="https://ogobrecht.github.io/d3-force-apex-plugin/tutorial-1-getting-started.html">Online demo</a> | <a href="https://apex.oracle.com/pls/apex/f?p=18290">APEX Plugin demo</a></p>
-<h1>Oracle APEX Region Type Plugin: D3 Force Network Chart</h1><p>This is a D3 force implementation, playground and Oracle APEX plugin, which uses the<br><a href="http://d3js.org/">D3 visualization library</a> to render a network layout. It has the following features:</p>
+<h1>Oracle APEX Region Type Plugin: D3 Force Network Chart</h1>
+<p>This is a D3 force implementation, playground and Oracle APEX plugin, which uses the<br>
+<a href="http://d3js.org/">D3 visualization library</a> to render a network layout. It has the following features:</p>
 <ul>
 <li>Works with APEX versions &gt;= 5.1.4  or standalone in every HTML page</li>
 <li>Interactive customization wizard</li>
@@ -66,58 +68,74 @@
 <li>There is a JavaScript API to interact with the graph (<a href="https://ogobrecht.github.io/d3-force-apex-plugin/">API reference</a>), also including 12 events (node click, node double click, node contextmenu, node mouse enter, node mouse leave, link click, lasso start, lasso end, force start, force end, render end, resize)</li>
 <li>All 12 events are available in APEX - the plugin region can be AJAX refreshed and triggers then also apexbeforerefresh and apexafterrefresh</li>
 </ul>
-<h2>Requirements</h2><ul>
+<h2>Requirements</h2>
+<ul>
 <li>APEX 5.1.4 or higher, if used as a plugin</li>
 <li>A modern browser, which is able to work with SVG and CSS3 - for more informations see the <a href="https://github.com/mbostock/d3/wiki#browser--platform-support">D3 Wiki</a></li>
 </ul>
-<h2>Installation</h2><h3>APEX</h3><ul>
+<h2>Installation</h2>
+<h3>APEX</h3>
+<ul>
 <li>Download the <a href="https://github.com/ogobrecht/d3-force-apex-plugin/releases/latest">latest version</a></li>
 <li>Install the plugin by importing the sql file in the folder <code>apex-plugin</code></li>
 </ul>
-<h3>Any HTML page</h3><ul>
+<h3>Any HTML page</h3>
+<ul>
 <li>Download the <a href="https://github.com/ogobrecht/d3-force-apex-plugin/releases/latest">latest version</a></li>
 <li>See <code>dist/example.html</code> and <code>docs/tutorial-1-getting-started.html</code></li>
 </ul>
-<h2>Credits</h2><p>I would like to say THANK YOU to all the people who share their knowledge. Without this sharing I would not have been able to create this D3 implementation. Special thanks to Mike Bostock for his great library and to Carsten Czarski for mentoring me on Oracle APEX plugin development.</p>
-<h2>Roadmap</h2><h3>4.0.0 (201x-xx-xx) in planning</h3><ul>
+<h2>Credits</h2>
+<p>I would like to say THANK YOU to all the people who share their knowledge. Without this sharing I would not have been able to create this D3 implementation. Special thanks to Mike Bostock for his great library and to Carsten Czarski for mentoring me on Oracle APEX plugin development.</p>
+<h2>Roadmap</h2>
+<h3>4.0.0 (201x-xx-xx) in planning</h3>
+<ul>
 <li>Update to current D3 version (5.x.x): <a href="https://github.com/d3/d3/blob/master/CHANGES.md#forces-d3-force">link 1</a>, <a href="https://github.com/d3/d3-force/blob/master/README.md">link 2</a></li>
 <li>Devide code base into modularized graph code and APEX plugin code in different repos to make clear, that the graph function can run in any HTML environment</li>
 </ul>
-<h2>Changelog</h2><p>This D3 force implementation uses <a href="http://semver.org">semantic versioning</a>.</p>
+<h2>Changelog</h2>
+<p>This D3 force implementation uses <a href="http://semver.org">semantic versioning</a>.</p>
 <p>Please refer to the <a href="https://ogobrecht.github.io/d3-force-apex-plugin/">documentation</a> for more informations on how to get started and an overview of all graph methods. Please use for all comments and discussions the <a href="https://github.com/ogobrecht/d3-force-apex-plugin/issues">issues functionality on GitHub</a>.</p>
-<h3>3.1.0 (2019-0x-xx)</h3><p>ATTENTION: You need at least APEX 5.1.4 to be able to import the plugin in your APEX apps. If you need to support older APEX versions (at least 4.2) then download the plugin release 3.0.0.</p>
+<h3>3.1.0 (2019-06-02)</h3>
+<p>ATTENTION: You need at least APEX 5.1.4 to be able to import the plugin in your APEX apps. If you need to support older APEX versions (at least 4.2) then download the plugin release 3.0.0.</p>
 <ul>
 <li>New option forceTimeLimit (<a href="https://ogobrecht.github.io/d3-force-apex-plugin/module-API.html#.forceTimeLimit">API reference</a>)</li>
 <li>Nodes have now also a background color when an background image is defined (useful for images with transparency)</li>
 <li>New Link attribute LABEL (<a href="https://ogobrecht.github.io/d3-force-apex-plugin/tutorial-2-node-and-link-attributes.html">API reference</a>), which is rendered as a text along the link path and fires the link click event when clicked (the label is easier to click then the link itself - so we have here a usability improvement)</li>
-<li>Two new helper methods to get the center of the graph (border box) or the SVG viewport:<ul>
+<li>Two new helper methods to get the center of the graph (border box) or the SVG viewport:
+<ul>
 <li>centerPositionGraph (<a href="https://ogobrecht.github.io/d3-force-apex-plugin/module-API.html#.centerPositionGraph">API reference</a>)</li>
 <li>centerPositionViewport (<a href="https://ogobrecht.github.io/d3-force-apex-plugin/module-API.html#.centerPositionViewport">API reference</a>)</li>
 </ul>
 </li>
 </ul>
 <p>Thanks are going to github.com/Ignacius68 for the valuable feedback and all the beta testing.</p>
-<h3>3.0.0 (2018-11-26)</h3><p>Because of breaking API changes we have a new major realease:</p>
+<h3>3.0.0 (2018-11-26)</h3>
+<p>Because of breaking API changes we have a new major realease:</p>
 <ul>
-<li>Overall improvements<ul>
-<li>Better responsiveness by implementing a resize observer (native in Chrome since v64, polyfill for other browsers)<ul>
+<li>Overall improvements
+<ul>
+<li>Better responsiveness by implementing a resize observer (native in Chrome since v64, polyfill for other browsers)
+<ul>
 <li>Default true for the following options: <code>zoomToFitOnForceEnd</code> (was false in the past), <code>zoomToFitOnResize</code> (new option), <code>keepAspectRatioOnResize</code> (new option)</li>
 <li>When setting the option <code>useDomParentWidth</code> to true together with the previous mentioned defaults you can achieve a responsiveness like with images set to width 100% - see the <a href="https://ogobrecht.github.io/d3-force-apex-plugin/tutorial-1-getting-started.html">online demo</a> and play around with it</li>
 </ul>
 </li>
 <li>All zoom relevant API methods are no longer depending on the <code>zoomMode</code> - they work simply always</li>
-<li>The <code>zoomMode</code> sets only the ability for the end user to use zoom and pan </li>
+<li>The <code>zoomMode</code> sets only the ability for the end user to use zoom and pan</li>
 </ul>
 </li>
-<li>Fixed<ul>
+<li>Fixed
+<ul>
 <li>APEX plug-in - sample data is rendered before live data (#32) - thanks are going to github.com/Ignacius68 for finding this bug</li>
 </ul>
 </li>
-<li>New events<ul>
+<li>New events
+<ul>
 <li>Resize (<a href="https://ogobrecht.github.io/d3-force-apex-plugin/module-API.html#.onResizeFunction">API reference</a>)</li>
 </ul>
 </li>
-<li>New options<ul>
+<li>New options
+<ul>
 <li>labelSplitCharacter (<a href="https://ogobrecht.github.io/d3-force-apex-plugin/module-API.html#.labelSplitCharacter">API reference</a>)</li>
 <li>onResizeFunction (<a href="https://ogobrecht.github.io/d3-force-apex-plugin/module-API.html#.onResizeFunction">API reference</a>)</li>
 <li>onResizeFunctionTimeout (<a href="https://ogobrecht.github.io/d3-force-apex-plugin/module-API.html#.onResizeFunctionTimeout">API reference</a>)</li>
@@ -125,26 +143,31 @@
 <li>keepAspectRatioOnResize (<a href="https://ogobrecht.github.io/d3-force-apex-plugin/module-API.html#.keepAspectRatioOnResize">API reference</a>)</li>
 </ul>
 </li>
-<li>Changed methods<ul>
+<li>Changed methods
+<ul>
 <li><code>zoom</code> has now a parameter <code>duration</code> (<a href="https://ogobrecht.github.io/d3-force-apex-plugin/module-API.html#.zoom">API reference</a>)</li>
 <li><code>transform</code> has now a parameter <code>duration</code> (<a href="https://ogobrecht.github.io/d3-force-apex-plugin/module-API.html#.transform">API reference</a>)</li>
 <li><code>useDomParentWidth</code> (<a href="https://ogobrecht.github.io/d3-force-apex-plugin/module-API.html#.useDomParentWidth">API reference</a>) no longer needs a render call to take into effect - it works now immediately; Please remove unneccesary render calls to save CPU and battery time</li>
 </ul>
 </li>
-<li>Deprecated methods for clean API<ul>
+<li>Deprecated methods for clean API
+<ul>
 <li><code>zoomSmooth</code> - can be replaced with the <code>zoom</code> method (<a href="https://ogobrecht.github.io/d3-force-apex-plugin/module-API.html#.zoom">API reference</a>), please provide a appropriate duration parameter (default is 1500 with zoomSmooth)</li>
 </ul>
 </li>
 </ul>
 <p>Thanks are going to github.com/Ignacius68 for the idea for option <code>labelSplitCharacter</code> and all the beta testing.</p>
-<h3>2.2.0 (2018-09-29)</h3><ul>
-<li>New events<ul>
+<h3>2.2.0 (2018-09-29)</h3>
+<ul>
+<li>New events
+<ul>
 <li>Render end (<a href="https://ogobrecht.github.io/d3-force-apex-plugin/module-API.html#.onRenderEndFunction">API reference</a>)</li>
 <li>Force start (<a href="https://ogobrecht.github.io/d3-force-apex-plugin/module-API.html#.onForceStartFunction">API reference</a>)</li>
 <li>Force end (<a href="https://ogobrecht.github.io/d3-force-apex-plugin/module-API.html#.onForceEndFunction">API reference</a>)</li>
 </ul>
 </li>
-<li>New graph methods<ul>
+<li>New graph methods
+<ul>
 <li>nodes (<a href="https://ogobrecht.github.io/d3-force-apex-plugin/module-API.html#.nodes">API reference</a>)</li>
 <li>links (<a href="https://ogobrecht.github.io/d3-force-apex-plugin/module-API.html#.links">API reference</a>)</li>
 <li>selfLinks (<a href="https://ogobrecht.github.io/d3-force-apex-plugin/module-API.html#.selfLinks">API reference</a>)</li>
@@ -153,18 +176,22 @@
 </li>
 </ul>
 <p>Thanks are going to github.com/Ignacius68 for the inspiration.</p>
-<h3>2.1.2 (2018-01-07)</h3><ul>
-<li>Fixed again :-(<ul>
+<h3>2.1.2 (2018-01-07)</h3>
+<ul>
+<li>Fixed again :-(
+<ul>
 <li>APEX plugin - semi colon in region query no longer throws an error</li>
 <li>Was a copy paste bug...  no comments please...</li>
 </ul>
 </li>
 </ul>
-<h3>2.1.1 (2018-01-06)</h3><ul>
+<h3>2.1.1 (2018-01-06)</h3>
+<ul>
 <li>Fixed: Nodes stick on the top left corner in APEX 5.x under some circumstances</li>
 <li>Improved docs: getting started section</li>
 </ul>
-<h3>2.1.0 (2017-12-30)</h3><ul>
+<h3>2.1.0 (2017-12-30)</h3>
+<ul>
 <li>New option <code>wrapLabels</code> with a configurable max width - thanks to Ekaterina &amp; Andrey for the idea</li>
 <li>New option <code>zoomToFitOnForceEnd</code> to fit the graph in the available space on force end (like the automatic label placement) - needs the zoomMode switched on to work properly</li>
 <li>New API method <code>zoomToFit</code>, which is used by the option zoomToFitOnForceEnd - now you can do things like <code>example.width(800).height(600).zoomToFit()</code> :-)</li>
@@ -174,17 +201,21 @@
 <li>Fixed: Standalone version not loading after APEX 5.1 bugfix</li>
 <li>Fixed: APEX plugin - semi colon in region query no longer throws an error</li>
 </ul>
-<h3>2.0.3 (2016-12-13)</h3><ul>
+<h3>2.0.3 (2016-12-13)</h3>
+<ul>
 <li>Fixed: #18 - APEX 5.1: jQuery reports syntax error and graph stops loading, if &quot;Page Items to Submit&quot; is not configured - thanks to github.com/KiralyCs to report this issue</li>
 </ul>
-<h3>2.0.2 (2016-07-17)</h3><ul>
+<h3>2.0.2 (2016-07-17)</h3>
+<ul>
 <li>Fixed: #12 - tooltips not showing correctly, if showLabels are set to false - thanks to github.com/pocelka to report this issue</li>
 </ul>
-<h3>2.0.1 (2015-11-18)</h3><ul>
+<h3>2.0.1 (2015-11-18)</h3>
+<ul>
 <li>Fixed: Fixed positions not working in initial data in v2.0.0 - thanks to github.com/rlashaw to report this issue</li>
 <li>Move online demo and documentation to own wiki for better maintenance</li>
 </ul>
-<h3>2.0.0 (2015-11-07)</h3><ul>
+<h3>2.0.0 (2015-11-07)</h3>
+<ul>
 <li>New option <code>preventLabelOverlappingOnForceEnd</code>: If set to true the labels are aligned with a simulated annealing function to prevent overlapping when the graph is cooled down (correctly on the force end event and only on labels, who are not circular) - thanks to Philippe Duchateau to ask for such a feature and all the testing</li>
 <li>New option <code>labelPlacementIterations</code>: The number of iterations for the preventLabelOverlappingOnForceEnd function - default is 250 - as higher the number, as higher the quality of the result - for details refer to the description of the <a href="https://github.com/tinker10/D3-Labeler">simulated annealing function</a> from the author Evan Wang</li>
 <li>New behaviour: the font size and weight of a label is aligned when you hovering a node with your mouse - this helps you to find the right label in graphs with many nodes</li>
@@ -200,10 +231,12 @@
 <li>Code refactoring against JSHint: This refactoring is also the reason for a new major version (API changed: renamed graph function, integration of libs, new XML parser)</li>
 <li>Update to D3 v3.5.6</li>
 </ul>
-<h3>1.4.1 (2015-08-05)</h3><ul>
+<h3>1.4.1 (2015-08-05)</h3>
+<ul>
 <li>Fixed &quot;Tooltip on wrong positions in complex layouts&quot;. This was also the case with APEX 5 and universal theme. Thanks to Philippe Duchateau for telling me about this problem.</li>
 </ul>
-<h3>1.4.0 (2015-08-03)</h3><ul>
+<h3>1.4.0 (2015-08-03)</h3>
+<ul>
 <li>New possible node attribute <code>COLORLABEL</code>: Since there is an option to render a legend, it makes no sense to render the color names as legend labels, if the colorScheme &quot;direct&quot; is used to directly deliver CSS color codes (thanks to Philippe Duchateau for telling me about the problems); With other color schemes it is ok, since the COLORVALUE information can be any string like department names or ids or city names or whatever; To not to break existing graphs, the COLORVALUE is used as the legend label, if the COLORLABEL is not given in the nodes attributes</li>
 <li>New option <code>onLinkClickFunction</code>: You can register a function which is called when a link is clicked (thanks to Niels de Bruijn for requesting this feature); It is not so easy to click a link, because the links are so narrow - if this option is needed I recommend to switch on the zoom mode - with zoom and pan it feels more natural to click links</li>
 <li>New option <code>setDomParentPaddingToZero</code>: Boolean. If true, the style <code>padding: 0px;</code> is added to the graphs DOM parent element; If false, this style is removed from the graphs DOM parent element</li>
@@ -211,14 +244,17 @@
 <li>New API methods <code>options</code> and <code>optionsCustomizationWizard</code>: with this API methods you can get and set the whole configuration object with one call; <code>options</code> ouput includes all options, which are accessible via the API methods including the registered event functions (no APEX dynamic actions, only the functions under the report attributes); <code>optionsCustomizationWizard</code> output includes only the options, which are accessible via the customization wizard; With both methods you can set all options which are accessible via the API in one call</li>
 <li>Restructuring the online API reference method overview</li>
 </ul>
-<h3>1.3.0 (2015-06-07)</h3><ul>
+<h3>1.3.0 (2015-06-07)</h3>
+<ul>
 <li>New option <code>showLoadingIndicatorOnAjaxCall</code>: if set to true, a loading indicator is shown when used as a APEX plugin during the AJAX calls; If you want to show the loading indicator in a standalone implementation you can show and hide the loading indicator directly with the API method <code>showLoadingIndicator</code> (SHOW: <code>example.showLoadingIndicator(true);</code> HIDE: <code>example.showLoadingIndicator(false);</code>)</li>
 <li>Update to D3 v3.5.5</li>
 </ul>
-<h3>1.2.1 (2015-06-02)</h3><ul>
+<h3>1.2.1 (2015-06-02)</h3>
+<ul>
 <li>Fixed &quot;Customize wizard jumps down when dragged on pages with hidden or fixed elements&quot;</li>
 </ul>
-<h3>1.2.0 (2015-05-31)</h3><ul>
+<h3>1.2.0 (2015-05-31)</h3>
+<ul>
 <li>Refactor render function, so that the returned graph function is only one line of code and does not spoil the console when debug is set to true</li>
 <li>New option <code>zoomMode</code> (thanks to Alexej Schneider to ask for this feature and for testing the new version and his valuable feedback): I tried this before and was not happy with the solution, because the pan were disturbing the nodes drag functionality - now it is working :-) ATTENTION: When zoomMode is set to true then the lassoMode is only working with the pressed alt or shift key KNOWN BUG: In iOS it is after the first zoom event no more possible, to drag a node - instead the whole graph is moved - this is, because iOS Safari provide a wrong event.target.tagName. Also a problem: your are not able to press the alt or shift key - if you want to use lasso and zoom together on a touch device, you have to provide a workaround; One possible way is to provide a button, which turns zoom mode on and off with the API zoomMode method - then the user has the choice between these two modes - not comfortable, but working</li>
 <li>New option <code>minZoomFactor</code>: The minimum possible zoom factor</li>
@@ -231,7 +267,8 @@
 <li>Hint in the customize wizard, that the configuration object has to be saved in the region attributes to save the configuration permanently (thanks to Renato Nobre to ask me a question about this topic)</li>
 <li>Reorganize the options in the customize wizard thematically: node/link/graph related options</li>
 </ul>
-<h3>1.1.0 (2015-04-19)</h3><ul>
+<h3>1.1.0 (2015-04-19)</h3>
+<ul>
 <li>New option <code>lassoMode</code>: boolean - if set to true you can select nodes with a lasso</li>
 <li>New events for lasso mode: <code>lassostart</code>, <code>lassoend</code> - if You register to this events, you get as data an object with all nodes, number of selected nodes and also a APEX compatible string of selected node IDs in the form of the multi select lists like <code>1234:567:890</code> - for details and examples see API reference</li>
 <li>New option <code>alignFixedNodesToGrid</code>: boolean - if set to true nodes are aligned to the nearest grid position on the drag end event - works only, if pinMode is set to true (thanks to Carsten Czarski for showing me an use case for this option)</li>
@@ -248,22 +285,26 @@
 <li>Input data can now be also an object: you have the choice to deliver graph data in three formats (XML string, JSON string or JavaScript Object) - when used as APEX plugin the data is transferred as text - your query has to select a single clob result and this clob can also be a XML or JSON string - you have the choice depending on your database version and existing libraries</li>
 <li>Fixed &quot;Dragging a node triggers a click event&quot;</li>
 </ul>
-<h3>1.0.5 (2015-02-21)</h3><ul>
+<h3>1.0.5 (2015-02-21)</h3>
+<ul>
 <li>Fixed &quot;Links not correctly rendered in IE 9, 10, 11 when showLinkDirection is set to true&quot; (found by Philippe Duchateau, thank you for your response!)</li>
 </ul>
-<h3>1.0.4 (2015-02-15)</h3><ul>
+<h3>1.0.4 (2015-02-15)</h3>
+<ul>
 <li>Fixed &quot;APEX - unable to view datasets &gt; 32k&quot; (found by Andrew Weir, thank you for your response!)</li>
 <li>Improved error handling: errors are shown as single nodes with error text as label</li>
 <li>Empty nodes array does no longer break render function</li>
 <li>Positions are rounded on export to save space for APEX parameter item</li>
 </ul>
-<h3>1.0.3 (2015-01-30)</h3><ul>
+<h3>1.0.3 (2015-01-30)</h3>
+<ul>
 <li>Fixed &quot;APEX - AJAX refresh not working without setting items to submit in region source&quot;</li>
 <li>Correct links from customize wizard to online API documentation</li>
 <li>Activate also debug mode, when customize wizard is started</li>
 <li>Some small cosmetic changes</li>
 </ul>
-<h3>1.0.2 (2015-01-30)</h3><ul>
+<h3>1.0.2 (2015-01-30)</h3>
+<ul>
 <li>Fixed &quot;Configuration - Boolean values are not correct initialized&quot; (found by Carsten Czarski, thank you for your response!)</li>
 <li>Fixed &quot;APEX - Page items to submit not working on AJAX refresh&quot; (found by Carsten Czarski, thank you for your response!)</li>
 </ul></article>
@@ -279,7 +320,7 @@
 <br class="clear">
 
 <footer>
-    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sun Apr 28 2019 15:36:35 GMT+0200 (Mitteleuropäische Sommerzeit) using the Minami theme.
+    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.6</a> on Thu Mar 11 2021 20:46:56 GMT+0100 (GMT+01:00) using the Minami theme.
 </footer>
 
 <script>prettyPrint();</script>

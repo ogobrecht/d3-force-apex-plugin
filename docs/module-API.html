@@ -160,7 +160,7 @@
 
 <div class="description">
     <p>If true, fixed nodes are aligned to the nearest grid position on the drag end event. You can pin nodes, when <code>pinMode</code> is set to true or by delivering nodes with the attribute “fixed” set to true and “x” and “y” attributes for the position. If you have already fixed nodes on your graph you can also set this attribute at runtime and resume the force. Needs a <code>resume</code> call to take into effect:</p>
-<pre class="prettyprint source"><code>example.alignFixedNodesToGrid(true).resume();</code></pre>
+<pre><code>example.alignFixedNodesToGrid(true).resume();</code></pre>
 </div>
 
 
@@ -196,7 +196,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line4578">line 4578</a>
+        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line4574">line 4574</a>
     </li></ul></dd>
     
 
@@ -353,7 +353,7 @@
 
 <div class="description">
     <p>If true, the graph is refreshed automatically. This makes only sense when running as APEX plugin - here you have the SQL queries for loading new data with AJAX. If you run your code standalone, you have to provide new data as a parameter in the start or render method and therefore you have to use your own auto refresh logic. No <code>render</code> or <code>resume</code> call needed to take into effect:</p>
-<pre class="prettyprint source"><code>example.autoRefresh(true);</code></pre>
+<pre><code>example.autoRefresh(true);</code></pre>
 </div>
 
 
@@ -389,7 +389,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line4767">line 4767</a>
+        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line4763">line 4763</a>
     </li></ul></dd>
     
 
@@ -544,7 +544,7 @@
 
 <div class="description">
     <p>Helper/Command method - center the graph. No <code>render</code> or <code>resume</code> call needed to take into effect:</p>
-<pre class="prettyprint source"><code>example.center();</code></pre>
+<pre><code>example.center();</code></pre>
 </div>
 
 
@@ -580,7 +580,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line4340">line 4340</a>
+        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line4336">line 4336</a>
     </li></ul></dd>
     
 
@@ -744,7 +744,7 @@
 
 <div class="description">
     <p>Helper/Command method - get the center position of the graph border box:</p>
-<pre class="prettyprint source"><code>example.centerPositionGraph();</code></pre>
+<pre><code>example.centerPositionGraph();</code></pre>
 </div>
 
 
@@ -780,7 +780,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line4300">line 4300</a>
+        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line4296">line 4296</a>
     </li></ul></dd>
     
 
@@ -853,7 +853,7 @@
 
 <div class="description">
     <p>Helper/Command method - get the center position of the SVG viewport:</p>
-<pre class="prettyprint source"><code>example.centerPositionViewport();</code></pre>
+<pre><code>example.centerPositionViewport();</code></pre>
 </div>
 
 
@@ -889,7 +889,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line4314">line 4314</a>
+        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line4310">line 4310</a>
     </li></ul></dd>
     
 
@@ -962,7 +962,7 @@
 
 <div class="description">
     <p>Gets or sets the charge strength to the specified value. For more informations have a look at the <a href="https://github.com/d3/d3-3.x-api-reference/blob/master/Force-Layout.md#charge">D3 API Reference</a>. Needs a <code>render</code> call to take into effect:</p>
-<pre class="prettyprint source"><code>example.charge(-200).render();</code></pre>
+<pre><code>example.charge(-200).render();</code></pre>
 </div>
 
 
@@ -998,7 +998,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line5021">line 5021</a>
+        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line5017">line 5017</a>
     </li></ul></dd>
     
 
@@ -1153,7 +1153,7 @@
 
 <div class="description">
     <p>Gets or sets the maximum distance over which charge forces are applied. For more informations have a look at the <a href="https://github.com/d3/d3-3.x-api-reference/blob/master/Force-Layout.md#chargeDistance">D3 API Reference</a>. This option is not shown in the customize wizard. Needs a <code>render</code> call to take into effect:</p>
-<pre class="prettyprint source"><code>example.chargeDistance(200).render();</code></pre>
+<pre><code>example.chargeDistance(200).render();</code></pre>
 </div>
 
 
@@ -1189,7 +1189,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line5041">line 5041</a>
+        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line5037">line 5037</a>
     </li></ul></dd>
     
 
@@ -1344,7 +1344,7 @@
 
 <div class="description">
     <p>Color scheme can be <code>color20</code>, <code>color20b</code>, <code>color20c</code>, <code>color10</code> or <code>direct</code>. The first four use the color functions provided by D3, which return up to 20 colors for the given keywords for your data attribute COLORVALUE - this can be a text like a department name or a postal zip code. With the last option you can provide direct css color values in your data like blue or #123456. No <code>render</code> or <code>resume</code> call needed to take into effect:</p>
-<pre class="prettyprint source"><code>example.colorScheme('color10');</code></pre>
+<pre><code>example.colorScheme('color10');</code></pre>
 </div>
 
 
@@ -1380,7 +1380,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line3756">line 3756</a>
+        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line3752">line 3752</a>
     </li></ul></dd>
     
 
@@ -1528,7 +1528,7 @@
 
 <div class="description">
     <p>Gets or sets the customize mode. If true, the customizing wizard is opened, otherwise closed.</p>
-<pre class="prettyprint source"><code>example.customize(true);</code></pre>
+<pre><code>example.customize(true);</code></pre>
 </div>
 
 
@@ -1564,7 +1564,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line5701">line 5701</a>
+        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line5697">line 5697</a>
     </li></ul></dd>
     
 
@@ -1711,7 +1711,7 @@
 
 <div class="description">
     <p>Returns the current graph data as JSON object. This method expects no parameter and terminates the method chain. Example:</p>
-<pre class="prettyprint source"><code>//JSON object
+<pre><code>//JSON object
 example.data();
 
 //stringified JSON object
@@ -1751,7 +1751,7 @@ JSON.stringify(example.data());</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line5597">line 5597</a>
+        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line5593">line 5593</a>
     </li></ul></dd>
     
 
@@ -1833,7 +1833,7 @@ JSON.stringify(example.data());</code></pre>
 
 <div class="description">
     <p>Gets or sets the debug mode. When debug is enabled, there is a link rendered in the SVG to start the customize wizard and debug messages are written to the console.</p>
-<pre class="prettyprint source"><code>example.debug(true);</code></pre>
+<pre><code>example.debug(true);</code></pre>
 </div>
 
 
@@ -1869,7 +1869,7 @@ JSON.stringify(example.data());</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line5728">line 5728</a>
+        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line5724">line 5724</a>
     </li></ul></dd>
     
 
@@ -2017,7 +2017,7 @@ JSON.stringify(example.data());</code></pre>
 <div class="description">
     <p>Returns the current with of the graphs DOM parent. This method expects no parameter and terminates the method chain.</p>
 <p>If the option useDomParentWidth is set to true, then this is the effective width of the graph - independent of the configured width.</p>
-<pre class="prettyprint source"><code>example.domParentWidth();</code></pre>
+<pre><code>example.domParentWidth();</code></pre>
 </div>
 
 
@@ -2053,7 +2053,7 @@ JSON.stringify(example.data());</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line4872">line 4872</a>
+        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line4868">line 4868</a>
     </li></ul></dd>
     
 
@@ -2126,7 +2126,7 @@ JSON.stringify(example.data());</code></pre>
 
 <div class="description">
     <p>If true, the nodes are draggable. No <code>render</code> or <code>resume</code> call needed to take into effect:</p>
-<pre class="prettyprint source"><code>example.dragMode(false);</code></pre>
+<pre><code>example.dragMode(false);</code></pre>
 </div>
 
 
@@ -2162,7 +2162,7 @@ JSON.stringify(example.data());</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line4000">line 4000</a>
+        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line3996">line 3996</a>
     </li></ul></dd>
     
 
@@ -2316,8 +2316,8 @@ JSON.stringify(example.data());</code></pre>
 
 
 <div class="description">
-    <p>Gets or sets the maximum runtime in milliseconds for the force. This could be helpful when the graph is running to long with many node background images or when you want to stop the force early because all nodes are fixed and the running force is useless and costs only battery runtime.</p>
-<pre class="prettyprint source"><code>example.forceTimeLimit(100);</code></pre>
+    <p>Gets or sets the maximum runtime in milliseconds for the force. This could be helpful when the graph is running too long with many node background images or when you want to stop the force early because all nodes are fixed and the running force is useless and costs only battery runtime.</p>
+<pre><code>example.forceTimeLimit(100);</code></pre>
 </div>
 
 
@@ -2353,7 +2353,7 @@ JSON.stringify(example.data());</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line5137">line 5137</a>
+        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line5133">line 5133</a>
     </li></ul></dd>
     
 
@@ -2508,7 +2508,7 @@ JSON.stringify(example.data());</code></pre>
 
 <div class="description">
     <p>Gets or sets the friction coefficient to the specified value. For more informations have a look at the <a href="https://github.com/d3/d3-3.x-api-reference/blob/master/Force-Layout.md#friction">D3 API Reference</a>. Needs a <code>render</code> call to take into effect:</p>
-<pre class="prettyprint source"><code>example.friction(0.4).render();</code></pre>
+<pre><code>example.friction(0.4).render();</code></pre>
 </div>
 
 
@@ -2544,7 +2544,7 @@ JSON.stringify(example.data());</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line5098">line 5098</a>
+        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line5094">line 5094</a>
     </li></ul></dd>
     
 
@@ -2692,7 +2692,7 @@ JSON.stringify(example.data());</code></pre>
 
 <div class="description">
     <p>Gets or sets the gravitational strength to the specified numerical value. For more informations see the <a href="https://github.com/d3/d3-3.x-api-reference/blob/master/Force-Layout.md#gravity">D3 API Reference</a>. Needs a <code>render</code> call to take into effect:</p>
-<pre class="prettyprint source"><code>example.gravity(0.3).render();</code></pre>
+<pre><code>example.gravity(0.3).render();</code></pre>
 </div>
 
 
@@ -2728,7 +2728,7 @@ JSON.stringify(example.data());</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line5060">line 5060</a>
+        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line5056">line 5056</a>
     </li></ul></dd>
     
 
@@ -2876,7 +2876,7 @@ JSON.stringify(example.data());</code></pre>
 
 <div class="description">
     <p>The grid size of the virtual grid for the option <code>alignFixedNodesToGrid</code>. Needs a <code>resume</code> call to take into effect:</p>
-<pre class="prettyprint source"><code>example.gridSize(100).alignFixedNodesToGrid(true).resume();</code></pre>
+<pre><code>example.gridSize(100).alignFixedNodesToGrid(true).resume();</code></pre>
 </div>
 
 
@@ -2912,7 +2912,7 @@ JSON.stringify(example.data());</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line4619">line 4619</a>
+        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line4615">line 4615</a>
     </li></ul></dd>
     
 
@@ -3069,7 +3069,7 @@ JSON.stringify(example.data());</code></pre>
 
 <div class="description">
     <p>The height of the chart:</p>
-<pre class="prettyprint source"><code>example.height(300);</code></pre>
+<pre><code>example.height(300);</code></pre>
 </div>
 
 
@@ -3105,7 +3105,7 @@ JSON.stringify(example.data());</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line4907">line 4907</a>
+        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line4903">line 4903</a>
     </li></ul></dd>
     
 
@@ -3260,7 +3260,7 @@ JSON.stringify(example.data());</code></pre>
 
 <div class="description">
     <p>Shows the current closure object, which holds all functions and data. This method expects no parameter and terminates the method chain:</p>
-<pre class="prettyprint source"><code>example.inspect();</code></pre>
+<pre><code>example.inspect();</code></pre>
 </div>
 
 
@@ -3296,7 +3296,7 @@ JSON.stringify(example.data());</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line5761">line 5761</a>
+        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line5757">line 5757</a>
     </li></ul></dd>
     
 
@@ -3376,7 +3376,7 @@ JSON.stringify(example.data());</code></pre>
 
 <div class="description">
     <p>When the graph is resized, the initial aspect ratio (width and height on first render cycle) is respected:</p>
-<pre class="prettyprint source"><code>//change config and resize height (width will change implicit based on initial aspect ratio)
+<pre><code>//change config and resize height (width will change implicit based on initial aspect ratio)
 example.keepAspectRatioOnResize(true).height(400);</code></pre>
 </div>
 
@@ -3413,7 +3413,7 @@ example.keepAspectRatioOnResize(true).height(400);</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line4465">line 4465</a>
+        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line4461">line 4461</a>
     </li></ul></dd>
     
 
@@ -3570,7 +3570,7 @@ example.keepAspectRatioOnResize(true).height(400);</code></pre>
 
 <div class="description">
     <p>The distance of a label from the nodes outer border. Needs a <code>render</code> call to take into effect:</p>
-<pre class="prettyprint source"><code>example.labelDistance(18).render();</code></pre>
+<pre><code>example.labelDistance(18).render();</code></pre>
 </div>
 
 
@@ -3606,7 +3606,7 @@ example.keepAspectRatioOnResize(true).height(400);</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line3943">line 3943</a>
+        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line3939">line 3939</a>
     </li></ul></dd>
     
 
@@ -3763,7 +3763,7 @@ example.keepAspectRatioOnResize(true).height(400);</code></pre>
 
 <div class="description">
     <p>The number of iterations for the preventLabelOverlappingOnForceEnd option - default is 250 - as higher the number, as higher the quality of the result. For details refer to the <a href="https://github.com/tinker10/D3-Labeler">description of the simulated annealing function of the author Evan Wang</a>. Needs a <code>resume</code> call to take into effect:</p>
-<pre class="prettyprint source"><code>example.preventLabelOverlappingOnForceEnd(true).resume();</code></pre>
+<pre><code>example.preventLabelOverlappingOnForceEnd(true).resume();</code></pre>
 </div>
 
 
@@ -3799,7 +3799,7 @@ example.keepAspectRatioOnResize(true).height(400);</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line3981">line 3981</a>
+        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line3977">line 3977</a>
     </li></ul></dd>
     
 
@@ -3957,7 +3957,7 @@ example.keepAspectRatioOnResize(true).height(400);</code></pre>
 <p>You can overwrite this attribute on node level by setting a attribute called LABELCIRCULAR on the node to true or false. As an example you can see this in the online demo on the node named KING.</p>
 <p>ATTENTION: If you set the LABELCIRCULAR attribute on a specific or all nodes, then the global configuration parameter labelsCircular has no effect on these nodes.</p>
 <p>Needs a <code>render</code> call to take into effect:</p>
-<pre class="prettyprint source"><code>example.labelsCircular(true).render();</code></pre>
+<pre><code>example.labelsCircular(true).render();</code></pre>
 </div>
 
 
@@ -3993,7 +3993,7 @@ example.keepAspectRatioOnResize(true).height(400);</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line3923">line 3923</a>
+        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line3919">line 3919</a>
     </li></ul></dd>
     
 
@@ -4156,7 +4156,7 @@ example.keepAspectRatioOnResize(true).height(400);</code></pre>
 
 <div class="description">
     <p>If set to a value other then <code>none</code> labels are splitted on this character. Needs <code>wrapLabels</code> to be true and a <code>render</code> call to take into effect. If both options <code>labelSplitCharacter</code> and <code>wrappedLabelWidth</code> are set, then <code>wrappedLabelWidth</code> is ignored.</p>
-<pre class="prettyprint source"><code>example.wrapLabels(true).labelSplitCharacter(&quot;^&quot;).render();</code></pre>
+<pre><code>example.wrapLabels(true).labelSplitCharacter(&quot;^&quot;).render();</code></pre>
 </div>
 
 
@@ -4192,7 +4192,7 @@ example.keepAspectRatioOnResize(true).height(400);</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line3836">line 3836</a>
+        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line3832">line 3832</a>
     </li></ul></dd>
     
 
@@ -4353,7 +4353,7 @@ example.keepAspectRatioOnResize(true).height(400);</code></pre>
 
 <div class="description">
     <p>If true, you can select miltiple nodes with a lasso - think of a graphical multiselect :-). No <code>render</code> or <code>resume</code> call needed to take into effect:</p>
-<pre class="prettyprint source"><code>example.lassoMode(true);</code></pre>
+<pre><code>example.lassoMode(true);</code></pre>
 </div>
 
 
@@ -4389,7 +4389,7 @@ example.keepAspectRatioOnResize(true).height(400);</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line4053">line 4053</a>
+        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line4049">line 4049</a>
     </li></ul></dd>
     
 
@@ -4544,7 +4544,7 @@ example.keepAspectRatioOnResize(true).height(400);</code></pre>
 
 <div class="description">
     <p>The distance between nodes centers. Needs a <code>render</code> call to take into effect:</p>
-<pre class="prettyprint source"><code>example.linkDistance(60).render();</code></pre>
+<pre><code>example.linkDistance(60).render();</code></pre>
 </div>
 
 
@@ -4580,7 +4580,7 @@ example.keepAspectRatioOnResize(true).height(400);</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line5001">line 5001</a>
+        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line4997">line 4997</a>
     </li></ul></dd>
     
 
@@ -4735,7 +4735,7 @@ example.keepAspectRatioOnResize(true).height(400);</code></pre>
 
 <div class="description">
     <p>Returns the current graph links as D3 array for direct modifications. This method expects no parameter and terminates the method chain. See also the <a href="https://github.com/d3/d3-3.x-api-reference/blob/master/Selections.md#operating-on-selections">D3 docs</a>. Example:</p>
-<pre class="prettyprint source"><code>example.links().filter(function (link) {
+<pre><code>example.links().filter(function (link) {
   return link.TOID === &quot;7839&quot;;
 }).style(&quot;stroke&quot;, &quot;red&quot;);</code></pre>
 </div>
@@ -4773,7 +4773,7 @@ example.keepAspectRatioOnResize(true).height(400);</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line5569">line 5569</a>
+        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line5565">line 5565</a>
     </li></ul></dd>
     
 
@@ -4855,7 +4855,7 @@ example.keepAspectRatioOnResize(true).height(400);</code></pre>
 
 <div class="description">
     <p>Gets or sets the strength (rigidity) of links to the specified value in the range [0,1]. For more informations see the <a href="https://github.com/d3/d3-3.x-api-reference/blob/master/Force-Layout.md#linkStrength">D3 API Reference</a>. Needs a <code>render</code> call to take into effect:</p>
-<pre class="prettyprint source"><code>example.linkStrength(0.1).render();</code></pre>
+<pre><code>example.linkStrength(0.1).render();</code></pre>
 </div>
 
 
@@ -4891,7 +4891,7 @@ example.keepAspectRatioOnResize(true).height(400);</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line5079">line 5079</a>
+        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line5075">line 5075</a>
     </li></ul></dd>
     
 
@@ -5039,7 +5039,7 @@ example.keepAspectRatioOnResize(true).height(400);</code></pre>
 
 <div class="description">
     <p>The maximum node radius. Each node radius is calculated by its SIZEVALUE attribute in a range between the minimum and the maximum node radius. Needs a <code>render</code> call to take into effect:</p>
-<pre class="prettyprint source"><code>example.maxNodeRadius(24).render();</code></pre>
+<pre><code>example.maxNodeRadius(24).render();</code></pre>
 </div>
 
 
@@ -5075,7 +5075,7 @@ example.keepAspectRatioOnResize(true).height(400);</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line4956">line 4956</a>
+        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line4952">line 4952</a>
     </li></ul></dd>
     
 
@@ -5230,7 +5230,7 @@ example.keepAspectRatioOnResize(true).height(400);</code></pre>
 
 <div class="description">
     <p>No <code>render</code> or <code>resume</code> call needed to take into effect::</p>
-<pre class="prettyprint source"><code>example.maxZoomFactor(10);</code></pre>
+<pre><code>example.maxZoomFactor(10);</code></pre>
 </div>
 
 
@@ -5266,7 +5266,7 @@ example.keepAspectRatioOnResize(true).height(400);</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line4193">line 4193</a>
+        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line4189">line 4189</a>
     </li></ul></dd>
     
 
@@ -5421,7 +5421,7 @@ example.keepAspectRatioOnResize(true).height(400);</code></pre>
 
 <div class="description">
     <p>The minimum node radius. Each node radius is calculated by its SIZEVALUE attribute in a range between the minimum and the maximum node radius. Needs a <code>render</code> call to take into effect:</p>
-<pre class="prettyprint source"><code>example.minNodeRadius(2).render();</code></pre>
+<pre><code>example.minNodeRadius(2).render();</code></pre>
 </div>
 
 
@@ -5457,7 +5457,7 @@ example.keepAspectRatioOnResize(true).height(400);</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line4930">line 4930</a>
+        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line4926">line 4926</a>
     </li></ul></dd>
     
 
@@ -5612,7 +5612,7 @@ example.keepAspectRatioOnResize(true).height(400);</code></pre>
 
 <div class="description">
     <p>No <code>render</code> or <code>resume</code> call needed to take into effect::</p>
-<pre class="prettyprint source"><code>example.minZoomFactor(0.1);</code></pre>
+<pre><code>example.minZoomFactor(0.1);</code></pre>
 </div>
 
 
@@ -5648,7 +5648,7 @@ example.keepAspectRatioOnResize(true).height(400);</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line4174">line 4174</a>
+        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line4170">line 4170</a>
     </li></ul></dd>
     
 
@@ -5803,7 +5803,9 @@ example.keepAspectRatioOnResize(true).height(400);</code></pre>
 
 <div class="description">
     <p>Command method (has no get or set function). Moves all fixed nodes in the provided direction. Needs a <code>resume</code> call to take into effect:</p>
-<pre class="prettyprint source"><code>example.moveFixedNodes(10,-5).resume();</code></pre><p>The example adds 10 to x position and -5 to y position to all fixed nodes. ATTENTION: If alignFixedNodesToGrid is set to true this can have unexpected behavior - you must then provide values greater then gridSize halved to see any changes on your graph, otherwise the positions are falling back to the nearest (current) grid position.</p>
+<pre><code>example.moveFixedNodes(10,-5).resume();
+</code></pre>
+<p>The example adds 10 to x position and -5 to y position to all fixed nodes. ATTENTION: If alignFixedNodesToGrid is set to true this can have unexpected behavior - you must then provide values greater then gridSize halved to see any changes on your graph, otherwise the positions are falling back to the nearest (current) grid position.</p>
 </div>
 
 
@@ -5839,7 +5841,7 @@ example.keepAspectRatioOnResize(true).height(400);</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line4642">line 4642</a>
+        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line4638">line 4638</a>
     </li></ul></dd>
     
 
@@ -6035,7 +6037,7 @@ example.keepAspectRatioOnResize(true).height(400);</code></pre>
 
 <div class="description">
     <p>Returns the data from a specific node as JSON object. This method expects a node ID as parameter and terminates the method chain. Example:</p>
-<pre class="prettyprint source"><code>//get the data from the node with the ID 8888
+<pre><code>//get the data from the node with the ID 8888
 example.nodeDataById('8888');
 
 //get the data from the node with the ID 'myAlphanumericID'
@@ -6075,7 +6077,7 @@ example.nodeDataById('myAlphanumericID');</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line5613">line 5613</a>
+        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line5609">line 5609</a>
     </li></ul></dd>
     
 
@@ -6207,7 +6209,7 @@ example.nodeDataById('myAlphanumericID');</code></pre>
 
 <div class="description">
     <p>Can be “none”, “click”, “dblclick” or “contextmenu”. Works only for nodes with a non empty LINK attribute. No <code>render</code> or <code>resume</code> call needed to take into effect:</p>
-<pre class="prettyprint source"><code>example.nodeEventToOpenLink(&quot;click&quot;);</code></pre>
+<pre><code>example.nodeEventToOpenLink(&quot;click&quot;);</code></pre>
 </div>
 
 
@@ -6243,7 +6245,7 @@ example.nodeDataById('myAlphanumericID');</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line4725">line 4725</a>
+        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line4721">line 4721</a>
     </li></ul></dd>
     
 
@@ -6391,7 +6393,7 @@ example.nodeDataById('myAlphanumericID');</code></pre>
 
 <div class="description">
     <p>Can be “none”, “click”, “dblclick” and “contextmenu” and defines, which event will release a node. This releasing of a node is sometimes a bit unstable (not on the code side, but on the visualizing side) and depends on the next tick event. You have to play around with this. If you want only release all nodes you can simply call the releaseFixedNodes method and resume the graph. No <code>render</code> or <code>resume</code> call needed to take into effect:</p>
-<pre class="prettyprint source"><code>example.nodeEventToStopPinMode(&quot;contextmenu&quot;);</code></pre>
+<pre><code>example.nodeEventToStopPinMode(&quot;contextmenu&quot;);</code></pre>
 </div>
 
 
@@ -6427,7 +6429,7 @@ example.nodeDataById('myAlphanumericID');</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line4689">line 4689</a>
+        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line4685">line 4685</a>
     </li></ul></dd>
     
 
@@ -6584,7 +6586,7 @@ example.nodeDataById('myAlphanumericID');</code></pre>
     <p>This text is used as the link target, when a node has a LINK attribute.</p>
 <p>There are three special keywords: “none”, “nodeID” and “domContainerID”. If you use “none”, the link is opened in the same window/tab where your graph is currently shown. If you use “nodeID”, the ID of the currently clicked node is used as the target attribute, this means - you get one window/tab for each node in your graph - when you click a second time on the same node, the window/tab is reused. The same with the keyword “domContainerID” - you get one window/tab for each graph on your page - when you click a second time on the same node, the window/tab is reused.</p>
 <p>Anything else is not interpreted - your given text is simply used as the target attribute of the link. This is also the case for the second option in the customize wizard called “_blank”. If you use this, then each click on a node opens in a new window/tab. You are not restricted to use only the predefined select options. It is up to you to overwrite the value in your configuration object. As an example: If you want to have always the same window/tab for each click on a node, then simply provide a text here, that fit your needs e.g. “myOwnWindowName”.</p>
-<pre class="prettyprint source"><code>example.nodeLinkTarget(&quot;myOwnWindowName&quot;);</code></pre>
+<pre><code>example.nodeLinkTarget(&quot;myOwnWindowName&quot;);</code></pre>
 </div>
 
 
@@ -6620,7 +6622,7 @@ example.nodeDataById('myAlphanumericID');</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line4748">line 4748</a>
+        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line4744">line 4744</a>
     </li></ul></dd>
     
 
@@ -6775,7 +6777,7 @@ example.nodeDataById('myAlphanumericID');</code></pre>
 
 <div class="description">
     <p>Returns the current graph nodes as D3 array for direct modifications. This method expects no parameter and terminates the method chain. See also the <a href="https://github.com/d3/d3-3.x-api-reference/blob/master/Selections.md#operating-on-selections">D3 docs</a>. Example:</p>
-<pre class="prettyprint source"><code>example.nodes().filter(function (node) {
+<pre><code>example.nodes().filter(function (node) {
   return node.ID === &quot;7839&quot;;
 }).style(&quot;fill&quot;, &quot;blue&quot;);
 
@@ -6817,7 +6819,7 @@ example.nodes().filter(function (node) {
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line5555">line 5555</a>
+        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line5551">line 5551</a>
     </li></ul></dd>
     
 
@@ -6900,11 +6902,13 @@ example.nodes().filter(function (node) {
 <div class="description">
     <p>Gets or sets the function for the forceend event.</p>
 <p>No data is provided because this is a very generic event:</p>
-<pre class="prettyprint source"><code>example.onForceEndFunction(
+<pre><code>example.onForceEndFunction(
     function(){
       // your logic here.
     }
-);</code></pre><p>If used as APEX plugin you can also create an APEX dynamic action on the component event “Force End [D3 - Force Layout]” on your graph region.</p>
+);
+</code></pre>
+<p>If used as APEX plugin you can also create an APEX dynamic action on the component event “Force End [D3 - Force Layout]” on your graph region.</p>
 </div>
 
 
@@ -6940,7 +6944,7 @@ example.nodes().filter(function (node) {
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line5513">line 5513</a>
+        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line5509">line 5509</a>
     </li></ul></dd>
     
 
@@ -7091,11 +7095,13 @@ example.nodes().filter(function (node) {
 <div class="description">
     <p>Gets or sets the function for the forcestart event.</p>
 <p>No data is provided because this is a very generic event:</p>
-<pre class="prettyprint source"><code>example.onForceStartFunction(
+<pre><code>example.onForceStartFunction(
     function(){
       // your logic here.
     }
-);</code></pre><p>If used as APEX plugin you can also create an APEX dynamic action on the component event “Force Start [D3 - Force Layout]” on your graph region.</p>
+);
+</code></pre>
+<p>If used as APEX plugin you can also create an APEX dynamic action on the component event “Force Start [D3 - Force Layout]” on your graph region.</p>
 </div>
 
 
@@ -7131,7 +7137,7 @@ example.nodes().filter(function (node) {
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line5486">line 5486</a>
+        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line5482">line 5482</a>
     </li></ul></dd>
     
 
@@ -7282,15 +7288,19 @@ example.nodes().filter(function (node) {
 <div class="description">
     <p>Gets or sets the function for the lassoend event.</p>
 <p>In the first two parameters you get the event and the d3 lasso data, inside your function you have access to the DOM node with the this keyword. In case of the lasso this is refering the svg container element, because the lasso itself is not interesting:</p>
-<pre class="prettyprint source"><code>example.onLassoEndFunction(
+<pre><code>example.onLassoEndFunction(
     function(event, data){
       console.log(&quot;Lasso end - event:&quot;, event);
       console.log(&quot;Lasso end - data:&quot;, data);
       console.log(&quot;Lasso end - this:&quot;, this);
     }
-);</code></pre><p>If used as APEX plugin you can also create an APEX dynamic action on the component event “Lasso End [D3 - Force Layout]” on your graph region. If you do so, you can access the event and data by executing JavaScript code in this way:</p>
-<pre class="prettyprint source"><code>console.log(&quot;Lasso end - event:&quot;, this.browserEvent);
-console.log(&quot;Lasso end - data:&quot;, this.data);</code></pre><p>Please refer also to the APEX dynamic action documentation and keep in mind, that the data is the same in both ways but the event differs, because APEX provide a jQuery event and the Plugin the D3 original event.</p>
+);
+</code></pre>
+<p>If used as APEX plugin you can also create an APEX dynamic action on the component event “Lasso End [D3 - Force Layout]” on your graph region. If you do so, you can access the event and data by executing JavaScript code in this way:</p>
+<pre><code>console.log(&quot;Lasso end - event:&quot;, this.browserEvent);
+console.log(&quot;Lasso end - data:&quot;, this.data);
+</code></pre>
+<p>Please refer also to the APEX dynamic action documentation and keep in mind, that the data is the same in both ways but the event differs, because APEX provide a jQuery event and the Plugin the D3 original event.</p>
 </div>
 
 
@@ -7326,7 +7336,7 @@ console.log(&quot;Lasso end - data:&quot;, this.data);</code></pre><p>Please ref
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line5429">line 5429</a>
+        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line5425">line 5425</a>
     </li></ul></dd>
     
 
@@ -7464,15 +7474,19 @@ console.log(&quot;Lasso end - data:&quot;, this.data);</code></pre><p>Please ref
 <div class="description">
     <p>Gets or sets the function for the lassostart event.</p>
 <p>In the first two parameters you get the event and the d3 lasso data, inside your function you have access to the DOM node with the this keyword. In case of the lasso this is refering the svg container element, because the lasso itself is not interesting:</p>
-<pre class="prettyprint source"><code>example.onLassoStartFunction(
+<pre><code>example.onLassoStartFunction(
     function(event, data){
       console.log(&quot;Lasso start - event:&quot;, event);
       console.log(&quot;Lasso start - data:&quot;, data);
       console.log(&quot;Lasso start - this:&quot;, this);
     }
-);</code></pre><p>If used as APEX plugin you can also create an APEX dynamic action on the component event “Lasso Start [D3 - Force Layout]” on your graph region. If you do so, you can access the event and data by executing JavaScript code in this way:</p>
-<pre class="prettyprint source"><code>console.log(&quot;Lasso start - event:&quot;, this.browserEvent);
-console.log(&quot;Lasso start - data:&quot;, this.data);</code></pre><p>Please refer also to the APEX dynamic action documentation and keep in mind, that the data is the same in both ways but the event differs, because APEX provide a jQuery event and the Plugin the D3 original event.</p>
+);
+</code></pre>
+<p>If used as APEX plugin you can also create an APEX dynamic action on the component event “Lasso Start [D3 - Force Layout]” on your graph region. If you do so, you can access the event and data by executing JavaScript code in this way:</p>
+<pre><code>console.log(&quot;Lasso start - event:&quot;, this.browserEvent);
+console.log(&quot;Lasso start - data:&quot;, this.data);
+</code></pre>
+<p>Please refer also to the APEX dynamic action documentation and keep in mind, that the data is the same in both ways but the event differs, because APEX provide a jQuery event and the Plugin the D3 original event.</p>
 </div>
 
 
@@ -7508,7 +7522,7 @@ console.log(&quot;Lasso start - data:&quot;, this.data);</code></pre><p>Please r
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line5399">line 5399</a>
+        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line5395">line 5395</a>
     </li></ul></dd>
     
 
@@ -7646,15 +7660,19 @@ console.log(&quot;Lasso start - data:&quot;, this.data);</code></pre><p>Please r
 <div class="description">
     <p>Gets or sets the function for the link click event.</p>
 <p>In the first two parameters you get the event and the d3 node data, inside your function you have access to the DOM node with the this keyword:</p>
-<pre class="prettyprint source"><code>example.onLinkClickFunction(
+<pre><code>example.onLinkClickFunction(
     function(event, data){
       console.log(&quot;Link click - event:&quot;, event);
       console.log(&quot;Link click - data:&quot;, data);
       console.log(&quot;Link click - this:&quot;, this);
     }
-);</code></pre><p>If used as APEX plugin you can also create an APEX dynamic action on the component event “Link Click [D3 - Force Layout]” on your graph region. If you do so, you can access the event and data by executing JavaScript code in this way:</p>
-<pre class="prettyprint source"><code>console.log(&quot;Link click - event:&quot;, this.browserEvent);
-console.log(&quot;Link click - data:&quot;, this.data);</code></pre><p>Please refer also to the APEX dynamic action documentation and keep in mind, that the data is the same in both ways but the event differs, because APEX provide a jQuery event and the Plugin the D3 original event.</p>
+);
+</code></pre>
+<p>If used as APEX plugin you can also create an APEX dynamic action on the component event “Link Click [D3 - Force Layout]” on your graph region. If you do so, you can access the event and data by executing JavaScript code in this way:</p>
+<pre><code>console.log(&quot;Link click - event:&quot;, this.browserEvent);
+console.log(&quot;Link click - data:&quot;, this.data);
+</code></pre>
+<p>Please refer also to the APEX dynamic action documentation and keep in mind, that the data is the same in both ways but the event differs, because APEX provide a jQuery event and the Plugin the D3 original event.</p>
 <p>Attention: It is not so easy to click a link, because the links are so narrow - if this option is needed I recommend to switch on the zoom mode - with zoom and pan it feels more natural to click links.</p>
 </div>
 
@@ -7691,7 +7709,7 @@ console.log(&quot;Link click - data:&quot;, this.data);</code></pre><p>Please re
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line5219">line 5219</a>
+        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line5215">line 5215</a>
     </li></ul></dd>
     
 
@@ -7829,15 +7847,19 @@ console.log(&quot;Link click - data:&quot;, this.data);</code></pre><p>Please re
 <div class="description">
     <p>Gets or sets the function for the node click event.</p>
 <p>In the first two parameters you get the event and the d3 node data, inside your function you have access to the DOM node with the this keyword:</p>
-<pre class="prettyprint source"><code>example.onNodeClickFunction(
+<pre><code>example.onNodeClickFunction(
     function(event, data){
       console.log(&quot;Node click - event:&quot;, event);
       console.log(&quot;Node click - data:&quot;, data);
       console.log(&quot;Node click - this:&quot;, this);
     }
-);</code></pre><p>If used as APEX plugin you can also create an APEX dynamic action on the component event “Node Click [D3 - Force Layout]” on your graph region. If you do so, you can access the event and data by executing JavaScript code in this way:</p>
-<pre class="prettyprint source"><code>console.log(&quot;Node click - event:&quot;, this.browserEvent);
-console.log(&quot;Node click - data:&quot;, this.data);</code></pre><p>Please refer also to the APEX dynamic action documentation and keep in mind, that the data is the same in both ways but the event differs, because APEX provide a jQuery event and the Plugin the D3 original event.</p>
+);
+</code></pre>
+<p>If used as APEX plugin you can also create an APEX dynamic action on the component event “Node Click [D3 - Force Layout]” on your graph region. If you do so, you can access the event and data by executing JavaScript code in this way:</p>
+<pre><code>console.log(&quot;Node click - event:&quot;, this.browserEvent);
+console.log(&quot;Node click - data:&quot;, this.data);
+</code></pre>
+<p>Please refer also to the APEX dynamic action documentation and keep in mind, that the data is the same in both ways but the event differs, because APEX provide a jQuery event and the Plugin the D3 original event.</p>
 </div>
 
 
@@ -7873,7 +7895,7 @@ console.log(&quot;Node click - data:&quot;, this.data);</code></pre><p>Please re
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line5309">line 5309</a>
+        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line5305">line 5305</a>
     </li></ul></dd>
     
 
@@ -8011,15 +8033,19 @@ console.log(&quot;Node click - data:&quot;, this.data);</code></pre><p>Please re
 <div class="description">
     <p>Gets or sets the function for the node contextmenu event.</p>
 <p>In the first two parameters you get the event and the d3 node data, inside your function you have access to the DOM node with the this keyword:</p>
-<pre class="prettyprint source"><code>example.onNodeContextmenuFunction(
+<pre><code>example.onNodeContextmenuFunction(
     function(event, data){
       console.log(&quot;Node contextmenu - event:&quot;, event);
       console.log(&quot;Node contextmenu - data:&quot;, data);
       console.log(&quot;Node contextmenu - this:&quot;, this);
     }
-);</code></pre><p>If used as APEX plugin you can also create an APEX dynamic action on the component event “Node Contextmenu [D3 - Force Layout]” on your graph region. If you do so, you can access the event and data by executing JavaScript code in this way:</p>
-<pre class="prettyprint source"><code>console.log(&quot;Node contextmenu - event:&quot;, this.browserEvent);
-console.log(&quot;Node contextmenu - data:&quot;, this.data);</code></pre><p>Please refer also to the APEX dynamic action documentation and keep in mind, that the data is the same in both ways but the event differs, because APEX provide a jQuery event and the Plugin the D3 original event.</p>
+);
+</code></pre>
+<p>If used as APEX plugin you can also create an APEX dynamic action on the component event “Node Contextmenu [D3 - Force Layout]” on your graph region. If you do so, you can access the event and data by executing JavaScript code in this way:</p>
+<pre><code>console.log(&quot;Node contextmenu - event:&quot;, this.browserEvent);
+console.log(&quot;Node contextmenu - data:&quot;, this.data);
+</code></pre>
+<p>Please refer also to the APEX dynamic action documentation and keep in mind, that the data is the same in both ways but the event differs, because APEX provide a jQuery event and the Plugin the D3 original event.</p>
 </div>
 
 
@@ -8055,7 +8081,7 @@ console.log(&quot;Node contextmenu - data:&quot;, this.data);</code></pre><p>Ple
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line5369">line 5369</a>
+        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line5365">line 5365</a>
     </li></ul></dd>
     
 
@@ -8192,7 +8218,7 @@ console.log(&quot;Node contextmenu - data:&quot;, this.data);</code></pre><p>Ple
 
 <div class="description">
     <p>If true, the context menu default browser action on the nodes are prevented. This could be useful, if you want to implement an own context menu for the nodes. xxx:</p>
-<pre class="prettyprint source"><code>example.onNodeContextmenuPreventDefault(true);</code></pre>
+<pre><code>example.onNodeContextmenuPreventDefault(true);</code></pre>
 </div>
 
 
@@ -8228,7 +8254,7 @@ console.log(&quot;Node contextmenu - data:&quot;, this.data);</code></pre><p>Ple
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line4707">line 4707</a>
+        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line4703">line 4703</a>
     </li></ul></dd>
     
 
@@ -8377,15 +8403,19 @@ console.log(&quot;Node contextmenu - data:&quot;, this.data);</code></pre><p>Ple
 <div class="description">
     <p>Gets or sets the function for the node dblclick event.</p>
 <p>In the first two parameters you get the event and the d3 node data, inside your function you have access to the DOM node with the this keyword:</p>
-<pre class="prettyprint source"><code>example.onNodeDblclickFunction(
+<pre><code>example.onNodeDblclickFunction(
     function(event, data){
       console.log(&quot;Node double click - event:&quot;, event);
       console.log(&quot;Node double click - data:&quot;, data);
       console.log(&quot;Node double click - this:&quot;, this);
     }
-);</code></pre><p>If used as APEX plugin you can also create an APEX dynamic action on the component event “Node Double Click [D3 - Force Layout]” on your graph region. If you do so, you can access the event and data by executing JavaScript code in this way:</p>
-<pre class="prettyprint source"><code>console.log(&quot;Node double click - event:&quot;, this.browserEvent);
-console.log(&quot;Node double click - data:&quot;, this.data);</code></pre><p>Please refer also to the APEX dynamic action documentation and keep in mind, that the data is the same in both ways but the event differs, because APEX provide a jQuery event and the Plugin the D3 original event.</p>
+);
+</code></pre>
+<p>If used as APEX plugin you can also create an APEX dynamic action on the component event “Node Double Click [D3 - Force Layout]” on your graph region. If you do so, you can access the event and data by executing JavaScript code in this way:</p>
+<pre><code>console.log(&quot;Node double click - event:&quot;, this.browserEvent);
+console.log(&quot;Node double click - data:&quot;, this.data);
+</code></pre>
+<p>Please refer also to the APEX dynamic action documentation and keep in mind, that the data is the same in both ways but the event differs, because APEX provide a jQuery event and the Plugin the D3 original event.</p>
 </div>
 
 
@@ -8421,7 +8451,7 @@ console.log(&quot;Node double click - data:&quot;, this.data);</code></pre><p>Pl
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line5339">line 5339</a>
+        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line5335">line 5335</a>
     </li></ul></dd>
     
 
@@ -8559,15 +8589,19 @@ console.log(&quot;Node double click - data:&quot;, this.data);</code></pre><p>Pl
 <div class="description">
     <p>Gets or sets the function for the node mouseenter event.</p>
 <p>In the first two parameters you get the event and the d3 node data, inside your function you have access to the DOM node with the this keyword:</p>
-<pre class="prettyprint source"><code>example.onNodeMouseenterFunction(
+<pre><code>example.onNodeMouseenterFunction(
     function(event, data){
       console.log(&quot;Node mouse enter - event:&quot;, event);
       console.log(&quot;Node mouse enter - data:&quot;, data);
       console.log(&quot;Node mouse enter - this:&quot;, this);
     }
-);</code></pre><p>If used as APEX plugin you can also create an APEX dynamic action on the component event “Node Mouse Enter [D3 - Force Layout]” on your graph region. If you do so, you can access the event and data by executing JavaScript code in this way:</p>
-<pre class="prettyprint source"><code>console.log(&quot;Node mouse enter - event:&quot;, this.browserEvent);
-console.log(&quot;Node mouse enter - data:&quot;, this.data);</code></pre><p>Please refer also to the APEX dynamic action documentation and keep in mind, that the data is the same in both ways but the event differs, because APEX provide a jQuery event and the Plugin the D3 original event.</p>
+);
+</code></pre>
+<p>If used as APEX plugin you can also create an APEX dynamic action on the component event “Node Mouse Enter [D3 - Force Layout]” on your graph region. If you do so, you can access the event and data by executing JavaScript code in this way:</p>
+<pre><code>console.log(&quot;Node mouse enter - event:&quot;, this.browserEvent);
+console.log(&quot;Node mouse enter - data:&quot;, this.data);
+</code></pre>
+<p>Please refer also to the APEX dynamic action documentation and keep in mind, that the data is the same in both ways but the event differs, because APEX provide a jQuery event and the Plugin the D3 original event.</p>
 </div>
 
 
@@ -8603,7 +8637,7 @@ console.log(&quot;Node mouse enter - data:&quot;, this.data);</code></pre><p>Ple
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line5249">line 5249</a>
+        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line5245">line 5245</a>
     </li></ul></dd>
     
 
@@ -8741,15 +8775,19 @@ console.log(&quot;Node mouse enter - data:&quot;, this.data);</code></pre><p>Ple
 <div class="description">
     <p>Gets or sets the function for the node mouseleave event.</p>
 <p>In the first two parameters you get the event and the d3 node data, inside your function you have access to the DOM node with the this keyword:</p>
-<pre class="prettyprint source"><code>example.onNodeMouseleaveFunction(
+<pre><code>example.onNodeMouseleaveFunction(
     function(event, data){
       console.log(&quot;Node mouse leave - event:&quot;, event);
       console.log(&quot;Node mouse leave - data:&quot;, data);
       console.log(&quot;Node mouse leave - this:&quot;, this);
     }
-);</code></pre><p>If used as APEX plugin you can also create an APEX dynamic action on the component event “Node Mouse Leave [D3 - Force Layout]” on your graph region. If you do so, you can access the event and data by executing JavaScript code in this way:</p>
-<pre class="prettyprint source"><code>console.log(&quot;Node mouse leave - event:&quot;, this.browserEvent);
-console.log(&quot;Node mouse leave - data:&quot;, this.data);</code></pre><p>Please refer also to the APEX dynamic action documentation and keep in mind, that the data is the same in both ways but the event differs, because APEX provide a jQuery event and the Plugin the D3 original event.</p>
+);
+</code></pre>
+<p>If used as APEX plugin you can also create an APEX dynamic action on the component event “Node Mouse Leave [D3 - Force Layout]” on your graph region. If you do so, you can access the event and data by executing JavaScript code in this way:</p>
+<pre><code>console.log(&quot;Node mouse leave - event:&quot;, this.browserEvent);
+console.log(&quot;Node mouse leave - data:&quot;, this.data);
+</code></pre>
+<p>Please refer also to the APEX dynamic action documentation and keep in mind, that the data is the same in both ways but the event differs, because APEX provide a jQuery event and the Plugin the D3 original event.</p>
 </div>
 
 
@@ -8785,7 +8823,7 @@ console.log(&quot;Node mouse leave - data:&quot;, this.data);</code></pre><p>Ple
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line5279">line 5279</a>
+        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line5275">line 5275</a>
     </li></ul></dd>
     
 
@@ -8923,13 +8961,15 @@ console.log(&quot;Node mouse leave - data:&quot;, this.data);</code></pre><p>Ple
 <div class="description">
     <p>Gets or sets the function for the renderend event.</p>
 <p>No data is provided because this is a very generic event. You can use the <code>nodes</code> and <code>links</code> API methods for a D3 array to modify directly the nodes or links:</p>
-<pre class="prettyprint source"><code>example.onRenderEndFunction(
+<pre><code>example.onRenderEndFunction(
     function(){
       example.nodes().filter(function (node) {
         return node.ID === &quot;7839&quot;;
       }).style(&quot;fill&quot;, &quot;blue&quot;);
     }
-);</code></pre><p>If used as APEX plugin you can also create an APEX dynamic action on the component event “Render End [D3 - Force Layout]” on your graph region.</p>
+);
+</code></pre>
+<p>If used as APEX plugin you can also create an APEX dynamic action on the component event “Render End [D3 - Force Layout]” on your graph region.</p>
 </div>
 
 
@@ -8965,7 +9005,7 @@ console.log(&quot;Node mouse leave - data:&quot;, this.data);</code></pre><p>Ple
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line5459">line 5459</a>
+        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line5455">line 5455</a>
     </li></ul></dd>
     
 
@@ -9116,11 +9156,13 @@ console.log(&quot;Node mouse leave - data:&quot;, this.data);</code></pre><p>Ple
 <div class="description">
     <p>Gets or sets the function for the resize event.</p>
 <p>No data is provided because this is a very generic event:</p>
-<pre class="prettyprint source"><code>example.onResizeFunction(
+<pre><code>example.onResizeFunction(
     function(){
       // your logic here
     }
-);</code></pre><p>If used as APEX plugin you can also create an APEX dynamic action on the component event “Resize [D3 - Force Layout]” on your graph region.</p>
+);
+</code></pre>
+<p>If used as APEX plugin you can also create an APEX dynamic action on the component event “Resize [D3 - Force Layout]” on your graph region.</p>
 </div>
 
 
@@ -9156,7 +9198,7 @@ console.log(&quot;Node mouse leave - data:&quot;, this.data);</code></pre><p>Ple
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line4497">line 4497</a>
+        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line4493">line 4493</a>
     </li></ul></dd>
     
 
@@ -9300,7 +9342,7 @@ console.log(&quot;Node mouse leave - data:&quot;, this.data);</code></pre><p>Ple
 
 <div class="description">
     <p>The harmonized/delayed handling of the resize event to prevent performance issues - see also <code>zoomToFitOnResize</code>:</p>
-<pre class="prettyprint source"><code>example.onResizeFunctionTimeout(100).height(400);</code></pre>
+<pre><code>example.onResizeFunctionTimeout(100).height(400);</code></pre>
 </div>
 
 
@@ -9336,7 +9378,7 @@ console.log(&quot;Node mouse leave - data:&quot;, this.data);</code></pre><p>Ple
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line4521">line 4521</a>
+        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line4517">line 4517</a>
     </li></ul></dd>
     
 
@@ -9507,7 +9549,7 @@ console.log(&quot;Node mouse leave - data:&quot;, this.data);</code></pre><p>Ple
 
 <div class="description">
     <p>Get or set the whole configuration with one call. Ouput includes all options, which are accessible via the API methods including the registered event functions:</p>
-<pre class="prettyprint source"><code>//get the current configuration
+<pre><code>//get the current configuration
 example.options();
 //set the new configuration
 example.options( { pinMode: true, ... } );</code></pre>
@@ -9546,7 +9588,7 @@ example.options( { pinMode: true, ... } );</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line5628">line 5628</a>
+        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line5624">line 5624</a>
     </li></ul></dd>
     
 
@@ -9690,7 +9732,7 @@ example.options( { pinMode: true, ... } );</code></pre>
 
 <div class="description">
     <p>Get or set the whole configuration with one call. Output includes only the options, which are accessible via the customization wizard:</p>
-<pre class="prettyprint source"><code>//get the current configuration
+<pre><code>//get the current configuration
 example.optionsCustomizationWizard();
 //set the new configuration
 example.optionsCustomizationWizard( { pinMode: true, ... } );</code></pre>
@@ -9729,7 +9771,7 @@ example.optionsCustomizationWizard( { pinMode: true, ... } );</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line5669">line 5669</a>
+        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line5665">line 5665</a>
     </li></ul></dd>
     
 
@@ -9873,7 +9915,7 @@ example.optionsCustomizationWizard( { pinMode: true, ... } );</code></pre>
 
 <div class="description">
     <p>If true, the nodes are fixed (pinned) at the end of a drag event. No <code>render</code> or <code>resume</code> call needed to take into effect:</p>
-<pre class="prettyprint source"><code>example.pinMode(true);</code></pre>
+<pre><code>example.pinMode(true);</code></pre>
 </div>
 
 
@@ -9909,7 +9951,7 @@ example.optionsCustomizationWizard( { pinMode: true, ... } );</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line4027">line 4027</a>
+        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line4023">line 4023</a>
     </li></ul></dd>
     
 
@@ -10066,7 +10108,7 @@ example.optionsCustomizationWizard( { pinMode: true, ... } );</code></pre>
 
 <div class="description">
     <p>Gets or sets the current positions of all nodes. This lets you save and load a specific layout or modify the current positions (of fixed nodes - if you have no fixed nodes then the nodes will likely fall back to their previous positions because of the working forces). Works nice together with the <code>pinMode</code>. Needs a <code>resume</code> call to take into effect:</p>
-<pre class="prettyprint source"><code>// get current positions: Array of objects like [{&quot;ID&quot;:&quot;7839&quot;,&quot;x&quot;:200,&quot;y&quot;:100,&quot;fixed&quot;:1},...])
+<pre><code>// get current positions: Array of objects like [{&quot;ID&quot;:&quot;7839&quot;,&quot;x&quot;:200,&quot;y&quot;:100,&quot;fixed&quot;:1},...])
 var pos = example.positions();
 // set positions
 example.positions(pos.map(function(p){ p.x += 10; return p; })).resume();
@@ -10108,7 +10150,7 @@ example.positions( example.positions().map(function(p){ p.x += 10; return p; }) 
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line5162">line 5162</a>
+        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line5158">line 5158</a>
     </li></ul></dd>
     
 
@@ -10252,7 +10294,7 @@ example.positions( example.positions().map(function(p){ p.x += 10; return p; }) 
 
 <div class="description">
     <p>If set to true the labels are aligned with a simulated annealing function to prevent overlapping when the graph is cooled down (correctly on the force end event and only on labels, who are not circular). Needs a <code>resume</code> call to take into effect:</p>
-<pre class="prettyprint source"><code>example.preventLabelOverlappingOnForceEnd(true).render();</code></pre>
+<pre><code>example.preventLabelOverlappingOnForceEnd(true).render();</code></pre>
 </div>
 
 
@@ -10288,7 +10330,7 @@ example.positions( example.positions().map(function(p){ p.x += 10; return p; }) 
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line3962">line 3962</a>
+        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line3958">line 3958</a>
     </li></ul></dd>
     
 
@@ -10443,7 +10485,7 @@ example.positions( example.positions().map(function(p){ p.x += 10; return p; }) 
 
 <div class="description">
     <p>The refresh interval in milliseconds. No <code>render</code> or <code>resume</code> call needed to take into effect, but after changing the interval value you have to stop a current activated auto refresh and start it again to take the new value into effect:</p>
-<pre class="prettyprint source"><code>// only set the value and start auto refresh
+<pre><code>// only set the value and start auto refresh
 example.refreshInterval(4000).autoRefresh(true);
 
 // restart running auto refresh
@@ -10483,7 +10525,7 @@ example.refreshInterval(2000).autoRefresh(false).autoRefresh(true);</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line4800">line 4800</a>
+        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line4796">line 4796</a>
     </li></ul></dd>
     
 
@@ -10638,7 +10680,7 @@ example.refreshInterval(2000).autoRefresh(false).autoRefresh(true);</code></pre>
 
 <div class="description">
     <p>Command method (has no get or set function and expects no parameter): Release all fixed (pinned) nodes. Needs a <code>resume</code> call to take into effect:</p>
-<pre class="prettyprint source"><code>example.releaseFixedNodes().resume();</code></pre>
+<pre><code>example.releaseFixedNodes().resume();</code></pre>
 </div>
 
 
@@ -10674,7 +10716,7 @@ example.refreshInterval(2000).autoRefresh(false).autoRefresh(true);</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line4672">line 4672</a>
+        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line4668">line 4668</a>
     </li></ul></dd>
     
 
@@ -10756,7 +10798,7 @@ example.refreshInterval(2000).autoRefresh(false).autoRefresh(true);</code></pre>
 
 <div class="description">
     <p>The <code>render</code> method does the same as the <code>start</code> method - the only difference is, that the <code>render</code> method does not try to load data, if you use the APEX plugin. You can use this method after changing options which need a <code>render</code> cycle to take the changes into effect:</p>
-<pre class="prettyprint source"><code>example.minNodeRadius(4).maxNodeRadius(20).render();</code></pre>
+<pre><code>example.minNodeRadius(4).maxNodeRadius(20).render();</code></pre>
 </div>
 
 
@@ -10949,7 +10991,7 @@ example.refreshInterval(2000).autoRefresh(false).autoRefresh(true);</code></pre>
 
 <div class="description">
     <p>The <code>resume</code> method restarts only the force on your graph without a <code>render</code> cycle. This saves CPU time and can be useful if you change only things in your graph which do not need rendering to taking into effect:</p>
-<pre class="prettyprint source"><code>example.releaseFixedNodes().resume();</code></pre>
+<pre><code>example.releaseFixedNodes().resume();</code></pre>
 </div>
 
 
@@ -10985,7 +11027,7 @@ example.refreshInterval(2000).autoRefresh(false).autoRefresh(true);</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line3626">line 3626</a>
+        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line3622">line 3622</a>
     </li></ul></dd>
     
 
@@ -11067,11 +11109,11 @@ example.refreshInterval(2000).autoRefresh(false).autoRefresh(true);</code></pre>
 
 <div class="description">
     <p>Gets or sets the sample data. This makes only sense before the first start, because only on the first start without data available the sample data is used. After the first start you can provide new data with the start method. Example:</p>
-<pre class="prettyprint source"><code>//first start
-example.sampleData('&lt;node>...').start();
+<pre><code>//first start
+example.sampleData('&lt;node&gt;...').start();
 
 //later
-example.start('&lt;node>...');</code></pre>
+example.start('&lt;node&gt;...');</code></pre>
 </div>
 
 
@@ -11107,7 +11149,7 @@ example.start('&lt;node>...');</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line5533">line 5533</a>
+        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line5529">line 5529</a>
     </li></ul></dd>
     
 
@@ -11254,7 +11296,7 @@ example.start('&lt;node>...');</code></pre>
 
 <div class="description">
     <p>The distance of the self link path around a node. Needs a <code>render</code> call to take into effect:</p>
-<pre class="prettyprint source"><code>example.selfLinkDistance(25).render();</code></pre>
+<pre><code>example.selfLinkDistance(25).render();</code></pre>
 </div>
 
 
@@ -11290,7 +11332,7 @@ example.start('&lt;node>...');</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line4982">line 4982</a>
+        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line4978">line 4978</a>
     </li></ul></dd>
     
 
@@ -11445,7 +11487,7 @@ example.start('&lt;node>...');</code></pre>
 
 <div class="description">
     <p>Returns the current graph selfLinks as D3 array for direct modifications. This method expects no parameter and terminates the method chain. See also the <a href="https://github.com/d3/d3-3.x-api-reference/blob/master/Selections.md#operating-on-selections">D3 docs</a>. Example:</p>
-<pre class="prettyprint source"><code>example.selfLinks().style(&quot;stroke&quot;, &quot;green&quot;);</code></pre>
+<pre><code>example.selfLinks().style(&quot;stroke&quot;, &quot;green&quot;);</code></pre>
 </div>
 
 
@@ -11481,7 +11523,7 @@ example.start('&lt;node>...');</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line5581">line 5581</a>
+        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line5577">line 5577</a>
     </li></ul></dd>
     
 
@@ -11563,7 +11605,7 @@ example.start('&lt;node>...');</code></pre>
 
 <div class="description">
     <p>If true, the parent DOM element of the graph gets the style { padding: 0px; }. If set to false, this style is removed from the DOM parent of the graph. No <code>render</code> or <code>resume</code> call needed to take into effect:</p>
-<pre class="prettyprint source"><code>example.setDomParentPaddingToZero(true);</code></pre>
+<pre><code>example.setDomParentPaddingToZero(true);</code></pre>
 </div>
 
 
@@ -11599,7 +11641,7 @@ example.start('&lt;node>...');</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line4848">line 4848</a>
+        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line4844">line 4844</a>
     </li></ul></dd>
     
 
@@ -11754,7 +11796,7 @@ example.start('&lt;node>...');</code></pre>
 
 <div class="description">
     <p>If true, a class named border is added to the SVG element, if false the class will be removed. The border itself is defined in the delivered CSS - you can overwrite it if the current style does not match your needs. No <code>render</code> or <code>resume</code> call needed to take into effect:</p>
-<pre class="prettyprint source"><code>example.showBorder(false);</code></pre>
+<pre><code>example.showBorder(false);</code></pre>
 </div>
 
 
@@ -11790,7 +11832,7 @@ example.start('&lt;node>...');</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line3641">line 3641</a>
+        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line3637">line 3637</a>
     </li></ul></dd>
     
 
@@ -11938,7 +11980,7 @@ example.start('&lt;node>...');</code></pre>
 
 <div class="description">
     <p>If true and you provided in your node data an attribute LABEL, then a label is rendered on top of the node. Needs a <code>render</code> call to take into effect:</p>
-<pre class="prettyprint source"><code>example.showLabels(false).render();</code></pre>
+<pre><code>example.showLabels(false).render();</code></pre>
 </div>
 
 
@@ -11974,7 +12016,7 @@ example.start('&lt;node>...');</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line3787">line 3787</a>
+        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line3783">line 3783</a>
     </li></ul></dd>
     
 
@@ -12133,7 +12175,7 @@ example.start('&lt;node>...');</code></pre>
 
 <div class="description">
     <p>If true, a legend for all COLORVALUEs in the node data is rendered in the bottom left corner of the graph. No <code>render</code> or <code>resume</code> call needed to take into effect:</p>
-<pre class="prettyprint source"><code>example.showLegend(false);</code></pre>
+<pre><code>example.showLegend(false);</code></pre>
 </div>
 
 
@@ -12169,7 +12211,7 @@ example.start('&lt;node>...');</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line3660">line 3660</a>
+        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line3656">line 3656</a>
     </li></ul></dd>
     
 
@@ -12317,7 +12359,7 @@ example.start('&lt;node>...');</code></pre>
 
 <div class="description">
     <p>If true, you get an marker at the end of a link. Needs a <code>render</code> call to take into effect:</p>
-<pre class="prettyprint source"><code>example.showLinkDirection(false).render();</code></pre>
+<pre><code>example.showLinkDirection(false).render();</code></pre>
 </div>
 
 
@@ -12353,7 +12395,7 @@ example.start('&lt;node>...');</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line3702">line 3702</a>
+        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line3698">line 3698</a>
     </li></ul></dd>
     
 
@@ -12501,7 +12543,7 @@ example.start('&lt;node>...');</code></pre>
 
 <div class="description">
     <p>Helper method to directly show or hide a loading indicator. The APEX plugin do this implicitly on AJAX calls when the option <code>showLoadingIndicatorOnAjaxCall</code> is set to true. No <code>render</code> or <code>resume</code> call needed to take into effect:</p>
-<pre class="prettyprint source"><code>// Show:
+<pre><code>// Show:
 example.showLoadingIndicator(true);
 
 // Hide:
@@ -12541,7 +12583,7 @@ example.showLoadingIndicator(false);</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line4560">line 4560</a>
+        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line4556">line 4556</a>
     </li></ul></dd>
     
 
@@ -12676,7 +12718,7 @@ example.showLoadingIndicator(false);</code></pre>
 
 <div class="description">
     <p>If true, a loading indicator is shown when used as a APEX plugin during the AJAX calls. If you want to show the loading indicator in a standalone implementation you can show and hide the loading indicator directly with the API method <code>showLoadingIndicator</code>:</p>
-<pre class="prettyprint source"><code>example.showLoadingIndicatorOnAjaxCall(false);</code></pre>
+<pre><code>example.showLoadingIndicatorOnAjaxCall(false);</code></pre>
 </div>
 
 
@@ -12712,7 +12754,7 @@ example.showLoadingIndicator(false);</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line4540">line 4540</a>
+        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line4536">line 4536</a>
     </li></ul></dd>
     
 
@@ -12867,7 +12909,7 @@ example.showLoadingIndicator(false);</code></pre>
 
 <div class="description">
     <p>If true, then links with the same source and target are rendered along a path around the node bottom. Needs a <code>render</code> call to take into effect:</p>
-<pre class="prettyprint source"><code>example.showSelfLinks(false).render();</code></pre>
+<pre><code>example.showSelfLinks(false).render();</code></pre>
 </div>
 
 
@@ -12903,7 +12945,7 @@ example.showLoadingIndicator(false);</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line3684">line 3684</a>
+        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line3680">line 3680</a>
     </li></ul></dd>
     
 
@@ -13051,7 +13093,7 @@ example.showLoadingIndicator(false);</code></pre>
 
 <div class="description">
     <p>If true and you provided in your source data an attribute INFOSTRING, then a tooltip is shown by hovering a node. No <code>render</code> or <code>resume</code> call needed to take into effect:</p>
-<pre class="prettyprint source"><code>example.showTooltips(false);</code></pre>
+<pre><code>example.showTooltips(false);</code></pre>
 </div>
 
 
@@ -13087,7 +13129,7 @@ example.showLoadingIndicator(false);</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line3720">line 3720</a>
+        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line3716">line 3716</a>
     </li></ul></dd>
     
 
@@ -13429,7 +13471,7 @@ example.showLoadingIndicator(false);</code></pre>
 
 <div class="description">
     <p>Gets or sets the Barnes–Hut approximation criterion to the specified value. For more informations see the <a href="https://github.com/d3/d3-3.x-api-reference/blob/master/Force-Layout.md#theta">D3 API Reference</a>. On smaller graphs with not so many nodes you will likely see no difference when you change this value. Needs a <code>render</code> call to take into effect:</p>
-<pre class="prettyprint source"><code>example.theta(0.1).render();</code></pre>
+<pre><code>example.theta(0.1).render();</code></pre>
 </div>
 
 
@@ -13465,7 +13507,7 @@ example.showLoadingIndicator(false);</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line5117">line 5117</a>
+        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line5113">line 5113</a>
     </li></ul></dd>
     
 
@@ -13613,7 +13655,7 @@ example.showLoadingIndicator(false);</code></pre>
 
 <div class="description">
     <p>The position where tooltips are shown in the graph - can be <code>node</code>, <code>svgTopLeft</code> or <code>svgTopRight</code>. No <code>render</code> or <code>resume</code> call needed to take into effect:</p>
-<pre class="prettyprint source"><code>example.tooltipPosition('node');</code></pre>
+<pre><code>example.tooltipPosition('node');</code></pre>
 </div>
 
 
@@ -13649,7 +13691,7 @@ example.showLoadingIndicator(false);</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line3738">line 3738</a>
+        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line3734">line 3734</a>
     </li></ul></dd>
     
 
@@ -13799,7 +13841,7 @@ example.showLoadingIndicator(false);</code></pre>
 
 <div class="description">
     <p>Behaves like a normal getter/setter (the <code>zoom</code> and <code>zoomSmooth</code> methods implements only setters) and can be used in the conf object to initialize the graph with different translate values/scale factors than [0,0]/1. The current transform value(an object) is rendered in the customization wizard conf object text area like all other options when the current value is different then the default value. No <code>render</code> or <code>resume</code> call needed to take into effect:</p>
-<pre class="prettyprint source"><code>//example.zoomMode(true);
+<pre><code>//example.zoomMode(true);
 example.transform({&quot;translate&quot;:[100,100],&quot;scale&quot;:0.5});</code></pre>
 </div>
 
@@ -13836,7 +13878,7 @@ example.transform({&quot;translate&quot;:[100,100],&quot;scale&quot;:0.5});</cod
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line4278">line 4278</a>
+        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line4274">line 4274</a>
     </li></ul></dd>
     
 
@@ -14034,7 +14076,7 @@ example.transform({&quot;translate&quot;:[100,100],&quot;scale&quot;:0.5});</cod
 
 <div class="description">
     <p>If true, the width of the chart(SVG element) is aligned to its DOM parent element. No <code>render</code> or <code>resume</code> call needed to take into effect:</p>
-<pre class="prettyprint source"><code>example.useDomParentWidth(true);</code></pre>
+<pre><code>example.useDomParentWidth(true);</code></pre>
 </div>
 
 
@@ -14070,7 +14112,7 @@ example.transform({&quot;translate&quot;:[100,100],&quot;scale&quot;:0.5});</cod
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line4819">line 4819</a>
+        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line4815">line 4815</a>
     </li></ul></dd>
     
 
@@ -14225,7 +14267,7 @@ example.transform({&quot;translate&quot;:[100,100],&quot;scale&quot;:0.5});</cod
 
 <div class="description">
     <p>Returns the detected user agent. Expects no parameter and terminates the method chain:</p>
-<pre class="prettyprint source"><code>example.userAgent();</code></pre>
+<pre><code>example.userAgent();</code></pre>
 </div>
 
 
@@ -14261,7 +14303,7 @@ example.transform({&quot;translate&quot;:[100,100],&quot;scale&quot;:0.5});</cod
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line5750">line 5750</a>
+        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line5746">line 5746</a>
     </li></ul></dd>
     
 
@@ -14341,7 +14383,7 @@ example.transform({&quot;translate&quot;:[100,100],&quot;scale&quot;:0.5});</cod
 
 <div class="description">
     <p>Shows the current plugin version. This method expects no parameter and terminates the method chain:</p>
-<pre class="prettyprint source"><code>example.version();</code></pre>
+<pre><code>example.version();</code></pre>
 </div>
 
 
@@ -14377,7 +14419,7 @@ example.transform({&quot;translate&quot;:[100,100],&quot;scale&quot;:0.5});</cod
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line5772">line 5772</a>
+        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line5768">line 5768</a>
     </li></ul></dd>
     
 
@@ -14457,7 +14499,7 @@ example.transform({&quot;translate&quot;:[100,100],&quot;scale&quot;:0.5});</cod
 
 <div class="description">
     <p>The width of the chart:</p>
-<pre class="prettyprint source"><code>example.width(800);</code></pre>
+<pre><code>example.width(800);</code></pre>
 </div>
 
 
@@ -14493,7 +14535,7 @@ example.transform({&quot;translate&quot;:[100,100],&quot;scale&quot;:0.5});</cod
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line4884">line 4884</a>
+        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line4880">line 4880</a>
     </li></ul></dd>
     
 
@@ -14648,7 +14690,7 @@ example.transform({&quot;translate&quot;:[100,100],&quot;scale&quot;:0.5});</cod
 
 <div class="description">
     <p>If true long labels are wrapped. Needs a <code>render</code> call to take into effect:</p>
-<pre class="prettyprint source"><code>example.wrapLabels(true).render();</code></pre>
+<pre><code>example.wrapLabels(true).render();</code></pre>
 </div>
 
 
@@ -14684,7 +14726,7 @@ example.transform({&quot;translate&quot;:[100,100],&quot;scale&quot;:0.5});</cod
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line3810">line 3810</a>
+        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line3806">line 3806</a>
     </li></ul></dd>
     
 
@@ -14847,7 +14889,7 @@ example.transform({&quot;translate&quot;:[100,100],&quot;scale&quot;:0.5});</cod
 
 <div class="description">
     <p>The line height of labels in <code>em</code>, if option <code>wrapLabels</code> is set to true. Needs a <code>render</code> call to take into effect:</p>
-<pre class="prettyprint source"><code>example.wrappedLabelLineHeight(1.5).render();</code></pre>
+<pre><code>example.wrappedLabelLineHeight(1.5).render();</code></pre>
 </div>
 
 
@@ -14883,7 +14925,7 @@ example.transform({&quot;translate&quot;:[100,100],&quot;scale&quot;:0.5});</cod
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line3890">line 3890</a>
+        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line3886">line 3886</a>
     </li></ul></dd>
     
 
@@ -15046,7 +15088,7 @@ example.transform({&quot;translate&quot;:[100,100],&quot;scale&quot;:0.5});</cod
 
 <div class="description">
     <p>The width of the labels, if option <code>wrapLabels</code> is set to true. Needs a <code>render</code> call to take into effect. This option is ignored when <code>labelSplitCharacter</code> is set to a value other then <code>none</code>.</p>
-<pre class="prettyprint source"><code>example.wrappedLabelWidth(40).render();</code></pre>
+<pre><code>example.wrappedLabelWidth(40).render();</code></pre>
 </div>
 
 
@@ -15082,7 +15124,7 @@ example.transform({&quot;translate&quot;:[100,100],&quot;scale&quot;:0.5});</cod
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line3863">line 3863</a>
+        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line3859">line 3859</a>
     </li></ul></dd>
     
 
@@ -15245,9 +15287,9 @@ example.transform({&quot;translate&quot;:[100,100],&quot;scale&quot;:0.5});</cod
 
 <div class="description">
     <p>The graph is centered to the given position and scaled to the calculated scale factor (effective graph with / viewportWidth).</p>
-<p>The reason to have a viewportWidth instead of a scale factor is, that you can rely on given data like the coordinates and radius of a node without calculating the scale factor by yourself - you define your desired viewport width and the zoom method is calculating the neccesary scale factor for this viewport width. If the calculated scale factor is less or greater then the configured minimum and maximum scale factors, then these configured scale factors are used. The reason for this a good user experience, since the graph would be otherwise falling back on these scale factors when the user is scaling the graph by mouse or touch events. </p>
+<p>The reason to have a viewportWidth instead of a scale factor is, that you can rely on given data like the coordinates and radius of a node without calculating the scale factor by yourself - you define your desired viewport width and the zoom method is calculating the neccesary scale factor for this viewport width. If the calculated scale factor is less or greater then the configured minimum and maximum scale factors, then these configured scale factors are used. The reason for this a good user experience, since the graph would be otherwise falling back on these scale factors when the user is scaling the graph by mouse or touch events.</p>
 <p>No <code>render</code> or <code>resume</code> call needed to take into effect:</p>
-<pre class="prettyprint source"><code>var node = example.nodeDataById('8888');
+<pre><code>var node = example.nodeDataById('8888');
 example.zoom(node.x, node.y, node.radius * 6); // default duration of 500ms
 
 var node = example.nodeDataById('9999');
@@ -15287,7 +15329,7 @@ example.zoom(node.x, node.y, node.radius * 6, 1500); // duration of 1500ms</code
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line4226">line 4226</a>
+        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line4222">line 4222</a>
     </li></ul></dd>
     
 
@@ -15574,7 +15616,7 @@ example.zoom(node.x, node.y, node.radius * 6, 1500); // duration of 1500ms</code
 <p>ATTENTION: When zoomMode is set to true then the lassoMode is only working with the pressed alt or shift key.</p>
 <p>KNOWN BUG: In iOS it is after the first zoom event no more possible to drag a node - instead the whole graph is moved - this is, because iOS Safari provide a wrong event.target.tagName. Also a problem: your are not able to press the alt or shift key - if you want to use lasso and zoom together on a touch device, you have to provide a workaround. One possible way is to provide a button, which turns zoom mode on and off with the API zoomMode method - then the user has the choice between these two modes - not comfortable, but working.</p>
 <p>No <code>render</code> or <code>resume</code> call needed to take into effect:</p>
-<pre class="prettyprint source"><code>example.zoomMode(true);</code></pre>
+<pre><code>example.zoomMode(true);</code></pre>
 </div>
 
 
@@ -15610,7 +15652,7 @@ example.zoom(node.x, node.y, node.radius * 6, 1500); // duration of 1500ms</code
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line4124">line 4124</a>
+        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line4120">line 4120</a>
     </li></ul></dd>
     
 
@@ -15804,7 +15846,7 @@ example.zoom(node.x, node.y, node.radius * 6, 1500); // duration of 1500ms</code
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line4257">line 4257</a>
+        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line4253">line 4253</a>
     </li></ul></dd>
     
 
@@ -16090,7 +16132,7 @@ example.zoom(node.x, node.y, node.radius * 6, 1500); // duration of 1500ms</code
 
 <div class="description">
     <p>Helper/Command method - automatically zoom, so that the whole graph is visible and optimal sized. No <code>render</code> or <code>resume</code> call needed to take into effect:</p>
-<pre class="prettyprint source"><code>example.zoomToFit();</code></pre>
+<pre><code>example.zoomToFit();</code></pre>
 </div>
 
 
@@ -16126,7 +16168,7 @@ example.zoom(node.x, node.y, node.radius * 6, 1500); // duration of 1500ms</code
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line4372">line 4372</a>
+        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line4368">line 4368</a>
     </li></ul></dd>
     
 
@@ -16288,7 +16330,7 @@ example.zoom(node.x, node.y, node.radius * 6, 1500); // duration of 1500ms</code
 
 <div class="description">
     <p>Automatically zoom at force end, so that the whole graph is visible and optimal sized. If enabled it fires at every force end event. If you only want to resize your graph once than have a look at the command/helper method <code>zoomToFit</code>:</p>
-<pre class="prettyprint source"><code>//change config and resize once
+<pre><code>//change config and resize once
 example.zoomToFitOnForceEnd(true).zoomToFit();
 
 //resize only once
@@ -16328,7 +16370,7 @@ example.zoomToFit();</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line4409">line 4409</a>
+        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line4405">line 4405</a>
     </li></ul></dd>
     
 
@@ -16492,10 +16534,10 @@ example.zoomToFit();</code></pre>
 
 
 <div class="description">
-    <p>Automatically zoom at resize (API call of <code>width</code>, <code>height</code> or responsive change of parent container size with option <code>useDomParentWidth</code> set to true), so that the whole graph is visible and optimal sized. </p>
+    <p>Automatically zoom at resize (API call of <code>width</code>, <code>height</code> or responsive change of parent container size with option <code>useDomParentWidth</code> set to true), so that the whole graph is visible and optimal sized.</p>
 <p>The event is harmonized/delayed for performance reasons. It could fire very often when for example the browser window is resized by the user. If the graph force simulation is running and not cooled down it is executed on the force end event. Also see the corresponding option <code>onResizeFunctionTimeout</code> which has a default value of 300 (milliseconds).</p>
 <p>If you only want to resize your graph once than have a look at the command/helper method <code>zoomToFit</code>:</p>
-<pre class="prettyprint source"><code>//change config and resize once
+<pre><code>//change config and resize once
 example.zoomToFitOnResize(true).zoomToFit();
 
 //resize only once
@@ -16535,7 +16577,7 @@ example.zoomToFit();</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line4443">line 4443</a>
+        <a href="d3-force.js.html">d3-force.js</a>, <a href="d3-force.js.html#line4439">line 4439</a>
     </li></ul></dd>
     
 
@@ -16708,7 +16750,7 @@ example.zoomToFit();</code></pre>
 <br class="clear">
 
 <footer>
-    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sun Apr 28 2019 15:36:35 GMT+0200 (Mitteleuropäische Sommerzeit) using the Minami theme.
+    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.6</a> on Thu Mar 11 2021 20:46:56 GMT+0100 (GMT+01:00) using the Minami theme.
 </footer>
 
 <script>prettyPrint();</script>

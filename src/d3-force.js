@@ -3364,12 +3364,8 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
             d3.select(this) //pattern itself
                 .attr("x", 0)
                 .attr("y", 0)
-                .attr("height", function(n) {
-                    return n.radius * 2;
-                })
-                .attr("width", function(n) {
-                    return n.radius * 2;
-                });
+                .attr("height", 1)
+                .attr("width", 1);
             d3.select(this.firstChild) //rect with background color (fill)
                 .attr("x", 0)
                 .attr("y", 0)
@@ -5127,7 +5123,7 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
     };
 
     /**
-     * Gets or sets the maximum runtime in milliseconds for the force. This could be helpful when the graph is running to long with many node background images or when you want to stop the force early because all nodes are fixed and the running force is useless and costs only battery runtime.
+     * Gets or sets the maximum runtime in milliseconds for the force. This could be helpful when the graph is running too long with many node background images or when you want to stop the force early because all nodes are fixed and the running force is useless and costs only battery runtime.
      *
      *     example.forceTimeLimit(100);
      * @see {@link module:API.charge}
