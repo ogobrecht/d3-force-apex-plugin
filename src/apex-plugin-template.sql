@@ -15,9 +15,9 @@ begin
 wwv_flow_api.import_begin (
  p_version_yyyy_mm_dd=>'2016.08.24'
 ,p_release=>'5.1.4.00.08'
-,p_default_workspace_id=>1833743955796265
-,p_default_application_id=>1000
-,p_default_owner=>'OGOBRECHT'
+,p_default_workspace_id=>100000
+,p_default_application_id=>100
+,p_default_owner=>'PLAYGROUND_DATA'
 );
 end;
 /
@@ -937,7 +937,7 @@ end;
 /
 begin
 wwv_flow_api.g_varchar2_table := wwv_flow_api.empty_varchar2_table;
-#D3_LICENSE#end;
+#LICENSE#end;
 /
 begin
 wwv_flow_api.create_plugin_file(
