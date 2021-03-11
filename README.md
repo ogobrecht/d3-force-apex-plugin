@@ -55,9 +55,9 @@ I would like to say THANK YOU to all the people who share their knowledge. Witho
 
 ## Roadmap
 
-### 4.0.0 (201x-xx-xx) in planning
+### 4.0.0 (200x-xx-xx) in planning (time flies, I know...)
 
-- Update to current D3 version (5.x.x): [link 1](https://github.com/d3/d3/blob/master/CHANGES.md#forces-d3-force), [link 2](https://github.com/d3/d3-force/blob/master/README.md)
+- Update to current D3 version
 - Devide code base into modularized graph code and APEX plugin code in different repos to make clear, that the graph function can run in any HTML environment
 
 
@@ -66,6 +66,11 @@ I would like to say THANK YOU to all the people who share their knowledge. Witho
 This D3 force implementation uses [semantic versioning](http://semver.org).
 
 Please refer to the [documentation](https://ogobrecht.github.io/d3-force-apex-plugin/) for more informations on how to get started and an overview of all graph methods. Please use for all comments and discussions the [issues functionality on GitHub](https://github.com/ogobrecht/d3-force-apex-plugin/issues).
+
+
+### 3.1.1 (2021-03-11)
+
+- Fixed: #43 - Images blurry in chrome and edge. Thanks to github.com/chrizwagner to report the bug.
 
 ### 3.1.0 (2019-06-02)
 
