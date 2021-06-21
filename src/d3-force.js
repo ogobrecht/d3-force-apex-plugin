@@ -36,7 +36,7 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
         "main": {},
         "status": {},
         "tools": {},
-        "version": "x.x.x"
+        "version": "3.1.1m"
     };
 
     /**
@@ -811,17 +811,9 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
                         return "translate(" + l.source.x + "," + l.source.y + ")";
                     });
                 v.main.links
-                    .attr("x1", function(l) {
-                        return v.tools.adjustSourceX(l);
-                    })
-                    .attr("y1", function(l) {
-                        return v.tools.adjustSourceY(l);
-                    })
-                    .attr("x2", function(l) {
-                        return v.tools.adjustTargetX(l);
-                    })
-                    .attr("y2", function(l) {
-                        return v.tools.adjustTargetY(l);
+                    .attr("d", function(l){
+                        return v.tools.adjustSquaredLinesPath(l);
+                        //return 'M ' + l.source.x + ' ' + l.source.y + ' L ' + l.target.x + ' ' + l.target.y;
                     });
                 if (v.conf.showLabels) {
                     v.main.labels
@@ -1302,6 +1294,52 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
     };
     v.tools.calcAngle = function(l) {
         return Math.atan2(l.target.y - l.source.y, l.target.x - l.source.x);
+    };
+    
+    // create a path for squared links
+    v.tools.adjustSquaredLinesPath = function(l) {
+
+        var pathSq = "M" + (l.source.x) + "," + (l.source.y) + " L" + (l.target.x) + "," + (l.target.y) + "";
+        
+        if ((l.source.x == l.target.x) || (l.source.y == l.target.y)) {
+            pathSq = "M"+l.source.x+","+l.source.y+" L"+l.target.x+","+l.target.y;
+            //console.log("We are here: EQUAL");
+        }
+
+        if ((l.source.x < l.target.x) && (l.source.y > l.target.y)) {
+            pathSq = "M"+l.source.x+" "+l.source.y;
+            pathSq += " L"+l.source.x+","+(l.target.y+5);
+            pathSq += " Q"+l.source.x+","+l.target.y+","+(l.source.x+5)+","+l.target.y;
+            pathSq += " L"+(l.target.x - l.target.radius)+","+l.target.y;
+            //console.log("We are here: 1");
+        }
+
+        if ((l.source.x < l.target.x) && (l.source.y < l.target.y)) {
+            pathSq = "M"+l.source.x+","+l.source.y;
+            pathSq += " L"+l.source.x+","+(l.target.y-5);
+            pathSq += " Q"+l.source.x+","+l.target.y+","+(l.source.x+5)+","+l.target.y;
+            pathSq += " L"+(l.target.x - l.target.radius)+","+l.target.y;
+            //console.log("We are here: 2");
+        }
+
+        if ((l.source.x > l.target.x) && (l.source.y > l.target.y)) {
+            pathSq = "M"+l.source.x+","+l.source.y;
+            pathSq += " L"+l.source.x+","+(l.target.y+5);
+            pathSq += " Q"+l.source.x+","+l.target.y+","+(l.source.x-5)+","+l.target.y;
+            pathSq += " L"+(l.target.x + l.target.radius)+","+l.target.y;
+            //console.log("We are here: 3");
+        }
+
+        if ((l.source.x > l.target.x) && (l.source.y < l.target.y)) {
+            pathSq = "M"+l.source.x+","+l.source.y;
+            pathSq += " L"+l.source.x+","+(l.target.y-5);
+            pathSq += " Q"+l.source.x+","+l.target.y+","+(l.source.x-5)+","+l.target.y;
+            pathSq += " L"+(l.target.x + l.target.radius)+","+(l.target.y);
+            //console.log("We are here: 4");
+        }
+        
+        console.log("LINK : "+l.FROMID+" "+l.TOID);
+        return pathSq;
     };
 
     // create a path for self links
@@ -3284,15 +3322,15 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
         v.main.markers.exit().remove();
 
         // LINKS
-        v.main.links = v.dom.graph.selectAll("line.link")
+        v.main.links = v.dom.graph.selectAll("path.link_sq")
             .data(v.data.links.filter(function(l) {
                     return l.FROMID !== l.TOID;
                 }),
                 function(l) {
                     return v.tools.getLinkId(l);
                 });
-        v.main.links.enter().append("svg:line")
-            .attr("class", "link")
+        v.main.links.enter().append("svg:path")
+            .attr("class", "link_sq")
             .on("mouseenter", v.tools.onLinkMouseenter)
             .on("mouseleave", v.tools.onLinkMouseleave)
             .on("click", v.tools.onLinkClick);

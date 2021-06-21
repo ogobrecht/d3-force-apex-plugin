@@ -20,21 +20,87 @@
     of the different graph options.</p>
   <p>The link is only shown, when the debug mode is switched on, which is the case here for demonstration purposes. The
     debug mode writes many informations to the browser console - it should be switched off in a production environment.</p>
-  <link href="d3-force-x.x.x.css" rel="stylesheet" type="text/css">
-  <script src="lib/resize-observer-polyfill/ResizeObserver-1.5.0.min.js"></script>
-  <script src="lib/d3/d3-3.5.6.min.js"></script>
-  <script src="d3-force-x.x.x.min.js"></script>
+  <link href="d3-force.css" rel="stylesheet" type="text/css">
+  <script src="../dist/lib/resize-observer-polyfill/ResizeObserver-1.5.0.min.js"></script>
+  <script src="../dist/lib/d3/d3-3.5.6.min.js"></script>
+  <script src="d3-force.js"></script>
   <script>
+
     window.onload = function () {
       example = netGobrechtsD3Force('example')
         .width(600)
         .height(400)
-        //.useDomParentWidth(true) //for responsive layout
-        .zoomMode(true)
-        .lassoMode(true)
+        .useDomParentWidth(true) //for responsive layout
+        .zoomMode(false)
+        .lassoMode(false)
         .wrapLabels(true)
         .debug(true) //to enable the customization wizard
-        .render(); //sample data is provided when called without data
+        .render(
+                  {
+            "data": {
+                "nodes": [{
+                        "ID": "1",
+                        "LABEL": "KING is THE KING, you know?",
+                        "COLORVALUE": "10",
+                        "COLORLABEL": "Accounting",
+                        "SIZEVALUE": 5000,
+                        "LABELCIRCULAR": true,
+                        "LINK": "http://apex.oracle.com/",
+                        "INFOSTRING": "This visualization is based on the well known emp table."
+                    },
+                    {
+                        "ID": "2",
+                        "LABEL": "SECOND THING",
+                        "COLORVALUE": "30",
+                        "COLORLABEL": "Sales",
+                        "SIZEVALUE": 2850
+                    },
+                    {
+                        "ID": "3",
+                        "LABEL": "BLAHBLAH",
+                        "COLORVALUE": "30",
+                        "COLORLABEL": "Sales",
+                        "SIZEVALUE": 2850
+                    },
+                    {
+                        "ID": "4",
+                        "LABEL": "TEST",
+                        "COLORVALUE": "30",
+                        "COLORLABEL": "Sales",
+                        "SIZEVALUE": 2850
+                    }
+                ],
+                "links": [{
+                        "FROMID": "1",
+                        "TOID": "2",
+                        "STYLE": "dotted",
+                        "COLOR": "blue",
+                        "INFOSTRING": "LINK I HOPE IT WILL BE A SQUARED"
+                    },
+                    {
+                        "FROMID": "2",
+                        "TOID": "3",
+                        "INFOSTRING": "LINK I HOPE IT WILL BE A SQUARED"
+                    },
+                    {
+                        "FROMID": "1",
+                        "TOID": "1",
+                        "STYLE": "dashed"
+                    },
+                    {
+                        "FROMID": "2",
+                        "TOID": "3",
+                        "STYLE": "dashed"
+                    },
+                    {
+                        "FROMID": "1",
+                        "TOID": "4",
+                        "STYLE": "dashed"
+                    }
+                ]
+            }
+        }
+        ); //sample data is provided when called without data
       //see also https://ogobrecht.github.io/d3-force-apex-plugin/tutorial-1-getting-started.html
     }
   </script>

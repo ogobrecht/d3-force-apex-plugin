@@ -50,7 +50,8 @@
     cursor: pointer;
 }
 .net_gobrechts_d3_force line.link,
-.net_gobrechts_d3_force path.link {
+.net_gobrechts_d3_force path.link,
+.net_gobrechts_d3_force path.link_sq {
     fill: none;
     stroke: #bbb;
     stroke-width: 1.5px;
