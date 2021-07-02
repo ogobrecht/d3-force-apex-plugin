@@ -23,7 +23,7 @@
   <link href="d3-force.css" rel="stylesheet" type="text/css">
   <script src="../dist/lib/resize-observer-polyfill/ResizeObserver-1.5.0.min.js"></script>
   <script src="../dist/lib/d3/d3-3.5.6.min.js"></script>
-  <script src="d3-force.js"></script>
+  <script src="../dist/d3-force-3.1.1.js"></script>
   <script>
 
     window.onload = function () {
@@ -35,12 +35,33 @@
         .lassoMode(false)
         .wrapLabels(true)
         .debug(true) //to enable the customization wizard
+        .options(    
+            {
+            "wrapLabels": true,
+            "alignFixedNodesToGrid": true,
+            "gridSize": 10,
+            "useDomParentWidth": true,
+            "transform": {
+              "translate": [
+                -527.3706764852931,
+                10.192345808724866
+              ],
+              "scale": 1.7585902511987765
+            },
+            "charge": 0,
+            "gravity": 0,
+            "linkStrength": 0,
+            "friction": 0,
+            "theta": 0,
+            "lineCornerSmooth" : 10
+          }
+        )
         .render(
                   {
             "data": {
                 "nodes": [{
                         "ID": "1",
-                        "LABEL": "KING is THE KING, you know?",
+                        "LABEL": "KING is THE KING, you know? 1",
                         "COLORVALUE": "10",
                         "COLORLABEL": "Accounting",
                         "SIZEVALUE": 5000,
@@ -50,21 +71,21 @@
                     },
                     {
                         "ID": "2",
-                        "LABEL": "SECOND THING",
+                        "LABEL": "SECOND THING 2",
                         "COLORVALUE": "30",
                         "COLORLABEL": "Sales",
                         "SIZEVALUE": 2850
                     },
                     {
                         "ID": "3",
-                        "LABEL": "BLAHBLAH",
+                        "LABEL": "BLAHBLAH 3",
                         "COLORVALUE": "30",
                         "COLORLABEL": "Sales",
                         "SIZEVALUE": 2850
                     },
                     {
                         "ID": "4",
-                        "LABEL": "TEST",
+                        "LABEL": "TEST 4",
                         "COLORVALUE": "30",
                         "COLORLABEL": "Sales",
                         "SIZEVALUE": 2850
@@ -74,27 +95,32 @@
                         "FROMID": "1",
                         "TOID": "2",
                         "STYLE": "dotted",
+                        "LINE_TYPES" : "1",
                         "COLOR": "blue",
                         "INFOSTRING": "LINK I HOPE IT WILL BE A SQUARED"
                     },
                     {
                         "FROMID": "2",
                         "TOID": "3",
+                        "LINE_TYPES" : "1",
                         "INFOSTRING": "LINK I HOPE IT WILL BE A SQUARED"
                     },
                     {
                         "FROMID": "1",
                         "TOID": "1",
+                        "LINE_TYPES" : "1",
                         "STYLE": "dashed"
                     },
                     {
-                        "FROMID": "2",
+                        "FROMID": "4",
                         "TOID": "3",
+                        "LINE_TYPES" : "2",
                         "STYLE": "dashed"
                     },
                     {
                         "FROMID": "1",
                         "TOID": "4",
+                        "LINE_TYPES" : "2",
                         "STYLE": "dashed"
                     }
                 ]

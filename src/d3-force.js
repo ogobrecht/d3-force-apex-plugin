@@ -585,6 +585,7 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
         v.conf.onForceStartFunction = v.confUser.onForceStartFunction || null;
         v.conf.onForceEndFunction = v.confUser.onForceEndFunction || null;
         v.conf.onResizeFunction = v.confUser.onResizeFunction || null;
+        v.conf.lineCornerSmooth = v.confUser.lineCornerSmooth || 5;
 
         // initialize sample data
         /* jshint -W110 */
@@ -1308,32 +1309,32 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
 
         if ((l.source.x < l.target.x) && (l.source.y > l.target.y)) {
             pathSq = "M"+l.source.x+" "+l.source.y;
-            pathSq += " L"+l.source.x+","+(l.target.y+5);
-            pathSq += " Q"+l.source.x+","+l.target.y+","+(l.source.x+5)+","+l.target.y;
+            pathSq += " L"+l.source.x+","+(l.target.y+v.conf.lineCornerSmooth);
+            pathSq += " Q"+l.source.x+","+l.target.y+","+(l.source.x+v.conf.lineCornerSmooth)+","+l.target.y;
             pathSq += " L"+(l.target.x - l.target.radius)+","+l.target.y;
             //console.log("We are here: 1");
         }
 
         if ((l.source.x < l.target.x) && (l.source.y < l.target.y)) {
             pathSq = "M"+l.source.x+","+l.source.y;
-            pathSq += " L"+l.source.x+","+(l.target.y-5);
-            pathSq += " Q"+l.source.x+","+l.target.y+","+(l.source.x+5)+","+l.target.y;
+            pathSq += " L"+l.source.x+","+(l.target.y-v.conf.lineCornerSmooth);
+            pathSq += " Q"+l.source.x+","+l.target.y+","+(l.source.x+v.conf.lineCornerSmooth)+","+l.target.y;
             pathSq += " L"+(l.target.x - l.target.radius)+","+l.target.y;
             //console.log("We are here: 2");
         }
 
         if ((l.source.x > l.target.x) && (l.source.y > l.target.y)) {
             pathSq = "M"+l.source.x+","+l.source.y;
-            pathSq += " L"+l.source.x+","+(l.target.y+5);
-            pathSq += " Q"+l.source.x+","+l.target.y+","+(l.source.x-5)+","+l.target.y;
+            pathSq += " L"+l.source.x+","+(l.target.y+v.conf.lineCornerSmooth);
+            pathSq += " Q"+l.source.x+","+l.target.y+","+(l.source.x-v.conf.lineCornerSmooth)+","+l.target.y;
             pathSq += " L"+(l.target.x + l.target.radius)+","+l.target.y;
             //console.log("We are here: 3");
         }
 
         if ((l.source.x > l.target.x) && (l.source.y < l.target.y)) {
             pathSq = "M"+l.source.x+","+l.source.y;
-            pathSq += " L"+l.source.x+","+(l.target.y-5);
-            pathSq += " Q"+l.source.x+","+l.target.y+","+(l.source.x-5)+","+l.target.y;
+            pathSq += " L"+l.source.x+","+(l.target.y-v.conf.lineCornerSmooth);
+            pathSq += " Q"+l.source.x+","+l.target.y+","+(l.source.x-v.conf.lineCornerSmooth)+","+l.target.y;
             pathSq += " L"+(l.target.x + l.target.radius)+","+(l.target.y);
             //console.log("We are here: 4");
         }

@@ -471,6 +471,14 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
             "internal": true
         };
 
+        v.confDefaults.lineCornerSmooth = {
+            "display": true,
+            "relation": "link",
+            "type": "number",
+            "val": 10,
+            "options": [0, 5, 10, 15]
+        };
+
         // create intial configuration
         v.conf.debug = (typeof v.confUser.debug !== "undefined" ? v.tools.parseBool(v.confUser.debug) : false);
 
@@ -586,6 +594,9 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
         v.conf.onForceEndFunction = v.confUser.onForceEndFunction || null;
         v.conf.onResizeFunction = v.confUser.onResizeFunction || null;
 
+        
+        v.conf.lineCornerSmooth = v.confUser.lineCornerSmooth || v.confDefaults.lineCornerSmooth.val;
+        console.log(v.conf)
         // initialize sample data
         /* jshint -W110 */
         v.data.sampleData = '<data>' +
@@ -1299,46 +1310,99 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
     // create a path for squared links
     v.tools.adjustSquaredLinesPath = function(l) {
 
-        var pathSq = "M" + (l.source.x) + "," + (l.source.y) + " L" + (l.target.x) + "," + (l.target.y) + "";
+        var pathSq = "";
         
         if ((l.source.x == l.target.x) || (l.source.y == l.target.y)) {
-            pathSq = "M"+l.source.x+","+l.source.y+" L"+l.target.x+","+l.target.y;
+            if ((l.source.x == l.target.x) && (l.source.y < l.target.y)) {
+                pathSq = "M"+l.source.x+","+l.source.y+" L"+l.target.x+","+(l.target.y - l.target.radius);
+            }
+            if ((l.source.x == l.target.x) && (l.source.y > l.target.y)) {
+                pathSq = "M"+l.source.x+","+l.source.y+" L"+l.target.x+","+(l.target.y + l.target.radius);
+            }
+            if ((l.source.y == l.target.y) && (l.source.x < l.target.x)) {
+                pathSq = "M"+l.source.x+","+l.source.y+" L"+(l.target.x - l.target.radius)+","+l.target.y;
+            }
+            if ((l.source.y == l.target.y) && (l.source.x > l.target.x)) {
+                pathSq = "M"+l.source.x+","+l.source.y+" L"+(l.target.x + l.target.radius)+","+l.target.y;
+            }
             //console.log("We are here: EQUAL");
         }
 
-        if ((l.source.x < l.target.x) && (l.source.y > l.target.y)) {
-            pathSq = "M"+l.source.x+" "+l.source.y;
-            pathSq += " L"+l.source.x+","+(l.target.y+5);
-            pathSq += " Q"+l.source.x+","+l.target.y+","+(l.source.x+5)+","+l.target.y;
-            pathSq += " L"+(l.target.x - l.target.radius)+","+l.target.y;
-            //console.log("We are here: 1");
+        if (l.LINE_TYPES == "2") {
+
+            if ((l.source.x < l.target.x) && (l.source.y > l.target.y)) {
+                pathSq = "M"+l.source.x+" "+l.source.y;
+                pathSq += " L"+(l.target.x-v.conf.lineCornerSmooth)+","+l.source.y;
+                pathSq += " Q"+l.target.x+","+l.source.y+","+l.target.x+","+(l.source.y-v.conf.lineCornerSmooth);
+                pathSq += " L"+l.target.x+","+(l.target.y + l.target.radius);
+                //console.log("We are here: 1");
+            }
+
+            if ((l.source.x < l.target.x) && (l.source.y < l.target.y)) {
+                pathSq = "M"+l.source.x+","+l.source.y;
+                pathSq += " L"+(l.target.x-v.conf.lineCornerSmooth)+","+l.source.y;
+                pathSq += " Q"+l.target.x+","+l.source.y+","+l.target.x+","+(l.source.y+v.conf.lineCornerSmooth);
+                pathSq += " L"+l.target.x+","+(l.target.y - l.target.radius);
+                //console.log("We are here: 2");
+            }
+
+            if ((l.source.x > l.target.x) && (l.source.y > l.target.y)) {
+                pathSq = "M"+l.source.x+","+l.source.y;
+                pathSq += " L"+(l.target.x+v.conf.lineCornerSmooth)+","+l.source.y;
+                pathSq += " Q"+l.target.x+","+l.source.y+","+l.target.x+","+(l.source.y-v.conf.lineCornerSmooth);
+                pathSq += " L"+l.target.x+","+(l.target.y + l.target.radius);
+                //console.log("We are here: 3");
+            }
+
+            if ((l.source.x > l.target.x) && (l.source.y < l.target.y)) {
+                pathSq = "M"+l.source.x+","+l.source.y;
+                pathSq += " L"+(l.target.x+v.conf.lineCornerSmooth)+","+l.source.y;
+                pathSq += " Q"+l.target.x+","+l.source.y+","+l.target.x+","+(l.source.y+v.conf.lineCornerSmooth);
+                pathSq += " L"+l.target.x+","+(l.target.y - l.target.radius);
+                //console.log("We are here: 4");
+            }
+
+        } else {
+
+
+            if ((l.source.x < l.target.x) && (l.source.y > l.target.y)) {
+                pathSq = "M"+l.source.x+" "+l.source.y;
+                pathSq += " L"+l.source.x+","+(l.target.y+v.conf.lineCornerSmooth);
+                pathSq += " Q"+l.source.x+","+l.target.y+","+(l.source.x+v.conf.lineCornerSmooth)+","+l.target.y;
+                pathSq += " L"+(l.target.x - l.target.radius)+","+l.target.y;
+                //console.log("We are here: 1");
+            }
+    
+            if ((l.source.x < l.target.x) && (l.source.y < l.target.y)) {
+                pathSq = "M"+l.source.x+","+l.source.y;
+                pathSq += " L"+l.source.x+","+(l.target.y-v.conf.lineCornerSmooth);
+                pathSq += " Q"+l.source.x+","+l.target.y+","+(l.source.x+v.conf.lineCornerSmooth)+","+l.target.y;
+                pathSq += " L"+(l.target.x - l.target.radius)+","+l.target.y;
+                //console.log("We are here: 2");
+            }
+    
+            if ((l.source.x > l.target.x) && (l.source.y > l.target.y)) {
+                pathSq = "M"+l.source.x+","+l.source.y;
+                pathSq += " L"+l.source.x+","+(l.target.y+v.conf.lineCornerSmooth);
+                pathSq += " Q"+l.source.x+","+l.target.y+","+(l.source.x-v.conf.lineCornerSmooth)+","+l.target.y;
+                pathSq += " L"+(l.target.x + l.target.radius)+","+l.target.y;
+                //console.log("We are here: 3");
+            }
+    
+            if ((l.source.x > l.target.x) && (l.source.y < l.target.y)) {
+                pathSq = "M"+l.source.x+","+l.source.y;
+                pathSq += " L"+l.source.x+","+(l.target.y-v.conf.lineCornerSmooth);
+                pathSq += " Q"+l.source.x+","+l.target.y+","+(l.source.x-v.conf.lineCornerSmooth)+","+l.target.y;
+                pathSq += " L"+(l.target.x + l.target.radius)+","+(l.target.y);
+                //console.log("We are here: 4");
+            }
+
+
         }
 
-        if ((l.source.x < l.target.x) && (l.source.y < l.target.y)) {
-            pathSq = "M"+l.source.x+","+l.source.y;
-            pathSq += " L"+l.source.x+","+(l.target.y-5);
-            pathSq += " Q"+l.source.x+","+l.target.y+","+(l.source.x+5)+","+l.target.y;
-            pathSq += " L"+(l.target.x - l.target.radius)+","+l.target.y;
-            //console.log("We are here: 2");
-        }
-
-        if ((l.source.x > l.target.x) && (l.source.y > l.target.y)) {
-            pathSq = "M"+l.source.x+","+l.source.y;
-            pathSq += " L"+l.source.x+","+(l.target.y+5);
-            pathSq += " Q"+l.source.x+","+l.target.y+","+(l.source.x-5)+","+l.target.y;
-            pathSq += " L"+(l.target.x + l.target.radius)+","+l.target.y;
-            //console.log("We are here: 3");
-        }
-
-        if ((l.source.x > l.target.x) && (l.source.y < l.target.y)) {
-            pathSq = "M"+l.source.x+","+l.source.y;
-            pathSq += " L"+l.source.x+","+(l.target.y-5);
-            pathSq += " Q"+l.source.x+","+l.target.y+","+(l.source.x-5)+","+l.target.y;
-            pathSq += " L"+(l.target.x + l.target.radius)+","+(l.target.y);
-            //console.log("We are here: 4");
-        }
         
-        console.log("LINK : "+l.FROMID+" "+l.TOID);
+        
+        //console.log("LINK : "+l.FROMID+" "+l.TOID);
         return pathSq;
     };
 
@@ -3616,7 +3680,9 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
             .gravity(v.conf.gravity)
             .linkStrength(v.conf.linkStrength)
             .friction(v.conf.friction)
-            .theta(v.conf.theta);
+            .theta(v.conf.theta)
+            //.lineCornerSmooth(v.conf.lineCornerSmooth)
+            ;
 
 
         // start visualization
