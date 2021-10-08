@@ -36,9 +36,11 @@
     letter-spacing: 0;
     pointer-events: none;
 }
-.net_gobrechts_d3_force text.label,
-.net_gobrechts_d3_force text.linkLabel {
+.net_gobrechts_d3_force text.label {
     text-anchor: middle;
+}
+.net_gobrechts_d3_force text.linkLabel {
+    text-anchor: start;
 }
 .net_gobrechts_d3_force text.highlighted {
     font-size: 12px;

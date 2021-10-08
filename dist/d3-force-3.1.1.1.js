@@ -1,5 +1,5 @@
 /**
- * D3 Force Network Chart - v3.1.1 - 2021-03-11
+ * D3 Force Network Chart - v3.1.1.1 - 2021-10-08
  * https://github.com/ogobrecht/d3-force-apex-plugin
  * Copyright (c) 2015-2021 Ottmar Gobrecht - MIT license
  */
@@ -42,7 +42,7 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
         "main": {},
         "status": {},
         "tools": {},
-        "version": "3.1.1"
+        "version": "3.1.1.1"
     };
 
     /**
@@ -3467,23 +3467,17 @@ function netGobrechtsD3Force(domContainerId, options, apexPluginId, apexPageItem
                     });
             v.main.linkLabels.enter().append("svg:text")
                 .attr("class", "linkLabel")
-                .attr("dx", function(l) {
-                    if (l.FROMID !== l.TOID) {
-                        return v.conf.linkDistance / 2;
-                    }
-                    else {
-                        return v.conf.selfLinkDistance + l.source.radius;
-                    }
-                })
-                .attr("dy","-1")
+                .attr("dy","-2")
                 .on("mouseenter", v.tools.onLinkMouseenter)
                 .on("mouseleave", v.tools.onLinkMouseleave)    
                 .on("click", v.tools.onLinkClick)
                 .append("svg:textPath")
-                .attr("xlink:href", function(l) {
-                    return "#" + v.tools.getPathId(l);
+                .attr("xlink:href", function(l) { return "#" + v.tools.getPathId(l); })
+                .attr("startOffset", function(l) {
+                    if (l.FROMID !== l.TOID) { return l.source.radius + 4; }
+                    else {return v.conf.selfLinkDistance + l.source.radius - 10; }
                 });
-            v.main.linkLabels.exit().remove();
+                v.main.linkLabels.exit().remove();
             // update all
             v.main.linkLabels.each(function(l) {
                 d3.select(this.firstChild)
