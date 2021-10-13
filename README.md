@@ -5,7 +5,6 @@
 [demo]: https://ogobrecht.github.io/d3-force-apex-plugin/tutorial-1-getting-started.html
 [apexdemo]: https://apex.oracle.com/pls/apex/f?p=18290
 
-
 # Oracle APEX Region Type Plugin: D3 Force Network Chart
 
 This is a D3 force implementation, playground and Oracle APEX plugin, which uses the
@@ -31,35 +30,28 @@ This is a D3 force implementation, playground and Oracle APEX plugin, which uses
 - APEX 5.1.4 or higher, if used as a plugin
 - A modern browser, which is able to work with SVG and CSS3 - for more informations see the [D3 Wiki](https://github.com/mbostock/d3/wiki#browser--platform-support)
 
-
-
 ## Installation
-
 
 ### APEX
 
 - Download the [latest version][zip]
 - Install the plugin by importing the sql file in the folder `apex-plugin`
 
-
 ### Any HTML page
 
 - Download the [latest version][zip]
 - See `dist/example.html` and `docs/tutorial-1-getting-started.html`
 
-
 ## Credits
 
 I would like to say THANK YOU to all the people who share their knowledge. Without this sharing I would not have been able to create this D3 implementation. Special thanks to Mike Bostock for his great library and to Carsten Czarski for mentoring me on Oracle APEX plugin development.
 
-
 ## Roadmap
 
-### 4.0.0 (200x-xx-xx) in planning (time flies, I know...)
+### 4.0.0 (202x-xx-xx) in planning (time flies, I know...)
 
 - Update to current D3 version
 - Devide code base into modularized graph code and APEX plugin code in different repos to make clear, that the graph function can run in any HTML environment
-
 
 ## Changelog
 
@@ -67,6 +59,9 @@ This D3 force implementation uses [semantic versioning](http://semver.org).
 
 Please refer to the [documentation](https://ogobrecht.github.io/d3-force-apex-plugin/) for more informations on how to get started and an overview of all graph methods. Please use for all comments and discussions the [issues functionality on GitHub](https://github.com/ogobrecht/d3-force-apex-plugin/issues).
 
+### 3.1.2 (2021-10-13)
+
+- Fixed: #49 - Link labels: Long texts are clipped on both sides when they are too long - should only be clipped at the end. Thanks to github.com/apex-michael to report the issue.
 
 ### 3.1.1 (2021-03-11)
 
@@ -85,7 +80,6 @@ ATTENTION: You need at least APEX 5.1.4 to be able to import the plugin in your 
 
 Thanks are going to github.com/Ignacius68 for the valuable feedback and all the beta testing.
 
-
 ### 3.0.0 (2018-11-26)
 
 Because of breaking API changes we have a new major realease:
@@ -95,7 +89,7 @@ Because of breaking API changes we have a new major realease:
     - Default true for the following options: `zoomToFitOnForceEnd` (was false in the past), `zoomToFitOnResize` (new option), `keepAspectRatioOnResize` (new option)
     - When setting the option `useDomParentWidth` to true together with the previous mentioned defaults you can achieve a responsiveness like with images set to width 100% - see the [online demo][demo] and play around with it
   - All zoom relevant API methods are no longer depending on the `zoomMode` - they work simply always
-  - The `zoomMode` sets only the ability for the end user to use zoom and pan 
+  - The `zoomMode` sets only the ability for the end user to use zoom and pan
 - Fixed
   - APEX plug-in - sample data is rendered before live data (#32) - thanks are going to github.com/Ignacius68 for finding this bug
 - New events
@@ -155,17 +149,14 @@ Thanks are going to github.com/Ignacius68 for the inspiration.
 
 - Fixed: #18 - APEX 5.1: jQuery reports syntax error and graph stops loading, if "Page Items to Submit" is not configured - thanks to github.com/KiralyCs to report this issue
 
-
 ### 2.0.2 (2016-07-17)
 
 - Fixed: #12 - tooltips not showing correctly, if showLabels are set to false - thanks to github.com/pocelka to report this issue
-
 
 ### 2.0.1 (2015-11-18)
 
 - Fixed: Fixed positions not working in initial data in v2.0.0 - thanks to github.com/rlashaw to report this issue
 - Move online demo and documentation to own wiki for better maintenance
-
 
 ### 2.0.0 (2015-11-07)
 
@@ -184,11 +175,9 @@ Thanks are going to github.com/Ignacius68 for the inspiration.
 - Code refactoring against JSHint: This refactoring is also the reason for a new major version (API changed: renamed graph function, integration of libs, new XML parser)
 - Update to D3 v3.5.6
 
-
 ### 1.4.1 (2015-08-05)
 
 - Fixed "Tooltip on wrong positions in complex layouts". This was also the case with APEX 5 and universal theme. Thanks to Philippe Duchateau for telling me about this problem.
-
 
 ### 1.4.0 (2015-08-03)
 
@@ -199,17 +188,14 @@ Thanks are going to github.com/Ignacius68 for the inspiration.
 - New API methods `options` and `optionsCustomizationWizard`: with this API methods you can get and set the whole configuration object with one call; `options` ouput includes all options, which are accessible via the API methods including the registered event functions (no APEX dynamic actions, only the functions under the report attributes); `optionsCustomizationWizard` output includes only the options, which are accessible via the customization wizard; With both methods you can set all options which are accessible via the API in one call
 - Restructuring the online API reference method overview
 
-
 ### 1.3.0 (2015-06-07)
 
 - New option `showLoadingIndicatorOnAjaxCall`: if set to true, a loading indicator is shown when used as a APEX plugin during the AJAX calls; If you want to show the loading indicator in a standalone implementation you can show and hide the loading indicator directly with the API method `showLoadingIndicator` (SHOW: `example.showLoadingIndicator(true);` HIDE: `example.showLoadingIndicator(false);`)
 - Update to D3 v3.5.5
 
-
 ### 1.2.1 (2015-06-02)
 
 - Fixed "Customize wizard jumps down when dragged on pages with hidden or fixed elements"
-
 
 ### 1.2.0 (2015-05-31)
 
@@ -224,7 +210,6 @@ Thanks are going to github.com/Ignacius68 for the inspiration.
 - New option `showLabels`: Labels are not new - a label is rendered, when a node has a filled attribute LABEL - new is the possibility to switch on and off the labels globally
 - Hint in the customize wizard, that the configuration object has to be saved in the region attributes to save the configuration permanently (thanks to Renato Nobre to ask me a question about this topic)
 - Reorganize the options in the customize wizard thematically: node/link/graph related options
-
 
 ### 1.1.0 (2015-04-19)
 
@@ -244,11 +229,9 @@ Thanks are going to github.com/Ignacius68 for the inspiration.
 - Input data can now be also an object: you have the choice to deliver graph data in three formats (XML string, JSON string or JavaScript Object) - when used as APEX plugin the data is transferred as text - your query has to select a single clob result and this clob can also be a XML or JSON string - you have the choice depending on your database version and existing libraries
 - Fixed "Dragging a node triggers a click event"
 
-
 ### 1.0.5 (2015-02-21)
 
 - Fixed "Links not correctly rendered in IE 9, 10, 11 when showLinkDirection is set to true" (found by Philippe Duchateau, thank you for your response!)
-
 
 ### 1.0.4 (2015-02-15)
 
@@ -257,14 +240,12 @@ Thanks are going to github.com/Ignacius68 for the inspiration.
 - Empty nodes array does no longer break render function
 - Positions are rounded on export to save space for APEX parameter item
 
-
 ### 1.0.3 (2015-01-30)
 
 - Fixed "APEX - AJAX refresh not working without setting items to submit in region source"
 - Correct links from customize wizard to online API documentation
 - Activate also debug mode, when customize wizard is started
 - Some small cosmetic changes
-
 
 ### 1.0.2 (2015-01-30)
 

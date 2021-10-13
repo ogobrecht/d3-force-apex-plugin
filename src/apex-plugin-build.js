@@ -1,11 +1,8 @@
+let conf, md5Hash, template, npmpkg;
 const fs = require('fs');
 const crypto = require('crypto');
-const readFile = function(path) {
-    return fs.readFileSync(path, 'utf8');
-}
-const toMd5Hash = function (string) {
-    return crypto.createHash('md5').update(string).digest("hex")
-};
+const readFile = function(path) { return fs.readFileSync(path, 'utf8'); }
+const toMd5Hash = function (string) { return crypto.createHash('md5').update(string).digest("hex") };
 const toChunks = function (str, size) {
     const numChunks = Math.ceil(str.length / size)
     const chunks = new Array(numChunks)
@@ -25,9 +22,9 @@ const toApexPluginFile = function (path) {
 };
 
 console.log('Build APEX plugin...');
-let conf = JSON.parse(readFile('apexplugin.json'));
-let md5Hash = toMd5Hash(readFile('dist/d3-force-' + conf.version + '.js'));
-let template = readFile('src/apex-plugin-template.sql');
+conf = JSON.parse(readFile('apexplugin.json'));
+md5Hash = toMd5Hash(readFile('dist/d3-force-' + conf.version + '.js'));
+template = readFile('src/apex-plugin-template.sql');
 if (conf.jsFile.md5Hash !== md5Hash) {
     conf.jsFile.md5Hash = md5Hash;
     conf.jsFile.version += 1;
@@ -50,3 +47,8 @@ if (conf.jsFile.md5Hash !== md5Hash) {
     );
     fs.writeFileSync('apexplugin.json', JSON.stringify(conf, null, 2));
 }
+
+console.log('Change version number in package.json script to install the plug-in');
+npmpkg = JSON.parse(readFile('package.json'));
+npmpkg.scripts.install_apex_plugin = npmpkg.scripts.install_apex_plugin.replace(/\d+\.\d+\.\d+\.?\d+/, conf.version);
+fs.writeFileSync('package.json', JSON.stringify(npmpkg, null, 2));

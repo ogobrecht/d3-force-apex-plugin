@@ -1,6 +1,6 @@
 {
   "name": "D3 Force Network Chart",
-  "version": "3.1.1",
+  "version": "3.1.2",
   "description": "D3 force directed network visualization with an interactive customization wizard",
   "keywords": [
     "d3.js",
@@ -41,7 +41,7 @@
     }
   },
   "jsFile": {
-    "md5Hash": "88cd2021efc294160a2da0dd544653e2",
-    "version": 19
+    "md5Hash": "f561553a031a4fae9983ba5c3c246b0d",
+    "version": 34
   }
 }
