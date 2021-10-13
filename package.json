@@ -25,6 +25,6 @@
   },
   "scripts": {
     "build": "grunt && node src/apex-plugin-build.js",
-    "install_apex_plugin": "echo exit | sqlplus -S /@playground @apex-plugin/d3-force-apex-plugin-3.1.1.1.sql"
+    "install_apex_plugin": "echo exit | sqlplus -S /@playground @apex-plugin/d3-force-apex-plugin-3.1.2.sql"
   }
 }
